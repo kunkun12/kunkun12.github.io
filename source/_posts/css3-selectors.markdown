@@ -4,7 +4,7 @@ title: "CSS3 选择器总结"
 date: 2014-03-24 11:47:21 +0800
 comments: true
 categories: CSS selector
-tag: CSS
+tag: css
 ---
 > 在学习新技术的同时不要忘记复习一下那些最基础的东西
 
