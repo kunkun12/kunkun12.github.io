@@ -8,6 +8,7 @@ tag: http
 ---
 
 #### HTTP method
+
 在rest程序设计中对资源都是通过URI来体现的，对资源的操作主要是通过Http请求的方法来实现的。API功能是由http method+ URI共同体现的。举例如下
 
 - GET /tasks - 获取任务列表信息

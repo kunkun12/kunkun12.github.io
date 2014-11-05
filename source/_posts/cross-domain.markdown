@@ -7,6 +7,7 @@ categories: 跨域
 tag: 跨域
 ---
 ####何为跨域
+
 ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况
 
 - http://www.baidu.com:6080 与http://www.baidu.com 端口号不同
