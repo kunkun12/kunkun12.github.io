@@ -1,0 +1,496 @@
+title: Javascript中的类、对象、以及继承
+date: 2014-11-05 20:08:50
+tags:
+---
+
+##关于对象
+
+虽然JS不是正宗的面向对象语言，但是“对象”这个词却与JS密不可分，好吧，用专业术语来讲JS是 *基于对象*的语言，或者是*基于原型*的语言。那么我们先从对象说起。经过艰难险阻，我们只是想要一个功能强大的对象而已。
+
+首先说一下空对象，在JS中可以使用以下两种方式定义“空”对象-其实null才是空对象
+
+		var person={};
+
+或者
+
+		var person=new Object(); // 或者不带括号 person=new Object   
+
+以上两种方式本质是一致的。平时使用的时候推荐 *var person={}* 其实内部也是通过调用new Object实现的，类似还有数组、正则对象的定义也是如此。
+
+		var myarray=new Array();
+		var myarray1=[];
+
+我们可以把使用{}、[]定义对象或者数组的方式人为是JS引擎给我们提供了快捷方式。毕竟这两个都是最常用的。
+对象定义好之后我们可以给他动态地添加属性或者方法比如
+
+		   obj.name='张三';
+		   obj.eat=function(){
+		   console.log("吃饭");
+		}
+
+能够动态地给对象增删属性也是动态语言的好处。
+
+通过 var person={},我们有了一个干净的对象，如此的干净，纯洁，然而是真的如此吗.然而他天生拥有了一些方法 比如 `toString`，`valueOf`，`isPrototypeOf`,`hasOwnProperty`，`constructor`等方法。这些对象来自于哪里呢，是的 来自于他的原型。看来纯洁只是表面而已。
+
+###关于原型，原型链。
+
+每个对象都会有个原型（原型对象），自动拥有他的原型的方法，如果想获得一个person对象的原型对象，可以通过`Object.getPrototypeOf(person）`来获得，还可以通过`person.__proto__`。原型是对象的隐藏属性,当我们要访问一个对象的属性时候，会首先从对象自身查找,如果对象自身没有这个属性会到他的原型对象`__proto__`中去找，如果原型对象中还有没有的话的，则会继续到该对象的原型对象的原型对象上去找（原型对象本身也是个对象，所以它自身也会有`__proto__`属性。。。这样就形成了原型链。。null是原型的链的终点，如果最终没有找到的话则返回undfined。规定undefined没有任何可以访问的属性。如果要访问null的属性则会报错了，比如
+
+		var person={age:12};
+		console.log(person.age); //12
+		console.log(person.Adress);//undfined 访问到原型链的终点也没有找到这个属性返回 
+		console.log(person.Adress.school);//抛出异常TypeError: Cannot read property 'school' of undefined 
+
+上面那个错误提示，是我们在调试中经常遇到的比较经典的错误了，遇到这个问题，我们首先第一反应school的上一级的对象没有得到正确的赋值。的确，person没有这个属性的。
+
+原型链的本质：`__proto__.__proto__.__proto__.....`直到原型链的终点null。
+
+##关于函数对象。
+
+在JS中每个函数都是一个对象，可以像其他普通对象一样,添加属性和方法等，即函数对象。每个函数都继承了`Object.prototype`的方法.就像上面提到的`toString`，`valueOf`，`isPrototypeOf`,`hasOwnProperty`,`constructor`。既然说函数也是对象那么他是有谁构造出来的呢，答案是`Function`。每个function都是`Function`的一个实例。或者说每个function都有这同一个构造函数即`Function`。
+
+构造器
+
+	    new Function ([arg1[, arg2[, ...argN]],] functionBody)
+
+	   function add(x,y){
+			return x+y;
+		}
+		Peron.constructor===Function //true
+
+其本质与下面一致 
+
+		var add1=new Function('x','y','return x+y');
+
+实际上我们很少使用new Function 来构造一个函数实例，使用Function构造器生成的Function对象是在函数创建时被解析的。这比你使用函数声明(function)并在你的代码中调用低效，因为使用函数语句声明的function是跟其他语句一起解析的。
+
+##关于构造函数，new
+
+在学习其他的面向对象语言的时候，我们会定义一个class，然后new一个对象，我们都知道Javascript中的函数同时也可以作为构造函数，也可以通过new生成一个基于这个构造函数的实例，比如`Object`，`Array`，`Date`，`RegExp`,`Error`等这些都是ES标准中内置的构造函数。刚才前面的`var person=new Object`其实是调用的构造函数，例如为了模拟一个类，会这样写
+
+		function Person(name){
+		    this.name = name;
+		}
+
+通过使用`new Person` 就可以创建一个Person的实例 即对象
+
+	var bob = new Person('Bob')
+	// {name: 'Bob'}
+
+为了确定 `bob`的确是一个 Person的对象，返回一个对象`{name: 'Bob'}`我们可以调用，当作为构造函数使用的时候这里的this 指向是当前对象实例。
+
+
+		bob instanceof Person
+		//true
+
+（JS中有个潜规则 一般当做构造函数的用的函数首字母会大写）当然我们也可以不加new 直接当做一个普通的函数来调用它
+
+		Person('Bob')
+		// undefined
+
+直接调用没有返回值，而在调用的时候 *this.name=name*这里的this指向的是全局作用域，在浏览器环境下这里的this 为window，于是通过调用Person('Bob') 仅仅是创建了一个全局的变量name 
+
+		name
+		// 'Bob'
+		this==window
+		window.name
+		// Bob
+
+如果我们的全局变量中已经有了一个为name的变量，那么原来的name值将会被覆盖。于是对全局的变量造成了污染，为我们的程序造成隐患
+
+如果有时候我们要生成对象 却忘记写了new 关键字，又想避免对全局的变量造成污染，我们可以使用这个技巧。
+
+		function Person(name){
+		    if (!(this instanceof Person))
+		        return new Person(name)
+		    this.name = name
+		}
+
+- 首先检查 *this* 是不是一个Person的实例 事实上如果是通过new的话 this 则会是 Person的实例
+
+如果this不是Person实例的话 则通过`new Person` 来调用 构造函数 并且返回这个实例，
+
+事实表明如果new的构造函数中return一个值类型的值，那么Javascript将会忽略它,并且创建一个对象实例作为返回，如果我们返回是其他类型的对象呢。
+
+
+		function Cat(name){
+		    this.name = name
+		}
+		function Person(name){
+		    return new Cat(name)
+		}
+		var bob = new Person('Bob')
+		bob instanceof Person
+		// false
+		bob instanceof Cat
+		// true
+
+
+卧槽,这里我new 的是 `Person`,却得到了一个猫的实例，贵圈好乱。。如果我们new 的函数返回的事引用类型，我们只能得到该引用类型的对象。。
+
+比如也可以返回一个数组
+
+		function Person(name){
+		    return [name]
+		}
+		new Person('Bob')
+		// ['Bob']
+
+如果返回的是Javascript中的原生类型的值`（number、string,boolean,null,undefined data)` ，这些将会被忽略。构造函数将会正常地返回一个*this*的实例
+
+		function Person(name){
+		    this.name = name
+		    return 5
+		}
+		new Person('Bob')
+		// {name: 'Bob'}
+
+###关于Method。
+
+刚才说了 函数可以作为构造函数 通过new 来生成一个新的对象，同时函数还有另外一个功能就是作为*类*的方法。
+
+如果一个函数属于某一个对象 我们称这个函数是这个对象的方法，如下给构造函数添加方法
+
+		function Person(name){
+		    this.name = name
+		    this.sayHi = function(){
+		        console.log('Hi, I am ' + this.name); 
+		    }
+		}
+		Person.run=function(){
+           console.log('run');
+		}
+		var bob = new Person('Bob')
+		bob.sayHi()
+		// 'Hi, I am Bob'
+		bob.run();//报错。。。为什么报错了呢。。。因为。。run是Person这个函数对象的属性，其实例是不具有的
+		Person.run();
+
+
+##关于prototype 继承
+
+通过子类继承父类，子类可以拥有父类中的属性和方法，在JAVA中我们可以通过如下的方式实现继承
+
+		public class Mammal{
+		    public void breathe(){
+		        
+		    }
+		}
+		public class Cat extends Mammal{
+		    
+		}
+
+但是目前(ESCRIPT 5)来讲 JS中还没有class 和extends字段,其实JS是基于原型的语言，JS可以通过原型来实现继承
+
+		function Mammal(){
+		}
+		Mammal.prototype.breathe = function(){
+			console.log("呼吸")
+		}
+		function Cat(){
+		}
+		Cat.prototype = new Mammal()
+		Cat.prototype.constructor = Cat
+		// 现在Cat 拥有了 breath的能力!
+
+刚才说过了每个函数都是一个对象具有了Object实例对象的基本属性，那么实例怎么得到这个这些属性的呢，是的，实例是通过原型获得的，那么这个原型到底在哪呢，答案是：prototype属性。每个函数对象有个prototype属性。prototype是一个对象，作为实例的原型。即实例的原型\_\_proto\_\_为构造函数的prototype属性。
+
+		function Person(name){
+		    this.name = name
+		    this.sayHi = function(){
+		        console.log('Hi, I am ' + this.name); 
+		    }
+		}
+		var p=new Person();
+            p.__proto__===Person.prototype
+
+每个function的prototype对象都有一个constructor属性，默认这个constructor属性指向这个构造函数自身.
+于是就有
+
+	Person.prototype.constructor===Person//true
+
+因为我们说过了一个对象可以获得其原型上的属性（如果对象自身不存在这个同名属性的话），因此我们很容易获得这个对象的constructor属性。于是。
+
+		Person.prototype.constructor===Person//true
+		p.constructor===Person //true
+
+三者是指向同一东西即构造函数Person，这里注意区分函数和实例
+
+
+最终的对象拥有一系列的属性和方法，有些属性是来自自身（构造函数中通过this.xxx定义的属性属于对象自身的属性），有些事来自原型，每个对象都有一个特别的属性\_\_proto\_\_ 指向这个对象构造函数的prototype,每个原型又有一个\_\_proto\_\_属性，一直向上追溯到Object 直到原型链的终点为null，这样就形成了一个原型链，准确来说一个对象的属性一部分来自对象本身，其余的则来自于原型链
+
+- 对象可以定义自身的方法 来覆盖原型中的方法
+
+默认情况下，构造函数的prototype为Object实例即{}
+
+		function Mammal(){
+		}
+		Mammal.prototype
+		// Mammal {}
+		var mammal = new Mammal()
+		mammal.__proto__ === Mammal.prototype
+		//true
+
+每个function的prototype对象都有一个constructor属性，默认这个constructor属性指向这个构造函数自身，但是。。。
+
+		function Cat(){
+		}
+		Cat.prototype = new Mammal()//修改了Cat的prototype为Mamma实例
+
+		var cat=new Cat();
+
+		cat.constructor===Cat.prototype.constructor//实例的constructor来自__proto__即Cat的prototype.constructor。
+		//而此时prottoype为Mammal实例。则会继续沿着Mammal的实例寻找
+		//constructor。Mammal的实例的原型__proto__为Mammal.prototype //于是找到了Mammal.prototype.constructor 即函数Mammal
+		cat.constructor===Mammal//true;
+
+实际上我们需要手动调整cat的构造函数 让cat 知道自己是个Cat。
+
+		function Cat(){
+		}
+		Cat.prototype = new Mammal()//修改了Cat的prototype为Mamma实例
+		Cat.prototype.constructor=Cat;//修改了constructor的指向。
+
+上面修改了Cat.prototype.constructor属性，那么Mammal的原型上的constructor会不会变化呢。不会的，Mammal实例自身没有constructor属性，而是在Mammal的原型上的，如果设置新的constructor的话，不会修改对Mammal实例原型\_\_proto\_\_ 的属性修改，而是为Mammal实例自身增加一个constructor属性即Cat，于是在cat找constructor的时候
+碰到这个新新增的constructor就终止查找了。
+
+综合上述的查找cat实例的原型链为cat.\_\_proto\_\_->Cat.prototype->(new Mammal()).\_\_proto\_\_->Mammal.prototype->Object.prototype->null
+
+> 访问属性的时候如果对象自身没有会沿着原型链查找，设置属性的时候如果对象自身存在则更更新，如果对象自身不存在则会增加该属性，对原型链不会造成影响。除非对原型的属性直接修改。
+
+	  	function Person(name){
+	  			this.name=name;
+		}
+	var  zhangsan=new Person("张三");
+	var  lisi=new Person("李四");
+	 	zhangsan.__proto__.run=function(){
+         	console.log(this.name+'run');
+         }
+		 zhangsan.eat=function(){
+		 	console.log(this.name+'eat something')
+		 }
+        
+		zhangsan.eat();//张三 eat something 
+		zhangsan.run();//张三run 
+		lisi.run();//李四run 
+		lisi.eat();//报错.....
+
+###给构造函数添加方法
+
+给一个构造函数添加方法有两种形式
+
+	function Person(name){
+	    this.name = name
+	    this.sayHello = function(){
+	        return 'Hello, my name is ' + this.name
+	    }
+	}
+
+或者把方法挂到原型上
+
+		function Person(name){
+    		this.name = name
+		}
+		Person.prototype.sayHello = function(){
+		    return 'Hello,my name is ' + this.name
+		}
+
+对于第一种方式 每次new一个Person，都会创建一个新的sayHello函数，对于第二个版本，sayHello函数只会创建一次，所有Person实例会共享同一个原型Person.prototype，使用这种方式相对节省内存。那么为什么不把name在挂在原型上，刚才已经说明原因了，name是可以设置的属性，设置之后会增加到对象的实例上，无论如何都不会节省内存。如果放到原型上反而会多浪费一些内存。推荐定义构造函数的时候我们把方法放在原型上，把函数直接放在构造函数内部。
+
+###关于this,apply,call
+
+正如我们所知道的，函数如果附加到对象上就变成了方法，并且函数里面的this指向这个对象,真的如此么？还是看之前的例子
+
+
+		function Person(name){
+    		this.name = name
+		}
+		Person.prototype.sayHello = function(){
+		    return 'Hello,my name is ' + this.name
+		}
+		var zhangsan=new Person("张三");
+		var lisi =new Person("李四");
+	    zhangsan.sayHello();//"Hello,my name is 张三"
+	    lisi.sayHello();//"Hello,my name is 李四"
+
+这里的sayHello并没有直接在zhangsan，lisi这两个对象上，实际 上是在他们的原型上Person.prototype，那么sayHello调用的时候sayHello 是怎么知道是张三 
+
+> 事实上 函数中**this** 在被调用之前没有绑定到任何对象，只有调用的时候才确定的。
+
+当你调用zhangsan.sayHello(),sayHello里面的this与jack绑定，当你调用lisi.sayHello()的时候，sayHello里面的this指向李四，绑定是个动态的并使对函数本身改变什么，他们调用的都是同以歌函数，只是里面的this是动态确定的。函数被调用的时候this会自动地被绑定为调用他的对象。this被称为函数的当前上下文，如果一个函数不在一个对象上则属于全局对象，如果浏览器环境下则为window
+
+
+事实上我们可以可以明确地将一个函数的上下文与一个对象绑定。继续上面的例子，比如在全局环境下定义一个singing函数
+
+
+	function singging(){
+		console.log(this.name+'singging');
+	}
+
+如果是在全局环境下直接调用
+
+		singing();//输出singing  因为全局环境下没有name，即为空。
+
+可以使用apply 将函数在执行的时候与一个对象绑定
+
+		singging.apply(zhangsan)//张三singging
+
+刚才说过了函数也是一个对象，每个函数都有是Funtion的实例，每个函数都共享一个原型Function.prototype。即
+
+		singging.__proto__===Function.prototype
+
+而call 就是位于这个原型对象上的属性之一，所以任何一个函数都可以调用apply 将这个函数绑定到你选择的对象上，即使这个函数不在这个对象上。事实上我们可以有不同的方式来使用apply，继续沿用概念刚才的例子，先补上之前的代码
+
+		function Person(name){
+    		this.name = name
+		}
+		Person.prototype.sayHello = function(){
+		    console.log('Hello,my name is ' + this.name)
+		}
+		var zhangsan=new Person("张三");
+		var dog={
+				name:'旺财'
+			};
+		zhangsan.sayHello.apply(dog)
+		//输出 Hello,my name is 旺财 
+
+唉。。。连旺财都会讲hello了，贵圈好乱。本来是属于张三里面方法，却被旺财盗用了。因为里面的this纸指向了旺财即dog，this.name就是dog.name。。。没有谁永远属于谁，虽然sayHello是zhangsan的方法，却禁不住旺财的诱惑。。。。。。这就是传说中的方法借用。
+说到方法的借用想到一个比较经典的例子，如何把一个arguments转为数组类型？？如何呢，我不说了。。什么，不知道arguments。。。。
+
+
+###继续回到apply。
+
+apply中第一个参数是是要绑定的对象。如果要传递一些参数，可以放在第二个参数里面，是一个数组类型。 作为函数的arguments来传递。
+
+		function Person(name){
+    		this.name = name
+		}
+		Person.prototype.sayHello = function(){
+		    console.log('Hello,my name is ' + this.name)
+		}
+		var zhangsan=new Person("张三");
+		var lisi=new Person("李四");
+
+		function sayHelloTo(other){
+			console.log("Hello"+other.name+" , My name is "+ this.name);
+		}
+		sayHelloTo.apply(zhangsan,[lisi])//Hello李四 , My name is 张三 。
+
+说到apply，不得不提他的同胞兄弟call，他俩干的活是一样的，第一个参数是要绑定的对象，唯一的区别就是给绑定的函数传递的参数 apply是第二个参数以数组(其实并不是真正的数组 arguments）的形式传递，call是直接放在第一个参数的后面。比如
+
+		sayHelloTo.call(zhangsan,lisi)；//Hello李四 , My name is 张三
+
+至于apply 在特定的情况是是十分有用的，比如给函数传递的参数是一个数组的话。比如要获取一个数字组成的数组的最大值。可以
+
+		Math.max(4, 1, 8, 9, 2)
+
+但是这并不是通用的方法 结合apply可以很容易的解决
+			
+			var myarray=[1,2,3,4,5,6,7,8]
+			Math.max.apply(Math, myarray)//8
+
+
+那么apply可以作为构造函数，这样我只需要给函数传递一个数组作为参数就可以了，就不用把每个参数列出来传递了，比如
+
+		new Person.apply(Person, args)
+
+//很遗憾。为什么这样不可以呢，有没有其他的解决方案呢<http://stackoverflow.com/questions/813383/how-can-i-construct-an-object-using-an-array-of-values-for-parameters-rather-th#answer-813401>
+
+###自定义new 方法
+
+JavaScript 中的 new 操作符有三个基本任务。
+
+- 首先， 它创建新的空对象。
+- 接下来，它将设置新对象的 \_\_proto\_\_指向函数的prototype，以匹配所调用函数的原型属性。
+- 最后，操作符调用函数，将新对象作为“this”引用传递。
+
+比如要定义一个数组对象。
+
+	var o = {};
+	o.__proto__ = Array.prototype;
+	Array.apply(o);
+
+	o.push(3)
+
+明白了原理我们就可以自己尝试写个new方法
+
+给每个函数添加一个new方法，这个方法要位于Function.prototype上
+
+		Function.prototype.new = function(){
+		    var args = arguments//args为传递过来的参数
+		    var constructor = this; //this为调用new的对象，即最初的真正的构造函数
+		    function Delegate(){
+		        constructor.apply(this, args)//newDelegate的时候this指向Delegate实例，
+		        //调用真正的构造函数
+		    }		    
+		    Delegate.prototype = constructor.prototype;//真正的原型对象赋值给Delegate
+		    return new Delegate //返回一个Delegate实例 即我们需要的对象
+		}
+
+以上过程中只是修改构造函数执行这个步骤，我们刚才定义的Person类也会有一个这样new的方法
+		
+		var wangwu= Person.new('王五');
+
+这样就可以像调用普通的函数一样来执行一个构造函数了，同时也可以使用apply传递数组参数来创建实例
+
+		Person.new.apply(Person, ['王五'])
+
+###实现基于原型继承封装
+
+定义个extend的函数来扩展已有的函数对象，使其拥有两一个函数对象的功能实现继承
+
+		var utils={};
+		utils.extend = (function() {
+		    //用户维护原型链的代理
+		    var F = function() {};
+		    // 基于Parent 来扩展Child
+		    return function(Child, Parent) {
+		        F.prototype = Parent.prototype;
+		        Child.prototype = new F();
+		        Child.prototype.super__ = Parent.prototype;//存储父类的原型为了方便获得父类的构造函数
+		 // 子类的构造函数中需要this.super__.constructor.call(this,args来获得父类中构造函数中定义个属性
+		        Child.prototype.constructor = Child;
+		    };
+		}());
+		 
+使用方式：
+
+        //定义父类
+		function superfn(name,age){
+		    this.name=name;
+		    this.age=age;
+		    console.log("superfn被调用");
+		}		 
+		superfn.prototype.getName=function(){
+		    console.log(this.name+this.age);
+		};		 
+		function subfn(name,age) {
+		    this.color = 'red';
+		    this.super__.constructor.call(this,name,age);//调用父类的构造函数，传递this 很关键，接受父类的属性
+		};
+		utils.extend(subfn,superfn);
+		subfn.prototype.getcolor=function(){
+		    console.log(this.color);
+		}
+		var sub=new subfn("xxx",7);
+		sub.getName();
+
+
+总结：
+
+- 每个对象都有个原型对象属性，原型也是对象，也有原型对象属性，这样每个对象都有一个原型链在Chrome 或者FF 浏览器上可以通过`obj.__proto__` 获得这个这个对象的直接原型，（原型链的最低端），最顶端是null。ES标准钟通过Object.getPrototypeOf(obj)来获得对象的原型。
+- 每个对象都有对应的构造函数，比如{} 的构造函数为Object，function a(){}的构造函数为Function，对象的直接原型就是对应构造函数的原型对象属性。即`{}.__proto__`
+===Object.prototype;  `a.__proto__=Function.prototype`;
+- Object也是个函数对象，作为对象他也有原型`Object.__proto__==Function.prototype`,而Function.prototype的`__proto__`又指向了`Object.prototype`。
+默认情况下函数的prototype.constructor指向这个函数自身，这就意味着，`Object.__proto__.__proto__.constructor === Object`为true.
+- 函数有protottype和`__proto__`属性。`__proto__`是继承的原型。prototype为其构造的实例的原原型。对象(非函数对象）有`__proto__`,没有prototype属性
+
+
+最后：一句话。JS是如此的自由，自由的甚至得到不想要的结果。让人着迷，心醉。。。我们要做的就是要学会如何控制她，为我所用，JS大法好。
+
+
+
+
+
+
+

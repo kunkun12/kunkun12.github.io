@@ -96,7 +96,7 @@ offsetHeight、offsetwidth包含内边距和边框、clientWidth、clientHeight�
 				x+=e.offsetLeft；
 				y+e.offsetTop;
 			}
-			//offsetLeft offsetTop为文档坐标包含了滚动条的位置再次循环所有的祖先元素，
+			//offsetLeft offsetTop为文档坐标包含了滚动条的位置，再次循环所有的祖先元素，
 			//减去滚动条的偏移量，并转换为视口坐标
 			for(var e=elt.parentNode;e!=null&&e.nodeType==1;e=e.parentNode){
 				x-=e.scrollLeft;
@@ -107,3 +107,10 @@ offsetHeight、offsetwidth包含内边距和边框、clientWidth、clientHeight�
 					y:y
 			}
 		}
+
+
+
+-  文档的高度 document.body.offsetHeight
+-  视口的高度 window.innerHeight
+-  滚动条滑动的高度 window.scrollY
+
