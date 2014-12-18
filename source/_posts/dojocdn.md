@@ -14,7 +14,9 @@ dojo的最新版本 1.10.2
 <http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js>
 
 
-本目录与dojo源码的目录一致，同时包含了dojo dijit dojox如果dojo中的主题
+本目录与dojo源码的目录一致，同时包含了dojo dijit dojox
+
+如果要找dojo中的主题
 
 ##claro.css
 

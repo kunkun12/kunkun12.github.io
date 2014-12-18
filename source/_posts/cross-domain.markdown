@@ -104,7 +104,7 @@ ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安�
 
 		var xhr = new XMLHttpRequest();
 		xhr.open("get", "url", true);
-		xhr.withCredentials = true; //我试了一下没有这句在火狐和chrome下也是可以
+		xhr.withCredentials = true; //设置这个参数是为了允许cookie发送
 
 这里请求的时候会发两次http请求，第一次是option请求，判断服务端时候只是CORS 以及支持哪些行为(post,get,put等)如果满足条件话则继续进行服务请求，同样这里也以NodeJS为例写个服务端。代码如下
 

@@ -1,0 +1,487 @@
+title: dojo统一的数据访问接口——dojo Oject store API
+date: 2014-12-18 1:42:05
+tags:
+---
+
+
+##关于dojo中统一数据访问接口
+
+数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。
+
+> 数据的提供者不用再关心数据如何被展示，以及数据的使用者不用关心数据来自于哪里。通过接口（协议）来实现职责的分离，即使同一个人来完成数据的获取以及展示，也要将数据的获取与展示做到分离，因为这种松散的耦合 也方便系统的维护。
+
+说起dojo 数据访问API我们之前会使用**dojo data** 里面的的东东 也就是旗下的 如下四类接口
+
+- `Dojo.data.api.read` 提供读取数据的功能，同时也支持对数据集的搜索，排序，和过滤。
+- `Dojo.data.api.write` 提供创建，删除，更新数据项功能
+- `Dojo.data.api.identify` 提供基于唯一的标识符来定位和查询数据项的功能。
+- `Dojo.data.api.notification` 提供当 datastore的数据项改变等事件发生时通知侦听器的功能。最基本的事件包括数据的创建，修改和删除等。这也是Dojo.data的一项很重要的功能，通过此接口可以将数据展现层与数据中间层更好的分离开来。
+
+
+以上只是**dojo/data**接口的定义,对于不同的数据格式格式读取也有具体的实现，如果上面是接口的话 下面的就是类的具体实现了。
+
+
+- `dojo.data.ItemFileReadStore`	用于JSON数据的只读的DataStore。
+- `dojo.data.ItemFileWriteStore`	用于JSON数据的可读写的DataStore
+- `dojox.data.CsvStore`	用于CVS数据的只读的DataStore
+- `dojox.data.OpmlStore`用于OPML（Outline Processor Markup Language）数据的只读的DataStore
+- `dojox.data.HtmlTableStore`	用于HTML table数据的只读的DataStore
+- `dojox.data.XmlStore`	用于XML数据的可读写的DataStore
+- `dojox.data.FlickrStore`	用于读取web服务flickr.com提供的数据
+- `dojox.data.QueryReadStore`	用于读取由服务器端提供的JSON数据
+
+具体内容可以参见
+<http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/>不错的文章好好读读
+
+基本以上能满足所有对数据操作的需求。。如果你已经读完了上面的这篇文章，或者对dojo data API有所了解，你可能会发现这些对数据的操作非常滴麻烦，虽然能达到了接口的统一，但是繁琐的交互接口也不利于Widget之间的通信，关键是开发者用着不爽，好消息是，这些接口的确已经被淘汰了。。于是引入今天的主题- *Dojo Object Store API*。
+
+那么首先区分一下两个名词,旧的数据访问接口是 `dojo data store API` ，就是上面介绍的那些东西，在dojo目录的 dojo/data 里面，建议以后不要用这里面的东西来存取东西，也就是说 不要再用 `dojo/data/ItemFileReadStore` `dojo/data/ItemFileWriteStore`这两个东西了。。。新的数据统一访问接口是 	`dojo Object Store` 。。具体的接口以及实现在源码（文档）目录的 dojo/store里面，请注意区分
+
+##关于dojo Object store API。 
+
+翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于**HTML5 object store** API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。
+
+##dojo对象存储API背后的几个理念
+
+- 数据与UI关注点分离，让我们将数据与展现关注点进行分离，并且方便数据与部件之间独立的实现。
+- 保持简单 可以仅仅地创建一个具有query和get方法的对象来创建一个简单的数据存储对象，如果要提供创建一个新的对象功能，可以增加一个add方法，如果要增加更新对象的功能 只需要增加一个put方法
+- 基于纯的javascript对象 dojo store api 使用纯的JS对象即{}，使用get返回一个对象或者使用query来返回一个对象的数据，这些对象可以像普通的JS对象一样被操做，比如可以通过点直接访问查询结果对象的属性，或者可以用 *for  in* 来循环便利对象的属性。如果要保存/更新对象可以将一个更新过的纯JS对象传递给put方法即可。
+- 基于Promise 更好地来处理异步的存储。通过返回*promise* 来做到异步和同步存取的统一
+- 独立简单的功能实现 不需要任何方法来设置存储对象的功能，如果你想知道是否可以添加一个新的对象到存储对象中，只需要检查他是否具有add方法，如果想知道它是否支持查询，只需要检查是否有query方法；如果只是想实现一个只读的存储对象，只需要实现读的方法(`get`, `query`, `getIdentity`)
+- 功能的层次性增强 通过分层的功能，就可以基于一个轻量级的，简单的存储，通过插件对原始的store进行包装来增加store的功能。比如Dojo中提供了（`dojo/store/Cache`）包装数据存储对象实现数据缓存，用来提高性能。`dojo/store/Observable`包装数据存储对象用来实现对对象变化的检测，而这并不是必须的。这种插件机制 让我们的原始的存储对象更简单轻量。
+
+### 关于dojo Object API中的方法以及属性。
+
+下面的这些方法都是可选的。实现的时候可以根据需要来提供不同的方法。任何一个方法除了特别指明意外都可以返回一个promise 来更好滴完成异步的操作。（这里与W3C中 IndexDB api 有些出入）可以到*dojo/store/api/store*里面来查看这些接口具体的方法和属性
+
+
+- `get(id)` 查询方法根据唯一标识返回一个对象。
+- `query(query, options)` 查询方法 根据查询条件来查询对象。返回一个数据或者promise（可以从then方法里获得查询结果） ，查询结果具有*forEach()* , *map()*, *filter()*, *reduce()* 方法来让我们，同时返回结果还包括一个total属性来标标识返回结果列表中包含的对象的的个数（当然也可以自己调用length手动获得),第一个参数为查询条件可以为字符串,对象,函数类型,第二个参数是为可选部分，包含三个属性`start`查询的起始处。`count`返回结果的最大个数 `sort` 排序信息,sort为数组类型可以根据多个字段进行排序
+- `put(object, options)`保存更新对象。也可以用来增加新对象。第一个参数就是要更新或者增加的对象，
+- `add(object, options)` 增加新对象
+- `remove(id)` 根据唯一标识来移除对象
+- `getIdentity(object)` 获得对象的唯一标识 （这个必须是同步的方法 直接返回结果）
+- `queryEngine(query, options）` 构造查询条件
+- `transaction()` 开启一个事物 与 数据库的事物理念类似。具有两个方法commit()提交所有的改变 和abort 撤销所有的更新即回滚。
+- `getChildren(object, options)` 获取对象的子元素，
+- `getMetadata(object)` 获取对象的元数据信息
+
+另外还包括两个属性
+
+- `idProperty` 指定对象的唯一标识 一旦指定了，构造对象的时候要确保数据的这个字段是唯一的否则会报错
+- `data`   原始数据的数组
+
+以上只是API中的方法，dojo也有对应的类对此进行了实现后面会做具体的介绍。此外为了直观些可以看一下直接画的图
+<http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow>
+
+###关于返回的对象。
+
+`dojo/store`通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。
+
+
+###检测结果集的变化
+
+这个属于对`dojo store API`的增强。如果一个store 被`dojo/store/Observable`进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成
+
+- `observe(listener, includeObjectUpdates)` 第一个参数是一个监听函数函数签名`listener(object, removedFrom, insertedInto);`第一个参数为变动的对象可能是增加的新对象，修改或者是删除的对象。removedFrom 为删除对象的索引 如果这个值为-1 说明没有对象被删除，可能是发生了增加或者是修改行为。insertedInto 返回被增加对象在结果集中的索引.
+
+- `close`  如果查询结果集调用colse 方法 ，停止监听这些变化。
+
+
+
+##关于 `dojo/store/Memory`
+
+ 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有`dojo/store/Memory` `dojo/store/JsonRest`.以`dojo/store/DataStore`
+
+ - `dojo/store/Memory` 一个简单的内存存储， 是dojo/store API的实现类， 这个是创建 dojo store 非常有用的一个类，特别是小型的数据集，可以用内存的对象数组作为数据源。构造好之后就可以对其进行操作了。
+
+ 数据源为*PM2.5信息的数据* 如下格式的数据
+
+			 var mydata=[
+			    {
+					"aqi": 30, //空气质量指数（Air Quality Index
+					"aqimsg": "优",
+					"collectTime": 1418798880775,
+					"lvmsg": "lv-good",
+					"name": "房山良乡",
+					"path": "beijing/fangshanliangxiang",
+					"source": "aqicn.org",
+					"updateTime": "星期二21点",
+					"values": {}
+					},
+					{
+					"aqi": 25,
+					"aqimsg": "优",
+					"collectTime": 1418798880775,
+					"lvmsg": "lv-good",
+					"name": "昌平定陵",
+					"path": "beijing/changpingdingling",
+					"source": "aqicn.org",
+					"updateTime": "星期二21点",
+					"values": {}
+				}。。。
+			    。。。。。由于篇幅这里不全部列出 知道这个格式就行了
+			];
+
+
+引入`dojo/store/Memory` 构造Memory对象
+
+		require(["dojo/store/Memory"], function(Memory){
+			mystore = new Memory({data: myData,idProperty:'name'});
+			//注意这里的idProperty，JSON对象的唯一标识 如果不指定默认为"id"字段
+
+		});
+
+###查询
+
+- *get*根据对象唯一标识来查询一个，返回一个JS对象，查询‘密云镇’的数据
+
+		var obj1= mystore.get('密云镇');//get 跟据唯一标示（idProperty)来查询对象,这里查询 name为 丰台花园的信息
+
+			{
+				"aqi": 23,
+				"aqimsg": "优",
+				"collectTime": 1418798880775,
+				"lvmsg": "lv-good",
+				"name": "密云镇",
+				"path": "beijing/miyunzhen",
+				"source": "aqicn.org",
+				"updateTime": "星期二21点",
+				"values": {}
+			}
+
+
+- *query* 根据查询条件来检索对象 返回符合条件的对象数组,查询结果如果参数为空返回所有的数据
+
+   		 var    alldataarray=mystore.query()
+
+- 查询条件可以为一个对象
+
+  		 var    array2=mystore.query({name:'密云镇'}) //
+     
+          //好吧 再复杂点 查询空气质量指数为 38 并且评级为‘优’的检测点
+   		var    array3=mystore.query({
+	            "aqi": 38,
+				"aqimsg": "优"
+   			});
+   
+   		//查询对象还可以为 函数 与 Array.filter类似 实现复杂的查询 或者模糊查询
+   		//查询 api 小于38 
+		   var    array4=mystore.query(function(obj){
+		           return obj.aqi<38;
+		     }
+   		);
+
+- 还可以把查询函数参数放到store 对象上作为store的一个方法,在调用query的时候写入方法的名字
+
+	     mystore.myquerymethod=function(obj){
+	         return obj.aqi<38;
+	     };
+  		 var array5=mystore.query('myquerymethod');
+        //console.log(array5);
+
+> 这样有什么好处呢？？个人认为这种情况能很方便把查询条件缓存下来，在其他的地方下次查询方便使用，并且可以给查询方法取有意义的名字 比如增加个查询方法 查询评级为优的检测站点 
+
+        mystore.getgoodstation=unction(obj){
+	         return obj.aqimsg==='优';
+  			 };
+		mystore.query('getgoodstation');
+
+-  更复杂的查询
+
+查询条件：空气质量指数在38-50之间的检测点,然后根据aqi从大到小排序，从第三个开始返回，返回的最大个数3
+
+		  var result6 =mystore.query(function(obj){
+		    return obj.aqi>38&&obj.aqi<50
+		  },{
+		  	start:3,
+		  	count:3,	  	
+		    sort:[{
+		      attribute:'aqi',
+		      descending: true //为ture 表示从大到小，为false 表示从小到大
+		    }]
+		  }); 
+
+	     result6.forEach(function(a){
+	       console.log(a.name)
+	     })
+
+> 说明：在query的结果集中 有个total属性，这个是满足条件的个数。即满足query的 第一个参数的对象的个数，在query第二个参数中，如果不包含start和count属性的话，则total等于最终结果集的个数即length==total
+
+因为返回的数组具有*forEach，fitler,map*等方法，方便对结果进一步处理
+
+	     array6.forEach(function(a){
+	       console.log(a.name)
+	     })
+
+
+关于查询结果集的接口定义 可以查阅 `dojo/store/api/Store.QueryResults` ,如果是异步查询的话 query 会返回一个promise ，即他会拥有一个then方法，从callback里面可以获取查询结果。`比如
+
+			query().then(function(data){
+				console.log(data);
+			});
+
+在实际的实现中`dojo/store/Memory` 是对内存中数据的操作是*同步*的，而`dojo/store/JsonRest`则是*异步*的。
+
+
+### 修改对象的属性很简单
+
+	    var array7 =mystore.query(function(obj){
+	            return obj.name=="密云镇"
+	    });  
+	     array7.forEach(function(a){
+	       console.log(a.aqi)
+	       a.aqi=100 //修改赋值 没有调用put方法
+	     });
+	   
+	    var array8 =mystore.query(function(obj){
+	          return obj.name=="密云镇"
+	    })       
+	     array8.forEach(function(b){
+	      console.log(b.aqi)//100 说明已经修改了
+	     })
+
+可是说好的修改用put呢??? 好吧，JS是引用传递的,查询到的对象是JS中的普通对象。。。对象属性直接赋值就能实现修改了，
+  
+	  var objmiyun= mystore.get('密云镇');
+	  objmiyun.aqi=10;	  
+	  var objmiyun1= mystore.get('密云镇');
+	  console.log(objmiyun.aqi)//10
+	  console.log(objmiyun===objmiyun1);//为true 说明两次get返回的是同一个对象的引用
+
+那么通过query 查询到的又是如此呢
+
+        mystore.getmiyun=function(obj){
+   			return obj.name==='密云镇';
+	    };
+
+	   var arraym3= mystore.query("getmiyun");
+	   var arraym4= mystore.query("getmiyun");
+       console.log(arraym3[0]===arraym4[0])//true
+       console.log(arraym3[0]===mystore.data[1])//true
+
+综上不管是通过get还是query来查询，得到的对象都是原始数据的引用。所以修改很easy了
+
+> 注意：原则上说我们调用一下put方法来标识更新对象。`store.put(obj)` 这样如果通过`dojo/store/Observable` 包装的话 监听函数才能监听的到.
+
+
+###删除  
+
+调用 store 的remove方法就行了 参数是 对象的唯一标识
+
+		store.remove(id);
+
+> 其实感觉删除的方法设计不好，删除的参数只能是唯一标识，却不能是根据查询条件来删除。。。也无法达到批量删除的目的。。感觉如果参数为Obj的查询参数类型，以及唯一标识数组类型 就更好了。。
+
+另外更新数据源可以使用 store.setData方法。
+
+### `dojo/store/JsonRest`
+
+`dojo/store/JsonRest`(与dojox里面的JsonRest不同) 也是dojo Object storeAPI的实现，与*Memory*不同的是，*Memory*的数据源存在内存中，而JSONRest的数据源是远程的JSON，JsonRest 实现了对标准Rest接口访问的封装，JSONRest非常适合大量数据的展示(数据存在远端，分页异步获取等来降低性能的损耗)，上面已经提到JSONrest 所有的操作都是以promise形式返回的。JsonRest object store 与服务端交互的方式与`dojox.data.JsonRestStore`类似，但是`dojo/store/JsonRest`是基于新的*dojo Object store APi *简单方便使用的理念，进行重新设计，并做出了很大的简化。只需要提供一个url 既可以构造一个`dojo/store/JsonRest`。
+
+*JsonRest* 主要干了一件事 就是在不同的方法里面发送不同的类型的http请求，最终完成了服务端数据的CURD（对应的请求类型为get，put，post，delete。使用JSONrest的难点就是服务端必须是标准的Rest风格的。因此要求服务的编写者对Rest有一定的了解，同时要求返回的格式必须为JSON，那么首先要了解前端发出的请求格式。这里假设构造好了一个JSONRest
+
+	require(['dojo/store/JsonRest', "dojo/domReady!"], function(JsonRest) {	 
+			jsonreststore = new JsonRest({target:"/Data/"});
+
+			jsonreststore.get("some-id").then(function(someObject){
+	 
+			});
+	});
+
+假设服务的基地址为 /Data/
+- `get("someid")`  向`/Data/someid` 发送get请求，返回promise
+- `query(query,options)`;//query 为 string或者object,options 为 object 可选
+
+- `query("someid")` 如果query的参数为类型 发送请求同上 即向`/Data/someid` 发送get请求，返回promise
+- `query({name:'hello',aqi:20})`,如果query的参数为Object类型，则会使用 dojo/io-query::objectToQuery()将Object转为查询字符串的形式添加到URL上，即/Data/?name=hello&aqi=20 发送get请求。如果包含两个参数，第二个参数也会被序列化为查询字符串添加到url上，
+
+	 query({name:'hello',aqi:20}, {
+	 	count: 10,
+	    sort: [
+	      { attribute: "aqi" }
+	    ]
+	  });
+
+发送的get请求的URL为`/Data/?name=hello&count=10&aqi=20&sort(+aqi)` sort信息中+表示升序 -表示降序
+
+**put(object, options);**
+
+- `put({"aqi":30,"aqimsg": "优"})`//`向/Data/`发送一个Post请求，参数放在在body里面，表示增加元素
+- `put({"aqi":30,"aqimsg": "优"},{id:11});`//两个参数 第二个指定id,向/Data/11 发送put请求，表示更新元素{"aqi":30,"aqimsg": "优"}在请求body里面. put方法的第二参数如果包含*overwrite*并设置为*true*，请求头中会包含 `If- Match: *` 如果设置为false请求头中包含`If- None-Match: * `，如果第二个参数中包含*incrementa*并设置为*true*，发送Post请求表示增加。
+- `add(obj,options)` 同上，特别之处是 *options.overwrite* 始终被设置为*false*，即请求头中始终包含·`If- None-Match: * `通过这种方式来告诉服务器是创建还是更新操作 `关于 if-node-Match 可以参考<http://wuhua.iteye.com/blog/385451>
+
+`remove('id')` //向 Data/id发送delete请求。
+
+另外如果要为请求增加header信息，可以在第二个参数里面设置headers字段即可，比如要添加分页信息，如果要为所有的请求统一添加请求header，可以在构造JsonRest对象的构造函数里面设置如
+
+		var store = new JsonRest({
+		  target: "/FooObject/",
+		  headers: { "X-Custom-Header": "Foo" } // 所有的请求都会包含X-Custom-Header: Foo
+		});
+
+		store.query({ foo: "value1" }, {
+		  headers: { "X-Custom-Header": "Bar" } // 仅在本次请求中包含 include X-Custom-Header: Bar instead
+		});
+
+####JSONREST与分页查询 
+
+ 上面的查询中`query(query,options)`;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加*Range*字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的*header   `X-Range` *
+ 比如 
+
+		query({
+			aqi: 40
+			}, {
+			headers: {
+				Range: "items=0-24"
+			}
+		});
+
+鉴于http的标准，要求服务端返回的头中包含分页信息 即Content-Range 头例如 `Content-Range: items 0-24/66` *0-24*表示实际返回的索引*0-24*的对象，*66*表示符合条件的对象的总个数。为啥要这种格式呢，因为这是http协议上就这么说的。
+
+> 对于使用者来说，**JsonRest**的难点还是后端的实现，后端可以解析http请求的内容*（method,querystring，请求头，请求body）* 来对CURD做实际的处理。
+
+### 将异步和同步进行统一处理
+
+上面的*MemoryStore* 和 *JsonRest store* 都是实现了`dojo Object Store API` 具有的方法也基本一致，但是一个重要区别就是*MemoryStor*e的操作是同步的结果直接返回，而JsonRest操作是异步的，返回的是promise，可以在then方法的回调函数里面获得操作结果，我们可以使用dojo/when 来封装以屏蔽这种差距。不用再关心是同步还是异步的，统一在then方法里面进行处理，比如这里有个store 你不知道他是*Memorystore*，还是*JsonRest store*。你关注的是查询里面的数据，可以如下处理
+
+			require(['dojo/when'], function (when) {
+			  when(store.get(id), function(object){
+			   
+			  });
+			  }};
+
+通过这种方式 来达到了操作上的统一，当然你也可以使用其他的方式进行门面封装 ，暴露出来统一的操作方法，既然官方推荐了，我们就暂时用 dojo/when吧。
+
+## 包装器wrappers。
+
+在dojo里面如果要增强已有的类的话，可以使用包装器进行层次性的增强，类似插件的性质，这种理念能够让我们做到按需的选择，根据不同的功能来选择不同的`wrapper`类进行包装，以避免不必要的资源浪费。对于dojo/store来说 这里有两个重要的包装器`dojo/store/Cache` 和`dojo/store/Observable`
+
+### dojo/store/Cache
+一个Cache对象主要是用来缓存JsonRest的，将远程端的JsonRest的缓存到本地，避免发重复的查询请求，这样就需要构造一个MemoryStore来存储缓存下来的数据，JsonRest来与远程的数据交互。使用的例子如下
+
+		require(['dojo/store/Memory', 'dojo/store/JsonRest', 'dojo/store/Cache'],
+		    function (Memory, JsonRest, Cache) {
+		  memoryStore = new Memory({});
+		  restStore = new JsonRest({target:"/Data/"});
+		  store = new Cache(restStore, memoryStore);
+		  ...
+
+查询所有的数据
+
+		var results = store.query();
+
+查询结果会被缓存到MemoryStore里面，这里我们可以查询数据，来避免不必要的请求
+
+		object = store.get("some-id");
+
+如果对store进行更新 删除 增加操作，对应的memoryStore 也会自动发生更新，可以直接访问memoryStore 来查看缓存的数据。
+
+### "dojo/store/Observable"
+
+`dojo/store/Observable`包装后的dojo store（只要是实现了dojo/store API 的类都可以用Observable来包装)功能会得到增强--在支持原来的API的基础上 又让查询结果集的变化可以被监听的。通过store.query得到的结果数组（结果集）有一个observe方法（如果是异步的返回的promise也会拥有这个方法），通过这个方法可以监听我们对查询结果集的操作变动情况，注意observe方法存在*查询结果*的方法中，而不是store中，事实store上会拥有一个notify方法，用于发出广播（这是一个典型的观察者模式），因为我们对数据的操作都是在store上进行的。因此监听查询结果的变动情况。好吧可能还需要解释一下，操作对象（即更新删除增加对象）是在store上进行的。 而observe是在查询结果集中进行的，也就是说如果store中变动的对象符合调用observe的查询结果集当时的查询条件，那么这些变动将会发通知到查询结果集里面，然后查询结果集的observe会监听到。这种通知变化的机制与旧版本的*dojo/data* 是不一样的。通过这种模式 可以实现数据的变化与UI更新的分离，对于UI组件实现者来说只需要监听查询结果集的变动即可（显示查询结果集中的东西），对于UI组件的使用者来说完全不必关系如何更新UI，只需要对store进行 CURD即可。
+
+我们的关注的是我们要查询的数据，我们的操作是对store的操作，我们队store操作的时候，store会调用notify方法，如果变化的内容符合查询结果集的查询条件，则结果集的observe会被监听的到。还是上代码吧.
+
+
+构建 ObservableStore
+
+		require(["dojo/store/Memory", 'dojo/store/Observable',"dojo/domReady!"], function(	
+						Memory,Observable) {
+
+					    memorystore = new Memory({
+							data: pmData,
+							idProperty: 'name'
+						 });
+					    observablestore = new Observable(store); 
+			});
+
+
+这里还是以空气质量PM2.5的数据为例吧，查询 aqi 值大于80的站点。值越高空气质量越差
+
+		var worsedata=observablestore.query(function(obj){
+				return obj.aqi>80;
+			})
+	     worsedata.forEach(function(d){
+	     	console.log(d.name);
+	     })
+
+经过*Observable* 来包装*Memory Store*(也可以包装JsonRest)，调用query之后的结果集（resultset中）拥有一个observe方法，接口的定义格式如下
+
+		resultSet.observe(listener, includeObjectUpdates);
+
+第一个参数为监听器，一个毁掉函数，接受三个参数 `listener(object, removedFrom, insertedInto)`;
+
+- `object` 被操作（修改，删除，增加）的对象
+- `removedFrom`  表示object在操作之前在查询结果集中的旧的索引位置，如果为-1 表示改对象之前不在结果集中（不符合查询条件），现在符合条件的对象增加了（可能是store中创建了新符合查询条件的对象，也可能是原来不符合查询条件的对象进行修改之后满足了条件，总之我们的关注点是查询结果集 比如 以上面的查询条件来说有个`aqi大于80`的对象被增加到了store中 或者 store中一个aqi原来为75的修改成了 aqi为85（ 满足了 `aqi大于80`这个条件了）。
+- `insertedInto` 表示object在结果集新的索引。如果为-1，表示object不在当前结果集中了，被从查询结果集中移除了。可能是被删除，也可能对象进行了修改，比如 有个`aqi大于80`的对象从store中被删除了， 或者 store中一个aqi原来为85的修改成了 aqi为75（ 不在满足 `aqi大于80`这个条件了）。
+
+
+> 个人感觉 把*removedFrom*和*insertedInto*  分别改为 oldIndex和newIndex更适合。说白了就是发生变化的对象在变化前后在结果集中的索引位置。
+
+另外observe 还有个参数*includeObjectUpdates* 表示是否监听查询结果集中对象的更新跟新，但是这种更新之后对象依然符合查询条件，比如上面的  `aqi大于80`中有个 aqi为 82的对象 修改为aqi 为85，这种情况下，没有影响到查询结果集的个数，如果*includeObjectUpdates *设置为false或者不设置的话，这种变化是无法被监听到的，如果设置为true的话 就可以了。调整元素的顺序也是如此。如果想监听查询结果集的变化的话 建议设置为true吧。
+
+对于listener来说 我们可以根据*removedFrom和insertedInto* 来判断进行了什么操作
+
+- `removedFrom===-1`， 新增了符合查询条件的元素，此时insertedInto不可能为-1 insertedInto为新增元素的索引位置，需要UI中新增一项
+- `insertedInto===-1 ` 符合查询条件的元素被移除，此时removedFrom不可能为-1，removedFrom代表查询结果集中元素被移除前在结果集中的索引。UI需要UI中移除相应的项
+- `removedFrom===insertedInto` 且大于-1 ，结果集中的元素发生了更新 需要UI对应的项进行更新
+
+
+记住我们关注点是`查询结果集`即符合查询条件的对象，对store的操作只有让查询结果集发生变化（能让查询结果集增加或者修改）listener才会触发。一个元素从查询结果集中被移除 不一定从store上移除，相反如果结果集中增加了元素也不一定是store上新增的对象。而我们关注点是查询结果集，虽然我们的操作是在store上进行的。这种变动会直接反应到查询结果上面。因此Observalstore中的查询结果集 会随着store中的数据的变化做相应的更新。
+
+继续看代码吧 接着上面的例子
+
+ 		worsedata.observe(function(object, removedFrom, insertedInto){
+		    console.log(object);
+		    if(removedFrom===-1){
+		    	console.log("worsedata中的对象增加，新增对象的索引为",insertedInto)
+		    }
+		    else if(insertedInto===-1){
+		    	console.log("worsedata中的对象被移除,删除对象的索引为",removedFrom)
+		    }
+		 else if(removedFrom===insertedInto){
+		 	//需要将observe的第二个参数设置为 true
+			console.log("worsedata中的对象的属性发生更新,更新对象的索引为",removedFrom)
+		 }
+		worsedata.forEach(function(a){
+             console.log("name:",a.name,'aqi:',a.aqi);
+			});
+     	},true);
+
+	    newobj={
+				"aqi": 83,
+				"aqimsg": "优",
+				"collectTime": 1418798880775,
+				"lvmsg": "lv-good",
+				"name": "天安门",
+				"path": "beijing/fengtaiyungang",
+				"source": "aqicn.org",
+				"updateTime": "星期二21点",
+				"values": {}
+			}
+ 		observablestore.put(newobj); 
+
+ 新增加的这个对象满足worsedata的条件（即aqi大于80）所以上面的函数会监听的到变动，worsedata值也会自动做相应的增加。如果 此前aqi为70的话，则上面的监听函数不会被触发，因为虽然对store增加了元素，但是这不会对我们的之前的查询结果造成影响,关于修改的例子这里就不再举例子了。Observe的这种设计是非常合理
+
+
+另外 查询结果集还有个 `cancel`方法来取消监听（dojo store API 上说的是close ，这里有点出入）
+
+###dojo/store/DataStore 
+
+为了兼容之前的`dojo/data API` 将`dojo/data store`的转为*Dojo Object store* ，dojo官方推出了`dojo/store/DataStore`,同时在dojo/data里面也增加了一个*dojo/data/ObjectStore*，将*dojo Object store* 转为*dojo data store*，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。
+
+
+##总结
+
+*dojo Object store* 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而`dojo/store/Memory `和`dojo/store/JsonRest` 是两种不同场景的实现。通过`dojo/store/Cache` 以及`dojo/store/Observable`来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 [dstore](https://github.com/SitePen/dstore)作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。
+
+好吧 `dojo/data`包里面的已经是老掉牙的东西，*dojo Object store* 目前的 `dojo/store`包里的东西也正在被换血。。dojo store的未来 是 [dstore](https://github.com/SitePen/dstore) 既然如此，可是本博文还有什么用呢，这不是在祸害人么。。。我想估计也没多少人能看到这里。。哈哈，能保持耐心看到这里的就直接看dstore 的源码吧。。
+
+> The dstore package is a data infrastructure framework, providing the tools for modelling and interacting with data collections and objects. dstore is designed to work with a variety of data storage mediums, and provide a consistent interface for accessing data across different user interface components. 
+
+不翻译了
+
+**dstore** 正在完善中，等**dojo2.0**的时候就会转正了。应该还是在**dojo/store**这个大模块里面
+
+写了这么多不知道在写什么，希望对你有所帮助 也可以留言 求**轻黑**
