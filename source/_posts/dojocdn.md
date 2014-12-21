@@ -14,7 +14,18 @@ dojo的最新版本 1.10.2
 <http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js>
 
 
-本目录与dojo源码的目录一致，同时包含了dojo dijit dojox
+本目录与dojo源码的目录一致，同时包含了`dojo` `dijit` `dojox` `dgrid` `put-selector` `xstyle` `dstore` 目录结构如下
+
+		http://dojocdn.qiniudn.com/dojo-1.10.2
+												|dojo
+												|dijit
+												|dojox
+												|dgrid
+												|put-selector
+												|xstyle
+												|dstore
+
+可以通过`dgrid/*`,`put-selector/*`,`xstyle!xxx.html`,`dstore/*`引用对应的插件，无需额外的配置
 
 如果要找dojo中的主题
 
@@ -28,3 +39,7 @@ dojo的最新版本 1.10.2
 
 ##soria主题
 http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css
+
+可以通过`dgrid/*`,`put-selector/*`,`xstyle!xxx.html`,`dstore/*`引用对应的插件，无需额外的配置
+
+[以创建grid为例的Demo](http://jsbin.com/gogezu/1/edit)
