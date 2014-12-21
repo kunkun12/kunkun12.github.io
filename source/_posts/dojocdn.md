@@ -42,4 +42,4 @@ http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css
 
 可以通过`dgrid/*`,`put-selector/*`,`xstyle!xxx.html`,`dstore/*`引用对应的插件，无需额外的配置
 
-[以创建grid为例的Demo](http://jsbin.com/gogezu/1/edit)
+[以创建grid为例的Demo](http://jsbin.com/gogezu/2/edit?html,js,output)
