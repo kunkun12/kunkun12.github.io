@@ -4,7 +4,7 @@ title: "Node.JS 究竟是什么?"
 date: 2014-03-01 17:32:05 +0800
 comments: true
 categories: node
-tag: node
+tag: Node
 ---
 
 ###Node旨在解决服务器能够处理的并发连接的最大数量的问题。

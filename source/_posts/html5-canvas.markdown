@@ -4,7 +4,7 @@ title: "html5 canvas 2d绘图API 学习总结"
 date: 2014-03-10 08:18:24 +0800
 comments: true
 categories: html5 canvas
-tag: html5
+tag: Html
 ---
 
 ###基本知识

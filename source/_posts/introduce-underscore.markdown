@@ -4,7 +4,7 @@ title: "underscore学习总结"
 date: 2014-03-03 08:33:19 +0800
 comments: true
 categories: underscore
-tag: javascript
+tag: JavaScript
 ---
 
 ###underscore介绍

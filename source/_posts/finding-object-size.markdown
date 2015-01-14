@@ -3,8 +3,8 @@ layout: post
 title: "ECMASCRIPT 5 Object.keys "
 date: 2014-03-19 08:14:29 +0800
 comments: true
-categories: javascript object size
-tag: javascript
+categories: JavaScript
+tag: JavaScript
 ---
 
 ####问题提出 我要获取一个对象包含属性的个数

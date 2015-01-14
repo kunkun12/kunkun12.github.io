@@ -4,7 +4,7 @@ title: "判断浏览器特性"
 date: 2014-03-01 19:25:20 +0800
 comments: true
 categories: javascript
-tag: javascript
+tag: JavaScript
 ---
 
 ###浏览器类型判断

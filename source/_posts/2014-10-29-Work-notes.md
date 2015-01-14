@@ -1,6 +1,6 @@
 title: 2014-10-29-工作笔记
 date: 2014-10-29 10:50:13
-tags: work
+tags: 
 ---
 
 #### express中设置 *app.set('json spaces', 40)* 以格式化的形式输出JSON文件

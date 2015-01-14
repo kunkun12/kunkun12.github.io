@@ -1,6 +1,6 @@
 title: angularJS 动画
 date: 2015-01-06 21:08:15
-tags:
+tags: AngularJS
 ---
 
 ### angularJS 动画

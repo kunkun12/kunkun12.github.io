@@ -4,7 +4,7 @@ title: "javascript bind function"
 date: 2014-03-12 15:22:44 +0800
 comments: true
 categories: Javascript bind this scope
-tag: javascript
+tag: JavaScript
 ---
 记得半年之前在微博上看到一个问题，有人问如何才能证明自己真正理解了Javascript，有大神回答，最起码要能明白并写出bind 函数。当然这里的Javascript 仅仅是指的ECMASCRIPT本身，并不包含浏览器相关的那些。那么这篇博客这里就以bind开始吧。
 首先搬出三个概念、

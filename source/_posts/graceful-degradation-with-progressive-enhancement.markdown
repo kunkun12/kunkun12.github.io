@@ -4,7 +4,7 @@ title: "渐进性增强与优雅性降级"
 date: 2014-03-29 08:01:55 +0800
 comments: true
 categories: CSS
-tag: css
+tag: CSS
 ---
 > 每个专业词语的背后是一种思想，理解并在实践中应用才是必要的。
 

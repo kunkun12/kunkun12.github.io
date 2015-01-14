@@ -1,6 +1,6 @@
 title: 高性能动画
 date: 2014-10-04 08:49:54
-tags: javascript css
+tags: JavaScript
 ---
 
 现代浏览器在完成以下四种属性的动画时，消耗成本较低： position（位置）， scale（比例缩放）, rotation（旋转） 和 opacity（透明度）。如果你对其他的属性设置动画，你就需要对你的冒险负责。而且你的动画将可能达不到流畅的60fps

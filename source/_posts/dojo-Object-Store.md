@@ -1,6 +1,6 @@
 title: dojo统一的数据访问接口——dojo Oject store API
 date: 2014-12-18 1:42:05
-tags:
+tags: Dojo
 ---
 
 

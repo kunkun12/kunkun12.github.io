@@ -4,7 +4,7 @@ title: "REST 程序设计之http method 、http status"
 date: 2014-03-21 08:04:16 +0800
 comments: true
 categories: HTTP method
-tag: http
+tag: Http
 ---
 
 #### HTTP method

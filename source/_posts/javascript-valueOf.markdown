@@ -4,7 +4,7 @@ title: "javascript valueOf方法"
 date: 2014-03-09 20:29:03 +0800
 comments: true
 categories: javascript
-tag: javascript
+tag: JavaScript
 ---
 如果将对象用于Javascript的关系比较运算符，比如`<`、`<=`，javascript会首先调用对象的valueOf方法，如果这个方法返回一个原始值，则直接比较原始值。定义一个类Person
 

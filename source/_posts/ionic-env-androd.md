@@ -1,6 +1,6 @@
 title: ionic 环境搭建 （android mac）
 date: 2015-01-05 00:02:14
-tags: ionic
+tags: Ionic
 ---
 
 ### android基础环境 JAVA 、androidSDK，ant 

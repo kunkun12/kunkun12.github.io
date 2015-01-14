@@ -3,8 +3,8 @@ layout: post
 title: "Phonegap创建移动应用"
 date: 2014-03-16 00:32:58 +0800
 comments: true
-categories: Phonegap
-tag: Phonegap
+categories: PhoneGap
+tag: PhoneGap
 ---
 前段时间学习了Phonegap开发，本篇作为记录，希望对初道者有帮助,本篇主要介绍Phonegap以及环境的搭建。下篇结合Angluar 开发小Demo
 ###Phonegap介绍

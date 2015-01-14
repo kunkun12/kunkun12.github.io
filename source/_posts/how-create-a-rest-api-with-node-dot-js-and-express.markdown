@@ -4,7 +4,7 @@ title: "如何使用Node+express创建Rest API"
 date: 2014-03-15 23:48:08 +0800
 comments: true
 categories: node express rest
-tag: node
+tag: Node
 ---
 
 ###安装环境

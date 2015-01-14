@@ -4,7 +4,7 @@ title: "javascript replace"
 date: 2014-02-9 09:31:13 +0800
 comments: true
 categories:	javascript replace
-tag: javascript
+tag: JavaScript
 ---
 ###简单介绍
 `StringObject.replace(searchValue,replaceValue)`

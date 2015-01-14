@@ -3,7 +3,8 @@ layout: post
 title: "文档元素的几何形状以及位置判定"
 date: 2014-03-09 21:00:15 +0800
 comments: true
-categories: 
+categories: Html
+tag: Html
 ---
 元素的位置是以像素来度量的,向右代表X坐标增加，向下代表Y坐标增加，但是有两个不同的点作为坐标系的原点，元素的X和Y坐标可以相对于文档的左上角，或者相对于其中文档视口的左上角.
 

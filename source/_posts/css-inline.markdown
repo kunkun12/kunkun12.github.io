@@ -3,7 +3,7 @@ layout: post
 title: "css inline"
 date: 2014-03-20 11:18:30 +0800
 comments: true
-categories: CSSinline
+categories: CSS
 tag: CSS
 ---
 今天使用要为元素设置水平居中的时候发现 `margin:0 auto` 不起作用，查资料发现原来我给div设置了的是`disply:inline-block`属性,这种情况下 `margin:0 auto` 是无效的，于是通过给父元素div 设置了 `text-aglin:center`得以解决.然后搜集了一些资料，加深一下对inline 属性的了解。

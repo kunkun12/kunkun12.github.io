@@ -4,7 +4,7 @@ title: "7行代码实现异步函数顺序执行-No Callback"
 date: 2014-03-24 10:55:56 +0800
 comments: true
 categories: javascript
-tag: javascript
+tag: JavaScript
 ---
 首先假设我们有两个函数，分别按顺序被调用，但是他们都会操作一个相同的变量，第一个函数式为这个变量赋值，第二个函数是使用这个变量：代码如下
 

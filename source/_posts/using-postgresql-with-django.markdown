@@ -4,7 +4,7 @@ title: "在django中使用postgresQL"
 date: 2014-03-15 12:16:54 +0800
 comments: true
 categories: django python
-tag: django
+tag: Django
 ---
 最近开始做的东西要用到Django，数据库是postgresQL,需要在Django的setting.py中修改相关数据库的配置文件。事先我已经装好了PostgresQL 9.2.6
 

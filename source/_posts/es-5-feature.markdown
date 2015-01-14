@@ -4,7 +4,7 @@ title: "ECMAScript 5 学习总结"
 date: 2014-03-05 08:31:52 +0800
 comments: true
 categories: ES5
-tag: javascript
+tag: JavaScript
 ---
 
 话说[ES6](https://github.com/lukehoban/es6features)的草稿都出来了，貌似好多人对ES5 还没有全面的了解，下面将我学习的关于ES5的一些东西总结一下。

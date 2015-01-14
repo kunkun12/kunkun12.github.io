@@ -3,8 +3,8 @@ layout: post
 title: "git账户配置以及多账户配置"
 date: 2014-03-02 11:42:56 +0800
 comments: true
-categories: git
-tag: git
+categories: Git
+tag: Git
 ---
 在使用git的时候，git与远程服务器是一般通过ssh传输的(也支持ftp，https)，我们在管理远程分支之前 需要在本机上创建ssh-key密钥对，并把其中的公钥添加到github中。
 

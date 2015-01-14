@@ -3,7 +3,7 @@ layout: post
 title: "CSS 定位之BFC"
 date: 2014-02-15 09:31:03 +0800
 comments: true
-categories: CSS BFC
+categories: CSS
 tag: CSS
 ---
 > 在 CSS 面试中问 BFC 等概念，就如在 JS 面试中问闭包等概念一样，经常会刷掉一些真正优秀的人。 ——玉伯
