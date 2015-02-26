@@ -54,17 +54,20 @@ tags:
 - cordova/phonegap
 - grunt/gulp 
 - fis
+- hexo 博客系统
 
 其他内置工具  `safira` `Apache` `邮件客户端`
 
 
 ## 常见的配置 文件 
 
-- 与环境变量相关的配置文件 `etc/profile` ,`/etc/bashrc `;`~/.bash_profile` ;`~/.bashrc`;`/etc/paths`; `/etc/paths.d` [相关链接](http://apple.stackexchange.com/questions/140507/what-is-the-complete-authoritative-way-in-which-mac-osx-10-9-and-later-builds-i)
+#### 与环境变量相关的配置文件 
+
+`etc/profile` ,`/etc/bashrc `;`~/.bash_profile` ;`~/.bashrc`;`/etc/paths`; `/etc/paths.d` [相关链接](http://apple.stackexchange.com/questions/140507/what-is-the-complete-authoritative-way-in-which-mac-osx-10-9-and-later-builds-i)
 
 - 软件相关配置目录在 home目录下 隐藏文件 以.开头 比如`.adobe` `.android` `.cache` `.cnpmrc` `.composer` `.config` `.cordova` `.dbshell` `.eclipse` `.gem` `.gradle` `.npm`等等.
 
-- apache 配置文件 
+#### apache 配置文件 
 
 - 主配置文件 `/etc/apache2/httpd.conf`
 - 虚拟主机配置 `/etc/apache2/extra/httpd-vhosts.conf`  [参考](https://gist.github.com/kunkun12/1d1787d8c8f758cea4af)
