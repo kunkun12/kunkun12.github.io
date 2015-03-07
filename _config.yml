@@ -3,27 +3,29 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: kunkun 
+title: kunkun
 subtitle:
 description:
-author: kunkun 
-email: baokundu@gmail.com
-language: zh-cn 
+author: kunkun
+language: zh-Hans
+timezone: 
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://kunkun12.com
 root: /
 permalink: :year/:month/:day/:title/
-tag_dir: tags
-archive_dir: archives
-category_dir: categories
-code_dir: downloads/code
 permalink_defaults:
 
 # Directory
 source_dir: source
 public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -34,6 +36,7 @@ filename_case: 0
 render_drafts: false
 post_asset_folder: false
 relative_link: false
+future: true
 highlight:
   enable: true
   line_number: true
@@ -44,52 +47,37 @@ default_category: uncategorized
 category_map:
 tag_map:
 
-# Archives
-## 2: Enable pagination
-## 1: Disable pagination
-## 0: Fully Disable
-archive: 1
-category: 2
-tag: 2
-
-# Server
-## Hexo uses Connect as a server
-## You can customize the logger format as defined in
-## http://www.senchalabs.org/connect/logger.html
-port: 4000
-server_ip: localhost
-logger: false
-logger_format: dev
-
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
 ## You can customize the date format as defined in
 ## http://momentjs.com/docs/#/displaying/format/
-date_format: MMM D YYYY
-time_format: H:mm:ss
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 1
+per_page: 3
 pagination_dir: page
 
-# Disqus
-disqus_shortname:
-
 # Extensions
-## Plugins: https://github.com/hexojs/hexo/wiki/Plugins
-## Themes: https://github.com/hexojs/hexo/wiki/Themes
-theme: yilia
-exclude_generator:
-
+## Plugins: http://hexo.io/plugins/
+## Themes: http://hexo.io/themes/
+theme: next
+avatar: "http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg"
+#是否开启分享
+share: true
+#是否开启多说评论，填写你在多说申请的项目名称
+duoshuo_shortname: kunkun12
+favicon: /favicon.ico
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
+social:
+  github: https://github.com/kunkun12
+  twitter: https://twitter.com/your-user-name
+  weibo: http://weibo.com/u/1821556025
+  douban: http://douban.com/people/your-user-name
+  zhihu: http://www.zhihu.com/people/du-bao-kun-61
 deploy:
-  type: github
+  type: git
   repo: git@github.com:kunkun12/kunkun12.github.io.git	
   branch: master
-
-feed:
-    type: atom
-    path: atom.xml
-    limit: 20

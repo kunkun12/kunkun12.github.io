@@ -36,7 +36,7 @@ tags:
 - izip unarchiver 解压工具 可以解压rar格式
 - Mysql/navicat 
 - dash 查API的工具
-- iterm  终端工具(内置的终端界面不好看)
+- iterm+oh myzsh  终端工具(内置的终端界面不好看,体验也不好)
 - vim （内置工具）
 
 # 语言环境 
