@@ -387,7 +387,7 @@ gulp.task(<span class="string">'default'</span>, [<span class="string">'less'</s
           
             
               <a class="post-title-link" href="/2015/01/05/ionic-env-androd/">
-                ionic 环境搭建 （android mac）
+                ionic 环境搭建 （mac）
               </a>
             
           
@@ -420,17 +420,26 @@ gulp.task(<span class="string">'default'</span>, [<span class="string">'less'</s
         
 
         
-          <h3 id="android基础环境_JAVA_、androidSDK，ant">android基础环境 JAVA 、androidSDK，ant</h3><h3 id="配置环境变量_sudo_vim_~/-bash_profile_或者sudo_vim_-profile">配置环境变量 <code>sudo vim ~/.bash_profile</code> 或者<code>sudo vim .profile</code></h3><pre><code>export  <span class="constant">PATH=</span><span class="variable">${</span><span class="constant">PATH}</span><span class="symbol">:/Users/adsage/work/adt/sdk/platform-tools</span><span class="symbol">:/Users/adsage/work/adt/sdk/tools</span>
+          <h3 id="android基础环境_JAVA_、ADT_(Android_SDK_tools)_（该过程不详细叙述）">android基础环境 JAVA 、ADT (Android SDK tools) （该过程不详细叙述）</h3><h3 id="配置环境变量_sudo_vim_~/-bash_profile_或者sudo_vim_-profile">配置环境变量 <code>sudo vim ~/.bash_profile</code> 或者<code>sudo vim .profile</code></h3><pre><code>export  <span class="constant">PATH=</span><span class="variable">${</span><span class="constant">PATH}</span><span class="symbol">:/Users/adsage/work/adt/sdk/platform-tools</span><span class="symbol">:/Users/adsage/work/adt/sdk/tools</span>
 <span class="constant">ANDROID_HOME=</span><span class="variable">$HOME</span>/work/adt/sdk
 export <span class="constant">ANDROID_HOME</span>
 </code></pre><h3 id="使环境变量生效_source_-bash_profile">使环境变量生效 <code>source .bash_profile</code></h3><h3 id="将android_SDK目录权限设置为可写">将android SDK目录权限设置为可写</h3><pre><code><span class="title">chmod</span> -R <span class="number">777</span> sdk/
-</code></pre><h3 id="安装nodeJS_以及相关包">安装nodeJS 以及相关包</h3><pre><code>npm <span class="keyword">install</span> -g cordova ionic
+</code></pre><h3 id="android构建依赖ant">android构建依赖ant</h3><pre><code>brew <span class="operator"><span class="keyword">update</span> &amp;&amp;brew <span class="keyword">install</span> ant</span>
+</code></pre><h3 id="下载android_API_和_镜像">下载android API 和 镜像</h3><p>－ 使用android SDK manager 下载android的API 和镜像（当然也可以离线下载）<br>－ 使用Android Virtual manager 创建android的虚拟机</p>
+<h3 id="安装nodeJS_以及相关包">安装nodeJS 以及相关包</h3><pre><code>sudo npm <span class="keyword">install</span> -g cordova ionic
 </code></pre><h4 id="创建一个项目">创建一个项目</h4><pre><code>ionic <span class="built_in">start</span> myApp tabs
 </code></pre><h3 id="编译并在真机上运行">编译并在真机上运行</h3><pre><code>cd myApp
 <span class="variable">$ </span>ionic platform add android
 <span class="variable">$ </span>ionic build android
-<span class="variable">$ </span>ionic run android 
-</code></pre><h3 id="程序已部署至真机_完成。">程序已部署至真机 完成。</h3>
+<span class="variable">$ </span>ionic run android 或者ionic emulate android 在模拟上跑
+</code></pre><h3 id="程序已部署至真机_完成。">程序已部署至真机 完成。</h3><h3 id="ios">ios</h3><p>另外 如果是IOS环境下 需要有IOS环境 在app store上下载安装XCODE即可, 另外在构建过程中还会提示缺少相关的npm包 比如</p>
+<pre><code>sudo npm <span class="keyword">install</span> -g ios-sim
+sudo npm <span class="keyword">install</span> -g ios-deploy
+</code></pre><p>然后 运行 </p>
+<pre><code>ionic <span class="built_in">platform</span> <span class="built_in">add</span> ios
+ionic build ios
+ionic run ios 或者ionic emulate ios 在模拟上跑
+</code></pre>
         
 
       </div>
