@@ -1,0 +1,860 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+
+  <title> 如何使用Node+express创建Rest API // kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              如何使用Node+express创建Rest API
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-15
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="安装环境">安装环境</h3><p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
+<pre><code>npm <span class="keyword">install</span> express -g
+</code></pre><p>3 创建express 项目</p>
+<pre><code><span class="title">express</span> myapp
+</code></pre><h3 id="API设计">API设计</h3><p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
+<ul>
+<li>GET /tasks/ 返回计划任务列表</li>
+<li>GET /tasks/:id  根据指定的任务id 返回计划任务的信息</li>
+<li>POST /tasks/ 接受传进来的JSON数据来创建一个新的计划任务</li>
+<li>PUT /tasks/:id 更新计划任务信息</li>
+<li>DELETE /tasks/:id 根据指定的计划Id 删除计划任务</li>
+</ul>
+<p>这些方法的返回如下</p>
+<ul>
+<li>访问get请求之外的api ，如果执行成功返回http 状态符为200</li>
+<li>如果访问不存的计划信息 则返回http 状态符为 404</li>
+</ul>
+<h3 id="实现">实现</h3><h4 id="数据">数据</h4><p>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">TaskRepository</span><span class="params">()</span> </span>{}
+<span class="comment">/**
+ * Find a task by id
+ * Param: id of the task to find
+ * Returns: the task corresponding to the specified id
+ */</span>
+TaskRepository.prototype.find = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
+<span class="comment">/**
+ * Find the index of a task
+ * Param: id of the task to find
+ * Returns: the index of the task identified by id
+ */</span>
+TaskRepository.prototype.findIndex = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
+<span class="comment">/**
+ * Retrieve all tasks
+ * Returns: array of tasks
+ */</span>
+TaskRepository.prototype.findAll = <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">this</span>.tasks;
+}
+<span class="comment">/**
+ * Save a task (create or update)
+ * Param: task the task to save
+ */</span>
+TaskRepository.prototype.save = <span class="function"><span class="keyword">function</span> <span class="params">(task)</span> </span>{}
+<span class="comment">/**
+ * Remove a task
+ * Param: id the of the task to remove
+ */</span>
+TaskRepository.prototype.remove = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
+</code></pre><h4 id="创建express_server">创建express server</h4><pre><code><span class="keyword">var</span> express = <span class="keyword">require</span>(<span class="string">'express'</span>);
+<span class="keyword">var</span> app = express();
+app.configure(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+    app.<span class="keyword">use</span>(express.bodyParser()); <span class="comment">// used to parse JSON object given in the request body</span>
+});
+</code></pre><h4 id="获取计划的列表_get">获取计划的列表 get</h4><pre><code>app.<span class="keyword">get</span>(<span class="string">'/tasks'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
+    response.json({tasks: taskRepository.findAll()});
+});
+</code></pre><h4 id="根据指定的id获取一个计划的信息_get">根据指定的id获取一个计划的信息 get</h4><pre><code>app.<span class="keyword">get</span>(<span class="string">'/tasks/:id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
+    <span class="keyword">var</span> taskId = request.params.id;
+    <span class="keyword">try</span> {
+        response.json(taskRepository.find(taskId));
+    } <span class="keyword">catch</span> (exeception) {
+        response.send(<span class="number">404</span>);
+    }
+});
+</code></pre><h4 id="创建一个新的计划_post">创建一个新的计划 post</h4><pre><code>app.post(<span class="string">'/tasks'</span>, function (request, response) {
+    var <span class="keyword">task</span> = request.body;
+    taskRepository.save({
+        title: <span class="keyword">task</span>.title || <span class="string">'Default title'</span>,
+        <span class="keyword">description</span>: <span class="keyword">task</span>.<span class="keyword">description</span> || <span class="string">'Default description'</span>,
+        dueDate: <span class="keyword">task</span>.dueDate,
+        status: <span class="keyword">task</span>.status || <span class="string">'not completed'</span>
+    });
+    response.send(<span class="number">200</span>);
+});
+</code></pre><h4 id="更新计划信息_put">更新计划信息 put</h4><pre><code><span class="component">app.put('/tasks/:id', function (request, response) {
+    var task = request<span class="string">.body</span>;
+    var taskId = request<span class="string">.params.id</span>;
+    try {
+        var persistedTask = taskRepository<span class="string">.find(taskId)</span>;
+        taskRepository<span class="string">.save({</span>
+            taskId: persistedTask<span class="string">.taskId</span>,
+            title: task<span class="string">.title</span> || persistedTask<span class="string">.title</span>,
+            description: task<span class="string">.description</span> || persistedTask<span class="string">.description</span>,
+            dueDate: task<span class="string">.dueDate</span> || persistedTask<span class="string">.dueDate</span>,
+            status: task<span class="string">.status</span> || persistedTask<span class="string">.status</span>
+        }</span>);
+        response.send(200);
+    } catch (exception) {
+        response.send(404);
+    }
+});
+</code></pre><h4 id="删除计划delete">删除计划delete</h4><pre><code>app.<span class="keyword">delete</span>(<span class="string">'/tasks/:id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
+    <span class="keyword">try</span> {
+        taskRepository.remove(request.params.id);
+        response.send(<span class="number">200</span>);
+    } <span class="keyword">catch</span> (exeception) {
+        response.send(<span class="number">404</span>);
+    }
+});
+</code></pre><h4 id="启动express_server">启动express server</h4><pre><code>app.<span class="function"><span class="title">listen</span><span class="params">(<span class="number">8080</span>)</span></span>
+</code></pre><h3 id="测试_这里使用_curl_执行http请求访问rest_api">测试 这里使用 curl 执行http请求访问rest api</h3><p>首先启动程序</p>
+<pre><code><span class="title">node</span> rest_api.js
+</code></pre><p>最初的情况下访问计划列表应该空的</p>
+<pre><code>$ curl -i <span class="string">http:</span><span class="comment">//localhost:8080/tasks/</span>
+HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
+X-Powered-<span class="string">By:</span> Express
+Content-<span class="string">Type:</span> application/json; charset=utf-<span class="number">8</span>
+Content-<span class="string">Length:</span> <span class="number">17</span>
+<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">37</span>:<span class="number">45</span> GMT
+<span class="string">Connection:</span> keep-alive
+
+{
+  <span class="string">"tasks"</span>: []
+}
+</code></pre><h4 id="创建计划">创建计划</h4><pre><code>$ curl -i -X POST <span class="string">http:</span><span class="comment">//localhost:8080/tasks --data '{}' -H "Content-Type: application/json"</span>
+HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
+X-Powered-<span class="string">By:</span> Express
+Content-<span class="string">Type:</span> text/plain
+Content-<span class="string">Length:</span> <span class="number">2</span>
+<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">39</span>:<span class="number">13</span> GMT
+<span class="string">Connection:</span> keep-alive
+
+OK
+</code></pre><h4 id="更新计划">更新计划</h4><pre><code>$ curl -i -X PUT <span class="string">http:</span><span class="comment">//localhost:8080/tasks/1 --data '{"description":"blabla"}' -H "Content-Type: application/json"</span>
+HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
+X-Powered-<span class="string">By:</span> Express
+Content-<span class="string">Type:</span> text/plain
+Content-<span class="string">Length:</span> <span class="number">2</span>
+<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">42</span>:<span class="number">39</span> GMT
+<span class="string">Connection:</span> keep-alive
+OK
+</code></pre><h4 id="删除计划">删除计划</h4><pre><code>$ curl -i -X DELETE <span class="string">http:</span><span class="comment">//localhost:8080/tasks/1</span>
+HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
+X-Powered-<span class="string">By:</span> Express
+Content-<span class="string">Type:</span> text/plain
+Content-<span class="string">Length:</span> <span class="number">2</span>
+<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">43</span>:<span class="number">31</span> GMT
+<span class="string">Connection:</span> keep-alive
+
+OK
+</code></pre><p>这里介绍了用express创建rest api的大致过程，而实际过程中要复杂一些，比如存储数据使用数据库(mongodb 或者传统的关系数据库）来解决，有的也会包括一些复杂的逻辑信息。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Node/">
+                #Node
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+
+
+
+  
+    <div class="comments" id="comments">
+      
+        <div class="ds-thread" data-thread-key="2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/"
+             data-title="如何使用Node+express创建Rest API" data-url="http://kunkun12.com/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/">
+        </div>
+
+      
+    </div>
+  
+
+          </div>
+
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview">
+          站点概览
+        </li>
+      </ul>
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/your-user-name">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+      <div class="post-toc sidebar-panel-active">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装环境"><span class="nav-number">1.</span> <span class="nav-text">安装环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API设计"><span class="nav-number">2.</span> <span class="nav-text">API设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据"><span class="nav-number">3.1.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建express_server"><span class="nav-number">3.2.</span> <span class="nav-text">创建express server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取计划的列表_get"><span class="nav-number">3.3.</span> <span class="nav-text">获取计划的列表 get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据指定的id获取一个计划的信息_get"><span class="nav-number">3.4.</span> <span class="nav-text">根据指定的id获取一个计划的信息 get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建一个新的计划_post"><span class="nav-number">3.5.</span> <span class="nav-text">创建一个新的计划 post</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新计划信息_put"><span class="nav-number">3.6.</span> <span class="nav-text">更新计划信息 put</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除计划delete"><span class="nav-number">3.7.</span> <span class="nav-text">删除计划delete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动express_server"><span class="nav-number">3.8.</span> <span class="nav-text">启动express server</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试_这里使用_curl_执行http请求访问rest_api"><span class="nav-number">4.</span> <span class="nav-text">测试 这里使用 curl 执行http请求访问rest api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建计划"><span class="nav-number">4.1.</span> <span class="nav-text">创建计划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新计划"><span class="nav-number">4.2.</span> <span class="nav-text">更新计划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除计划"><span class="nav-number">4.3.</span> <span class="nav-text">删除计划</span></a></li></ol></li></ol>
+      </div>
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if ($('.post-toc').html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var activeCurrentSelector = '.active-current';
+
+    $(tocSelector)
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass()
+        $currentActiveElement.addClass('active-current');
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass()
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    $('body').scrollspy({ target: tocSelector });
+  });
+</script>
+
+
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

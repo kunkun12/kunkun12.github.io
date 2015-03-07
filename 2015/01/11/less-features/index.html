@@ -1,0 +1,932 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+
+  <title> less常用特性 // kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              less常用特性
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-01-11
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/01/11/less-features/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/11/less-features/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>less并非多么高大上的东西，无非就是个编写CSS的工具，让我们像编程一样来书写CSS，关于less常用的特性无非几个，下面简单将常用这些特性简单记录。方便以后查阅</p>
+<h2 id="less编译环境">less编译环境</h2><p>less-&gt;CSS的方法有多种，比如使用  grunt或者lgulp等构建工具配合相应的插件来完成less的自动编译。以gulp为例，gulpfile.js的代码如下。</p>
+<pre><code><span class="keyword">var</span> less = <span class="built_in">require</span>(<span class="string">'gulp-less'</span>);
+<span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);
+<span class="keyword">var</span> gulp=<span class="built_in">require</span>(<span class="string">'gulp'</span>);
+gulp.task(<span class="string">'less'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+  gulp.src(<span class="string">'less/*.less'</span>)
+    .pipe(less({
+      paths: [ path.join(__dirname, <span class="string">'less'</span>, <span class="string">'includes'</span>) ]
+    }))
+    .pipe(gulp.dest(<span class="string">'css'</span>));
+});
+
+gulp.watch([<span class="string">'less/*.less'</span>], [<span class="string">'less'</span>]) 
+gulp.task(<span class="string">'default'</span>, [<span class="string">'less'</span>]);
+</code></pre><p>通过watch 来见监听less文件的变化自动运行less任务。从而完成less-&gt;css的自动编译，可以查看生成的CSS文件</p>
+<h2 id="我常用的less_特性。">我常用的less 特性。</h2><h3 id="@import">@import</h3><p>在标准的CSS中，@import必须在所有其他类型的规则之前。但是Less不在乎你把@import语句放在什么位置。<br>@import语句会通过Less依赖文件扩展名的方式区别对待不同的文件：</p>
+<ul>
+<li>如果文件有一个.css扩展名，则将它作为CSS对象，同时@import语句保持不变</li>
+<li>如果有其他扩展名，则作为Less对象，然后导入它。</li>
+<li>如果没有扩展名，则插入.less，然后将它作为Less文件导入包含进来。</li>
+<li>使用@import (reference)导入外部文件，但是不添加导入的样式到编译输出中，只引用。</li>
+</ul>
+<h3 id="变量">变量</h3><p>LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。变量<code>@</code>开头，全局的变量可以在多个less文件之间共用</p>
+<pre><code><span class="variable">@light-blue:</span> <span class="variable">@nice-blue</span> + <span class="hexcolor">#111</span>;
+<span class="id">#header</span> {
+  <span class="attribute">color</span>: <span class="variable">@light-blue</span>;
+}
+</code></pre><p>生成的CSS 如下 </p>
+<pre><code><span class="class">.mythemes</span> <span class="tag">tableBorder</span> <span class="rules">{ 
+  <span class="rule"><span class="attribute">border</span>:<span class="value"> <span class="number">1px</span> solid <span class="hexcolor">#b5bcc7</span></span></span>; 
+ <span class="rule">}</span></span>
+</code></pre><p>同时还支持变量的计算。</p>
+<pre><code><span class="variable">@width:</span> <span class="number">10px</span> + <span class="number">5</span>;
+  <span class="class">.btn</span>{
+    <span class="attribute">width</span>:<span class="variable">@width</span>;
+  }
+</code></pre><p>编译为：</p>
+<pre><code><span class="variable">@width:</span> <span class="number">10px</span> + <span class="number">5</span>;
+  <span class="class">.btn</span>{
+    <span class="attribute">width</span>:<span class="variable">@width</span>;
+  }
+</code></pre><p><code>变量查找以及变量作用域</code>：在定义一个变量两次时，只会使用最后定义的变量，Less会从当前作用域中向上搜索。这个行为类似于CSS的定义中始终使用最后定义的属性值。</p>
+<pre><code><span class="variable">@var:</span> <span class="number">0</span>;
+<span class="class">.class</span> {
+  <span class="variable">@var:</span> <span class="number">1</span>;
+  <span class="class">.brass</span> {
+    <span class="variable">@var:</span> <span class="number">2</span>;
+    <span class="attribute">three</span>: <span class="variable">@var</span>;
+    <span class="variable">@var:</span> <span class="number">3</span>;
+  }
+  <span class="attribute">one</span>: <span class="variable">@var</span>;
+}
+</code></pre><p>编译后的CSS为：</p>
+<pre><code><span class="class">.class</span> <span class="rules">{
+  <span class="rule"><span class="attribute">one</span>:<span class="value"> <span class="number">1</span></span></span>;
+<span class="rule">}</span></span>
+<span class="class">.class</span> <span class="class">.brass</span> <span class="rules">{
+  <span class="rule"><span class="attribute">three</span>:<span class="value"> <span class="number">3</span></span></span>;
+<span class="rule">}</span></span>
+</code></pre><h3 id="Mixins（混入）">Mixins（混入）</h3><p>在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</p>
+<p>less源文件</p>
+<pre><code><span class="class">.bordered</span> {
+  <span class="attribute">border-top</span>: dotted <span class="number">1px</span> black;
+  <span class="attribute">border-bottom</span>: solid <span class="number">2px</span> black;
+}
+<span class="id">#menu</span> <span class="tag">a</span> {
+  <span class="attribute">color</span>: <span class="hexcolor">#111</span>;
+  <span class="class">.bordered</span>;
+}
+</code></pre><p>编译后的CSS文件：</p>
+<pre><code><span class="class">.bordered</span> <span class="rules">{
+  <span class="rule"><span class="attribute">border-top</span>:<span class="value"> dotted <span class="number">1px</span> black</span></span>;
+  <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> solid <span class="number">2px</span> black</span></span>;
+<span class="rule">}</span></span>
+<span class="id">#menu</span> <span class="tag">a</span> <span class="rules">{
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#111</span></span></span>;
+  <span class="rule"><span class="attribute">border-top</span>:<span class="value"> dotted <span class="number">1px</span> black</span></span>;
+  <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> solid <span class="number">2px</span> black</span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>如果不想在CSS中保留原来的 <strong>.bordered</strong></p>
+<p>可以将 <code>.bordered</code> 修改为 <code>bordered()</code> ,同时还支持混入参数，支持默认参数。</p>
+<p>less文件 </p>
+<pre><code><span class="class">.bordered</span>(<span class="variable">@width</span>:<span class="number">5px</span>) {
+  <span class="attribute">border-top</span>: dotted <span class="number">1px</span> black;
+  <span class="attribute">border-bottom</span>: solid <span class="number">2px</span> black;
+  <span class="attribute">width</span>:<span class="variable">@width</span>;
+}
+<span class="id">#menu</span> <span class="tag">a</span> {
+  <span class="attribute">color</span>: <span class="hexcolor">#111</span>;
+  <span class="class">.bordered</span>;
+}
+<span class="class">.post</span> <span class="tag">a</span> {
+  <span class="attribute">color</span>: red;
+  <span class="class">.bordered</span>(<span class="number">10px</span>);
+}
+</code></pre><p>编译后的文件</p>
+<pre><code><span class="id">#menu</span> <span class="tag">a</span> <span class="rules">{
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#111</span></span></span>;
+  <span class="rule"><span class="attribute">border-top</span>:<span class="value"> dotted <span class="number">1px</span> black</span></span>;
+  <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> solid <span class="number">2px</span> black</span></span>;
+  <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">5px</span></span></span>;
+<span class="rule">}</span></span>
+<span class="class">.post</span> <span class="tag">a</span> <span class="rules">{
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> red</span></span>;
+  <span class="rule"><span class="attribute">border-top</span>:<span class="value"> dotted <span class="number">1px</span> black</span></span>;
+  <span class="rule"><span class="attribute">border-bottom</span>:<span class="value"> solid <span class="number">2px</span> black</span></span>;
+  <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">10px</span></span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>像 JavaScript 中 arguments一样，Mixins 也有这样一个变量：@arguments。@arguments 在 Mixins 中具是一个很特别的参数，当 Mixins 引用这个参数时，该参数表示所有的变量，很多情况下，这个参数可以省去你很多代码。</p>
+<pre><code><span class="class">.box1</span>(<span class="variable">@x</span>:<span class="number">0</span>,<span class="variable">@y</span>:<span class="number">0</span>,<span class="variable">@blur</span>:<span class="number">1px</span>,<span class="variable">@color</span>:<span class="hexcolor">#000</span>){ 
+   <span class="attribute">-moz-box-shadow</span>: <span class="variable">@arguments</span>; 
+   <span class="attribute">-webkit-box-shadow</span>: <span class="variable">@arguments</span>; 
+   <span class="attribute">box-shadow</span>: <span class="variable">@arguments</span>; 
+ } 
+ <span class="class">.mybox</span> { 
+     <span class="class">.box1</span>(<span class="number">10px</span>,<span class="number">12px</span>,<span class="number">13px</span>,red); 
+ }
+</code></pre><p>编译后：</p>
+<pre><code><span class="class">.mybox</span> <span class="rules">{
+  <span class="rule"><span class="attribute">-moz-box-shadow</span>:<span class="value"> <span class="number">10px</span> <span class="number">12px</span> <span class="number">13px</span> red</span></span>;
+  <span class="rule"><span class="attribute">-webkit-box-shadow</span>:<span class="value"> <span class="number">10px</span> <span class="number">12px</span> <span class="number">13px</span> red</span></span>;
+  <span class="rule"><span class="attribute">box-shadow</span>:<span class="value"> <span class="number">10px</span> <span class="number">12px</span> <span class="number">13px</span> red</span></span>;
+<span class="rule">}</span></span>
+</code></pre><h3 id="嵌套">嵌套</h3><p>在写CSS的时候 为了避免造成CSS污染 我们会采用命名空间的机制，在less中可以通过嵌套来解决。</p>
+<p>less文件 </p>
+<pre><code><span class="class">.myspace</span>{
+     <span class="class">.class1</span>{
+         <span class="tag">width</span><span class="pseudo">:20px</span>
+     }
+     <span class="class">.class2</span>{
+         <span class="attribute">height</span>:<span class="number">30px</span>
+     }
+ }
+</code></pre><p>生成的CSS文件</p>
+<pre><code><span class="class">.myspace</span> <span class="class">.class1</span> <span class="rules">{
+  <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">20px</span></span></span>;
+<span class="rule">}</span></span>
+<span class="class">.myspace</span> <span class="class">.class2</span> <span class="rules">{
+  <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">30px</span></span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>在嵌套使用时可以通过 &amp;访问上一级元素</p>
+<pre><code><span class="id">#bundle</span> {
+  <span class="class">.button</span> {
+    <span class="attribute">display</span>: block;
+    <span class="attribute">border</span>: <span class="number">1px</span> solid black;
+    <span class="attribute">background-color</span>: grey;
+    <span class="keyword">&amp;</span><span class="pseudo">:hover</span> {
+      <span class="attribute">background-color</span>: white
+    }
+  }
+}
+</code></pre><p>编译之后为</p>
+<pre><code><span class="id">#bundle</span> <span class="class">.button</span> <span class="rules">{
+  <span class="rule"><span class="attribute">display</span>:<span class="value"> block</span></span>;
+  <span class="rule"><span class="attribute">border</span>:<span class="value"> <span class="number">1px</span> solid black</span></span>;
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> grey</span></span>;
+<span class="rule">}</span></span>
+<span class="id">#bundle</span> <span class="class">.button</span><span class="pseudo">:hover</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background-color</span>:<span class="value"> white</span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>在less中可以如果将mix和嵌套相结合。可以使用<code>&gt;</code>来进行导入</p>
+<p>比如 less文件</p>
+<pre><code><span class="class">.myspace</span>{
+   <span class="class">.class1</span>{
+   <span class="tag">width</span><span class="pseudo">:20px</span>
+   }
+   <span class="class">.class2</span>{
+   <span class="tag">height</span><span class="pseudo">:30px</span>
+   }
+ }
+ <span class="class">.redbutton</span>{
+     <span class="attribute">color</span>:red;
+     <span class="class">.myspace</span> &gt; <span class="class">.class2</span>;
+ }
+</code></pre><p>CSS 文件</p>
+<pre><code><span class="tag">myspace</span> <span class="class">.class1</span> <span class="rules">{
+  <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">20px</span></span></span>;
+<span class="rule">}</span></span>
+<span class="class">.myspace</span> <span class="class">.class2</span> <span class="rules">{
+  <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">30px</span></span></span>;
+<span class="rule">}</span></span>
+<span class="class">.redbutton</span> <span class="rules">{
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> red</span></span>;
+  <span class="rule"><span class="attribute">height</span>:<span class="value">
+</span></span></span>}
+</code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
+<h3 id="Comments（注释）">Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
+<h3 id="extend">extend</h3><p>extend是一个Less伪类，它会合并它所在的选择其和它所匹配的引用。</p>
+<pre><code><span class="tag">nav</span> <span class="tag">ul</span> {
+  <span class="keyword">&amp;</span><span class="keyword">:extend</span>(<span class="class">.inline</span>);
+  <span class="attribute">background</span>: blue;
+}
+</code></pre><p>在上面设置的规则中，:extend选择器会在.inline类出现的地方在.inline上应用”扩展选择器”(也就是nav ul)。声明块保持原样，不会带有任何引用扩展(因为扩展并不是CSS)。</p>
+<p>extend即为把当前的选择的器应用到相应的选择器定义的样式中，有点像组合的意思，跟混合的作用类似，基本是复用之前定义的样式，mix是将选择的样式引进来，extend是将当前的选择器。添加到之前定义的样式处。（有点绕啊）看代码吧</p>
+<p>less文件</p>
+<pre><code><span class="tag">nav</span> <span class="tag">ul</span> {
+      <span class="keyword">&amp;</span><span class="keyword">:extend</span>(<span class="class">.inline</span>);
+      <span class="attribute">background</span>: blue;
+    }
+    <span class="class">.inline</span> {
+      <span class="attribute">color</span>: red;
+    }
+</code></pre><p>输出CSS：</p>
+<pre><code><span class="tag">nav</span> <span class="tag">ul</span> <span class="rules">{
+  <span class="rule"><span class="attribute">background</span>:<span class="value"> blue</span></span>;
+<span class="rule">}</span></span>
+<span class="class">.inline</span>,
+<span class="tag">nav</span> <span class="tag">ul</span> <span class="rules">{
+  <span class="rule"><span class="attribute">color</span>:<span class="value"> red</span></span>;
+<span class="rule">}</span></span>
+</code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
+<h3 id="Comments（注释）-1">Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Less/">
+                #Less
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+
+
+
+  
+    <div class="comments" id="comments">
+      
+        <div class="ds-thread" data-thread-key="2015/01/11/less-features/"
+             data-title="less常用特性" data-url="http://kunkun12.com/2015/01/11/less-features/">
+        </div>
+
+      
+    </div>
+  
+
+          </div>
+
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview">
+          站点概览
+        </li>
+      </ul>
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/your-user-name">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+      <div class="post-toc sidebar-panel-active">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#less编译环境"><span class="nav-number">1.</span> <span class="nav-text">less编译环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我常用的less_特性。"><span class="nav-number">2.</span> <span class="nav-text">我常用的less 特性。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#@import"><span class="nav-number">2.1.</span> <span class="nav-text">@import</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">2.2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixins（混入）"><span class="nav-number">2.3.</span> <span class="nav-text">Mixins（混入）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套"><span class="nav-number">2.4.</span> <span class="nav-text">嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comments（注释）"><span class="nav-number">2.5.</span> <span class="nav-text">Comments（注释）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extend"><span class="nav-number">2.6.</span> <span class="nav-text">extend</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comments（注释）-1"><span class="nav-number">2.7.</span> <span class="nav-text">Comments（注释）</span></a></li></ol></li></ol>
+      </div>
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if ($('.post-toc').html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var activeCurrentSelector = '.active-current';
+
+    $(tocSelector)
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass()
+        $currentActiveElement.addClass('active-current');
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass()
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    $('body').scrollspy({ target: tocSelector });
+  });
+</script>
+
+
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

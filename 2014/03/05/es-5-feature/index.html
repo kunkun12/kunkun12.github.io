@@ -1,0 +1,940 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+
+  <title> ECMAScript 5 学习总结 // kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              ECMAScript 5 学习总结
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-05
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/05/es-5-feature/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/es-5-feature/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>话说<a href="https://github.com/lukehoban/es6features" target="_blank" rel="external">ES6</a>的草稿都出来了，貌似好多人对ES5 还没有全面的了解，下面将我学习的关于ES5的一些东西总结一下。<br>ECMAScript 5.1(或者成为ES5 、ECMAScript 5)，在2009年发布草稿，2011发布正式版本，最初在2011年发布的Firefox 4上得到支持。但是万恶的IE（6、7、8） 并不支持ES5，因此这也一定程度上阻止了ES5的普及。但是我们可以通过ployfill的形式来让IE8支持ES5的一些功能，比如引入<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="external">shim</a>;</p>
+<h3 id="浏览器对ES5的支持情况。">浏览器对ES5的支持情况。</h3><p>ES5出现以前，用的最多的是ES3(ES4 流产了). 总体上当今主流的浏览器都已经支持了ES5.比如常见的ie9+，chrome 19+，safari5+，firefox4+，opera 12+，android 3+，Blackberry Browser 7+，IOS safari 5+，opera mobile 12+，ie mobile 10+,例外是IE 9不支持ES 5.1的严格模式，IE10 已经支持。Safari 5.1+在严格模式下不支持0宽字符，比如<code>var $\u200c = &#39;a&#39;</code> 或者<code>{_\u200d: &#39;vuur&#39;}</code>.IE8 是ES3的脚本引擎，但是支持ES5的一些特性，比如<code>JSON</code>、<code>Object.defineProperty</code>,<code>Object.getOwnPropertyDescriptor</code>,然而 我们最好还是要把IE8 称为ES3的浏览器。当然如果对于不支持ES 5的浏览器可以使用<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="external">shim</a> 来进行扩展，以提供支持。下面开始描述ES 5的那些东西。</p>
+<h4 id="数组或者是对象中的最后元素允许添加逗号。">数组或者是对象中的最后元素允许添加逗号。</h4><pre><code><span class="reserved">var</span> myObject = {
+    <span class="attribute">foo</span>:<span class="string">'foo'</span>,
+    <span class="attribute">bar</span>:<span class="string">'bar'</span>, <span class="regexp">//</span><span class="literal">no</span> error
+};
+
+<span class="reserved">var</span> myArray = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,];
+
+<span class="built_in">console</span>.log(myArray.length) <span class="regexp">//</span>logs <span class="number">3</span>, regardless <span class="keyword">of</span> trailing comma 
+</code></pre><h4 id="使用\_分割来实现多行字符串">使用\ 分割来实现多行字符串</h4><pre><code>//no error <span class="flow">in</span> ES5 scripting engines
+var stringLiteral = "Lo<span class="comment">rem ipsum dolor sit amet, consectetur \ </span>
+elit, sed <span class="flow">do</span> eiusmod tempor incididunt ut labore et dolore \
+magna aliqua. Ut enim ad minim veniam, quis nostrud \
+exercitation ullamco laboris nisi ut aliquip ex ea";
+</code></pre><h4 id="对象属性的名字允许使用限定字符。">对象属性的名字允许使用限定字符。</h4><pre><code><span class="reserved">var</span> myObject = {<span class="attribute">function</span>:<span class="string">'function'</span>,<span class="attribute">new</span>:<span class="string">'new'</span>};
+
+<span class="built_in">console</span>.log(myObject.<span class="reserved">function</span>,myObject.<span class="keyword">new</span>); <span class="regexp">//</span>logs <span class="string">'function new'</span>
+</code></pre><h4 id="处理JSON_的方法_JSON-parse_JSON-stringify">处理JSON 的方法 <code>JSON.parse</code>  <code>JSON.stringify</code></h4><h4 id="原生的字符串去空格方法string-trim()">原生的字符串去空格方法<code>string.trim()</code></h4><p>ES 5 提供String.trim()来去除字符串首尾的空格。</p>
+<pre><code><span class="string">'   foo   '</span>.trim(); <span class="regexp">//</span> <span class="string">'foo'</span>
+</code></pre><p>需要关注的是，有些浏览器已经提供了 <code>trimRight()</code>,<code>trimLeft()</code>,但是这并不是正式的标准。</p>
+<h4 id="通过[i]来访问字符串中的字符。">通过[i]来访问字符串中的字符。</h4><pre><code><span class="string">'ES5'</span>[<span class="number">1</span>]; <span class="regexp">//</span>  <span class="string">"S"</span>
+</code></pre><p>ES3中 是不允许这种方式来进行访问的</p>
+<h4 id="undefined,NaN_以及Infinty是只读的常量。"><code>undefined</code>,<code>NaN</code> 以及<code>Infinty</code>是只读的常量。</h4><p>在ES5 之前的版本中这三个变量是可读写的。于是可能给undefined赋值，这样undefined，就不是真的undefined了。</p>
+<h4 id="数组相关">数组相关</h4><p>判断数组类型的最佳方法:<code>Array.isArray([])</code></p>
+<h4 id="Array-prototype_新增的方法。">Array.prototype 新增的方法。</h4><ul>
+<li>Array.prototype.every()</li>
+<li>Array.prototype.filter()</li>
+<li>Array.prototype.forEach()</li>
+<li>Array.prototype.indexOf()</li>
+<li>Array.prototype.lastIndexOf()</li>
+<li>Array.prototype.map()</li>
+<li>Array.prototype.reduce()</li>
+<li>Array.prototype.some()</li>
+</ul>
+<p>同时也可以在字符串以及类数组中使用这些方法，比如</p>
+<pre><code><span class="comment">//在字符串中使用</span>
+[].forEach.call(<span class="string">'ABC'</span>,<span class="built_in">console</span>.log);
+
+<span class="comment">//argument  </span>
+<span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span><span class="params">(a,b,c)</span></span>{
+    [].forEach.call(<span class="built_in">arguments</span>,<span class="built_in">console</span>.log);
+};
+myFunction(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>);
+</code></pre><h4 id="为数组的_forEach(),_every(),_some(),_filter(),_map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个_arrayLikeObject_对象，作为forEach_Callback的this。">为数组的 <code>forEach()</code>, <code>every()</code>, <code>some()</code>, <code>filter()</code>, <code>map()</code>中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 <code>arrayLikeObject</code> 对象，作为forEach Callback的this。</h4><pre><code><span class="keyword">var</span> arrayLikeObject = {<span class="number">0</span>:<span class="string">'f'</span>,<span class="number">1</span>:<span class="string">'o'</span>,<span class="number">2</span>:<span class="string">'g'</span>,length:<span class="number">3</span>};
+
+[].forEach.call(arrayLikeObject,<span class="function"><span class="keyword">function</span><span class="params">(item)</span></span>{
+
+    <span class="comment">// this = arrayLikeObject</span>
+    <span class="built_in">console</span>.log(item + <span class="string">' total: '</span> + <span class="keyword">this</span>.length);
+
+},arrayLikeObject); <span class="comment">//注意第三个参数 传递了也是arrayLikeObject</span>
+</code></pre><h4 id="属性访问器_getter_setter">属性访问器 getter setter</h4><pre><code>var myObject = {
+    //name:'', WOULD CAUSE ERROR
+    get name() { //notice <span class="operator"><span class="keyword">use</span> <span class="keyword">of</span> <span class="keyword">get</span> <span class="keyword">to</span> indicate accessor property 
+        console.<span class="keyword">log</span>(<span class="string">'read name'</span>);</span>
+    },
+    <span class="operator"><span class="keyword">set</span> name(<span class="keyword">value</span>) { //notice <span class="keyword">use</span> <span class="keyword">of</span> <span class="keyword">set</span> <span class="keyword">to</span> indicate accessor property
+        console.<span class="keyword">log</span>(<span class="string">'wrote to name the value: '</span> + <span class="keyword">value</span>);</span>
+    }
+
+};
+
+myObject.name = 'codylindley'; //调用 <span class="operator"><span class="keyword">set</span> 
+myObject.name;</span> //调用get
+</code></pre><h4 id="对象属性的配置项">对象属性的配置项</h4><p>ES5中新的特性让对象的属性具有可只读readable，可只写writable、可配置性configurable,可遍历enumerable，通过<code>Object.getOwnPropertyDescriptor()</code> 可以查看特性的描述信息。</p>
+<pre><code><span class="reserved">var</span> accessor = {
+    get name(){},
+    set name(){}
+};
+
+<span class="reserved">var</span> data = {<span class="attribute">name</span>:<span class="string">'Cody Lindley'</span>};
+
+<span class="regexp">//</span>logs {<span class="attribute">get</span>: <span class="reserved">function</span>, <span class="attribute">set</span>: <span class="reserved">function</span>, <span class="attribute">enumerable</span>: <span class="literal">true</span>, <span class="attribute">configurable</span>: <span class="literal">true</span>}
+<span class="built_in">console</span>.log(Object.getOwnPropertyDescriptor(accessor,<span class="string">'name'</span>));
+
+<span class="regexp">//</span>logs {<span class="attribute">value</span>: <span class="string">"Cody Lindley"</span>, <span class="attribute">writable</span>: <span class="literal">true</span>, <span class="attribute">enumerable</span>: <span class="literal">true</span>, <span class="attribute">configurable</span>: <span class="literal">true</span>}
+<span class="built_in">console</span>.log(Object.getOwnPropertyDescriptor(data,<span class="string">'name'</span>));
+</code></pre><p>默认情况下Object.defineProperty() Object.defineProperties()<code>writable: true, enumerable: true, configurable: true。</code>如果是通过属性访问器来定义的属性 默认特性为 <code>enumerable: true, configurable:true</code> 。</p>
+<h4 id="新的_定义/修改对象的语法">新的 定义/修改对象的语法</h4><p>通过<code>Object.defineProperty()</code> 以及 <code>Object.defineProperties()</code>两个函数来定义对象的属性以及属性的特性。下面是通过<code>Object.defineProperty()</code>为data对象定义两个属性<code>age</code>和<code>name</code>.</p>
+<pre><code><span class="keyword">var</span> data = {}; <span class="comment">//create data object</span>
+<span class="built_in">Object</span>.defineProperty( <span class="comment">//在data 对象上定义属性age</span>
+    data,
+    <span class="string">"age"</span>, 
+    {
+        value: <span class="number">38</span>,<span class="comment">//配置属性的特性 包括value writable enumerable configurable</span>
+        writable: <span class="literal">true</span>,
+        enumerable: <span class="literal">true</span>,
+        configurable: <span class="literal">true</span>
+    }
+);
+
+<span class="keyword">var</span> accessor = {}; 
+<span class="built_in">Object</span>.defineProperty( <span class="comment">//以get set的形式来定义属性 name</span>
+    accessor,
+    <span class="string">"name"</span>, 
+    {
+        get: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{},
+        set: <span class="function"><span class="keyword">function</span> <span class="params">(value)</span></span>{},
+        enumerable: <span class="literal">true</span>,
+        configurable: <span class="literal">true</span>
+    }
+);
+
+<span class="comment">//{value: 38, writable: true, enumerable: true, configurable: true} </span>
+<span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(data,<span class="string">'age'</span>));
+
+<span class="comment">//{get: function, set: function, enumerable: true, configurable: true}</span>
+<span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(accessor,<span class="string">'name'</span>));
+</code></pre><p>与上不同的是<code>Object.defineProperties()</code> 可以同时定义多组属性</p>
+<pre><code><span class="keyword">var</span> cody = {}; <span class="comment">//</span>
+<span class="built_in">Object</span>.defineProperties( <span class="comment">//定义两个属性</span>
+    cody, 
+    {
+        <span class="string">"age"</span>: {
+            value: <span class="number">38</span>,
+            writable: <span class="literal">true</span>,
+            enumerable: <span class="literal">true</span>,
+            configurable: <span class="literal">true</span>
+        },
+        <span class="string">"name"</span>: {
+            get: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{},
+            set:<span class="function"><span class="keyword">function</span><span class="params">(value)</span></span>{},
+            enumerable: <span class="literal">true</span>,
+            configurable: <span class="literal">true</span>
+        }
+    }
+);
+
+<span class="comment">//{value: 38, writable: true, enumerable: true, configurable: true} </span>
+<span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(cody,<span class="string">'age'</span>));
+
+<span class="comment">// {get: function, set: function, enumerable: true, configurable: true}</span>
+<span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyDescriptor(cody,<span class="string">'name'</span>));
+</code></pre><p>注意 通过<code>Object.defineProperty()</code> 以及<code>Object.defineProperties()</code>定义的属性默认配置为<code>writable: false, enumerable: false, configurable: false</code>.定义的访问器属性默认配置<code>enumerable: false, configurable:false</code></p>
+<h4 id="使用Object-keys_以及Object-getOwnPropertyNames()获取对象的属性的name。">使用<code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>获取对象的属性的name。</h4><p><code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>用来获取对象中的属性的name，不包括继承来的属性，两者区别是<code>Object.keys</code> 只能获取可遍历的属性的名字的数组，<code>Object.getOwnPropertyNames()</code>可以获得所有的属性的名字，作为字符串数组返回。</p>
+<pre><code><span class="keyword">var</span> person = {};
+<span class="built_in">Object</span>.defineProperties(person, 
+    {
+        <span class="string">"name"</span>: {value: <span class="string">'Cody Lindley'</span>,enumerable: <span class="literal">true</span>},
+        <span class="string">"age"</span>: {value: <span class="number">38</span>,enumerable: <span class="literal">false</span>}
+    }
+);
+
+<span class="comment">//只返回可以可遍历的属性 </span>
+<span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(person)); <span class="comment">//logs ["name"]</span>
+
+<span class="comment">//return array of all properties, including ones that are non-enumerable</span>
+<span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyNames(person)); <span class="comment">//returns ["name", "age"]</span>
+</code></pre><h4 id="属性保护_extending、_sealing、freezing。">属性保护 extending、 sealing、freezing。</h4><p>在ES5中 对象可以被设置为non-extensible, sealed, 以及 frozen。这是三种不同的属性保护级别，可以通过<code>Object.preventExtensions(myObject)</code>, <code>Object.seal(myObject)</code>,  <code>Object.freeze(myObject)</code>来进行设置。</p>
+<ul>
+<li>Object.preventExtensions() 让对象无法新增属性。</li>
+<li>Object.seal()包括了Object.preventExtensions()的功能，同时还具有让已经存在的属性不可修改配置也就说不能使用Object.defineProperty以及Object.defineProperties 来修改属性的配置，但是修改属性的值依然是可以修改的。</li>
+<li><p>Object.freeze() 包括了Object.preventExtensions(),Object.seal()的功能，同时为对象的所有数据属性将 writable 特性设置为 false。 当 writable 为 false 时，无法更改数据属性值。（如果 属性值是对象的话，还是可以改变的）</p>
+<pre><code><span class="keyword">var</span>  p={
+            user:<span class="string">"kunkun"</span>
+        }
+<span class="built_in">Object</span>.seal(p);
+p.name=<span class="string">'du'</span>;
+<span class="built_in">console</span>.log(p.name);<span class="comment">//undefined 并没有增加</span>
+<span class="built_in">Object</span>.freeze(p);
+p.user=<span class="string">'baokun'</span>
+<span class="built_in">console</span>.log(p.user);<span class="comment">// 输出kunkun 还是原来的值发现并没有被修改</span>
+</code></pre></li>
+</ul>
+<p>同时也提供三个函数来对这三种保护级别进行判断</p>
+<ul>
+<li>Object.isExtensible()</li>
+<li>Object.isSealed()</li>
+<li>Object.isFrozen()</li>
+</ul>
+<h4 id="使用Object-create()显式继承。">使用Object.create()显式继承。</h4><p>在ES3中创建对象的方式主要有以下三种</p>
+<ul>
+<li>var objectViaObjectLiteral = {};</li>
+<li>var objectViaObjectConstructor = new Object();</li>
+<li>var objectViaCustomConstructor = new(function Person(){});</li>
+</ul>
+<p>ES5中新增了Object.create函数来让开发者现实地设置对象以及对象继承的原型。第一个参数为对象的原型</p>
+<pre><code><span class="keyword">var</span> <span class="keyword">object</span> = <span class="keyword">Object</span>.create(<span class="keyword">Object</span>.prototype); <span class="comment">//创建对象 与{} 、 new Object()功能相同。</span>
+</code></pre><p>object.create的主要作用继承指定的对象来创建新的对象，如果不传递参数，则默认值为Object.prototype。如果传递null 表示对象将会不继承于任何东西，则创建一个真正的空对象</p>
+<pre><code><span class="keyword">var</span> person = {alive: <span class="literal">true</span>};
+<span class="keyword">var</span> cody = <span class="built_in">Object</span>.create(person, {
+    name: {
+        configurable: <span class="literal">true</span>,
+        enumerable: <span class="literal">true</span>,
+        writeable: <span class="literal">true</span>,
+        value: <span class="string">'cody'</span>
+    }
+});
+
+<span class="built_in">console</span>.log(cody.alive); <span class="comment">// true</span>
+
+<span class="comment">//</span>
+<span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(cody).alive); <span class="comment">//logs true</span>
+</code></pre><p>上面的例子中，可以看到create也传递了第二个参数来为对象增加属性,第二个参数与Object.defineProperties()结果是一样的。</p>
+<h4 id="使用getPrototypeOf()_来获取对象的原型。">使用getPrototypeOf() 来获取对象的原型。</h4><p>ES3中有个非标准的<strong>proto</strong> 来获取对象的原型金，浏览器支持不兼容，ES5中有了标准化。</p>
+<pre><code><span class="built_in">Object</span>.getPrototypeOf(<span class="keyword">new</span> <span class="built_in">Object</span>(<span class="string">'foo'</span>)) === <span class="built_in">String</span>.prototype <span class="comment">// true</span>
+</code></pre><h4 id="bind_：为函数绑定上下文。">bind ：为函数绑定上下文。</h4><p>在ES3中通过Apply或者call来实现 比如</p>
+<pre><code><span class="type">Function</span>.prototype.<span class="keyword">bind</span> = function(obj) { 
+   <span class="keyword">var</span> <span class="keyword">method</span> = this, 
+   temp = function() { 
+     <span class="keyword">return</span> <span class="keyword">method</span>.apply(obj,arguments); 
+   }; 
+
+   <span class="keyword">return</span> temp; 
+} 
+</code></pre><p>ES 5中有了正式的bind</p>
+<pre><code><span class="keyword">var</span> myObject = {foo:<span class="string">'foo'</span>};
+<span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="keyword">this</span>,<span class="built_in">arguments</span>[<span class="number">0</span>],<span class="built_in">arguments</span>[<span class="number">1</span>],<span class="built_in">arguments</span>[<span class="number">2</span>]);
+};
+<span class="keyword">var</span> usingBind = myFunction.bind(myObject,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>); 
+usingBind(); <span class="comment">// {foo="foo"} 1 2 3</span>
+</code></pre><h4 id="use_strict_严格模式">use strict 严格模式</h4><p>JavaScript代码标志为“严格模式”，则其中运行的所有代码都必然是严格模式下的。<br>其一：如果在语法检测时发现语法问题，则整个代码块失效，并导致一个语法异常。<br>其二：如果在运行期出现了违反严格模式的代码，则抛出执行异常。</p>
+<ul>
+<li>主要规则 </li>
+<li>定义变量必须带var 、</li>
+<li>不能在JSON定义重复的key、</li>
+<li>函数不能有重复的参数、</li>
+<li>不能改变arguments的值</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+
+
+
+  
+    <div class="comments" id="comments">
+      
+        <div class="ds-thread" data-thread-key="2014/03/05/es-5-feature/"
+             data-title="ECMAScript 5 学习总结" data-url="http://kunkun12.com/2014/03/05/es-5-feature/">
+        </div>
+
+      
+    </div>
+  
+
+          </div>
+
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview">
+          站点概览
+        </li>
+      </ul>
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/your-user-name">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+      <div class="post-toc sidebar-panel-active">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器对ES5的支持情况。"><span class="nav-number">1.</span> <span class="nav-text">浏览器对ES5的支持情况。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数组或者是对象中的最后元素允许添加逗号。"><span class="nav-number">1.1.</span> <span class="nav-text">数组或者是对象中的最后元素允许添加逗号。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用\_分割来实现多行字符串"><span class="nav-number">1.2.</span> <span class="nav-text">使用\ 分割来实现多行字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象属性的名字允许使用限定字符。"><span class="nav-number">1.3.</span> <span class="nav-text">对象属性的名字允许使用限定字符。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理JSON_的方法_JSON-parse_JSON-stringify"><span class="nav-number">1.4.</span> <span class="nav-text">处理JSON 的方法 JSON.parse  JSON.stringify</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原生的字符串去空格方法string-trim()"><span class="nav-number">1.5.</span> <span class="nav-text">原生的字符串去空格方法string.trim()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过[i]来访问字符串中的字符。"><span class="nav-number">1.6.</span> <span class="nav-text">通过[i]来访问字符串中的字符。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined,NaN_以及Infinty是只读的常量。"><span class="nav-number">1.7.</span> <span class="nav-text">undefined,NaN 以及Infinty是只读的常量。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组相关"><span class="nav-number">1.8.</span> <span class="nav-text">数组相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Array-prototype_新增的方法。"><span class="nav-number">1.9.</span> <span class="nav-text">Array.prototype 新增的方法。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为数组的_forEach(),_every(),_some(),_filter(),_map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个_arrayLikeObject_对象，作为forEach_Callback的this。"><span class="nav-number">1.10.</span> <span class="nav-text">为数组的 forEach(), every(), some(), filter(), map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 arrayLikeObject 对象，作为forEach Callback的this。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性访问器_getter_setter"><span class="nav-number">1.11.</span> <span class="nav-text">属性访问器 getter setter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象属性的配置项"><span class="nav-number">1.12.</span> <span class="nav-text">对象属性的配置项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新的_定义/修改对象的语法"><span class="nav-number">1.13.</span> <span class="nav-text">新的 定义/修改对象的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Object-keys_以及Object-getOwnPropertyNames()获取对象的属性的name。"><span class="nav-number">1.14.</span> <span class="nav-text">使用Object.keys 以及Object.getOwnPropertyNames()获取对象的属性的name。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性保护_extending、_sealing、freezing。"><span class="nav-number">1.15.</span> <span class="nav-text">属性保护 extending、 sealing、freezing。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Object-create()显式继承。"><span class="nav-number">1.16.</span> <span class="nav-text">使用Object.create()显式继承。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用getPrototypeOf()_来获取对象的原型。"><span class="nav-number">1.17.</span> <span class="nav-text">使用getPrototypeOf() 来获取对象的原型。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bind_：为函数绑定上下文。"><span class="nav-number">1.18.</span> <span class="nav-text">bind ：为函数绑定上下文。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#use_strict_严格模式"><span class="nav-number">1.19.</span> <span class="nav-text">use strict 严格模式</span></a></li></ol></li></ol>
+      </div>
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if ($('.post-toc').html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var activeCurrentSelector = '.active-current';
+
+    $(tocSelector)
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass()
+        $currentActiveElement.addClass('active-current');
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass()
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    $('body').scrollspy({ target: tocSelector });
+  });
+</script>
+
+
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

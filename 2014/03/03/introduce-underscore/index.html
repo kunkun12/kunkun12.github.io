@@ -1,0 +1,1065 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+
+  <title> underscore学习总结 // kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              underscore学习总结
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-03
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/03/introduce-underscore/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/03/introduce-underscore/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="underscore介绍">underscore介绍</h3><p><a href="https://github.com/jashkenas/underscore/" target="_blank" rel="external">underscore</a>是一个很小很强大的函数库，帮助程序猿不用扩展内置的JS对象即可实现一系列常用的功能。对于“如果我面前是一个空白的HTML 页面，我想想立刻开发出网页，我需要做什么”这样的问题，underscore给出了答案。</p>
+<p>underscore 提供了80多个 工具函数，来提供了常见的功能。比如<code>map</code> ,<code>select</code>,<code>invoke</code>,以及更专业的助手    函数绑定，javascript模板，深度相等测试。如果当今流行的浏览器中如果已经存内置方法，他会优先调用浏览器原生的方法比如ES5中新增的<code>forEach</code>，<code>map</code>，<code>reduce</code>，<code>filter</code>，<code>every</code>，<code>some</code>, <code>indexOf</code> 等。</p>
+<p>underscore的函数主要包含了<strong>Collections</strong>,<strong>Arrays</strong>,<strong>Functions</strong>,<strong>Object</strong>,<strong>Utility</strong>,<strong>Chaining</strong> 等6块内容。对开发者来说是个很强的轮子。</p>
+<h3 id="underscore如何使用">underscore如何使用</h3><p>相关文档</p>
+<p><a href="http://underscorejs.org/" target="_blank" rel="external">帮助文档</a></p>
+<p><a href="http://underscorejs.org/docs/underscore.html" target="_blank" rel="external">带注释的源码</a></p>
+<p><a href="https://github.com/jashkenas/underscore" target="_blank" rel="external">Github</a>;</p>
+<p>获取方法：</p>
+<p><a href="http://underscorejs.org/underscore.js" target="_blank" rel="external">开发环境版本</a> 未压缩</p>
+<p><a href="http://underscorejs.org/underscore-min.js" target="_blank" rel="external">生产环境版本</a> 经过压缩混淆</p>
+<p>也可以使用工具安装的方式来获取</p>
+<ul>
+<li>Node.js npm install underscore</li>
+<li>Require.js require([“underscore”], …</li>
+<li>Bower bowser install underscore</li>
+<li>Component component install jashkenas/underscore</li>
+</ul>
+<h3 id="使用Demo">使用Demo</h3><p>之前使用过Jquery的时候我们学会了用$,使用underscore也同样的容易，只需要一个下划线_即可，<br>比如</p>
+<pre><code>_.<span class="keyword">each</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], alert);
+=&gt; alerts <span class="keyword">each</span> number <span class="keyword">in</span> turn...
+_.<span class="keyword">each</span>({one: <span class="number">1</span>, two: <span class="number">2</span>, three: <span class="number">3</span>}, alert);
+=&gt; alerts <span class="keyword">each</span> number value <span class="keyword">in</span> turn...
+</code></pre><p>看到函数名字基本上就能猜到功能了，为了方便全面了解功能，这里仅列出函数的名字，仅对不熟悉的做一下解释，个别函数值列出了源码，其实看源码能学到更多。</p>
+<h4 id="Collections(数组，对象以及类数组可以调用的方法)">Collections(数组，对象以及类数组可以调用的方法)</h4><ul>
+<li><code>each</code></li>
+<li><code>map</code></li>
+<li><code>reduce</code></li>
+<li><code>reduceright</code></li>
+<li><code>find</code></li>
+<li><code>filter</code> </li>
+<li><code>every</code></li>
+<li><code>some</code> 以上几个都是ES5 中的东东 就不在介绍了</li>
+<li><code>where</code>:选出所有的符合条件的</li>
+<li><code>findWhere</code>:只返回第一个符合条件的元素</li>
+<li><code>reject</code> 筛选出不符合条件的</li>
+<li><code>contains</code></li>
+<li><code>invoke</code>依次传入集合中的方法，来调用一个函数</li>
+<li><code>pluck</code> 提取某个字段的集合</li>
+<li><p><code>max</code>    根据集合中的某一属性或者对其操作的结果，提取结果最大的元素。如果第二个参数省略，则根据数组中值得大小进行比较。比如</p>
+<pre><code>var stooges = [{<span class="string">name:</span> <span class="string">'moe'</span>, <span class="string">age:</span> <span class="number">40</span>}, {<span class="string">name:</span> <span class="string">'larry'</span>, <span class="string">age:</span> <span class="number">50</span>}, {<span class="string">name:</span> <span class="string">'curly'</span>, <span class="string">age:</span> <span class="number">60</span>}];
+_.max(stooges, function(stooge){ <span class="keyword">return</span> stooge.age; });
+=&gt; {<span class="string">name:</span> <span class="string">'curly'</span>, <span class="string">age:</span> <span class="number">60</span>};
+</code></pre></li>
+<li><p><code>min</code> 根据集合中的某一属性或者对其操作的结果，提取结果最小的元素。</p>
+</li>
+<li><code>sortBy</code></li>
+<li><code>groupBy</code></li>
+<li><code>countBy</code></li>
+<li><code>indexBy</code> 给集合添加索引</li>
+<li><code>shuffle</code>打乱集合元素的顺序</li>
+<li><code>sample</code>从数组中随机子数组</li>
+<li><code>toArray</code>。将集合转化为数组</li>
+</ul>
+<h4 id="Array_Functions">Array Functions</h4><ul>
+<li><code>first</code></li>
+<li><p><code>initial</code> 返回前几个元素比如 </p>
+<pre><code><span class="escape">`_</span>.initial([<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>])<span class="comment">; =&gt; [5, 4, 3, 2]`</span>
+</code></pre></li>
+<li><p><code>last</code></p>
+</li>
+<li><code>rest</code></li>
+<li><p><code>compact</code> 返回一个数组的拷贝，其中不包括值为false的元素 比如</p>
+<pre><code><span class="number">_</span>.compact([<span class="number">0</span>, <span class="number">1</span>, <span class="keyword">false</span>, <span class="number">2</span>, <span class="string">''</span>, <span class="number">3</span>]);
+<span class="status">=&gt;</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+</code></pre></li>
+<li><p><code>flatten</code>，把嵌套数组中的元素提取出来做为数组的元素。如果第二个参数为true 仅进行浅提取。比如</p>
+<pre><code>_.flatten([<span class="number">1</span>, [<span class="number">2</span>], [<span class="number">3</span>, <span class="string">[[4]]</span>]]);
+=&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];
+
+_.flatten([<span class="number">1</span>, [<span class="number">2</span>], [<span class="number">3</span>, <span class="string">[[4]]</span>]], <span class="keyword">true</span>);
+=&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">[[4]]</span>];
+</code></pre></li>
+<li><p><code>without</code></p>
+</li>
+<li><code>partition</code> 将一个数组分组，其中的元素第一个满足第二个参数，第二个是不满足的</li>
+<li><code>union</code> 求数组的并集</li>
+<li><code>intersection</code>  交集</li>
+<li><code>difference</code> 差集</li>
+<li><code>uniq</code> 去掉数组中重复的元素</li>
+<li><p><code>zip</code> 看Demo</p>
+<pre><code>_.zip([<span class="string">'moe'</span>, <span class="string">'larry'</span>, <span class="string">'curly'</span>], [<span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>], [<span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">false</span>]);
+=&gt; [[<span class="string">"moe"</span>, <span class="number">30</span>, <span class="keyword">true</span>], [<span class="string">"larry"</span>, <span class="number">40</span>, <span class="keyword">false</span>], [<span class="string">"curly"</span>, <span class="number">50</span>, <span class="keyword">false</span>]]
+</code></pre></li>
+<li><p><code>object</code> 把数组转为对象。</p>
+<pre><code>_.object([<span class="string">'moe'</span>, <span class="string">'larry'</span>, <span class="string">'curly'</span>], [<span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>]);
+=&gt; {<span class="string">moe:</span> <span class="number">30</span>, <span class="string">larry:</span> <span class="number">40</span>, <span class="string">curly:</span> <span class="number">50</span>}
+
+_.object([[<span class="string">'moe'</span>, <span class="number">30</span>], [<span class="string">'larry'</span>, <span class="number">40</span>], [<span class="string">'curly'</span>, <span class="number">50</span>]]);
+=&gt; {<span class="string">moe:</span> <span class="number">30</span>, <span class="string">larry:</span> <span class="number">40</span>, <span class="string">curly:</span> <span class="number">50</span>}
+</code></pre></li>
+<li><p><code>indexOf</code></p>
+</li>
+<li>`lastIndexOf</li>
+<li><code>sortedIndex</code></li>
+<li><code>range</code> 产生一个连续的数组</li>
+</ul>
+<h4 id="Functions">Functions</h4><ul>
+<li><p><code>bind</code> 将函数绑定到具体的对象，并且可以绑定参数</p>
+<pre><code><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span><span class="params">(greeting)</span></span>{ <span class="keyword">return</span> greeting + <span class="string">': '</span> + <span class="keyword">this</span>.name };
+func = _.bind(func, {name: <span class="string">'moe'</span>}, <span class="string">'hi'</span>);
+func();
+=&gt; <span class="string">'hi: moe'</span>
+</code></pre></li>
+<li><p><code>bindAll</code> 同时绑定对象的方法，只需要指定相应的方法即可</p>
+<pre><code><span class="keyword">var</span> buttonView = {
+  label  : <span class="string">'underscore'</span>,
+  onClick: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{ alert(<span class="string">'clicked: '</span> + <span class="keyword">this</span>.label); },
+  onHover: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{ <span class="built_in">console</span>.log(<span class="string">'hovering: '</span> + <span class="keyword">this</span>.label); }
+};
+_.bindAll(buttonView, <span class="string">'onClick'</span>, <span class="string">'onHover'</span>);
+<span class="comment">// When the button is clicked, this.label will have the correct value.</span>
+jQuery(<span class="string">'#underscore_button'</span>).bind(<span class="string">'click'</span>, buttonView.onClick);
+</code></pre></li>
+<li><p><code>partial</code> 绑定部分的参数。返回一个函数</p>
+<pre><code><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span><span class="params">(a, b)</span> </span>{ <span class="keyword">return</span> a + b; };
+add5 = _.partial(add, <span class="number">5</span>);
+add5(<span class="number">10</span>);
+=&gt; <span class="number">15</span>
+</code></pre></li>
+<li><p><code>memioze</code> 缓存计算结果。</p>
+</li>
+<li><code>delay</code> 延迟执行，类似于setTimeOut</li>
+<li><code>defer</code>也是延迟执行方法，不同的是他能保证在当前堆栈中的所有的代码跑完之后再执行function。其实就是setTimeout(fn,0);</li>
+<li><p><code>throttle</code> throttle这个单词的意思是使减速，用于控制频繁触发的 function的的频率，比如，拖动页面滚动条时scroll方法会以很高的频率触发，如果在scroll的处理事件中做了很费时的操作，会导致浏览器假死，如果使用了throttle后，function被触发的频率可以降低。</p>
+<pre><code>var throttled = _.throttle<span class="comment">(updatePosition, 100)</span>;
+$<span class="comment">(window)</span>.scroll<span class="comment">(throttled)</span>;
+</code></pre></li>
+<li><p><code>debounce</code> 对于频繁处理的时间，只在第一次触发(是否触发取决于immdiate 参数)，和事件频繁触发最后一次触发(有最多wait的延时)。拿滚动事件为例，滚动事件50ms触发一次，如果设置wait为100ms。则在最后一次触发scroll事件时，也就是停止滚动时，在100ms后触发function。如果immediate参数为true，开始滚动时也会触发function</p>
+<p>  var lazyLayout = _.debounce(calculateLayout, 300);<br>  $(window).resize(lazyLayout);</p>
+</li>
+<li><code>once</code> once能确保func只调用一次，如果用func返回一个什么对象，源码也比较简单，无非就是用一个标志位来标示是否运行过，缓存返回值</li>
+<li><p><code>after</code> 创建一个新的函数，当func反复调用时，count次才调用一次，比如：</p>
+<p>  var afterA = _.after(3,a);<br>  afterA();//调用<br>  afterA();//不alert<br>  afterA();//不alert<br>  afterA();//调用</p>
+</li>
+<li><p><code>now</code> 返回当前的时间戳  _.now = Date.now || function() { return new Date().getTime(); };</p>
+</li>
+<li><code>wrap</code></li>
+<li><code>compose</code></li>
+</ul>
+<h4 id="Objects">Objects</h4><ul>
+<li><p><code>keys</code> 返回 对象的key的数组</p>
+<p>  _.keys({one: 1, two: 2, three: 3});<br>  =&gt; [“one”, “two”, “three”]</p>
+</li>
+<li><p><code>values</code> 返回对象的value数组</p>
+<p>  _.values({one: 1, two: 2, three: 3});<br>  =&gt; [1, 2, 3]</p>
+</li>
+<li><p><code>pairs</code> 转为[key,valu]的集合</p>
+<p>  _.values({one: 1, two: 2, three: 3});<br>  =&gt; [1, 2, 3]</p>
+</li>
+<li><p><code>invert</code> 将 key和value反转</p>
+</li>
+<li><code>functions</code>返回对象中方法的集合</li>
+<li><p><code>extend</code> 扩展对象的属性。</p>
+<p>  _.extend({name: ‘moe’}, {age: 50});<br>  =&gt; {name: ‘moe’, age: 50}</p>
+</li>
+<li><p><code>pick</code> 筛选字段，只选满足传入的key的字段</p>
+<p>  _.pick({name: ‘moe’, age: 50, userid: ‘moe1’}, ‘name’, ‘age’);<br>  =&gt; {name: ‘moe’, age: 50}</p>
+</li>
+<li><p><code>omit</code> 与上面相反</p>
+</li>
+<li><code>defaults</code></li>
+<li><code>clone</code></li>
+<li><code>tap</code> 对象的拦截器，用于在对象方法链中，调试对象 </li>
+<li><code>has</code></li>
+<li><code>matches</code></li>
+<li><p><code>property</code></p>
+<p>  var moe = {name: ‘moe’};<br>  ‘moe’ === _.property(‘name’)(moe);<br>  =&gt; true</p>
+</li>
+<li><p><code>isEqual</code> 深度比较是否相等</p>
+<pre><code><span class="keyword">var</span> moe   = {name: <span class="string">'moe'</span>, luckyNumbers: [<span class="number">13</span>, <span class="number">27</span>, <span class="number">34</span>]};
+<span class="keyword">var</span> <span class="keyword">clone</span> = {name: <span class="string">'moe'</span>, luckyNumbers: [<span class="number">13</span>, <span class="number">27</span>, <span class="number">34</span>]};
+moe == <span class="keyword">clone</span>;
+=&gt; <span class="keyword">false</span>
+_.isEqual(moe, <span class="keyword">clone</span>);
+=&gt; <span class="keyword">true</span>
+</code></pre></li>
+<li><p><code>isEmpty</code> 判断对象是否为{}</p>
+<pre><code>_.isEmpty([1, 2, 3]);
+=<span class="ruby">&gt; <span class="keyword">false</span>
+</span>_.isEmpty({});
+=<span class="ruby">&gt; <span class="keyword">true</span></span>
+</code></pre></li>
+<li><p><code>isElement</code> 判断是否为dom 元素</p>
+<p>   _.isElement = function(obj) {</p>
+<pre><code>  <span class="function_or_atom">return</span> <span class="exclamation_mark">!</span><span class="exclamation_mark">!</span>(<span class="function_or_atom">obj</span> &amp;&amp; <span class="function_or_atom">obj</span>.<span class="function_or_atom">nodeType</span> === <span class="number">1</span>);
+};
+</code></pre></li>
+<li><p><code>isArray</code></p>
+</li>
+<li><code>isObject</code></li>
+<li><code>isArguments</code></li>
+<li><code>isFunction</code></li>
+<li><code>isString</code></li>
+<li><code>isNumber</code></li>
+<li><code>isDate</code></li>
+<li><p><code>isRegExp</code><br>以上就不解释了，看源码吧 </p>
+<pre><code> <span class="keyword">each</span>([<span class="string">'Arguments'</span>, <span class="string">'Function'</span>, <span class="string">'String'</span>, <span class="string">'Number'</span>, <span class="string">'Date'</span>, <span class="string">'RegExp'</span>], <span class="function"><span class="keyword">function</span><span class="params">(name)</span> </span>{
+  _[<span class="string">'is'</span> + name] = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+    <span class="keyword">return</span> toString.call(obj) == <span class="string">'[object '</span> + name + <span class="string">']'</span>;
+  };
+});
+</code></pre></li>
+<li><p><code>isFinite</code> 是否为有限数</p>
+<pre><code>_.isFinite = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+  <span class="keyword">return</span> <span class="built_in">isFinite</span>(obj) &amp;&amp; !<span class="built_in">isNaN</span>(<span class="built_in">parseFloat</span>(obj));
+};
+</code></pre></li>
+<li><p><code>isBoolean</code> 是否为bool值</p>
+<pre><code>_.isBoolean = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+  <span class="keyword">return</span> obj === <span class="literal">true</span> || obj === <span class="literal">false</span> || toString.call(obj) == <span class="string">'[object Boolean]'</span>;
+};
+</code></pre></li>
+<li><p><code>isNaN</code>  注意typeof(NaA)为number</p>
+<pre><code>_.isNaN = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+  <span class="keyword">return</span> _.isNumber(obj) &amp;&amp; obj != +obj;
+};
+</code></pre></li>
+<li><p><code>isNull</code> </p>
+<pre><code>_.isNull = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+    <span class="keyword">return</span> obj === <span class="literal">null</span>;
+  };
+</code></pre></li>
+<li><p><code>isUndefined</code></p>
+<pre><code>_.isUndefined = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+   <span class="keyword">return</span> obj === <span class="keyword">void</span> <span class="number">0</span>;
+ };
+</code></pre></li>
+</ul>
+<h4 id="UTILITY_FUNCTIONS">UTILITY FUNCTIONS</h4><ul>
+<li><p><code>noConflict</code> 这个 与jQuery中的类似，将_ 还原为之前代表的意思，以后使用</p>
+<p>  var underscore = _.noConflict();</p>
+<pre><code>_.noConflict = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+  root._ = previousUnderscore;
+  <span class="keyword">return</span> <span class="keyword">this</span>;
+};
+</code></pre></li>
+<li><p><code>identify</code> 返回用作参数的相同值。数学 f(x) = x、这个函数看着没有什么用途，但使用整个Underscore作为默认的迭代器</p>
+<pre><code>_.identity = <span class="function"><span class="keyword">function</span><span class="params">(value)</span> </span>{
+   <span class="keyword">return</span> value;
+ };
+</code></pre></li>
+<li><p><code>constant</code>。创建一个返回与传入参数相同值得函数</p>
+<pre><code>_.constant = <span class="function"><span class="keyword">function</span><span class="params">(value)</span> </span>{
+    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+      <span class="keyword">return</span> value;
+    };
+  };
+</code></pre></li>
+<li><p><code>times</code> 调用给定的迭代函数n次 </p>
+<pre><code> _.times = function(n, <span class="keyword">iterator</span>, context) {
+   <span class="keyword">var</span> accum = <span class="type">Array</span>(<span class="type">Math</span>.max(<span class="number">0</span>, n));
+   <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; n; i++) accum[i] = <span class="keyword">iterator</span>.call(context, i);
+   <span class="keyword">return</span> accum;
+ };
+_(<span class="number">3</span>).times(function(n){ dosomething });
+</code></pre></li>
+</ul>
+<ul>
+<li><p><code>radom</code> 返回随机数</p>
+<pre><code>_.random = <span class="function"><span class="keyword">function</span>(</span><span class="built_in">min</span>, <span class="built_in">max</span>) {
+  <span class="keyword">if</span> (<span class="built_in">max</span> == <span class="literal">null</span>) {
+    <span class="built_in">max</span> = <span class="built_in">min</span>;
+    <span class="built_in">min</span> = <span class="number">0</span>;
+  }
+  <span class="keyword">return</span> <span class="built_in">min</span> + Math.<span class="built_in">floor</span>(Math.random() * (<span class="built_in">max</span> - <span class="built_in">min</span> + <span class="number">1</span>));
+};
+</code></pre></li>
+<li><p><code>mixin</code> 扩展underscore中的方法</p>
+<pre><code>_.mixin({
+  capitalize: <span class="keyword">function</span>(<span class="built_in">string</span>) {
+    return <span class="built_in">string</span>.charAt(<span class="number">0</span>).toUpperCase<span class="literal">()</span> + <span class="built_in">string</span>.substring(<span class="number">1</span>).toLowerCase<span class="literal">()</span>;
+  }
+});
+_(<span class="string">"fabio"</span>).capitalize<span class="literal">()</span>;
+=&gt; <span class="string">"Fabio"</span>
+</code></pre></li>
+<li><p><code>uniqueId</code> 为一个对象生成一个唯一的ID 可以自己加前缀</p>
+</li>
+<li><p><code>escape</code>转义HTML字符串，替换&amp;, &lt;, &gt;, “, ‘,  /字符 替换为&amp;, &lt;, &gt;, &quot;, &amp;#x27</p>
+<pre><code><span class="number">_</span>.escape(<span class="string">'Curly, Larry &amp; Moe'</span>); 
+<span class="status">=&gt;</span> <span class="string">"Curly, Larry &amp;amp; Moe"</span> 
+</code></pre></li>
+<li><p><code>unescape</code> 与上相反 替换 &amp;, &lt;, &gt;, &quot;, &#x27; 替换为&amp;, &lt;, &gt;, “, ‘,  /</p>
+</li>
+<li><code>result</code> _.result(object, property)  如果第二个参数是函数的话则调用这个函数，并将第一个参数作为函数的上下文，否则返回object[property]</li>
+<li><code>template</code> javascript模板编译函数使用&lt;%= … %&gt; 替换变量，&lt;% … %&gt;执行JS代码， &lt;%- … %&gt;让HTML被转义。</li>
+</ul>
+<h4 id="Chaining">Chaining</h4><p>可以根据自己的喜好决定是函数式编程还是采用面向对象的方式来使用underscore，比如下的两种方式</p>
+<pre><code>_.map([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="function"><span class="keyword">function</span><span class="params">(n)</span></span>{ <span class="keyword">return</span> n * <span class="number">2</span>; });
+_([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]).map(<span class="function"><span class="keyword">function</span><span class="params">(n)</span></span>{ <span class="keyword">return</span> n * <span class="number">2</span>; });
+</code></pre><p><code>value</code>  提取出_(obj)对象的值。比如</p>
+<pre><code>_([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]).<span class="keyword">value</span><span class="literal">()</span>;
+=&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+</code></pre><h4 id="OOP">OOP</h4><p> 如果_作为函数被调用的话，会返回一个包装的好的对象，这个对象拥有当前版本Underscore的所有方法。同时这个对象还可以通过调用chain实现对一个对象的包裹</p>
+<p>链式调用</p>
+<pre><code>var lyrics = [
+  {line: <span class="number">1</span>, words: <span class="string">"I'm a lumberjack and I'm okay"</span>},
+  {line: <span class="number">2</span>, words: <span class="string">"I sleep all night and I work all day"</span>},
+  {line: <span class="number">3</span>, words: <span class="string">"He's a lumberjack and he's okay"</span>},
+  {line: <span class="number">4</span>, words: <span class="string">"He sleeps all night and he works all day"</span>}
+];
+
+_.chain(lyrics)
+  .map(<span class="keyword">function</span>(line) { <span class="keyword">return</span> line.words.split(<span class="string">' '</span>); })
+  .flatten()
+  .reduce(<span class="keyword">function</span>(counts, word) {
+    counts[word] = (counts[word] || <span class="number">0</span>) + <span class="number">1</span>;
+    <span class="keyword">return</span> counts;
+  }, {})
+  .value();
+=&gt; {lumberjack: <span class="number">2</span>, all: <span class="number">4</span>, night: <span class="number">2</span> <span class="keyword">...</span> }
+</code></pre><p>chain 的源码 </p>
+<pre><code>_.chain = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+    <span class="keyword">return</span> _(obj).chain();
+  };
+</code></pre><p>同时下面还为_原型增加了方法</p>
+<pre><code>_.extend(_.prototype, {
+  chain: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+    <span class="keyword">this</span>._chain = <span class="literal">true</span>;
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  },
+  value: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+    <span class="keyword">return</span> <span class="keyword">this</span>._wrapped;
+  }
+});
+</code></pre><p>上面的例子中开始调用<em>.chain(lyrics),是调用的 </em>.chain(obj)。然后经过<em>(obj) 返回一个示例。接下来调用的是原型上的方法chain 将 this._chain = true; 然后返回this 这样就可以进行链式调用的，第一次调用的</em>对象的chain，第二次调用的是_函数的原型对象的方法。接下来是一句神奇的代码</p>
+<pre><code>_.<span class="keyword">mixin</span>(_);
+</code></pre><p>然后调用了 <em>mixin为把</em>中的所有方法都赋给了<em>.prototype.于是经过包装的对象都是经过 new </em>(obj)的，具有了_对象的中的方法</p>
+<p><em>mixin的源码 ，将传入对象的方法都添加到</em>.prototype上</p>
+<pre><code>_.mixin = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+  <span class="keyword">each</span>(_.functions(obj), <span class="function"><span class="keyword">function</span><span class="params">(name)</span> </span>{
+    <span class="keyword">var</span> func = _[name] = obj[name];
+    _.prototype[name] = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+      <span class="keyword">var</span> args = [<span class="keyword">this</span>._wrapped];
+      push.apply(args, arguments);
+      <span class="keyword">return</span> result.call(<span class="keyword">this</span>, func.apply(_, args));
+    };
+  });
+};
+</code></pre><p>看看执行_()发生了什么,回到源码开头</p>
+<pre><code><span class="keyword">var</span> _ = <span class="function"><span class="keyword">function</span><span class="params">(obj)</span> </span>{
+   <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> _) <span class="keyword">return</span> obj; <span class="comment">//如果传入的对象是 _的实例</span>
+   <span class="keyword">if</span> (!(<span class="keyword">this</span> <span class="keyword">instanceof</span> _)) <span class="keyword">return</span> <span class="keyword">new</span> _(obj); <span class="comment">// 如果不是通过new _()的，则new new _(obj) 一个实例继续调用</span>
+   <span class="keyword">this</span>._wrapped = obj;<span class="comment">// 传入其他参数 new 实例的时候传入的参数</span>
+ };
+</code></pre><p>这是一个单例模式，通过创建一个underscore对象，如果以包裹的形式来调用的话。会将包裹的对象设置为内部的_wrapped变量。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+
+
+
+  
+    <div class="comments" id="comments">
+      
+        <div class="ds-thread" data-thread-key="2014/03/03/introduce-underscore/"
+             data-title="underscore学习总结" data-url="http://kunkun12.com/2014/03/03/introduce-underscore/">
+        </div>
+
+      
+    </div>
+  
+
+          </div>
+
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview">
+          站点概览
+        </li>
+      </ul>
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/your-user-name">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+      <div class="post-toc sidebar-panel-active">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#underscore介绍"><span class="nav-number">1.</span> <span class="nav-text">underscore介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#underscore如何使用"><span class="nav-number">2.</span> <span class="nav-text">underscore如何使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Demo"><span class="nav-number">3.</span> <span class="nav-text">使用Demo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Collections(数组，对象以及类数组可以调用的方法)"><span class="nav-number">3.1.</span> <span class="nav-text">Collections(数组，对象以及类数组可以调用的方法)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Array_Functions"><span class="nav-number">3.2.</span> <span class="nav-text">Array Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Functions"><span class="nav-number">3.3.</span> <span class="nav-text">Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Objects"><span class="nav-number">3.4.</span> <span class="nav-text">Objects</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UTILITY_FUNCTIONS"><span class="nav-number">3.5.</span> <span class="nav-text">UTILITY FUNCTIONS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Chaining"><span class="nav-number">3.6.</span> <span class="nav-text">Chaining</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OOP"><span class="nav-number">3.7.</span> <span class="nav-text">OOP</span></a></li></ol></li></ol>
+      </div>
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if ($('.post-toc').html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var activeCurrentSelector = '.active-current';
+
+    $(tocSelector)
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass()
+        $currentActiveElement.addClass('active-current');
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass()
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    $('body').scrollspy({ target: tocSelector });
+  });
+</script>
+
+
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

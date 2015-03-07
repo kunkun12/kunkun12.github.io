@@ -1,0 +1,882 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+
+  <title> html5 canvas 2d绘图API 学习总结 // kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              html5 canvas 2d绘图API 学习总结
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-10
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/10/html5-canvas/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/10/html5-canvas/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="基本知识">基本知识</h3><p>canvas本身提供的属性和方法很少 属性有hegight,width(这个属性与通过CSS设置的是不同的),绘图功能主要是存在通过canvas.getContext()返回的上下文中.有个一个toDataUrl()方法, 可以将canvas的转为一定格式的图片。下面主要介绍，context2d里面的方法。之前学过C语言绘图，貌似方法很类似</p>
+<p>获取绘图上下文</p>
+<pre><code><span class="keyword">var</span> context =canvas.getContext(<span class="string">"2d"</span>);
+</code></pre><p>canvas元素绘制图像的时候有两种方法，分别是</p>
+<ul>
+<li>context.fill()//填充</li>
+<li>context.stroke()//绘制边框</li>
+</ul>
+<p>style:在进行图形绘制前，要设置好绘图的样式</p>
+<ul>
+<li>context.fillStyle//填充的样式</li>
+<li>context.strokeStyle//边框样式</li>
+<li>context.lineWidth//图形边框宽度</li>
+</ul>
+<p>颜色的表示方式:</p>
+<ul>
+<li>直接用颜色名称:”red” “green” “blue”</li>
+<li>十六进制颜色值: “#EEEEFF”</li>
+<li>rgb(1-255,1-255,1-255)</li>
+<li>rgba(1-255,1-255,1-255,透明度)<br>默认情况下坐标原点为canvas的左上角，水平向右为X</li>
+</ul>
+<h5 id="绘制矩形_context-fillRect(x,y,width,height)_strokeRect(x,y,width,height)">绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)</h5><ul>
+<li><em>x:矩形起点横坐标</em></li>
+<li><em>y:矩形起点纵坐标</em></li>
+<li><em>width:矩形长度</em></li>
+<li><em>height:矩形高度</em></li>
+</ul>
+<p><a href="http://kunkun12.github.io/CanvasDemo/Rect.html" target="_blank" rel="external">查看Demo</a></p>
+<h5 id="清除矩形区域_context-clearRect(x,y,width,height)">清除矩形区域 context.clearRect(x,y,width,height)</h5><ul>
+<li><em>x:清除矩形起点横坐标</em></li>
+<li><em>y:清除矩形起点纵坐标</em></li>
+<li><em>width:清除矩形长度</em></li>
+<li><em>height:清除矩形高度</em></li>
+</ul>
+<p><a href="http://kunkun12.github.io/CanvasDemo/clearRect.html" target="_blank" rel="external">查看Demo</a></p>
+<h5 id="圆弧context-arc(x,_y,_radius,_starAngle,endAngle,_anticlockwise)">圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)</h5><ul>
+<li><em>x:圆心的x坐标</em></li>
+<li><em>y:圆心的y坐标</em></li>
+<li><em>straAngle:开始角度</em></li>
+<li><em>endAngle:结束角度</em></li>
+<li><p><em>anticlockwise:是否逆时针（true）为逆时针，(false)为顺时针</em></p>
+<p><a href="http://kunkun12.com/CanvasDemo/drawline.html" target="_blank" rel="external">查看demo</a></p>
+</li>
+</ul>
+<h5 id="路径_context-beginPath()_context-closePath()">路径  context.beginPath()    context.closePath()</h5><ul>
+<li>系统默认在绘制第一个路径的开始点为beginPath</li>
+<li>如果画完前面的路径没有重新指定beginPath，那么画第其他路径的时候会将前面最近指定的beginPath后的全部路径重新绘制</li>
+<li><p>每次调用context.fill（）的时候会自动把当次绘制的路径的开始点和结束点相连，接着填充封闭的部分</p>
+<p><a href="http://kunkun12.github.io/CanvasDemo/closepath.html" target="_blank" rel="external">查看demo</a></p>
+<h4 id="绘制线段_context-moveTo(x,y)_context-lineTo(x,y)">绘制线段 context.moveTo(x,y)  context.lineTo(x,y)</h4></li>
+<li><p><em>x:x坐标</em></p>
+</li>
+<li><em>y:y坐标</em></li>
+</ul>
+<p>每次画线都从moveTo的点到lineTo的点，<br>如果没有moveTo那么第一次lineTo的效果和moveTo一样，<br>每次lineTo后如果没有moveTo，那么下次lineTo的开始点为前一次lineTo的结束点</p>
+<p><a href="http://kunkun12.github.io/CanvasDemo/drawarc.html" target="_blank" rel="external">查看demo</a></p>
+<h5 id="绘制贝塞尔曲线（贝济埃、bezier）_context-bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)">绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)</h5><ul>
+<li><em>cp1x:第一个控制点x坐标</em></li>
+<li><em>cp1y:第一个控制点y坐标</em></li>
+<li><em>cp2y:第二个控制点y坐标</em></li>
+<li><em>x:终点x坐标</em></li>
+<li><em>y:终点y坐标</em></li>
+</ul>
+<h5 id="绘制二次样条曲线_context-quadraticCurveTo(qcpx,qcpy,qx,qy)">绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)</h5><ul>
+<li><em>qcpx:二次样条曲线控制点x坐标</em></li>
+<li><em>qcpy:二次样条曲线控制点y坐标</em></li>
+<li><em>qx:二次样条曲线终点x坐标</em></li>
+<li><em>qy:二次样条曲线终点y坐标</em></li>
+</ul>
+<p><a href="http://kunkun12.github.io/CanvasDemo/bezier.html" target="_blank" rel="external">查看demo</a></p>
+<h5 id="线性渐变_var_lg=_context-createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg-addColorStop(offset,color)">线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)</h5><ul>
+<li><em>xstart:渐变开始点x坐标</em></li>
+<li><em>ystart:渐变开始点y坐标</em></li>
+<li><em>xEnd:渐变结束点x坐标</em></li>
+<li><em>yEnd:渐变结束点y坐标</em></li>
+<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
+<li><em>color:绘制时要使用的颜色</em></li>
+</ul>
+<h5 id="径向渐变（发散）var_rg=context-createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)">径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)</h5><h5 id="径向渐变（发散）颜色rg-addColorStop(offset,color)">径向渐变（发散）颜色rg.addColorStop(offset,color)</h5><ul>
+<li><em>xStart:发散开始圆心x坐标</em></li>
+<li><em>yStart:发散开始圆心y坐标</em></li>
+<li><em>radiusStart:发散开始圆的半径</em></li>
+<li><em>xEnd:发散结束圆心的x坐标</em></li>
+<li><em>yEnd:发散结束圆心的y坐标</em></li>
+<li><em>radiusEnd:发散结束圆的半径</em></li>
+<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
+<li><em>color:绘制时要使用的颜色</em></li>
+</ul>
+<p><a href="http://kunkun12.github.io/CanvasDemo/Gradient.html" target="_blank" rel="external">渐变Demo</a></p>
+<h5 id="图形变换(坐标系变换)">图形变换(坐标系变换)</h5><p>1、平移context.translate(x,y)</p>
+<ul>
+<li>x:坐标原点向x轴方向平移x</li>
+<li>y:坐标原点向y轴方向平移y</li>
+</ul>
+<p>2、缩放context.scale(x,y)</p>
+<ul>
+<li>x:x坐标轴按x比例缩放</li>
+<li>y:y坐标轴按y比例缩放</li>
+</ul>
+<p>3、旋转context.rotate(angle)</p>
+<ul>
+<li>angle:坐标轴旋转x角度（角度变化模型和画圆的模型一样)</li>
+</ul>
+<h5 id="矩阵变换_context-transform(m11,m12,m21,m22,dx,dy)">矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)</h5><p> 所谓的矩阵变换其实是context内实现平移，缩放，旋转的一种机制,他的主要原理就是矩阵相乘<br><a href="http://kunkun12.github.io/CanvasDemo/transform.html" target="_blank" rel="external">参见demo</a></p>
+<p>图形组合 context.globalCompositeOperation=type</p>
+<p>图形组合就是两个图形相互叠加了图形的表现形式,是后画的覆盖掉先画的呢，还是相互重叠的部分不显示等等，至于怎么显示就取决于type的值了<br>type：</p>
+<pre><code>source-over（默认值）:在原有图形上绘制新图形
+
+destination-over:在原有图形下绘制新图形
+
+source-<span class="keyword">in</span>:显示原有图形和新图形的交集，新图形在上，所以颜色为新图形的颜色
+
+destination-<span class="keyword">in</span>:显示原有图形和新图形的交集，原有图形在上，所以颜色为原有图形的颜色
+
+source-<span class="keyword">out</span>:只显示新图形非交集部分
+
+destination-<span class="keyword">out</span>:只显示原有图形非交集部分
+
+source-atop:显示原有图形和交集部分，新图形在上，所以交集部分的颜色为新图形的颜色
+
+destination-atop:显示新图形和交集部分，新图形在下，所以交集部分的颜色为原有图形的颜色
+
+<span class="label">lighter:</span>原有图形和新图形都显示，交集部分做颜色叠加
+
+<span class="label">xor:</span>重叠飞部分不现实
+
+<span class="label">copy:</span>只显示新图形
+</code></pre><h5 id="给图形绘制阴影">给图形绘制阴影</h5><ul>
+<li>context.shadowOffsetX :阴影的横向位移量（默认值为0）</li>
+<li>context.shadowOffsetY :阴影的纵向位移量（默认值为0）</li>
+<li>context.shadowColor :阴影的颜色</li>
+<li>context.shadowBlur :阴影的模糊范围（值越大越模糊）</li>
+</ul>
+<h5 id="绘制图像">绘制图像</h5><ul>
+<li><p>绘图：context.drawImage</p>
+</li>
+<li><p>图像平铺：context.createPattern(image,type)</p>
+</li>
+<li><p>图像裁剪：context.clip()</p>
+</li>
+<li><p>像素处理：var imagedata=context.getImageData(sx,sy,sw,sh)</p>
+</li>
+<li><p>设置像素颜色：context.putImageData(imagedata,dx,dy,dirtyX,dirtyY,dirtyWidth,dirtyHeight)</p>
+</li>
+</ul>
+<h5 id="绘制文字">绘制文字</h5><ul>
+<li>填充文字：context.fillText(text,x,y)  </li>
+<li><p>绘制文字轮廓 context.strokeText(text,x,y) </p>
+</li>
+<li><p>text:要绘制的文字</p>
+</li>
+<li>x:文字起点的x坐标轴</li>
+<li>y:文字起点的y坐标轴</li>
+<li>context.font:设置字体样式</li>
+<li>context.textAlign:水平对齐方式<pre><code><span class="operator"><span class="keyword">start</span>、<span class="keyword">end</span>、<span class="keyword">right</span>、center</span>
+</code></pre></li>
+<li>context.textBaseline:垂直对齐方式：top、hanging、middle、alphabetic、ideographic、bottom</li>
+</ul>
+<h5 id="保存和恢复上下文状态，主要包括坐标系，裁剪区域等">保存和恢复上下文状态，主要包括坐标系，裁剪区域等</h5><ul>
+<li>保存：context.save()</li>
+<li>恢复：context.restore()</li>
+</ul>
+<h5 id="保存文件_canvas-toDataURL(MIME)">保存文件  canvas.toDataURL(MIME)</h5><p>在canvas中绘出的图片只是canvas标签而已，并非是真正的图片，是不能右键，另存为的，我们可以利用canvas.toDataURL()这个方法把canvas绘制的图形生成一幅图片，生成图片后，就能对图片进行相应的操作了。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+
+
+
+  
+    <div class="comments" id="comments">
+      
+        <div class="ds-thread" data-thread-key="2014/03/10/html5-canvas/"
+             data-title="html5 canvas 2d绘图API 学习总结" data-url="http://kunkun12.com/2014/03/10/html5-canvas/">
+        </div>
+
+      
+    </div>
+  
+
+          </div>
+
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview">
+          站点概览
+        </li>
+      </ul>
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/your-user-name">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+      <div class="post-toc sidebar-panel-active">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本知识"><span class="nav-number">1.</span> <span class="nav-text">基本知识</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#绘制矩形_context-fillRect(x,y,width,height)_strokeRect(x,y,width,height)"><span class="nav-number">1.0.1.</span> <span class="nav-text">绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#清除矩形区域_context-clearRect(x,y,width,height)"><span class="nav-number">1.0.2.</span> <span class="nav-text">清除矩形区域 context.clearRect(x,y,width,height)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#圆弧context-arc(x,_y,_radius,_starAngle,endAngle,_anticlockwise)"><span class="nav-number">1.0.3.</span> <span class="nav-text">圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#路径_context-beginPath()_context-closePath()"><span class="nav-number">1.0.4.</span> <span class="nav-text">路径  context.beginPath()    context.closePath()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制线段_context-moveTo(x,y)_context-lineTo(x,y)"><span class="nav-number">1.1.</span> <span class="nav-text">绘制线段 context.moveTo(x,y)  context.lineTo(x,y)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#绘制贝塞尔曲线（贝济埃、bezier）_context-bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)"><span class="nav-number">1.1.1.</span> <span class="nav-text">绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#绘制二次样条曲线_context-quadraticCurveTo(qcpx,qcpy,qx,qy)"><span class="nav-number">1.1.2.</span> <span class="nav-text">绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#线性渐变_var_lg=_context-createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg-addColorStop(offset,color)"><span class="nav-number">1.1.3.</span> <span class="nav-text">线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#径向渐变（发散）var_rg=context-createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)"><span class="nav-number">1.1.4.</span> <span class="nav-text">径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#径向渐变（发散）颜色rg-addColorStop(offset,color)"><span class="nav-number">1.1.5.</span> <span class="nav-text">径向渐变（发散）颜色rg.addColorStop(offset,color)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图形变换(坐标系变换)"><span class="nav-number">1.1.6.</span> <span class="nav-text">图形变换(坐标系变换)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#矩阵变换_context-transform(m11,m12,m21,m22,dx,dy)"><span class="nav-number">1.1.7.</span> <span class="nav-text">矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#给图形绘制阴影"><span class="nav-number">1.1.8.</span> <span class="nav-text">给图形绘制阴影</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#绘制图像"><span class="nav-number">1.1.9.</span> <span class="nav-text">绘制图像</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#绘制文字"><span class="nav-number">1.1.10.</span> <span class="nav-text">绘制文字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#保存和恢复上下文状态，主要包括坐标系，裁剪区域等"><span class="nav-number">1.1.11.</span> <span class="nav-text">保存和恢复上下文状态，主要包括坐标系，裁剪区域等</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#保存文件_canvas-toDataURL(MIME)"><span class="nav-number">1.1.12.</span> <span class="nav-text">保存文件  canvas.toDataURL(MIME)</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if ($('.post-toc').html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var activeCurrentSelector = '.active-current';
+
+    $(tocSelector)
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass()
+        $currentActiveElement.addClass('active-current');
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass()
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    $('body').scrollspy({ target: tocSelector });
+  });
+</script>
+
+
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

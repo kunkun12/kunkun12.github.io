@@ -1,0 +1,1338 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/12/18/dojo-Object-Store/">
+                dojo统一的数据访问接口——dojo Oject store API
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-12-17
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/12/18/dojo-Object-Store/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/18/dojo-Object-Store/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h2 id="关于dojo中统一数据访问接口">关于dojo中统一数据访问接口</h2><p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
+<blockquote>
+<p>数据的提供者不用再关心数据如何被展示，以及数据的使用者不用关心数据来自于哪里。通过接口（协议）来实现职责的分离，即使同一个人来完成数据的获取以及展示，也要将数据的获取与展示做到分离，因为这种松散的耦合 也方便系统的维护。</p>
+</blockquote>
+<p>说起dojo 数据访问API我们之前会使用<strong>dojo data</strong> 里面的的东东 也就是旗下的 如下四类接口</p>
+<ul>
+<li><code>Dojo.data.api.read</code> 提供读取数据的功能，同时也支持对数据集的搜索，排序，和过滤。</li>
+<li><code>Dojo.data.api.write</code> 提供创建，删除，更新数据项功能</li>
+<li><code>Dojo.data.api.identify</code> 提供基于唯一的标识符来定位和查询数据项的功能。</li>
+<li><code>Dojo.data.api.notification</code> 提供当 datastore的数据项改变等事件发生时通知侦听器的功能。最基本的事件包括数据的创建，修改和删除等。这也是Dojo.data的一项很重要的功能，通过此接口可以将数据展现层与数据中间层更好的分离开来。</li>
+</ul>
+<p>以上只是<strong>dojo/data</strong>接口的定义,对于不同的数据格式格式读取也有具体的实现，如果上面是接口的话 下面的就是类的具体实现了。</p>
+<ul>
+<li><code>dojo.data.ItemFileReadStore</code>    用于JSON数据的只读的DataStore。</li>
+<li><code>dojo.data.ItemFileWriteStore</code>    用于JSON数据的可读写的DataStore</li>
+<li><code>dojox.data.CsvStore</code>    用于CVS数据的只读的DataStore</li>
+<li><code>dojox.data.OpmlStore</code>用于OPML（Outline Processor Markup Language）数据的只读的DataStore</li>
+<li><code>dojox.data.HtmlTableStore</code>    用于HTML table数据的只读的DataStore</li>
+<li><code>dojox.data.XmlStore</code>    用于XML数据的可读写的DataStore</li>
+<li><code>dojox.data.FlickrStore</code>    用于读取web服务flickr.com提供的数据</li>
+<li><code>dojox.data.QueryReadStore</code>    用于读取由服务器端提供的JSON数据</li>
+</ul>
+<p>具体内容可以参见<br><a href="http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/</a>不错的文章好好读读</p>
+<p>基本以上能满足所有对数据操作的需求。。如果你已经读完了上面的这篇文章，或者对dojo data API有所了解，你可能会发现这些对数据的操作非常滴麻烦，虽然能达到了接口的统一，但是繁琐的交互接口也不利于Widget之间的通信，关键是开发者用着不爽，好消息是，这些接口的确已经被淘汰了。。于是引入今天的主题- <em>Dojo Object Store API</em>。</p>
+<p>那么首先区分一下两个名词,旧的数据访问接口是 <code>dojo data store API</code> ，就是上面介绍的那些东西，在dojo目录的 dojo/data 里面，建议以后不要用这里面的东西来存取东西，也就是说 不要再用 <code>dojo/data/ItemFileReadStore</code> <code>dojo/data/ItemFileWriteStore</code>这两个东西了。。。新的数据统一访问接口是     <code>dojo Object Store</code> 。。具体的接口以及实现在源码（文档）目录的 dojo/store里面，请注意区分</p>
+<h2 id="关于dojo_Object_store_API。">关于dojo Object store API。</h2><p>翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于<strong>HTML5 object store</strong> API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。</p>
+<h2 id="dojo对象存储API背后的几个理念">dojo对象存储API背后的几个理念</h2><ul>
+<li>数据与UI关注点分离，让我们将数据与展现关注点进行分离，并且方便数据与部件之间独立的实现。</li>
+<li>保持简单 可以仅仅地创建一个具有query和get方法的对象来创建一个简单的数据存储对象，如果要提供创建一个新的对象功能，可以增加一个add方法，如果要增加更新对象的功能 只需要增加一个put方法</li>
+<li>基于纯的javascript对象 dojo store api 使用纯的JS对象即{}，使用get返回一个对象或者使用query来返回一个对象的数据，这些对象可以像普通的JS对象一样被操做，比如可以通过点直接访问查询结果对象的属性，或者可以用 <em>for  in</em> 来循环便利对象的属性。如果要保存/更新对象可以将一个更新过的纯JS对象传递给put方法即可。</li>
+<li>基于Promise 更好地来处理异步的存储。通过返回<em>promise</em> 来做到异步和同步存取的统一</li>
+<li>独立简单的功能实现 不需要任何方法来设置存储对象的功能，如果你想知道是否可以添加一个新的对象到存储对象中，只需要检查他是否具有add方法，如果想知道它是否支持查询，只需要检查是否有query方法；如果只是想实现一个只读的存储对象，只需要实现读的方法(<code>get</code>, <code>query</code>, <code>getIdentity</code>)</li>
+<li>功能的层次性增强 通过分层的功能，就可以基于一个轻量级的，简单的存储，通过插件对原始的store进行包装来增加store的功能。比如Dojo中提供了（<code>dojo/store/Cache</code>）包装数据存储对象实现数据缓存，用来提高性能。<code>dojo/store/Observable</code>包装数据存储对象用来实现对对象变化的检测，而这并不是必须的。这种插件机制 让我们的原始的存储对象更简单轻量。</li>
+</ul>
+<h3 id="关于dojo_Object_API中的方法以及属性。">关于dojo Object API中的方法以及属性。</h3><p>下面的这些方法都是可选的。实现的时候可以根据需要来提供不同的方法。任何一个方法除了特别指明意外都可以返回一个promise 来更好滴完成异步的操作。（这里与W3C中 IndexDB api 有些出入）可以到<em>dojo/store/api/store</em>里面来查看这些接口具体的方法和属性</p>
+<ul>
+<li><code>get(id)</code> 查询方法根据唯一标识返回一个对象。</li>
+<li><code>query(query, options)</code> 查询方法 根据查询条件来查询对象。返回一个数据或者promise（可以从then方法里获得查询结果） ，查询结果具有<em>forEach()</em> , <em>map()</em>, <em>filter()</em>, <em>reduce()</em> 方法来让我们，同时返回结果还包括一个total属性来标标识返回结果列表中包含的对象的的个数（当然也可以自己调用length手动获得),第一个参数为查询条件可以为字符串,对象,函数类型,第二个参数是为可选部分，包含三个属性<code>start</code>查询的起始处。<code>count</code>返回结果的最大个数 <code>sort</code> 排序信息,sort为数组类型可以根据多个字段进行排序</li>
+<li><code>put(object, options)</code>保存更新对象。也可以用来增加新对象。第一个参数就是要更新或者增加的对象，</li>
+<li><code>add(object, options)</code> 增加新对象</li>
+<li><code>remove(id)</code> 根据唯一标识来移除对象</li>
+<li><code>getIdentity(object)</code> 获得对象的唯一标识 （这个必须是同步的方法 直接返回结果）</li>
+<li><code>queryEngine(query, options）</code> 构造查询条件</li>
+<li><code>transaction()</code> 开启一个事物 与 数据库的事物理念类似。具有两个方法commit()提交所有的改变 和abort 撤销所有的更新即回滚。</li>
+<li><code>getChildren(object, options)</code> 获取对象的子元素，</li>
+<li><code>getMetadata(object)</code> 获取对象的元数据信息</li>
+</ul>
+<p>另外还包括两个属性</p>
+<ul>
+<li><code>idProperty</code> 指定对象的唯一标识 一旦指定了，构造对象的时候要确保数据的这个字段是唯一的否则会报错</li>
+<li><code>data</code>   原始数据的数组</li>
+</ul>
+<p>以上只是API中的方法，dojo也有对应的类对此进行了实现后面会做具体的介绍。此外为了直观些可以看一下直接画的图<br><a href="http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow" target="_blank" rel="external">http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow</a></p>
+<h3 id="关于返回的对象。">关于返回的对象。</h3><p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
+<h3 id="检测结果集的变化">检测结果集的变化</h3><p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
+<ul>
+<li><p><code>observe(listener, includeObjectUpdates)</code> 第一个参数是一个监听函数函数签名<code>listener(object, removedFrom, insertedInto);</code>第一个参数为变动的对象可能是增加的新对象，修改或者是删除的对象。removedFrom 为删除对象的索引 如果这个值为-1 说明没有对象被删除，可能是发生了增加或者是修改行为。insertedInto 返回被增加对象在结果集中的索引.</p>
+</li>
+<li><p><code>close</code>  如果查询结果集调用colse 方法 ，停止监听这些变化。</p>
+</li>
+</ul>
+<h2 id="关于_dojo/store/Memory">关于 <code>dojo/store/Memory</code></h2><p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
+<ul>
+<li><p><code>dojo/store/Memory</code> 一个简单的内存存储， 是dojo/store API的实现类， 这个是创建 dojo store 非常有用的一个类，特别是小型的数据集，可以用内存的对象数组作为数据源。构造好之后就可以对其进行操作了。</p>
+<p>数据源为<em>PM2.5信息的数据</em> 如下格式的数据</p>
+<pre><code> <span class="keyword">var</span> mydata=[
+    {
+        <span class="string">"aqi"</span>: <span class="number">30</span>, <span class="comment">//空气质量指数（Air Quality Index</span>
+        <span class="string">"aqimsg"</span>: <span class="string">"优"</span>,
+        <span class="string">"collectTime"</span>: <span class="number">1418798880775</span>,
+        <span class="string">"lvmsg"</span>: <span class="string">"lv-good"</span>,
+        <span class="string">"name"</span>: <span class="string">"房山良乡"</span>,
+        <span class="string">"path"</span>: <span class="string">"beijing/fangshanliangxiang"</span>,
+        <span class="string">"source"</span>: <span class="string">"aqicn.org"</span>,
+        <span class="string">"updateTime"</span>: <span class="string">"星期二21点"</span>,
+        <span class="string">"values"</span>: {}
+        },
+        {
+        <span class="string">"aqi"</span>: <span class="number">25</span>,
+        <span class="string">"aqimsg"</span>: <span class="string">"优"</span>,
+        <span class="string">"collectTime"</span>: <span class="number">1418798880775</span>,
+        <span class="string">"lvmsg"</span>: <span class="string">"lv-good"</span>,
+        <span class="string">"name"</span>: <span class="string">"昌平定陵"</span>,
+        <span class="string">"path"</span>: <span class="string">"beijing/changpingdingling"</span>,
+        <span class="string">"source"</span>: <span class="string">"aqicn.org"</span>,
+        <span class="string">"updateTime"</span>: <span class="string">"星期二21点"</span>,
+        <span class="string">"values"</span>: {}
+    }。。。
+    。。。。。由于篇幅这里不全部列出 知道这个格式就行了
+];
+</code></pre></li>
+</ul>
+<p>引入<code>dojo/store/Memory</code> 构造Memory对象</p>
+<pre><code><span class="built_in">require</span>([<span class="string">"dojo/store/Memory"</span>], <span class="function"><span class="keyword">function</span><span class="params">(Memory)</span></span>{
+    mystore = <span class="keyword">new</span> Memory({data: myData,idProperty:<span class="string">'name'</span>});
+    <span class="comment">//注意这里的idProperty，JSON对象的唯一标识 如果不指定默认为"id"字段</span>
+
+});
+</code></pre><h3 id="查询">查询</h3><ul>
+<li><p><em>get</em>根据对象唯一标识来查询一个，返回一个JS对象，查询‘密云镇’的数据</p>
+<pre><code><span class="keyword">var</span> obj1= mystore.<span class="keyword">get</span>(<span class="string">'密云镇'</span>);<span class="comment">//get 跟据唯一标示（idProperty)来查询对象,这里查询 name为 丰台花园的信息</span>
+
+    {
+        <span class="string">"aqi"</span>: <span class="number">23</span>,
+        <span class="string">"aqimsg"</span>: <span class="string">"优"</span>,
+        <span class="string">"collectTime"</span>: <span class="number">1418798880775</span>,
+        <span class="string">"lvmsg"</span>: <span class="string">"lv-good"</span>,
+        <span class="string">"name"</span>: <span class="string">"密云镇"</span>,
+        <span class="string">"path"</span>: <span class="string">"beijing/miyunzhen"</span>,
+        <span class="string">"source"</span>: <span class="string">"aqicn.org"</span>,
+        <span class="string">"updateTime"</span>: <span class="string">"星期二21点"</span>,
+        <span class="string">"values"</span>: {}
+    }
+</code></pre></li>
+</ul>
+<ul>
+<li><p><em>query</em> 根据查询条件来检索对象 返回符合条件的对象数组,查询结果如果参数为空返回所有的数据</p>
+<pre><code><span class="tag">var</span>    alldataarray=mystore.<span class="function"><span class="title">query</span><span class="params">()</span></span>
+</code></pre></li>
+<li><p>查询条件可以为一个对象</p>
+<pre><code> <span class="keyword">var</span>    array2=mystore.query({name:<span class="string">'密云镇'</span>}) <span class="comment">//</span>
+
+<span class="comment">//好吧 再复杂点 查询空气质量指数为 38 并且评级为‘优’的检测点</span>
+ <span class="keyword">var</span>    array3=mystore.query({
+      <span class="string">"aqi"</span>: <span class="number">38</span>,
+      <span class="string">"aqimsg"</span>: <span class="string">"优"</span>
+     });
+
+ <span class="comment">//查询对象还可以为 函数 与 Array.filter类似 实现复杂的查询 或者模糊查询</span>
+ <span class="comment">//查询 api 小于38 </span>
+ <span class="keyword">var</span>    array4=mystore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
+         <span class="keyword">return</span> obj.aqi&lt;<span class="number">38</span>;
+   }
+ );
+</code></pre></li>
+<li><p>还可以把查询函数参数放到store 对象上作为store的一个方法,在调用query的时候写入方法的名字</p>
+<pre><code> mystore.myquerymethod=<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
+     <span class="keyword">return</span> obj.aqi&lt;<span class="number">38</span>;
+ };
+   <span class="keyword">var</span> array5=mystore.query(<span class="string">'myquerymethod'</span>);
+<span class="comment">//console.log(array5);</span>
+</code></pre></li>
+</ul>
+<blockquote>
+<p>这样有什么好处呢？？个人认为这种情况能很方便把查询条件缓存下来，在其他的地方下次查询方便使用，并且可以给查询方法取有意义的名字 比如增加个查询方法 查询评级为优的检测站点 </p>
+</blockquote>
+<pre><code>mystore.getgoodstation=unction(obj){
+     <span class="keyword">return</span> obj.aqimsg===<span class="string">'优'</span>;
+       };
+mystore.query(<span class="string">'getgoodstation'</span>);
+</code></pre><ul>
+<li>更复杂的查询</li>
+</ul>
+<p>查询条件：空气质量指数在38-50之间的检测点,然后根据aqi从大到小排序，从第三个开始返回，返回的最大个数3</p>
+<pre><code> <span class="keyword">var</span> result6 =mystore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
+   <span class="keyword">return</span> obj.aqi&gt;<span class="number">38</span>&amp;&amp;obj.aqi&lt;<span class="number">50</span>
+ },{
+     start:<span class="number">3</span>,
+     count:<span class="number">3</span>,          
+   sort:[{
+     attribute:<span class="string">'aqi'</span>,
+     descending: <span class="literal">true</span> <span class="comment">//为ture 表示从大到小，为false 表示从小到大</span>
+   }]
+ }); 
+
+result6.forEach(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>{
+  <span class="built_in">console</span>.log(a.name)
+})
+</code></pre><blockquote>
+<p>说明：在query的结果集中 有个total属性，这个是满足条件的个数。即满足query的 第一个参数的对象的个数，在query第二个参数中，如果不包含start和count属性的话，则total等于最终结果集的个数即length==total</p>
+</blockquote>
+<p>因为返回的数组具有<em>forEach，fitler,map</em>等方法，方便对结果进一步处理</p>
+<pre><code>array6.forEach(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>{
+  <span class="built_in">console</span>.log(a.name)
+})
+</code></pre><p>关于查询结果集的接口定义 可以查阅 <code>dojo/store/api/Store.QueryResults</code> ,如果是异步查询的话 query 会返回一个promise ，即他会拥有一个then方法，从callback里面可以获取查询结果。`比如</p>
+<pre><code>query().<span class="keyword">then</span>(<span class="function"><span class="keyword">function</span><span class="params">(data)</span><span class="comment">{
+    console.log(data);
+}</span>);</span>
+</code></pre><p>在实际的实现中<code>dojo/store/Memory</code> 是对内存中数据的操作是<em>同步</em>的，而<code>dojo/store/JsonRest</code>则是<em>异步</em>的。</p>
+<h3 id="修改对象的属性很简单">修改对象的属性很简单</h3><pre><code><span class="keyword">var</span> array7 =mystore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
+        <span class="keyword">return</span> obj.name==<span class="string">"密云镇"</span>
+});  
+ array7.forEach(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>{
+   <span class="built_in">console</span>.log(a.aqi)
+   a.aqi=<span class="number">100</span> <span class="comment">//修改赋值 没有调用put方法</span>
+ });
+
+<span class="keyword">var</span> array8 =mystore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
+      <span class="keyword">return</span> obj.name==<span class="string">"密云镇"</span>
+})       
+ array8.forEach(<span class="function"><span class="keyword">function</span><span class="params">(b)</span></span>{
+  <span class="built_in">console</span>.log(b.aqi)<span class="comment">//100 说明已经修改了</span>
+ })
+</code></pre><p>可是说好的修改用put呢??? 好吧，JS是引用传递的,查询到的对象是JS中的普通对象。。。对象属性直接赋值就能实现修改了，</p>
+<pre><code><span class="keyword">var</span> objmiyun= mystore.<span class="keyword">get</span>(<span class="string">'密云镇'</span>);
+objmiyun.aqi=<span class="number">10</span>;      
+<span class="keyword">var</span> objmiyun1= mystore.<span class="keyword">get</span>(<span class="string">'密云镇'</span>);
+console.log(objmiyun.aqi)<span class="comment">//10</span>
+console.log(objmiyun===objmiyun1);<span class="comment">//为true 说明两次get返回的是同一个对象的引用</span>
+</code></pre><p>那么通过query 查询到的又是如此呢</p>
+<pre><code> mystore.getmiyun=<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
+        <span class="keyword">return</span> obj.name===<span class="string">'密云镇'</span>;
+ };
+
+<span class="keyword">var</span> arraym3= mystore.query(<span class="string">"getmiyun"</span>);
+<span class="keyword">var</span> arraym4= mystore.query(<span class="string">"getmiyun"</span>);
+<span class="built_in">console</span>.log(arraym3[<span class="number">0</span>]===arraym4[<span class="number">0</span>])<span class="comment">//true</span>
+<span class="built_in">console</span>.log(arraym3[<span class="number">0</span>]===mystore.data[<span class="number">1</span>])<span class="comment">//true</span>
+</code></pre><p>综上不管是通过get还是query来查询，得到的对象都是原始数据的引用。所以修改很easy了</p>
+<blockquote>
+<p>注意：原则上说我们调用一下put方法来标识更新对象。<code>store.put(obj)</code> 这样如果通过<code>dojo/store/Observable</code> 包装的话 监听函数才能监听的到.</p>
+</blockquote>
+<h3 id="删除">删除</h3><p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
+<pre><code>store.remove(<span class="property">id</span>);
+</code></pre><blockquote>
+<p>其实感觉删除的方法设计不好，删除的参数只能是唯一标识，却不能是根据查询条件来删除。。。也无法达到批量删除的目的。。感觉如果参数为Obj的查询参数类型，以及唯一标识数组类型 就更好了。。</p>
+</blockquote>
+<p>另外更新数据源可以使用 store.setData方法。</p>
+<h3 id="dojo/store/JsonRest"><code>dojo/store/JsonRest</code></h3><p><code>dojo/store/JsonRest</code>(与dojox里面的JsonRest不同) 也是dojo Object storeAPI的实现，与<em>Memory</em>不同的是，<em>Memory</em>的数据源存在内存中，而JSONRest的数据源是远程的JSON，JsonRest 实现了对标准Rest接口访问的封装，JSONRest非常适合大量数据的展示(数据存在远端，分页异步获取等来降低性能的损耗)，上面已经提到JSONrest 所有的操作都是以promise形式返回的。JsonRest object store 与服务端交互的方式与<code>dojox.data.JsonRestStore</code>类似，但是<code>dojo/store/JsonRest</code>是基于新的<em>dojo Object store APi </em>简单方便使用的理念，进行重新设计，并做出了很大的简化。只需要提供一个url 既可以构造一个<code>dojo/store/JsonRest</code>。</p>
+<p><em>JsonRest</em> 主要干了一件事 就是在不同的方法里面发送不同的类型的http请求，最终完成了服务端数据的CURD（对应的请求类型为get，put，post，delete。使用JSONrest的难点就是服务端必须是标准的Rest风格的。因此要求服务的编写者对Rest有一定的了解，同时要求返回的格式必须为JSON，那么首先要了解前端发出的请求格式。这里假设构造好了一个JSONRest</p>
+<pre><code>require([<span class="string">'dojo/store/JsonRest'</span>, <span class="string">"dojo/domReady!"</span>], <span class="function"><span class="keyword">function</span><span class="params">(JsonRest)</span> </span>{     
+        jsonreststore = <span class="keyword">new</span> JsonRest({target:<span class="string">"/Data/"</span>});
+
+        jsonreststore.<span class="keyword">get</span>(<span class="string">"some-id"</span>).then(<span class="function"><span class="keyword">function</span><span class="params">(someObject)</span></span>{
+
+        });
+});
+</code></pre><p>假设服务的基地址为 /Data/</p>
+<ul>
+<li><code>get(&quot;someid&quot;)</code>  向<code>/Data/someid</code> 发送get请求，返回promise</li>
+<li><p><code>query(query,options)</code>;//query 为 string或者object,options 为 object 可选</p>
+</li>
+<li><p><code>query(&quot;someid&quot;)</code> 如果query的参数为类型 发送请求同上 即向<code>/Data/someid</code> 发送get请求，返回promise</p>
+</li>
+<li><p><code>query({name:&#39;hello&#39;,aqi:20})</code>,如果query的参数为Object类型，则会使用 dojo/io-query::objectToQuery()将Object转为查询字符串的形式添加到URL上，即/Data/?name=hello&amp;aqi=20 发送get请求。如果包含两个参数，第二个参数也会被序列化为查询字符串添加到url上，</p>
+<p>   query({name:’hello’,aqi:20}, {</p>
+<pre><code>   <span class="keyword">count</span>: <span class="number">10</span>,
+  <span class="keyword">sort</span>: [
+    { attribute: <span class="string">"aqi"</span> }
+  ]
+});
+</code></pre></li>
+</ul>
+<p>发送的get请求的URL为<code>/Data/?name=hello&amp;count=10&amp;aqi=20&amp;sort(+aqi)</code> sort信息中+表示升序 -表示降序</p>
+<p><strong>put(object, options);</strong></p>
+<ul>
+<li><code>put({&quot;aqi&quot;:30,&quot;aqimsg&quot;: &quot;优&quot;})</code>//<code>向/Data/</code>发送一个Post请求，参数放在在body里面，表示增加元素</li>
+<li><code>put({&quot;aqi&quot;:30,&quot;aqimsg&quot;: &quot;优&quot;},{id:11});</code>//两个参数 第二个指定id,向/Data/11 发送put请求，表示更新元素{“aqi”:30,”aqimsg”: “优”}在请求body里面. put方法的第二参数如果包含<em>overwrite</em>并设置为<em>true</em>，请求头中会包含 <code>If- Match: *</code> 如果设置为false请求头中包含<code>If- None-Match: *</code>，如果第二个参数中包含<em>incrementa</em>并设置为<em>true</em>，发送Post请求表示增加。</li>
+<li><code>add(obj,options)</code> 同上，特别之处是 <em>options.overwrite</em> 始终被设置为<em>false</em>，即请求头中始终包含·<code>If- None-Match: *</code>通过这种方式来告诉服务器是创建还是更新操作 `关于 if-node-Match 可以参考<a href="http://wuhua.iteye.com/blog/385451" target="_blank" rel="external">http://wuhua.iteye.com/blog/385451</a></li>
+</ul>
+<p><code>remove(&#39;id&#39;)</code> //向 Data/id发送delete请求。</p>
+<p>另外如果要为请求增加header信息，可以在第二个参数里面设置headers字段即可，比如要添加分页信息，如果要为所有的请求统一添加请求header，可以在构造JsonRest对象的构造函数里面设置如</p>
+<pre><code><span class="keyword">var</span> store = <span class="keyword">new</span> JsonRest({
+  target: <span class="string">"/FooObject/"</span>,
+  headers: { <span class="string">"X-Custom-Header"</span>: <span class="string">"Foo"</span> } <span class="comment">// 所有的请求都会包含X-Custom-Header: Foo</span>
+});
+
+store.query({ foo: <span class="string">"value1"</span> }, {
+  headers: { <span class="string">"X-Custom-Header"</span>: <span class="string">"Bar"</span> } <span class="comment">// 仅在本次请求中包含 include X-Custom-Header: Bar instead</span>
+});
+</code></pre><h4 id="JSONREST与分页查询">JSONREST与分页查询</h4><p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
+<pre><code><span class="tag">query</span>(<span class="rules">{
+    <span class="rule"><span class="attribute">aqi</span>:<span class="value"> <span class="number">40</span>
+    </span></span></span>}, <span class="rules">{
+    <span class="rule"><span class="attribute">headers</span>:<span class="value"> {
+        Range: <span class="string">"items=0-24"</span>
+    </span></span></span>}
+});
+</code></pre><p>鉴于http的标准，要求服务端返回的头中包含分页信息 即Content-Range 头例如 <code>Content-Range: items 0-24/66</code> <em>0-24</em>表示实际返回的索引<em>0-24</em>的对象，<em>66</em>表示符合条件的对象的总个数。为啥要这种格式呢，因为这是http协议上就这么说的。</p>
+<blockquote>
+<p>对于使用者来说，<strong>JsonRest</strong>的难点还是后端的实现，后端可以解析http请求的内容<em>（method,querystring，请求头，请求body）</em> 来对CURD做实际的处理。</p>
+</blockquote>
+<h3 id="将异步和同步进行统一处理">将异步和同步进行统一处理</h3><p>上面的<em>MemoryStore</em> 和 <em>JsonRest store</em> 都是实现了<code>dojo Object Store API</code> 具有的方法也基本一致，但是一个重要区别就是<em>MemoryStor</em>e的操作是同步的结果直接返回，而JsonRest操作是异步的，返回的是promise，可以在then方法的回调函数里面获得操作结果，我们可以使用dojo/when 来封装以屏蔽这种差距。不用再关心是同步还是异步的，统一在then方法里面进行处理，比如这里有个store 你不知道他是<em>Memorystore</em>，还是<em>JsonRest store</em>。你关注的是查询里面的数据，可以如下处理</p>
+<pre><code>require([<span class="string">'dojo/when'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(when)</span> </span>{
+  when(store.<span class="keyword">get</span>(id), <span class="function"><span class="keyword">function</span><span class="params">(object)</span></span>{
+
+  });
+  }};
+</code></pre><p>通过这种方式 来达到了操作上的统一，当然你也可以使用其他的方式进行门面封装 ，暴露出来统一的操作方法，既然官方推荐了，我们就暂时用 dojo/when吧。</p>
+<h2 id="包装器wrappers。">包装器wrappers。</h2><p>在dojo里面如果要增强已有的类的话，可以使用包装器进行层次性的增强，类似插件的性质，这种理念能够让我们做到按需的选择，根据不同的功能来选择不同的<code>wrapper</code>类进行包装，以避免不必要的资源浪费。对于dojo/store来说 这里有两个重要的包装器<code>dojo/store/Cache</code> 和<code>dojo/store/Observable</code></p>
+<h3 id="dojo/store/Cache">dojo/store/Cache</h3><p>一个Cache对象主要是用来缓存JsonRest的，将远程端的JsonRest的缓存到本地，避免发重复的查询请求，这样就需要构造一个MemoryStore来存储缓存下来的数据，JsonRest来与远程的数据交互。使用的例子如下</p>
+<pre><code><span class="keyword">require</span>([<span class="string">'dojo/store/Memory'</span>, <span class="string">'dojo/store/JsonRest'</span>, <span class="string">'dojo/store/Cache'</span>],
+    <span class="keyword">function</span> (Memory, JsonRest, Cache) {
+  memoryStore = new Memory({});
+  restStore = new JsonRest({target:<span class="string">"/Data/"</span>});
+  store = new Cache(restStore, memoryStore);
+  <span class="keyword">...</span>
+</code></pre><p>查询所有的数据</p>
+<pre><code><span class="keyword">var</span> results = store.<span class="keyword">query</span>();
+</code></pre><p>查询结果会被缓存到MemoryStore里面，这里我们可以查询数据，来避免不必要的请求</p>
+<pre><code><span class="keyword">object</span> = store.<span class="keyword">get</span>(<span class="string">"some-id"</span>);
+</code></pre><p>如果对store进行更新 删除 增加操作，对应的memoryStore 也会自动发生更新，可以直接访问memoryStore 来查看缓存的数据。</p>
+<h3 id="“dojo/store/Observable”">“dojo/store/Observable”</h3><p><code>dojo/store/Observable</code>包装后的dojo store（只要是实现了dojo/store API 的类都可以用Observable来包装)功能会得到增强—在支持原来的API的基础上 又让查询结果集的变化可以被监听的。通过store.query得到的结果数组（结果集）有一个observe方法（如果是异步的返回的promise也会拥有这个方法），通过这个方法可以监听我们对查询结果集的操作变动情况，注意observe方法存在<em>查询结果</em>的方法中，而不是store中，事实store上会拥有一个notify方法，用于发出广播（这是一个典型的观察者模式），因为我们对数据的操作都是在store上进行的。因此监听查询结果的变动情况。好吧可能还需要解释一下，操作对象（即更新删除增加对象）是在store上进行的。 而observe是在查询结果集中进行的，也就是说如果store中变动的对象符合调用observe的查询结果集当时的查询条件，那么这些变动将会发通知到查询结果集里面，然后查询结果集的observe会监听到。这种通知变化的机制与旧版本的<em>dojo/data</em> 是不一样的。通过这种模式 可以实现数据的变化与UI更新的分离，对于UI组件实现者来说只需要监听查询结果集的变动即可（显示查询结果集中的东西），对于UI组件的使用者来说完全不必关系如何更新UI，只需要对store进行 CURD即可。</p>
+<p>我们的关注的是我们要查询的数据，我们的操作是对store的操作，我们队store操作的时候，store会调用notify方法，如果变化的内容符合查询结果集的查询条件，则结果集的observe会被监听的到。还是上代码吧.</p>
+<p>构建 ObservableStore</p>
+<pre><code><span class="built_in">require</span>([<span class="string">"dojo/store/Memory"</span>, <span class="string">'dojo/store/Observable'</span>,<span class="string">"dojo/domReady!"</span>], <span class="function"><span class="keyword">function</span><span class="params">(    
+                Memory,Observable)</span> </span>{
+
+                memorystore = <span class="keyword">new</span> Memory({
+                    data: pmData,
+                    idProperty: <span class="string">'name'</span>
+                 });
+                observablestore = <span class="keyword">new</span> Observable(store); 
+    });
+</code></pre><p>这里还是以空气质量PM2.5的数据为例吧，查询 aqi 值大于80的站点。值越高空气质量越差</p>
+<pre><code><span class="keyword">var</span> worsedata=observablestore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
+        <span class="keyword">return</span> obj.aqi&gt;<span class="number">80</span>;
+    })
+ worsedata.forEach(<span class="function"><span class="keyword">function</span><span class="params">(d)</span></span>{
+     <span class="built_in">console</span>.log(d.name);
+ })
+</code></pre><p>经过<em>Observable</em> 来包装<em>Memory Store</em>(也可以包装JsonRest)，调用query之后的结果集（resultset中）拥有一个observe方法，接口的定义格式如下</p>
+<pre><code>resultSet.observe<span class="comment">(listener, includeObjectUpdates)</span>;
+</code></pre><p>第一个参数为监听器，一个毁掉函数，接受三个参数 <code>listener(object, removedFrom, insertedInto)</code>;</p>
+<ul>
+<li><code>object</code> 被操作（修改，删除，增加）的对象</li>
+<li><code>removedFrom</code>  表示object在操作之前在查询结果集中的旧的索引位置，如果为-1 表示改对象之前不在结果集中（不符合查询条件），现在符合条件的对象增加了（可能是store中创建了新符合查询条件的对象，也可能是原来不符合查询条件的对象进行修改之后满足了条件，总之我们的关注点是查询结果集 比如 以上面的查询条件来说有个<code>aqi大于80</code>的对象被增加到了store中 或者 store中一个aqi原来为75的修改成了 aqi为85（ 满足了 <code>aqi大于80</code>这个条件了）。</li>
+<li><code>insertedInto</code> 表示object在结果集新的索引。如果为-1，表示object不在当前结果集中了，被从查询结果集中移除了。可能是被删除，也可能对象进行了修改，比如 有个<code>aqi大于80</code>的对象从store中被删除了， 或者 store中一个aqi原来为85的修改成了 aqi为75（ 不在满足 <code>aqi大于80</code>这个条件了）。</li>
+</ul>
+<blockquote>
+<p>个人感觉 把<em>removedFrom</em>和<em>insertedInto</em>  分别改为 oldIndex和newIndex更适合。说白了就是发生变化的对象在变化前后在结果集中的索引位置。</p>
+</blockquote>
+<p>另外observe 还有个参数<em>includeObjectUpdates</em> 表示是否监听查询结果集中对象的更新跟新，但是这种更新之后对象依然符合查询条件，比如上面的  <code>aqi大于80</code>中有个 aqi为 82的对象 修改为aqi 为85，这种情况下，没有影响到查询结果集的个数，如果<em>includeObjectUpdates </em>设置为false或者不设置的话，这种变化是无法被监听到的，如果设置为true的话 就可以了。调整元素的顺序也是如此。如果想监听查询结果集的变化的话 建议设置为true吧。</p>
+<p>对于listener来说 我们可以根据<em>removedFrom和insertedInto</em> 来判断进行了什么操作</p>
+<ul>
+<li><code>removedFrom===-1</code>， 新增了符合查询条件的元素，此时insertedInto不可能为-1 insertedInto为新增元素的索引位置，需要UI中新增一项</li>
+<li><code>insertedInto===-1</code> 符合查询条件的元素被移除，此时removedFrom不可能为-1，removedFrom代表查询结果集中元素被移除前在结果集中的索引。UI需要UI中移除相应的项</li>
+<li><code>removedFrom===insertedInto</code> 且大于-1 ，结果集中的元素发生了更新 需要UI对应的项进行更新</li>
+</ul>
+<p>记住我们关注点是<code>查询结果集</code>即符合查询条件的对象，对store的操作只有让查询结果集发生变化（能让查询结果集增加或者修改）listener才会触发。一个元素从查询结果集中被移除 不一定从store上移除，相反如果结果集中增加了元素也不一定是store上新增的对象。而我们关注点是查询结果集，虽然我们的操作是在store上进行的。这种变动会直接反应到查询结果上面。因此Observalstore中的查询结果集 会随着store中的数据的变化做相应的更新。</p>
+<p>继续看代码吧 接着上面的例子</p>
+<pre><code> worsedata.observe(<span class="function"><span class="keyword">function</span><span class="params">(object, removedFrom, insertedInto)</span></span>{
+    <span class="built_in">console</span>.log(object);
+    <span class="keyword">if</span>(removedFrom===-<span class="number">1</span>){
+        <span class="built_in">console</span>.log(<span class="string">"worsedata中的对象增加，新增对象的索引为"</span>,insertedInto)
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(insertedInto===-<span class="number">1</span>){
+        <span class="built_in">console</span>.log(<span class="string">"worsedata中的对象被移除,删除对象的索引为"</span>,removedFrom)
+    }
+ <span class="keyword">else</span> <span class="keyword">if</span>(removedFrom===insertedInto){
+     <span class="comment">//需要将observe的第二个参数设置为 true</span>
+    <span class="built_in">console</span>.log(<span class="string">"worsedata中的对象的属性发生更新,更新对象的索引为"</span>,removedFrom)
+ }
+worsedata.forEach(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>{
+     <span class="built_in">console</span>.log(<span class="string">"name:"</span>,a.name,<span class="string">'aqi:'</span>,a.aqi);
+    });
+ },<span class="literal">true</span>);
+
+newobj={
+        <span class="string">"aqi"</span>: <span class="number">83</span>,
+        <span class="string">"aqimsg"</span>: <span class="string">"优"</span>,
+        <span class="string">"collectTime"</span>: <span class="number">1418798880775</span>,
+        <span class="string">"lvmsg"</span>: <span class="string">"lv-good"</span>,
+        <span class="string">"name"</span>: <span class="string">"天安门"</span>,
+        <span class="string">"path"</span>: <span class="string">"beijing/fengtaiyungang"</span>,
+        <span class="string">"source"</span>: <span class="string">"aqicn.org"</span>,
+        <span class="string">"updateTime"</span>: <span class="string">"星期二21点"</span>,
+        <span class="string">"values"</span>: {}
+    }
+ observablestore.put(newobj); 
+</code></pre><p> 新增加的这个对象满足worsedata的条件（即aqi大于80）所以上面的函数会监听的到变动，worsedata值也会自动做相应的增加。如果 此前aqi为70的话，则上面的监听函数不会被触发，因为虽然对store增加了元素，但是这不会对我们的之前的查询结果造成影响,关于修改的例子这里就不再举例子了。Observe的这种设计是非常合理</p>
+<p>另外 查询结果集还有个 <code>cancel</code>方法来取消监听（dojo store API 上说的是close ，这里有点出入）</p>
+<h3 id="dojo/store/DataStore">dojo/store/DataStore</h3><p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
+<h2 id="总结">总结</h2><p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
+<p>好吧 <code>dojo/data</code>包里面的已经是老掉牙的东西，<em>dojo Object store</em> 目前的 <code>dojo/store</code>包里的东西也正在被换血。。dojo store的未来 是 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a> 既然如此，可是本博文还有什么用呢，这不是在祸害人么。。。我想估计也没多少人能看到这里。。哈哈，能保持耐心看到这里的就直接看dstore 的源码吧。。</p>
+<blockquote>
+<p>The dstore package is a data infrastructure framework, providing the tools for modelling and interacting with data collections and objects. dstore is designed to work with a variety of data storage mediums, and provide a consistent interface for accessing data across different user interface components. </p>
+</blockquote>
+<p>不翻译了</p>
+<p><strong>dstore</strong> 正在完善中，等<strong>dojo2.0</strong>的时候就会转正了。应该还是在<strong>dojo/store</strong>这个大模块里面</p>
+<p>写了这么多不知道在写什么，希望对你有所帮助 也可以留言 求<strong>轻黑</strong></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Dojo/">
+                #Dojo
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/11/22/dojocdn/">
+                dojocdn
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-11-22
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/11/22/dojocdn/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/22/dojocdn/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>谷歌为dojo提供了CDN服务，可惜我朝无法正常访问，于是自己在国内空间 -@七牛云存储 上部署了一份。。感谢</p>
+<p>dojo的最新版本 1.10.2</p>
+<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js</a></p>
+<p>未压缩版本</p>
+<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js</a></p>
+<p>本目录与dojo源码的目录一致，同时包含了<code>dojo</code> <code>dijit</code> <code>dojox</code> <code>dgrid</code> <code>put-selector</code> <code>xstyle</code> <code>dstore</code> 目录结构如下</p>
+<pre><code>http:<span class="comment">//dojocdn.qiniudn.com/dojo-1.10.2</span>
+                                        <span class="string">|dojo</span>
+                                        <span class="string">|dijit</span>
+                                        <span class="string">|dojox</span>
+                                        <span class="string">|dgrid</span>
+                                        <span class="string">|put-selector</span>
+                                        <span class="string">|xstyle</span>
+                                        <span class="string">|dstore</span>
+</code></pre><p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
+<p>如果要找dojo中的主题</p>
+<h2 id="claro-css">claro.css</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css</a></p>
+<h2 id="tundar主题">tundar主题</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css</a></p>
+<h2 id="soria主题">soria主题</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css</a></p>
+<p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
+<p><a href="http://jsbin.com/gogezu/2/edit?html,js,output" target="_blank" rel="external">以创建grid为例的Demo</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Dojo/">
+                #Dojo
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/11/05/javascript-constructor-and-prototype/">
+                Javascript中的类、对象、以及继承
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-11-05
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/11/05/javascript-constructor-and-prototype/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/05/javascript-constructor-and-prototype/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h2 id="关于对象">关于对象</h2><p>虽然JS不是正宗的面向对象语言，但是“对象”这个词却与JS密不可分，好吧，用专业术语来讲JS是 <em>基于对象</em>的语言，或者是<em>基于原型</em>的语言。那么我们先从对象说起。经过艰难险阻，我们只是想要一个功能强大的对象而已。</p>
+<p>首先说一下空对象，在JS中可以使用以下两种方式定义“空”对象-其实null才是空对象</p>
+<pre><code><span class="keyword">var</span> person={};
+</code></pre><p>或者</p>
+<pre><code><span class="keyword">var</span> person=<span class="keyword">new</span> <span class="built_in">Object</span>(); <span class="comment">// 或者不带括号 person=new Object   </span>
+</code></pre><p>以上两种方式本质是一致的。平时使用的时候推荐 <em>var person={}</em> 其实内部也是通过调用new Object实现的，类似还有数组、正则对象的定义也是如此。</p>
+<pre><code><span class="keyword">var</span> myarray=<span class="keyword">new</span> <span class="built_in">Array</span>();
+<span class="keyword">var</span> myarray1=[];
+</code></pre><p>我们可以把使用{}、[]定义对象或者数组的方式人为是JS引擎给我们提供了快捷方式。毕竟这两个都是最常用的。<br>对象定义好之后我们可以给他动态地添加属性或者方法比如</p>
+<pre><code>   obj.name=<span class="string">'张三'</span>;
+   obj.eat=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+   <span class="built_in">console</span>.log(<span class="string">"吃饭"</span>);
+}
+</code></pre><p>能够动态地给对象增删属性也是动态语言的好处。</p>
+<p>通过 var person={},我们有了一个干净的对象，如此的干净，纯洁，然而是真的如此吗.然而他天生拥有了一些方法 比如 <code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>，<code>constructor</code>等方法。这些对象来自于哪里呢，是的 来自于他的原型。看来纯洁只是表面而已。</p>
+<h3 id="关于原型，原型链。">关于原型，原型链。</h3><p>每个对象都会有个原型（原型对象），自动拥有他的原型的方法，如果想获得一个person对象的原型对象，可以通过<code>Object.getPrototypeOf(person）</code>来获得，还可以通过<code>person.__proto__</code>。原型是对象的隐藏属性,当我们要访问一个对象的属性时候，会首先从对象自身查找,如果对象自身没有这个属性会到他的原型对象<code>__proto__</code>中去找，如果原型对象中还有没有的话的，则会继续到该对象的原型对象的原型对象上去找（原型对象本身也是个对象，所以它自身也会有<code>__proto__</code>属性。。。这样就形成了原型链。。null是原型的链的终点，如果最终没有找到的话则返回undfined。规定undefined没有任何可以访问的属性。如果要访问null的属性则会报错了，比如</p>
+<pre><code><span class="reserved">var</span> person={<span class="attribute">age</span>:<span class="number">12</span>};
+<span class="built_in">console</span>.log(person.age); <span class="regexp">//</span><span class="number">12</span>
+<span class="built_in">console</span>.log(person.Adress);<span class="regexp">//</span>undfined 访问到原型链的终点也没有找到这个属性返回 
+<span class="built_in">console</span>.log(person.Adress.school);<span class="regexp">//</span>抛出异常<span class="attribute">TypeError</span>: Cannot read property <span class="string">'school'</span> <span class="keyword">of</span> <span class="literal">undefined</span> 
+</code></pre><p>上面那个错误提示，是我们在调试中经常遇到的比较经典的错误了，遇到这个问题，我们首先第一反应school的上一级的对象没有得到正确的赋值。的确，person没有这个属性的。</p>
+<p>原型链的本质：<code>__proto__.__proto__.__proto__.....</code>直到原型链的终点null。</p>
+<h2 id="关于函数对象。">关于函数对象。</h2><p>在JS中每个函数都是一个对象，可以像其他普通对象一样,添加属性和方法等，即函数对象。每个函数都继承了<code>Object.prototype</code>的方法.就像上面提到的<code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>,<code>constructor</code>。既然说函数也是对象那么他是有谁构造出来的呢，答案是<code>Function</code>。每个function都是<code>Function</code>的一个实例。或者说每个function都有这同一个构造函数即<code>Function</code>。</p>
+<p>构造器</p>
+<pre><code> <span class="keyword">new</span> <span class="built_in">Function</span> ([arg1[, arg2[, ...argN]],] functionBody)
+
+<span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(x,y)</span></span>{
+     <span class="keyword">return</span> x+y;
+ }
+ Peron.constructor===<span class="built_in">Function</span> <span class="comment">//true</span>
+</code></pre><p>其本质与下面一致 </p>
+<pre><code><span class="keyword">var</span> add1=<span class="keyword">new</span> <span class="function"><span class="keyword">Function</span><span class="params">(<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'return x+y'</span>)</span>;</span>
+</code></pre><p>实际上我们很少使用new Function 来构造一个函数实例，使用Function构造器生成的Function对象是在函数创建时被解析的。这比你使用函数声明(function)并在你的代码中调用低效，因为使用函数语句声明的function是跟其他语句一起解析的。</p>
+<h2 id="关于构造函数，new">关于构造函数，new</h2><p>在学习其他的面向对象语言的时候，我们会定义一个class，然后new一个对象，我们都知道Javascript中的函数同时也可以作为构造函数，也可以通过new生成一个基于这个构造函数的实例，比如<code>Object</code>，<code>Array</code>，<code>Date</code>，<code>RegExp</code>,<code>Error</code>等这些都是ES标准中内置的构造函数。刚才前面的<code>var person=new Object</code>其实是调用的构造函数，例如为了模拟一个类，会这样写</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name;
+}
+</code></pre><p>通过使用<code>new Person</code> 就可以创建一个Person的实例 即对象</p>
+<pre><code><span class="tag">var</span> bob = new <span class="function"><span class="title">Person</span><span class="params">(<span class="string">'Bob'</span>)</span></span>
+<span class="comment">// {name: 'Bob'}</span>
+</code></pre><p>为了确定 <code>bob</code>的确是一个 Person的对象，返回一个对象<code>{name: &#39;Bob&#39;}</code>我们可以调用，当作为构造函数使用的时候这里的this 指向是当前对象实例。</p>
+<pre><code>bob <span class="keyword">instanceof</span> Person
+<span class="comment">//true</span>
+</code></pre><p>（JS中有个潜规则 一般当做构造函数的用的函数首字母会大写）当然我们也可以不加new 直接当做一个普通的函数来调用它</p>
+<pre><code><span class="function"><span class="title">Person</span><span class="params">(<span class="string">'Bob'</span>)</span></span>
+<span class="comment">// undefined</span>
+</code></pre><p>直接调用没有返回值，而在调用的时候 <em>this.name=name</em>这里的this指向的是全局作用域，在浏览器环境下这里的this 为window，于是通过调用Person(‘Bob’) 仅仅是创建了一个全局的变量name </p>
+<pre><code>name
+<span class="comment">// 'Bob'</span>
+<span class="keyword">this</span>==<span class="built_in">window</span>
+<span class="built_in">window</span>.name
+<span class="comment">// Bob</span>
+</code></pre><p>如果我们的全局变量中已经有了一个为name的变量，那么原来的name值将会被覆盖。于是对全局的变量造成了污染，为我们的程序造成隐患</p>
+<p>如果有时候我们要生成对象 却忘记写了new 关键字，又想避免对全局的变量造成污染，我们可以使用这个技巧。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">if</span> (!(<span class="keyword">this</span> <span class="keyword">instanceof</span> Person))
+        <span class="keyword">return</span> <span class="keyword">new</span> Person(name)
+    <span class="keyword">this</span>.name = name
+}
+</code></pre><ul>
+<li>首先检查 <em>this</em> 是不是一个Person的实例 事实上如果是通过new的话 this 则会是 Person的实例</li>
+</ul>
+<p>如果this不是Person实例的话 则通过<code>new Person</code> 来调用 构造函数 并且返回这个实例，</p>
+<p>事实表明如果new的构造函数中return一个值类型的值，那么Javascript将会忽略它,并且创建一个对象实例作为返回，如果我们返回是其他类型的对象呢。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Cat</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Cat(name)
+}
+<span class="keyword">var</span> bob = <span class="keyword">new</span> Person(<span class="string">'Bob'</span>)
+bob <span class="keyword">instanceof</span> Person
+<span class="comment">// false</span>
+bob <span class="keyword">instanceof</span> Cat
+<span class="comment">// true</span>
+</code></pre><p>卧槽,这里我new 的是 <code>Person</code>,却得到了一个猫的实例，贵圈好乱。。如果我们new 的函数返回的事引用类型，我们只能得到该引用类型的对象。。</p>
+<p>比如也可以返回一个数组</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">return</span> [name]
+}
+<span class="keyword">new</span> Person(<span class="string">'Bob'</span>)
+<span class="comment">// ['Bob']</span>
+</code></pre><p>如果返回的是Javascript中的原生类型的值<code>（number、string,boolean,null,undefined data)</code> ，这些将会被忽略。构造函数将会正常地返回一个<em>this</em>的实例</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+    <span class="keyword">return</span> <span class="number">5</span>
+}
+<span class="keyword">new</span> Person(<span class="string">'Bob'</span>)
+<span class="comment">// {name: 'Bob'}</span>
+</code></pre><h3 id="关于Method。">关于Method。</h3><p>刚才说了 函数可以作为构造函数 通过new 来生成一个新的对象，同时函数还有另外一个功能就是作为<em>类</em>的方法。</p>
+<p>如果一个函数属于某一个对象 我们称这个函数是这个对象的方法，如下给构造函数添加方法</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+    <span class="keyword">this</span>.sayHi = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+        <span class="built_in">console</span>.log(<span class="string">'Hi, I am '</span> + <span class="keyword">this</span>.name); 
+    }
+}
+Person.run=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+   <span class="built_in">console</span>.log(<span class="string">'run'</span>);
+}
+<span class="keyword">var</span> bob = <span class="keyword">new</span> Person(<span class="string">'Bob'</span>)
+bob.sayHi()
+<span class="comment">// 'Hi, I am Bob'</span>
+bob.run();<span class="comment">//报错。。。为什么报错了呢。。。因为。。run是Person这个函数对象的属性，其实例是不具有的</span>
+Person.run();
+</code></pre><h2 id="关于prototype_继承">关于prototype 继承</h2><p>通过子类继承父类，子类可以拥有父类中的属性和方法，在JAVA中我们可以通过如下的方式实现继承</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">Mammal</span>{</span>
+    public void breathe(){
+
+    }
+}
+public <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Mammal</span>{</span>
+
+}
+</code></pre><p>但是目前(ESCRIPT 5)来讲 JS中还没有class 和extends字段,其实JS是基于原型的语言，JS可以通过原型来实现继承</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Mammal</span><span class="params">()</span></span>{
+}
+Mammal.prototype.breathe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="string">"呼吸"</span>)
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Cat</span><span class="params">()</span></span>{
+}
+Cat.prototype = <span class="keyword">new</span> Mammal()
+Cat.prototype.constructor = Cat
+<span class="comment">// 现在Cat 拥有了 breath的能力!</span>
+</code></pre><p>刚才说过了每个函数都是一个对象具有了Object实例对象的基本属性，那么实例怎么得到这个这些属性的呢，是的，实例是通过原型获得的，那么这个原型到底在哪呢，答案是：prototype属性。每个函数对象有个prototype属性。prototype是一个对象，作为实例的原型。即实例的原型__proto__为构造函数的prototype属性。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+    <span class="keyword">this</span>.sayHi = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+        <span class="built_in">console</span>.log(<span class="string">'Hi, I am '</span> + <span class="keyword">this</span>.name); 
+    }
+}
+<span class="keyword">var</span> p=<span class="keyword">new</span> Person();
+    p.__proto__===Person.prototype
+</code></pre><p>每个function的prototype对象都有一个constructor属性，默认这个constructor属性指向这个构造函数自身.<br>于是就有</p>
+<pre><code>Person<span class="class">.prototype</span><span class="class">.constructor</span>===Person<span class="comment">//true</span>
+</code></pre><p>因为我们说过了一个对象可以获得其原型上的属性（如果对象自身不存在这个同名属性的话），因此我们很容易获得这个对象的constructor属性。于是。</p>
+<pre><code>Person<span class="class">.prototype</span><span class="class">.constructor</span>===Person<span class="comment">//true</span>
+<span class="tag">p</span>.constructor===Person <span class="comment">//true</span>
+</code></pre><p>三者是指向同一东西即构造函数Person，这里注意区分函数和实例</p>
+<p>最终的对象拥有一系列的属性和方法，有些属性是来自自身（构造函数中通过this.xxx定义的属性属于对象自身的属性），有些事来自原型，每个对象都有一个特别的属性__proto__ 指向这个对象构造函数的prototype,每个原型又有一个__proto__属性，一直向上追溯到Object 直到原型链的终点为null，这样就形成了一个原型链，准确来说一个对象的属性一部分来自对象本身，其余的则来自于原型链</p>
+<ul>
+<li>对象可以定义自身的方法 来覆盖原型中的方法</li>
+</ul>
+<p>默认情况下，构造函数的prototype为Object实例即{}</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Mammal</span><span class="params">()</span></span>{
+}
+Mammal.prototype
+<span class="comment">// Mammal {}</span>
+<span class="keyword">var</span> mammal = <span class="keyword">new</span> Mammal()
+mammal.__proto__ === Mammal.prototype
+<span class="comment">//true</span>
+</code></pre><p>每个function的prototype对象都有一个constructor属性，默认这个constructor属性指向这个构造函数自身，但是。。。</p>
+<pre><code>function <span class="keyword">Cat</span>(){
+}
+<span class="keyword">Cat</span>.prototype = new Mammal()<span class="comment">//修改了Cat的prototype为Mamma实例</span>
+
+<span class="keyword">var</span> <span class="keyword">cat</span>=new <span class="keyword">Cat</span>();
+
+<span class="keyword">cat</span>.constructor===<span class="keyword">Cat</span>.prototype.constructor<span class="comment">//实例的constructor来自__proto__即Cat的prototype.constructor。</span>
+<span class="comment">//而此时prottoype为Mammal实例。则会继续沿着Mammal的实例寻找</span>
+<span class="comment">//constructor。Mammal的实例的原型__proto__为Mammal.prototype //于是找到了Mammal.prototype.constructor 即函数Mammal</span>
+<span class="keyword">cat</span>.constructor===Mammal<span class="comment">//true;</span>
+</code></pre><p>实际上我们需要手动调整cat的构造函数 让cat 知道自己是个Cat。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Cat</span><span class="params">()</span></span>{
+}
+Cat.prototype = <span class="keyword">new</span> Mammal()<span class="comment">//修改了Cat的prototype为Mamma实例</span>
+Cat.prototype.constructor=Cat;<span class="comment">//修改了constructor的指向。</span>
+</code></pre><p>上面修改了Cat.prototype.constructor属性，那么Mammal的原型上的constructor会不会变化呢。不会的，Mammal实例自身没有constructor属性，而是在Mammal的原型上的，如果设置新的constructor的话，不会修改对Mammal实例原型__proto__ 的属性修改，而是为Mammal实例自身增加一个constructor属性即Cat，于是在cat找constructor的时候<br>碰到这个新新增的constructor就终止查找了。</p>
+<p>综合上述的查找cat实例的原型链为cat.__proto__-&gt;Cat.prototype-&gt;(new Mammal()).__proto__-&gt;Mammal.prototype-&gt;Object.prototype-&gt;null</p>
+<blockquote>
+<p>访问属性的时候如果对象自身没有会沿着原型链查找，设置属性的时候如果对象自身存在则更更新，如果对象自身不存在则会增加该属性，对原型链不会造成影响。除非对原型的属性直接修改。</p>
+</blockquote>
+<pre><code>      <span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+              <span class="keyword">this</span>.name=name;
+    }
+<span class="keyword">var</span>  zhangsan=<span class="keyword">new</span> Person(<span class="string">"张三"</span>);
+<span class="keyword">var</span>  lisi=<span class="keyword">new</span> Person(<span class="string">"李四"</span>);
+     zhangsan.__proto__.run=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+         <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="string">'run'</span>);
+     }
+     zhangsan.eat=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+         <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="string">'eat something'</span>)
+     }
+
+    zhangsan.eat();<span class="comment">//张三 eat something </span>
+    zhangsan.run();<span class="comment">//张三run </span>
+    lisi.run();<span class="comment">//李四run </span>
+    lisi.eat();<span class="comment">//报错.....</span>
+</code></pre><h3 id="给构造函数添加方法">给构造函数添加方法</h3><p>给一个构造函数添加方法有两种形式</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+    <span class="keyword">this</span>.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+        <span class="keyword">return</span> <span class="string">'Hello, my name is '</span> + <span class="keyword">this</span>.name
+    }
+}
+</code></pre><p>或者把方法挂到原型上</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+Person.prototype.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="keyword">return</span> <span class="string">'Hello,my name is '</span> + <span class="keyword">this</span>.name
+}
+</code></pre><p>对于第一种方式 每次new一个Person，都会创建一个新的sayHello函数，对于第二个版本，sayHello函数只会创建一次，所有Person实例会共享同一个原型Person.prototype，使用这种方式相对节省内存。那么为什么不把name在挂在原型上，刚才已经说明原因了，name是可以设置的属性，设置之后会增加到对象的实例上，无论如何都不会节省内存。如果放到原型上反而会多浪费一些内存。推荐定义构造函数的时候我们把方法放在原型上，把函数直接放在构造函数内部。</p>
+<h3 id="关于this,apply,call">关于this,apply,call</h3><p>正如我们所知道的，函数如果附加到对象上就变成了方法，并且函数里面的this指向这个对象,真的如此么？还是看之前的例子</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+Person.prototype.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="keyword">return</span> <span class="string">'Hello,my name is '</span> + <span class="keyword">this</span>.name
+}
+<span class="keyword">var</span> zhangsan=<span class="keyword">new</span> Person(<span class="string">"张三"</span>);
+<span class="keyword">var</span> lisi =<span class="keyword">new</span> Person(<span class="string">"李四"</span>);
+zhangsan.sayHello();<span class="comment">//"Hello,my name is 张三"</span>
+lisi.sayHello();<span class="comment">//"Hello,my name is 李四"</span>
+</code></pre><p>这里的sayHello并没有直接在zhangsan，lisi这两个对象上，实际 上是在他们的原型上Person.prototype，那么sayHello调用的时候sayHello 是怎么知道是张三 </p>
+<blockquote>
+<p>事实上 函数中<strong>this</strong> 在被调用之前没有绑定到任何对象，只有调用的时候才确定的。</p>
+</blockquote>
+<p>当你调用zhangsan.sayHello(),sayHello里面的this与jack绑定，当你调用lisi.sayHello()的时候，sayHello里面的this指向李四，绑定是个动态的并使对函数本身改变什么，他们调用的都是同以歌函数，只是里面的this是动态确定的。函数被调用的时候this会自动地被绑定为调用他的对象。this被称为函数的当前上下文，如果一个函数不在一个对象上则属于全局对象，如果浏览器环境下则为window</p>
+<p>事实上我们可以可以明确地将一个函数的上下文与一个对象绑定。继续上面的例子，比如在全局环境下定义一个singing函数</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">singging</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="string">'singging'</span>);
+}
+</code></pre><p>如果是在全局环境下直接调用</p>
+<pre><code><span class="function">singing</span>();<span class="comment">//输出singing  因为全局环境下没有name，即为空。</span>
+</code></pre><p>可以使用apply 将函数在执行的时候与一个对象绑定</p>
+<pre><code>singging.<span class="function"><span class="title">apply</span><span class="params">(zhangsan)</span></span><span class="comment">//张三singging</span>
+</code></pre><p>刚才说过了函数也是一个对象，每个函数都有是Funtion的实例，每个函数都共享一个原型Function.prototype。即</p>
+<pre><code>singging.__proto__===<span class="function"><span class="keyword">Function</span>.<span class="title">prototype</span></span>
+</code></pre><p>而call 就是位于这个原型对象上的属性之一，所以任何一个函数都可以调用apply 将这个函数绑定到你选择的对象上，即使这个函数不在这个对象上。事实上我们可以有不同的方式来使用apply，继续沿用概念刚才的例子，先补上之前的代码</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+Person.prototype.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="string">'Hello,my name is '</span> + <span class="keyword">this</span>.name)
+}
+<span class="keyword">var</span> zhangsan=<span class="keyword">new</span> Person(<span class="string">"张三"</span>);
+<span class="keyword">var</span> dog={
+        name:<span class="string">'旺财'</span>
+    };
+zhangsan.sayHello.apply(dog)
+<span class="comment">//输出 Hello,my name is 旺财 </span>
+</code></pre><p>唉。。。连旺财都会讲hello了，贵圈好乱。本来是属于张三里面方法，却被旺财盗用了。因为里面的this纸指向了旺财即dog，this.name就是dog.name。。。没有谁永远属于谁，虽然sayHello是zhangsan的方法，却禁不住旺财的诱惑。。。。。。这就是传说中的方法借用。<br>说到方法的借用想到一个比较经典的例子，如何把一个arguments转为数组类型？？如何呢，我不说了。。什么，不知道arguments。。。。</p>
+<h3 id="继续回到apply。">继续回到apply。</h3><p>apply中第一个参数是是要绑定的对象。如果要传递一些参数，可以放在第二个参数里面，是一个数组类型。 作为函数的arguments来传递。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+Person.prototype.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="string">'Hello,my name is '</span> + <span class="keyword">this</span>.name)
+}
+<span class="keyword">var</span> zhangsan=<span class="keyword">new</span> Person(<span class="string">"张三"</span>);
+<span class="keyword">var</span> lisi=<span class="keyword">new</span> Person(<span class="string">"李四"</span>);
+
+<span class="function"><span class="keyword">function</span> <span class="title">sayHelloTo</span><span class="params">(other)</span></span>{
+    <span class="built_in">console</span>.log(<span class="string">"Hello"</span>+other.name+<span class="string">" , My name is "</span>+ <span class="keyword">this</span>.name);
+}
+sayHelloTo.apply(zhangsan,[lisi])<span class="comment">//Hello李四 , My name is 张三 。</span>
+</code></pre><p>说到apply，不得不提他的同胞兄弟call，他俩干的活是一样的，第一个参数是要绑定的对象，唯一的区别就是给绑定的函数传递的参数 apply是第二个参数以数组(其实并不是真正的数组 arguments）的形式传递，call是直接放在第一个参数的后面。比如</p>
+<pre><code>sayHelloTo.<span class="function"><span class="title">call</span><span class="params">(zhangsan,lisi)</span></span>；<span class="comment">//Hello李四 , My name is 张三</span>
+</code></pre><p>至于apply 在特定的情况是是十分有用的，比如给函数传递的参数是一个数组的话。比如要获取一个数字组成的数组的最大值。可以</p>
+<pre><code>Math.<span class="function"><span class="title">max</span><span class="params">(<span class="number">4</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">2</span>)</span></span>
+</code></pre><p>但是这并不是通用的方法 结合apply可以很容易的解决</p>
+<pre><code><span class="tag">var</span> myarray=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>]
+Math<span class="class">.max</span><span class="class">.apply</span>(Math, myarray)<span class="comment">//8</span>
+</code></pre><p>那么apply可以作为构造函数，这样我只需要给函数传递一个数组作为参数就可以了，就不用把每个参数列出来传递了，比如</p>
+<pre><code>new Person.<span class="function"><span class="title">apply</span><span class="params">(Person, args)</span></span>
+</code></pre><p>//很遗憾。为什么这样不可以呢，有没有其他的解决方案呢<a href="http://stackoverflow.com/questions/813383/how-can-i-construct-an-object-using-an-array-of-values-for-parameters-rather-th#answer-813401" target="_blank" rel="external">http://stackoverflow.com/questions/813383/how-can-i-construct-an-object-using-an-array-of-values-for-parameters-rather-th#answer-813401</a></p>
+<h3 id="自定义new_方法">自定义new 方法</h3><p>JavaScript 中的 new 操作符有三个基本任务。</p>
+<ul>
+<li>首先， 它创建新的空对象。</li>
+<li>接下来，它将设置新对象的 __proto__指向函数的prototype，以匹配所调用函数的原型属性。</li>
+<li>最后，操作符调用函数，将新对象作为“this”引用传递。</li>
+</ul>
+<p>比如要定义一个数组对象。</p>
+<pre><code><span class="keyword">var</span> o = <span class="comment">{}</span>;
+o.__proto__ = <span class="keyword">Array</span>.prototype;
+<span class="keyword">Array</span>.apply(o);
+
+o.push(<span class="number">3</span>)
+</code></pre><p>明白了原理我们就可以自己尝试写个new方法</p>
+<p>给每个函数添加一个new方法，这个方法要位于Function.prototype上</p>
+<pre><code><span class="built_in">Function</span>.prototype.new = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="keyword">var</span> args = <span class="built_in">arguments</span><span class="comment">//args为传递过来的参数</span>
+    <span class="keyword">var</span> constructor = <span class="keyword">this</span>; <span class="comment">//this为调用new的对象，即最初的真正的构造函数</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">Delegate</span><span class="params">()</span></span>{
+        constructor.apply(<span class="keyword">this</span>, args)<span class="comment">//newDelegate的时候this指向Delegate实例，</span>
+        <span class="comment">//调用真正的构造函数</span>
+    }            
+    Delegate.prototype = constructor.prototype;<span class="comment">//真正的原型对象赋值给Delegate</span>
+    <span class="keyword">return</span> <span class="keyword">new</span> Delegate <span class="comment">//返回一个Delegate实例 即我们需要的对象</span>
+}
+</code></pre><p>以上过程中只是修改构造函数执行这个步骤，我们刚才定义的Person类也会有一个这样new的方法</p>
+<pre><code><span class="keyword">var</span> wangwu= Person.<span class="keyword">new</span>(<span class="string">'王五'</span>);
+</code></pre><p>这样就可以像调用普通的函数一样来执行一个构造函数了，同时也可以使用apply传递数组参数来创建实例</p>
+<pre><code>Person<span class="class">.new</span><span class="class">.apply</span>(Person, [<span class="string">'王五'</span>])
+</code></pre><h3 id="实现基于原型继承封装">实现基于原型继承封装</h3><p>定义个extend的函数来扩展已有的函数对象，使其拥有两一个函数对象的功能实现继承</p>
+<pre><code><span class="keyword">var</span> utils={};
+utils.extend = (<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+    <span class="comment">//用户维护原型链的代理</span>
+    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{};
+    <span class="comment">// 基于Parent 来扩展Child</span>
+    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">(Child, Parent)</span> </span>{
+        F.prototype = <span class="keyword">Parent</span>.prototype;
+        Child.prototype = <span class="keyword">new</span> F();
+        Child.prototype.super__ = <span class="keyword">Parent</span>.prototype;<span class="comment">//存储父类的原型为了方便获得父类的构造函数</span>
+ <span class="comment">// 子类的构造函数中需要this.super__.constructor.call(this,args来获得父类中构造函数中定义个属性</span>
+        Child.prototype.constructor = Child;
+    };
+}());
+</code></pre><p>使用方式：</p>
+<pre><code><span class="comment">//定义父类</span>
+<span class="function"><span class="keyword">function</span> <span class="title">superfn</span><span class="params">(name,age)</span></span>{
+    <span class="keyword">this</span>.name=name;
+    <span class="keyword">this</span>.age=age;
+    <span class="built_in">console</span>.log(<span class="string">"superfn被调用"</span>);
+}         
+superfn.prototype.getName=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="keyword">this</span>.age);
+};         
+<span class="function"><span class="keyword">function</span> <span class="title">subfn</span><span class="params">(name,age)</span> </span>{
+    <span class="keyword">this</span>.color = <span class="string">'red'</span>;
+    <span class="keyword">this</span>.super__.constructor.call(<span class="keyword">this</span>,name,age);<span class="comment">//调用父类的构造函数，传递this 很关键，接受父类的属性</span>
+};
+utils.extend(subfn,superfn);
+subfn.prototype.getcolor=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="keyword">this</span>.color);
+}
+<span class="keyword">var</span> sub=<span class="keyword">new</span> subfn(<span class="string">"xxx"</span>,<span class="number">7</span>);
+sub.getName();
+</code></pre><p>总结：</p>
+<ul>
+<li>每个对象都有个原型对象属性，原型也是对象，也有原型对象属性，这样每个对象都有一个原型链在Chrome 或者FF 浏览器上可以通过<code>obj.__proto__</code> 获得这个这个对象的直接原型，（原型链的最低端），最顶端是null。ES标准钟通过Object.getPrototypeOf(obj)来获得对象的原型。</li>
+<li>每个对象都有对应的构造函数，比如{} 的构造函数为Object，function a(){}的构造函数为Function，对象的直接原型就是对应构造函数的原型对象属性。即<code>{}.__proto__</code><br>===Object.prototype;  <code>a.__proto__=Function.prototype</code>;</li>
+<li>Object也是个函数对象，作为对象他也有原型<code>Object.__proto__==Function.prototype</code>,而Function.prototype的<code>__proto__</code>又指向了<code>Object.prototype</code>。<br>默认情况下函数的prototype.constructor指向这个函数自身，这就意味着，<code>Object.__proto__.__proto__.constructor === Object</code>为true.</li>
+<li>函数有protottype和<code>__proto__</code>属性。<code>__proto__</code>是继承的原型。prototype为其构造的实例的原原型。对象(非函数对象）有<code>__proto__</code>,没有prototype属性</li>
+</ul>
+<p>最后：一句话。JS是如此的自由，自由的甚至得到不想要的结果。让人着迷，心醉。。。我们要做的就是要学会如何控制她，为我所用，JS大法好。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/2/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/4/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/your-user-name">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

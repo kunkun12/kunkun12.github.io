@@ -1,0 +1,1057 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+
+  <title> Javascript中的类、对象、以及继承 // kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              Javascript中的类、对象、以及继承
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-11-05
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/11/05/javascript-constructor-and-prototype/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/05/javascript-constructor-and-prototype/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h2 id="关于对象">关于对象</h2><p>虽然JS不是正宗的面向对象语言，但是“对象”这个词却与JS密不可分，好吧，用专业术语来讲JS是 <em>基于对象</em>的语言，或者是<em>基于原型</em>的语言。那么我们先从对象说起。经过艰难险阻，我们只是想要一个功能强大的对象而已。</p>
+<p>首先说一下空对象，在JS中可以使用以下两种方式定义“空”对象-其实null才是空对象</p>
+<pre><code><span class="keyword">var</span> person={};
+</code></pre><p>或者</p>
+<pre><code><span class="keyword">var</span> person=<span class="keyword">new</span> <span class="built_in">Object</span>(); <span class="comment">// 或者不带括号 person=new Object   </span>
+</code></pre><p>以上两种方式本质是一致的。平时使用的时候推荐 <em>var person={}</em> 其实内部也是通过调用new Object实现的，类似还有数组、正则对象的定义也是如此。</p>
+<pre><code><span class="keyword">var</span> myarray=<span class="keyword">new</span> <span class="built_in">Array</span>();
+<span class="keyword">var</span> myarray1=[];
+</code></pre><p>我们可以把使用{}、[]定义对象或者数组的方式人为是JS引擎给我们提供了快捷方式。毕竟这两个都是最常用的。<br>对象定义好之后我们可以给他动态地添加属性或者方法比如</p>
+<pre><code>   obj.name=<span class="string">'张三'</span>;
+   obj.eat=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+   <span class="built_in">console</span>.log(<span class="string">"吃饭"</span>);
+}
+</code></pre><p>能够动态地给对象增删属性也是动态语言的好处。</p>
+<p>通过 var person={},我们有了一个干净的对象，如此的干净，纯洁，然而是真的如此吗.然而他天生拥有了一些方法 比如 <code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>，<code>constructor</code>等方法。这些对象来自于哪里呢，是的 来自于他的原型。看来纯洁只是表面而已。</p>
+<h3 id="关于原型，原型链。">关于原型，原型链。</h3><p>每个对象都会有个原型（原型对象），自动拥有他的原型的方法，如果想获得一个person对象的原型对象，可以通过<code>Object.getPrototypeOf(person）</code>来获得，还可以通过<code>person.__proto__</code>。原型是对象的隐藏属性,当我们要访问一个对象的属性时候，会首先从对象自身查找,如果对象自身没有这个属性会到他的原型对象<code>__proto__</code>中去找，如果原型对象中还有没有的话的，则会继续到该对象的原型对象的原型对象上去找（原型对象本身也是个对象，所以它自身也会有<code>__proto__</code>属性。。。这样就形成了原型链。。null是原型的链的终点，如果最终没有找到的话则返回undfined。规定undefined没有任何可以访问的属性。如果要访问null的属性则会报错了，比如</p>
+<pre><code><span class="reserved">var</span> person={<span class="attribute">age</span>:<span class="number">12</span>};
+<span class="built_in">console</span>.log(person.age); <span class="regexp">//</span><span class="number">12</span>
+<span class="built_in">console</span>.log(person.Adress);<span class="regexp">//</span>undfined 访问到原型链的终点也没有找到这个属性返回 
+<span class="built_in">console</span>.log(person.Adress.school);<span class="regexp">//</span>抛出异常<span class="attribute">TypeError</span>: Cannot read property <span class="string">'school'</span> <span class="keyword">of</span> <span class="literal">undefined</span> 
+</code></pre><p>上面那个错误提示，是我们在调试中经常遇到的比较经典的错误了，遇到这个问题，我们首先第一反应school的上一级的对象没有得到正确的赋值。的确，person没有这个属性的。</p>
+<p>原型链的本质：<code>__proto__.__proto__.__proto__.....</code>直到原型链的终点null。</p>
+<h2 id="关于函数对象。">关于函数对象。</h2><p>在JS中每个函数都是一个对象，可以像其他普通对象一样,添加属性和方法等，即函数对象。每个函数都继承了<code>Object.prototype</code>的方法.就像上面提到的<code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>,<code>constructor</code>。既然说函数也是对象那么他是有谁构造出来的呢，答案是<code>Function</code>。每个function都是<code>Function</code>的一个实例。或者说每个function都有这同一个构造函数即<code>Function</code>。</p>
+<p>构造器</p>
+<pre><code> <span class="keyword">new</span> <span class="built_in">Function</span> ([arg1[, arg2[, ...argN]],] functionBody)
+
+<span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(x,y)</span></span>{
+     <span class="keyword">return</span> x+y;
+ }
+ Peron.constructor===<span class="built_in">Function</span> <span class="comment">//true</span>
+</code></pre><p>其本质与下面一致 </p>
+<pre><code><span class="keyword">var</span> add1=<span class="keyword">new</span> <span class="function"><span class="keyword">Function</span><span class="params">(<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'return x+y'</span>)</span>;</span>
+</code></pre><p>实际上我们很少使用new Function 来构造一个函数实例，使用Function构造器生成的Function对象是在函数创建时被解析的。这比你使用函数声明(function)并在你的代码中调用低效，因为使用函数语句声明的function是跟其他语句一起解析的。</p>
+<h2 id="关于构造函数，new">关于构造函数，new</h2><p>在学习其他的面向对象语言的时候，我们会定义一个class，然后new一个对象，我们都知道Javascript中的函数同时也可以作为构造函数，也可以通过new生成一个基于这个构造函数的实例，比如<code>Object</code>，<code>Array</code>，<code>Date</code>，<code>RegExp</code>,<code>Error</code>等这些都是ES标准中内置的构造函数。刚才前面的<code>var person=new Object</code>其实是调用的构造函数，例如为了模拟一个类，会这样写</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name;
+}
+</code></pre><p>通过使用<code>new Person</code> 就可以创建一个Person的实例 即对象</p>
+<pre><code><span class="tag">var</span> bob = new <span class="function"><span class="title">Person</span><span class="params">(<span class="string">'Bob'</span>)</span></span>
+<span class="comment">// {name: 'Bob'}</span>
+</code></pre><p>为了确定 <code>bob</code>的确是一个 Person的对象，返回一个对象<code>{name: &#39;Bob&#39;}</code>我们可以调用，当作为构造函数使用的时候这里的this 指向是当前对象实例。</p>
+<pre><code>bob <span class="keyword">instanceof</span> Person
+<span class="comment">//true</span>
+</code></pre><p>（JS中有个潜规则 一般当做构造函数的用的函数首字母会大写）当然我们也可以不加new 直接当做一个普通的函数来调用它</p>
+<pre><code><span class="function"><span class="title">Person</span><span class="params">(<span class="string">'Bob'</span>)</span></span>
+<span class="comment">// undefined</span>
+</code></pre><p>直接调用没有返回值，而在调用的时候 <em>this.name=name</em>这里的this指向的是全局作用域，在浏览器环境下这里的this 为window，于是通过调用Person(‘Bob’) 仅仅是创建了一个全局的变量name </p>
+<pre><code>name
+<span class="comment">// 'Bob'</span>
+<span class="keyword">this</span>==<span class="built_in">window</span>
+<span class="built_in">window</span>.name
+<span class="comment">// Bob</span>
+</code></pre><p>如果我们的全局变量中已经有了一个为name的变量，那么原来的name值将会被覆盖。于是对全局的变量造成了污染，为我们的程序造成隐患</p>
+<p>如果有时候我们要生成对象 却忘记写了new 关键字，又想避免对全局的变量造成污染，我们可以使用这个技巧。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">if</span> (!(<span class="keyword">this</span> <span class="keyword">instanceof</span> Person))
+        <span class="keyword">return</span> <span class="keyword">new</span> Person(name)
+    <span class="keyword">this</span>.name = name
+}
+</code></pre><ul>
+<li>首先检查 <em>this</em> 是不是一个Person的实例 事实上如果是通过new的话 this 则会是 Person的实例</li>
+</ul>
+<p>如果this不是Person实例的话 则通过<code>new Person</code> 来调用 构造函数 并且返回这个实例，</p>
+<p>事实表明如果new的构造函数中return一个值类型的值，那么Javascript将会忽略它,并且创建一个对象实例作为返回，如果我们返回是其他类型的对象呢。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Cat</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">return</span> <span class="keyword">new</span> Cat(name)
+}
+<span class="keyword">var</span> bob = <span class="keyword">new</span> Person(<span class="string">'Bob'</span>)
+bob <span class="keyword">instanceof</span> Person
+<span class="comment">// false</span>
+bob <span class="keyword">instanceof</span> Cat
+<span class="comment">// true</span>
+</code></pre><p>卧槽,这里我new 的是 <code>Person</code>,却得到了一个猫的实例，贵圈好乱。。如果我们new 的函数返回的事引用类型，我们只能得到该引用类型的对象。。</p>
+<p>比如也可以返回一个数组</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">return</span> [name]
+}
+<span class="keyword">new</span> Person(<span class="string">'Bob'</span>)
+<span class="comment">// ['Bob']</span>
+</code></pre><p>如果返回的是Javascript中的原生类型的值<code>（number、string,boolean,null,undefined data)</code> ，这些将会被忽略。构造函数将会正常地返回一个<em>this</em>的实例</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+    <span class="keyword">return</span> <span class="number">5</span>
+}
+<span class="keyword">new</span> Person(<span class="string">'Bob'</span>)
+<span class="comment">// {name: 'Bob'}</span>
+</code></pre><h3 id="关于Method。">关于Method。</h3><p>刚才说了 函数可以作为构造函数 通过new 来生成一个新的对象，同时函数还有另外一个功能就是作为<em>类</em>的方法。</p>
+<p>如果一个函数属于某一个对象 我们称这个函数是这个对象的方法，如下给构造函数添加方法</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+    <span class="keyword">this</span>.sayHi = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+        <span class="built_in">console</span>.log(<span class="string">'Hi, I am '</span> + <span class="keyword">this</span>.name); 
+    }
+}
+Person.run=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+   <span class="built_in">console</span>.log(<span class="string">'run'</span>);
+}
+<span class="keyword">var</span> bob = <span class="keyword">new</span> Person(<span class="string">'Bob'</span>)
+bob.sayHi()
+<span class="comment">// 'Hi, I am Bob'</span>
+bob.run();<span class="comment">//报错。。。为什么报错了呢。。。因为。。run是Person这个函数对象的属性，其实例是不具有的</span>
+Person.run();
+</code></pre><h2 id="关于prototype_继承">关于prototype 继承</h2><p>通过子类继承父类，子类可以拥有父类中的属性和方法，在JAVA中我们可以通过如下的方式实现继承</p>
+<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">Mammal</span>{</span>
+    public void breathe(){
+
+    }
+}
+public <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Mammal</span>{</span>
+
+}
+</code></pre><p>但是目前(ESCRIPT 5)来讲 JS中还没有class 和extends字段,其实JS是基于原型的语言，JS可以通过原型来实现继承</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Mammal</span><span class="params">()</span></span>{
+}
+Mammal.prototype.breathe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="string">"呼吸"</span>)
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Cat</span><span class="params">()</span></span>{
+}
+Cat.prototype = <span class="keyword">new</span> Mammal()
+Cat.prototype.constructor = Cat
+<span class="comment">// 现在Cat 拥有了 breath的能力!</span>
+</code></pre><p>刚才说过了每个函数都是一个对象具有了Object实例对象的基本属性，那么实例怎么得到这个这些属性的呢，是的，实例是通过原型获得的，那么这个原型到底在哪呢，答案是：prototype属性。每个函数对象有个prototype属性。prototype是一个对象，作为实例的原型。即实例的原型__proto__为构造函数的prototype属性。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+    <span class="keyword">this</span>.sayHi = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+        <span class="built_in">console</span>.log(<span class="string">'Hi, I am '</span> + <span class="keyword">this</span>.name); 
+    }
+}
+<span class="keyword">var</span> p=<span class="keyword">new</span> Person();
+    p.__proto__===Person.prototype
+</code></pre><p>每个function的prototype对象都有一个constructor属性，默认这个constructor属性指向这个构造函数自身.<br>于是就有</p>
+<pre><code>Person<span class="class">.prototype</span><span class="class">.constructor</span>===Person<span class="comment">//true</span>
+</code></pre><p>因为我们说过了一个对象可以获得其原型上的属性（如果对象自身不存在这个同名属性的话），因此我们很容易获得这个对象的constructor属性。于是。</p>
+<pre><code>Person<span class="class">.prototype</span><span class="class">.constructor</span>===Person<span class="comment">//true</span>
+<span class="tag">p</span>.constructor===Person <span class="comment">//true</span>
+</code></pre><p>三者是指向同一东西即构造函数Person，这里注意区分函数和实例</p>
+<p>最终的对象拥有一系列的属性和方法，有些属性是来自自身（构造函数中通过this.xxx定义的属性属于对象自身的属性），有些事来自原型，每个对象都有一个特别的属性__proto__ 指向这个对象构造函数的prototype,每个原型又有一个__proto__属性，一直向上追溯到Object 直到原型链的终点为null，这样就形成了一个原型链，准确来说一个对象的属性一部分来自对象本身，其余的则来自于原型链</p>
+<ul>
+<li>对象可以定义自身的方法 来覆盖原型中的方法</li>
+</ul>
+<p>默认情况下，构造函数的prototype为Object实例即{}</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Mammal</span><span class="params">()</span></span>{
+}
+Mammal.prototype
+<span class="comment">// Mammal {}</span>
+<span class="keyword">var</span> mammal = <span class="keyword">new</span> Mammal()
+mammal.__proto__ === Mammal.prototype
+<span class="comment">//true</span>
+</code></pre><p>每个function的prototype对象都有一个constructor属性，默认这个constructor属性指向这个构造函数自身，但是。。。</p>
+<pre><code>function <span class="keyword">Cat</span>(){
+}
+<span class="keyword">Cat</span>.prototype = new Mammal()<span class="comment">//修改了Cat的prototype为Mamma实例</span>
+
+<span class="keyword">var</span> <span class="keyword">cat</span>=new <span class="keyword">Cat</span>();
+
+<span class="keyword">cat</span>.constructor===<span class="keyword">Cat</span>.prototype.constructor<span class="comment">//实例的constructor来自__proto__即Cat的prototype.constructor。</span>
+<span class="comment">//而此时prottoype为Mammal实例。则会继续沿着Mammal的实例寻找</span>
+<span class="comment">//constructor。Mammal的实例的原型__proto__为Mammal.prototype //于是找到了Mammal.prototype.constructor 即函数Mammal</span>
+<span class="keyword">cat</span>.constructor===Mammal<span class="comment">//true;</span>
+</code></pre><p>实际上我们需要手动调整cat的构造函数 让cat 知道自己是个Cat。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Cat</span><span class="params">()</span></span>{
+}
+Cat.prototype = <span class="keyword">new</span> Mammal()<span class="comment">//修改了Cat的prototype为Mamma实例</span>
+Cat.prototype.constructor=Cat;<span class="comment">//修改了constructor的指向。</span>
+</code></pre><p>上面修改了Cat.prototype.constructor属性，那么Mammal的原型上的constructor会不会变化呢。不会的，Mammal实例自身没有constructor属性，而是在Mammal的原型上的，如果设置新的constructor的话，不会修改对Mammal实例原型__proto__ 的属性修改，而是为Mammal实例自身增加一个constructor属性即Cat，于是在cat找constructor的时候<br>碰到这个新新增的constructor就终止查找了。</p>
+<p>综合上述的查找cat实例的原型链为cat.__proto__-&gt;Cat.prototype-&gt;(new Mammal()).__proto__-&gt;Mammal.prototype-&gt;Object.prototype-&gt;null</p>
+<blockquote>
+<p>访问属性的时候如果对象自身没有会沿着原型链查找，设置属性的时候如果对象自身存在则更更新，如果对象自身不存在则会增加该属性，对原型链不会造成影响。除非对原型的属性直接修改。</p>
+</blockquote>
+<pre><code>      <span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+              <span class="keyword">this</span>.name=name;
+    }
+<span class="keyword">var</span>  zhangsan=<span class="keyword">new</span> Person(<span class="string">"张三"</span>);
+<span class="keyword">var</span>  lisi=<span class="keyword">new</span> Person(<span class="string">"李四"</span>);
+     zhangsan.__proto__.run=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+         <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="string">'run'</span>);
+     }
+     zhangsan.eat=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+         <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="string">'eat something'</span>)
+     }
+
+    zhangsan.eat();<span class="comment">//张三 eat something </span>
+    zhangsan.run();<span class="comment">//张三run </span>
+    lisi.run();<span class="comment">//李四run </span>
+    lisi.eat();<span class="comment">//报错.....</span>
+</code></pre><h3 id="给构造函数添加方法">给构造函数添加方法</h3><p>给一个构造函数添加方法有两种形式</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+    <span class="keyword">this</span>.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+        <span class="keyword">return</span> <span class="string">'Hello, my name is '</span> + <span class="keyword">this</span>.name
+    }
+}
+</code></pre><p>或者把方法挂到原型上</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+Person.prototype.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="keyword">return</span> <span class="string">'Hello,my name is '</span> + <span class="keyword">this</span>.name
+}
+</code></pre><p>对于第一种方式 每次new一个Person，都会创建一个新的sayHello函数，对于第二个版本，sayHello函数只会创建一次，所有Person实例会共享同一个原型Person.prototype，使用这种方式相对节省内存。那么为什么不把name在挂在原型上，刚才已经说明原因了，name是可以设置的属性，设置之后会增加到对象的实例上，无论如何都不会节省内存。如果放到原型上反而会多浪费一些内存。推荐定义构造函数的时候我们把方法放在原型上，把函数直接放在构造函数内部。</p>
+<h3 id="关于this,apply,call">关于this,apply,call</h3><p>正如我们所知道的，函数如果附加到对象上就变成了方法，并且函数里面的this指向这个对象,真的如此么？还是看之前的例子</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+Person.prototype.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="keyword">return</span> <span class="string">'Hello,my name is '</span> + <span class="keyword">this</span>.name
+}
+<span class="keyword">var</span> zhangsan=<span class="keyword">new</span> Person(<span class="string">"张三"</span>);
+<span class="keyword">var</span> lisi =<span class="keyword">new</span> Person(<span class="string">"李四"</span>);
+zhangsan.sayHello();<span class="comment">//"Hello,my name is 张三"</span>
+lisi.sayHello();<span class="comment">//"Hello,my name is 李四"</span>
+</code></pre><p>这里的sayHello并没有直接在zhangsan，lisi这两个对象上，实际 上是在他们的原型上Person.prototype，那么sayHello调用的时候sayHello 是怎么知道是张三 </p>
+<blockquote>
+<p>事实上 函数中<strong>this</strong> 在被调用之前没有绑定到任何对象，只有调用的时候才确定的。</p>
+</blockquote>
+<p>当你调用zhangsan.sayHello(),sayHello里面的this与jack绑定，当你调用lisi.sayHello()的时候，sayHello里面的this指向李四，绑定是个动态的并使对函数本身改变什么，他们调用的都是同以歌函数，只是里面的this是动态确定的。函数被调用的时候this会自动地被绑定为调用他的对象。this被称为函数的当前上下文，如果一个函数不在一个对象上则属于全局对象，如果浏览器环境下则为window</p>
+<p>事实上我们可以可以明确地将一个函数的上下文与一个对象绑定。继续上面的例子，比如在全局环境下定义一个singing函数</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">singging</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="string">'singging'</span>);
+}
+</code></pre><p>如果是在全局环境下直接调用</p>
+<pre><code><span class="function">singing</span>();<span class="comment">//输出singing  因为全局环境下没有name，即为空。</span>
+</code></pre><p>可以使用apply 将函数在执行的时候与一个对象绑定</p>
+<pre><code>singging.<span class="function"><span class="title">apply</span><span class="params">(zhangsan)</span></span><span class="comment">//张三singging</span>
+</code></pre><p>刚才说过了函数也是一个对象，每个函数都有是Funtion的实例，每个函数都共享一个原型Function.prototype。即</p>
+<pre><code>singging.__proto__===<span class="function"><span class="keyword">Function</span>.<span class="title">prototype</span></span>
+</code></pre><p>而call 就是位于这个原型对象上的属性之一，所以任何一个函数都可以调用apply 将这个函数绑定到你选择的对象上，即使这个函数不在这个对象上。事实上我们可以有不同的方式来使用apply，继续沿用概念刚才的例子，先补上之前的代码</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+Person.prototype.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="string">'Hello,my name is '</span> + <span class="keyword">this</span>.name)
+}
+<span class="keyword">var</span> zhangsan=<span class="keyword">new</span> Person(<span class="string">"张三"</span>);
+<span class="keyword">var</span> dog={
+        name:<span class="string">'旺财'</span>
+    };
+zhangsan.sayHello.apply(dog)
+<span class="comment">//输出 Hello,my name is 旺财 </span>
+</code></pre><p>唉。。。连旺财都会讲hello了，贵圈好乱。本来是属于张三里面方法，却被旺财盗用了。因为里面的this纸指向了旺财即dog，this.name就是dog.name。。。没有谁永远属于谁，虽然sayHello是zhangsan的方法，却禁不住旺财的诱惑。。。。。。这就是传说中的方法借用。<br>说到方法的借用想到一个比较经典的例子，如何把一个arguments转为数组类型？？如何呢，我不说了。。什么，不知道arguments。。。。</p>
+<h3 id="继续回到apply。">继续回到apply。</h3><p>apply中第一个参数是是要绑定的对象。如果要传递一些参数，可以放在第二个参数里面，是一个数组类型。 作为函数的arguments来传递。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name)</span></span>{
+    <span class="keyword">this</span>.name = name
+}
+Person.prototype.sayHello = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="string">'Hello,my name is '</span> + <span class="keyword">this</span>.name)
+}
+<span class="keyword">var</span> zhangsan=<span class="keyword">new</span> Person(<span class="string">"张三"</span>);
+<span class="keyword">var</span> lisi=<span class="keyword">new</span> Person(<span class="string">"李四"</span>);
+
+<span class="function"><span class="keyword">function</span> <span class="title">sayHelloTo</span><span class="params">(other)</span></span>{
+    <span class="built_in">console</span>.log(<span class="string">"Hello"</span>+other.name+<span class="string">" , My name is "</span>+ <span class="keyword">this</span>.name);
+}
+sayHelloTo.apply(zhangsan,[lisi])<span class="comment">//Hello李四 , My name is 张三 。</span>
+</code></pre><p>说到apply，不得不提他的同胞兄弟call，他俩干的活是一样的，第一个参数是要绑定的对象，唯一的区别就是给绑定的函数传递的参数 apply是第二个参数以数组(其实并不是真正的数组 arguments）的形式传递，call是直接放在第一个参数的后面。比如</p>
+<pre><code>sayHelloTo.<span class="function"><span class="title">call</span><span class="params">(zhangsan,lisi)</span></span>；<span class="comment">//Hello李四 , My name is 张三</span>
+</code></pre><p>至于apply 在特定的情况是是十分有用的，比如给函数传递的参数是一个数组的话。比如要获取一个数字组成的数组的最大值。可以</p>
+<pre><code>Math.<span class="function"><span class="title">max</span><span class="params">(<span class="number">4</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">2</span>)</span></span>
+</code></pre><p>但是这并不是通用的方法 结合apply可以很容易的解决</p>
+<pre><code><span class="tag">var</span> myarray=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>]
+Math<span class="class">.max</span><span class="class">.apply</span>(Math, myarray)<span class="comment">//8</span>
+</code></pre><p>那么apply可以作为构造函数，这样我只需要给函数传递一个数组作为参数就可以了，就不用把每个参数列出来传递了，比如</p>
+<pre><code>new Person.<span class="function"><span class="title">apply</span><span class="params">(Person, args)</span></span>
+</code></pre><p>//很遗憾。为什么这样不可以呢，有没有其他的解决方案呢<a href="http://stackoverflow.com/questions/813383/how-can-i-construct-an-object-using-an-array-of-values-for-parameters-rather-th#answer-813401" target="_blank" rel="external">http://stackoverflow.com/questions/813383/how-can-i-construct-an-object-using-an-array-of-values-for-parameters-rather-th#answer-813401</a></p>
+<h3 id="自定义new_方法">自定义new 方法</h3><p>JavaScript 中的 new 操作符有三个基本任务。</p>
+<ul>
+<li>首先， 它创建新的空对象。</li>
+<li>接下来，它将设置新对象的 __proto__指向函数的prototype，以匹配所调用函数的原型属性。</li>
+<li>最后，操作符调用函数，将新对象作为“this”引用传递。</li>
+</ul>
+<p>比如要定义一个数组对象。</p>
+<pre><code><span class="keyword">var</span> o = <span class="comment">{}</span>;
+o.__proto__ = <span class="keyword">Array</span>.prototype;
+<span class="keyword">Array</span>.apply(o);
+
+o.push(<span class="number">3</span>)
+</code></pre><p>明白了原理我们就可以自己尝试写个new方法</p>
+<p>给每个函数添加一个new方法，这个方法要位于Function.prototype上</p>
+<pre><code><span class="built_in">Function</span>.prototype.new = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="keyword">var</span> args = <span class="built_in">arguments</span><span class="comment">//args为传递过来的参数</span>
+    <span class="keyword">var</span> constructor = <span class="keyword">this</span>; <span class="comment">//this为调用new的对象，即最初的真正的构造函数</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">Delegate</span><span class="params">()</span></span>{
+        constructor.apply(<span class="keyword">this</span>, args)<span class="comment">//newDelegate的时候this指向Delegate实例，</span>
+        <span class="comment">//调用真正的构造函数</span>
+    }            
+    Delegate.prototype = constructor.prototype;<span class="comment">//真正的原型对象赋值给Delegate</span>
+    <span class="keyword">return</span> <span class="keyword">new</span> Delegate <span class="comment">//返回一个Delegate实例 即我们需要的对象</span>
+}
+</code></pre><p>以上过程中只是修改构造函数执行这个步骤，我们刚才定义的Person类也会有一个这样new的方法</p>
+<pre><code><span class="keyword">var</span> wangwu= Person.<span class="keyword">new</span>(<span class="string">'王五'</span>);
+</code></pre><p>这样就可以像调用普通的函数一样来执行一个构造函数了，同时也可以使用apply传递数组参数来创建实例</p>
+<pre><code>Person<span class="class">.new</span><span class="class">.apply</span>(Person, [<span class="string">'王五'</span>])
+</code></pre><h3 id="实现基于原型继承封装">实现基于原型继承封装</h3><p>定义个extend的函数来扩展已有的函数对象，使其拥有两一个函数对象的功能实现继承</p>
+<pre><code><span class="keyword">var</span> utils={};
+utils.extend = (<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
+    <span class="comment">//用户维护原型链的代理</span>
+    <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{};
+    <span class="comment">// 基于Parent 来扩展Child</span>
+    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">(Child, Parent)</span> </span>{
+        F.prototype = <span class="keyword">Parent</span>.prototype;
+        Child.prototype = <span class="keyword">new</span> F();
+        Child.prototype.super__ = <span class="keyword">Parent</span>.prototype;<span class="comment">//存储父类的原型为了方便获得父类的构造函数</span>
+ <span class="comment">// 子类的构造函数中需要this.super__.constructor.call(this,args来获得父类中构造函数中定义个属性</span>
+        Child.prototype.constructor = Child;
+    };
+}());
+</code></pre><p>使用方式：</p>
+<pre><code><span class="comment">//定义父类</span>
+<span class="function"><span class="keyword">function</span> <span class="title">superfn</span><span class="params">(name,age)</span></span>{
+    <span class="keyword">this</span>.name=name;
+    <span class="keyword">this</span>.age=age;
+    <span class="built_in">console</span>.log(<span class="string">"superfn被调用"</span>);
+}         
+superfn.prototype.getName=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name+<span class="keyword">this</span>.age);
+};         
+<span class="function"><span class="keyword">function</span> <span class="title">subfn</span><span class="params">(name,age)</span> </span>{
+    <span class="keyword">this</span>.color = <span class="string">'red'</span>;
+    <span class="keyword">this</span>.super__.constructor.call(<span class="keyword">this</span>,name,age);<span class="comment">//调用父类的构造函数，传递this 很关键，接受父类的属性</span>
+};
+utils.extend(subfn,superfn);
+subfn.prototype.getcolor=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="built_in">console</span>.log(<span class="keyword">this</span>.color);
+}
+<span class="keyword">var</span> sub=<span class="keyword">new</span> subfn(<span class="string">"xxx"</span>,<span class="number">7</span>);
+sub.getName();
+</code></pre><p>总结：</p>
+<ul>
+<li>每个对象都有个原型对象属性，原型也是对象，也有原型对象属性，这样每个对象都有一个原型链在Chrome 或者FF 浏览器上可以通过<code>obj.__proto__</code> 获得这个这个对象的直接原型，（原型链的最低端），最顶端是null。ES标准钟通过Object.getPrototypeOf(obj)来获得对象的原型。</li>
+<li>每个对象都有对应的构造函数，比如{} 的构造函数为Object，function a(){}的构造函数为Function，对象的直接原型就是对应构造函数的原型对象属性。即<code>{}.__proto__</code><br>===Object.prototype;  <code>a.__proto__=Function.prototype</code>;</li>
+<li>Object也是个函数对象，作为对象他也有原型<code>Object.__proto__==Function.prototype</code>,而Function.prototype的<code>__proto__</code>又指向了<code>Object.prototype</code>。<br>默认情况下函数的prototype.constructor指向这个函数自身，这就意味着，<code>Object.__proto__.__proto__.constructor === Object</code>为true.</li>
+<li>函数有protottype和<code>__proto__</code>属性。<code>__proto__</code>是继承的原型。prototype为其构造的实例的原原型。对象(非函数对象）有<code>__proto__</code>,没有prototype属性</li>
+</ul>
+<p>最后：一句话。JS是如此的自由，自由的甚至得到不想要的结果。让人着迷，心醉。。。我们要做的就是要学会如何控制她，为我所用，JS大法好。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+
+
+
+  
+    <div class="comments" id="comments">
+      
+        <div class="ds-thread" data-thread-key="2014/11/05/javascript-constructor-and-prototype/"
+             data-title="Javascript中的类、对象、以及继承" data-url="http://kunkun12.com/2014/11/05/javascript-constructor-and-prototype/">
+        </div>
+
+      
+    </div>
+  
+
+          </div>
+
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview">
+          站点概览
+        </li>
+      </ul>
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/your-user-name">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+      <div class="post-toc sidebar-panel-active">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于对象"><span class="nav-number">1.</span> <span class="nav-text">关于对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于原型，原型链。"><span class="nav-number">1.1.</span> <span class="nav-text">关于原型，原型链。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于函数对象。"><span class="nav-number">2.</span> <span class="nav-text">关于函数对象。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于构造函数，new"><span class="nav-number">3.</span> <span class="nav-text">关于构造函数，new</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Method。"><span class="nav-number">3.1.</span> <span class="nav-text">关于Method。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于prototype_继承"><span class="nav-number">4.</span> <span class="nav-text">关于prototype 继承</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#给构造函数添加方法"><span class="nav-number">4.1.</span> <span class="nav-text">给构造函数添加方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于this,apply,call"><span class="nav-number">4.2.</span> <span class="nav-text">关于this,apply,call</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继续回到apply。"><span class="nav-number">4.3.</span> <span class="nav-text">继续回到apply。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义new_方法"><span class="nav-number">4.4.</span> <span class="nav-text">自定义new 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现基于原型继承封装"><span class="nav-number">4.5.</span> <span class="nav-text">实现基于原型继承封装</span></a></li></ol></li></ol>
+      </div>
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if ($('.post-toc').html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var activeCurrentSelector = '.active-current';
+
+    $(tocSelector)
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass()
+        $currentActiveElement.addClass('active-current');
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass()
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    $('body').scrollspy({ target: tocSelector });
+  });
+</script>
+
+
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>
