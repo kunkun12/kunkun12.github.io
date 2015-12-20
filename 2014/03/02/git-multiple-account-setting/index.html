@@ -129,7 +129,7 @@
 
         
           <p>在使用git的时候，git与远程服务器是一般通过ssh传输的(也支持ftp，https)，我们在管理远程分支之前 需要在本机上创建ssh-key密钥对，并把其中的公钥添加到github中。</p>
-<h3 id="单用户情况">单用户情况</h3><p>如果你就会一直在你的计算计算机使用一个远程的Git服务器，并且账号是一个，比较简单，生成key的时候也没有太大注意的地方，直接运行如下的第一步然后按回车就可以了<br>  1、在 gitbash上运行  ssh-keygen -t  rsa  -C  “Github账户邮箱”<br>  2、接下来会提示输入key的名字 默认名字为id_rsa .默认就行了<br>  3、然后会提示输入口令，这里口令与Github中的密码无关，随便输入可以为空。</p>
+<p>###单用户情况<br>如果你就会一直在你的计算计算机使用一个远程的Git服务器，并且账号是一个，比较简单，生成key的时候也没有太大注意的地方，直接运行如下的第一步然后按回车就可以了<br>  1、在 gitbash上运行  ssh-keygen -t  rsa  -C  “Github账户邮箱”<br>  2、接下来会提示输入key的名字 默认名字为id_rsa .默认就行了<br>  3、然后会提示输入口令，这里口令与Github中的密码无关，随便输入可以为空。</p>
 <ol>
 <li><p>如果在第二步中的没有重新命名的话，则忽略此步骤，ssh agent默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中<br>ssh-add id_rsa<br>如果出现Could not open a connection to your authentication agent的错误，就试着先用以下命令：</p>
 <p>ssh-agent bash<br>ssh-add id_rsa<br>添加完之后 登陆Github   点击 网页右上侧的 Account Setting 按钮 - 选择 ssh-keys  点击Add SSH Key  ，在title中输入名字，然后将公约即id_rsa.pub添加到ssh-key处。</p>
@@ -137,34 +137,35 @@
 </ol>
 <p>在git bash的命令行中输入 </p>
 <p>ssh -T git@github.com 如果能正常访问即可</p>
-<pre><code><span class="variable">$ </span>ssh -<span class="constant">T </span>git<span class="variable">@github</span>.com
-<span class="constant">Enter </span>passphrase <span class="keyword">for</span> key <span class="string">'C:/Users/kunkun/.ssh/github.rsa'</span><span class="symbol">:</span>
-<span class="constant">Hi </span>kunkun01! <span class="constant">You'</span>ve successfully authenticated, but <span class="constant">GitHub </span>does <span class="keyword">not</span> provide shel
+<pre><code>$ ssh -T git@github.com
+Enter passphrase for key &apos;C:/Users/kunkun/.ssh/github.rsa&apos;:
+Hi kunkun01! You&apos;ve successfully authenticated, but GitHub does not provide shel
 l access.
-</code></pre><h3 id="多账户配置">多账户配置</h3><p> 多账户又分为两种情况  </p>
+</code></pre><p>###多账户配置</p>
+<p> 多账户又分为两种情况  </p>
 <ul>
 <li>针对同一个服务器的同用户（比如 我平时开发开源的小东东，有的是一个账号是公司的账号对外开源项目用的，另外我自己也比较崇尚开源，所以自己也有了Github账号)</li>
 <li><p>针对不同服务器的用户(现在pass平台 部署应用都是通过git来管理的，比如常见的Openshift，Heroku appfog等，在这里我也注册了账号）</p>
-<p>在我们访问git服务器的时候，如果通过ssh的方式话，访问不同的服务器要使用不同的ssh-key。经过在第一步的过程中，在创建ssh-key的默认命名为id_rsa，如果使用不同的账户的，必须得给不同的key设置不同的名字，否则如果继续使用默认名字的话，会把之前的id_rsa覆盖掉。<br>具体操作如下 user2是我的另外一个Github账户</p>
-<h4 id="1、新建user2的SSH_Key">1、新建user2的SSH Key</h4><h1 id="新建SSH_key：">新建SSH key：</h1><p> $ cd ~/.ssh     # 切换到C:\Users\Administrator.ssh<br> ssh-keygen -t rsa -C “mywork@email.com”  # 新建工作的SSH key</p>
-<h1 id="设置名称为id_rsa_work">设置名称为id_rsa_work</h1><p> Enter file in which to save the key (/c/Users/Administrator/.ssh/id_rsa): id_rsa_work  </p>
-<h4 id="2、新密钥添加到SSH_agent中">2、新密钥添加到SSH agent中</h4><p>因为默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中：</p>
+<p>在我们访问git服务器的时候，如果通过ssh的方式话，访问不同的服务器要使用不同的ssh-key。经过在第一步的过程中，在创建ssh-key的默认命名为id_rsa，如果使用不同的账户的，必须得给不同的key设置不同的名字，否则如果继续使用默认名字的话，会把之前的id_rsa覆盖掉。<br>具体操作如下 user2是我的另外一个Github账户<br>####1、新建user2的SSH Key<br>  #新建SSH key：<br> $ cd ~/.ssh     # 切换到C:\Users\Administrator.ssh<br> ssh-keygen -t rsa -C “mywork@email.com”  # 新建工作的SSH key</p>
+<h1 id="u8BBE_u7F6E_u540D_u79F0_u4E3Aid_rsa_work"><a href="#u8BBE_u7F6E_u540D_u79F0_u4E3Aid_rsa_work" class="headerlink" title="设置名称为id_rsa_work"></a>设置名称为id_rsa_work</h1><p> Enter file in which to save the key (/c/Users/Administrator/.ssh/id_rsa): id_rsa_work<br>####2、新密钥添加到SSH agent中<br>因为默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中：</p>
 <p> ssh-add ~/.ssh/id_rsa_work<br>上面提到了，如果出现Could not open a connection to your authentication agent的错误，就试着用以下命令：</p>
-<p> ssh-agent bash<br> ssh-add ~/.ssh/id_rsa_work</p>
-<h4 id="3、修改config文件_将账户以及git服务器与对应的密钥关联。在C:\Users\kunkun\-ssh目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下：_比如我的config配置如下：">3、修改config文件 将账户以及git服务器与对应的密钥关联。在<code>C:\Users\kunkun\.ssh</code>目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下：</h4><h1 id="该文件用于配置私钥对应的服务器">该文件用于配置私钥对应的服务器</h1><h1 id="Default_github_user(first@mail-com)">Default github user(first@mail.com)</h1><p>  Host github.com<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa</p>
-<h1 id="second_user(second@mail-com)">second user(second@mail.com)</h1><h1 id="建一个github别名，新建的帐号使用这个别名做克隆和更新">建一个github别名，新建的帐号使用这个别名做克隆和更新</h1><p>  Host github2<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa_work<br>其规则就是：从上至下读取config的内容，在每个Host下寻找对应的私钥。这里将GitHub SSH仓库地址中的git@github.com替换成新建的Host别名如：github2，那么原地址是：git@github.com:kunkun/Mywork.git，替换后应该是：github2:kunkun/Mywork.git。</p>
+<p> ssh-agent bash<br> ssh-add ~/.ssh/id_rsa_work<br>####3、修改config文件 将账户以及git服务器与对应的密钥关联。在<code>C:\Users\kunkun\.ssh</code>目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下：</p>
+<h1 id="u8BE5_u6587_u4EF6_u7528_u4E8E_u914D_u7F6E_u79C1_u94A5_u5BF9_u5E94_u7684_u670D_u52A1_u5668"><a href="#u8BE5_u6587_u4EF6_u7528_u4E8E_u914D_u7F6E_u79C1_u94A5_u5BF9_u5E94_u7684_u670D_u52A1_u5668" class="headerlink" title="该文件用于配置私钥对应的服务器"></a>该文件用于配置私钥对应的服务器</h1><h1 id="Default_github_user_28first@mail-com_29"><a href="#Default_github_user_28first@mail-com_29" class="headerlink" title="Default github user(first@mail.com)"></a>Default github user(first@mail.com)</h1><p>  Host github.com<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa</p>
+<h1 id="second_user_28second@mail-com_29"><a href="#second_user_28second@mail-com_29" class="headerlink" title="second user(second@mail.com)"></a>second user(second@mail.com)</h1><h1 id="u5EFA_u4E00_u4E2Agithub_u522B_u540D_uFF0C_u65B0_u5EFA_u7684_u5E10_u53F7_u4F7F_u7528_u8FD9_u4E2A_u522B_u540D_u505A_u514B_u9686_u548C_u66F4_u65B0"><a href="#u5EFA_u4E00_u4E2Agithub_u522B_u540D_uFF0C_u65B0_u5EFA_u7684_u5E10_u53F7_u4F7F_u7528_u8FD9_u4E2A_u522B_u540D_u505A_u514B_u9686_u548C_u66F4_u65B0" class="headerlink" title="建一个github别名，新建的帐号使用这个别名做克隆和更新"></a>建一个github别名，新建的帐号使用这个别名做克隆和更新</h1><p>  Host github2<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa_work<br>其规则就是：从上至下读取config的内容，在每个Host下寻找对应的私钥。这里将GitHub SSH仓库地址中的git@github.com替换成新建的Host别名如：github2，那么原地址是：git@github.com:kunkun/Mywork.git，替换后应该是：github2:kunkun/Mywork.git。</p>
 </li>
 </ul>
-<h4 id="4、用记事本打开新生成的~/-ssh/id_rsa2-pub_和id_rsa_work_复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh_keys中。">4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。</h4><h4 id="5、测试：">5、测试：</h4><pre><code>$ ssh -T git<span class="decorator">@github.com</span>
-Hi BeginMan! Yo<span class="string">u've successfully authenticated, but GitHub does not provide shel
+<p>####4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。</p>
+<p>####5、测试：</p>
+<pre><code>$ ssh -T git@github.com
+Hi BeginMan! You&apos;ve successfully authenticated, but GitHub does not provide shel
 l access.
 
 $ ssh -T github2
-Hi BeginMan! You'</span>ve successfully authenticated, but GitHub does <span class="keyword">not</span> provide shel
+Hi BeginMan! You&apos;ve successfully authenticated, but GitHub does not provide shel
 l access.
 </code></pre><p>克隆的时候将Github.com替换为对应的别名即可<br>比如我的第二个账户中的一个仓库地址为git@github.com:kunkun12/PiesLayer.git。但是我以上的配置中使用</p>
 <p> git clone git@github2:kunkun12/PiesLayer.git</p>
-<p> 注意：如果你只是通过这篇文章中所述配置了Host，那么你多个账号下面的提交用户会是一个人，所以需要通过命令git config —global —unset user.email删除用户账户设置，在每一个repo下面使用git config —local user.email ‘你的github邮箱@mail.com’ 命令单独设置用户账户信息</p>
+<p> 注意：如果你只是通过这篇文章中所述配置了Host，那么你多个账号下面的提交用户会是一个人，所以需要通过命令git config –global –unset user.email删除用户账户设置，在每一个repo下面使用git config –local user.email ‘你的github邮箱@mail.com’ 命令单独设置用户账户信息</p>
 
         
 
@@ -284,7 +285,7 @@ l access.
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单用户情况"><span class="nav-number">1.</span> <span class="nav-text">单用户情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多账户配置"><span class="nav-number">2.</span> <span class="nav-text">多账户配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、新建user2的SSH_Key"><span class="nav-number">2.1.</span> <span class="nav-text">1、新建user2的SSH Key</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新建SSH_key："><span class="nav-number"></span> <span class="nav-text">新建SSH key：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置名称为id_rsa_work"><span class="nav-number"></span> <span class="nav-text">设置名称为id_rsa_work</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2、新密钥添加到SSH_agent中"><span class="nav-number">0.1.</span> <span class="nav-text">2、新密钥添加到SSH agent中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、修改config文件_将账户以及git服务器与对应的密钥关联。在C:\Users\kunkun\-ssh目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下：_比如我的config配置如下："><span class="nav-number">0.2.</span> <span class="nav-text">3、修改config文件 将账户以及git服务器与对应的密钥关联。在C:\Users\kunkun\.ssh目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#该文件用于配置私钥对应的服务器"><span class="nav-number"></span> <span class="nav-text">该文件用于配置私钥对应的服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Default_github_user(first@mail-com)"><span class="nav-number"></span> <span class="nav-text">Default github user(first@mail.com)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#second_user(second@mail-com)"><span class="nav-number"></span> <span class="nav-text">second user(second@mail.com)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建一个github别名，新建的帐号使用这个别名做克隆和更新"><span class="nav-number"></span> <span class="nav-text">建一个github别名，新建的帐号使用这个别名做克隆和更新</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4、用记事本打开新生成的~/-ssh/id_rsa2-pub_和id_rsa_work_复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh_keys中。"><span class="nav-number">0.1.</span> <span class="nav-text">4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、测试："><span class="nav-number">0.2.</span> <span class="nav-text">5、测试：</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u8BBE_u7F6E_u540D_u79F0_u4E3Aid_rsa_work"><span class="nav-number">1.</span> <span class="nav-text">设置名称为id_rsa_work</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u8BE5_u6587_u4EF6_u7528_u4E8E_u914D_u7F6E_u79C1_u94A5_u5BF9_u5E94_u7684_u670D_u52A1_u5668"><span class="nav-number">2.</span> <span class="nav-text">该文件用于配置私钥对应的服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Default_github_user_28first@mail-com_29"><span class="nav-number">3.</span> <span class="nav-text">Default github user(first@mail.com)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#second_user_28second@mail-com_29"><span class="nav-number">4.</span> <span class="nav-text">second user(second@mail.com)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u5EFA_u4E00_u4E2Agithub_u522B_u540D_uFF0C_u65B0_u5EFA_u7684_u5E10_u53F7_u4F7F_u7528_u8FD9_u4E2A_u522B_u540D_u505A_u514B_u9686_u548C_u66F4_u65B0"><span class="nav-number">5.</span> <span class="nav-text">建一个github别名，新建的帐号使用这个别名做克隆和更新</span></a></li></ol>
       </div>
     
   </div>

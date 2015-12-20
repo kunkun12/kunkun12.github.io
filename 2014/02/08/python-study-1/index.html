@@ -129,19 +129,17 @@
 
         
           <p>去年买了本Python基础教程，看了一个月，感觉Python 入门也挺easy的，也写了一些简单的代码，最近又买了本《Python入门教程》，感觉这个书不应该买的，就是太基础，书看完了,，将Python一些最基本的东西总结一下吧。将重点内容概括一下 作为读书笔记，好记性不如烂笔头啊。</p>
-<h4 id="字符串">字符串</h4><p>字符串有三种方式 </p>
-<pre><code><span class="bullet">1. </span>单引号
-<span class="bullet">2. </span>双引号
-<span class="bullet">3. </span>三引号
+<p>####字符串</p>
+<p>字符串有三种方式 </p>
+<pre><code>1. 单引号
+2. 双引号
+3. 三引号
 </code></pre><p>通过+ 完成字符串拼接<br>len (s) 求字符串的长度<br>3*”hello”复制三次字符串。</p>
 <p>列出模块中的所有函数 dir(math)<br>打印文档字符串 print(math.cos.<strong>doc</strong>)</p>
-<h4 id="类型转换">类型转换</h4><pre><code><span class="function"><span class="title">int</span><span class="params">(<span class="string">"3"</span>)</span></span>
-<span class="function"><span class="title">str</span><span class="params">(<span class="number">3</span>)</span></span>
-<span class="function"><span class="title">float</span><span class="params">(<span class="string">'3.0'</span>)</span></span>
-<span class="function"><span class="title">float</span><span class="params">(<span class="number">3</span>)</span></span>
-</code></pre><p>变量的引用赋值：让变量指向表达式的值 比如 x=2;x指向2，y=x;y也指向，改变y的值对x无影响，只是改变了y的指向而已</p>
+<p>####类型转换<br>        int(“3”)<br>        str(3)<br>        float(‘3.0’)<br>        float(3)</p>
+<p>变量的引用赋值：让变量指向表达式的值 比如 x=2;x指向2，y=x;y也指向，改变y的值对x无影响，只是改变了y的指向而已</p>
 <p>多种赋值 </p>
-<pre><code>x,y,<span class="variable">z=</span><span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>  相当于<span class="variable">x=</span><span class="number">1</span>,<span class="variable">y=</span><span class="number">2</span>,<span class="variable">z=</span><span class="number">3</span>;
+<pre><code>x,y,z=1,2,3  相当于x=1,y=2,z=3;
 </code></pre><p>从 键盘读取字符串 name=input();只能获取到字符串 ，如果要读取整数的话，需要类型转换，int(a)</p>
 <p>将字符串 首字母大写<br>        ‘du bao kun’.capitalize(); //Du bao kun<br>去除收尾的空格<br>        ‘  du  bao  kun   ‘.strip();// du bao kun</p>
 <p>print 在字符串  可以传入多个参数，以分隔符来输出，可以设置sep来自定义分割符号,比如  print(‘du’,’bao’,’kun’,sep=’.’)#du.bao.kun</p>
@@ -155,39 +153,39 @@
 <p>要范文索引为i的字符 ，通过 ‘s[i]’或者 ‘s[i:i+1]’</p>
 <p>同时还有改变大小写、剥除函数、拆分函数，替换函数</p>
 <p><strong>format</strong>    函数 一下输出结果均为Jack like rose</p>
-<pre><code><span class="function"><span class="title">print</span><span class="params">(<span class="string">'{0} like {1} '</span>.format(<span class="string">'jack'</span>,<span class="string">'rose'</span>)</span></span>)
-<span class="function"><span class="title">print</span><span class="params">(<span class="string">'{first} like {second} '</span>.format(second=<span class="string">'rose'</span>,first=<span class="string">'jack'</span>)</span></span>)
+<pre><code>print(&apos;{0} like {1} &apos;.format(&apos;jack&apos;,&apos;rose&apos;))
+print(&apos;{first} like {second} &apos;.format(second=&apos;rose&apos;,first=&apos;jack&apos;))
 </code></pre><p>eval可以解析 表达式的值 比如 ‘eval(‘5+3’)’结果为8<br>布尔逻辑 ：’not  and  or    ==、’<br>短路求值  如果 true or  x ，则表达式x值不再计算。同理如果 false and x，x表达是也不进行计算。<br>流程控制  if /else,if/elif/else</p>
-<pre><code><span class="keyword">if</span> x:
-    <span class="function"><span class="title">print</span><span class="params">(<span class="string">'x'</span>)</span></span>
-<span class="keyword">else</span>
-    <span class="function"><span class="title">print</span><span class="params">(<span class="string">'y'</span>)</span></span>
+<pre><code>if x:
+    print(&apos;x&apos;)
+else
+    print(&apos;y&apos;)
 </code></pre><p>条件表达式</p>
-<pre><code>reply=‘yuck’<span class="keyword">if</span> food ==<span class="string">'lamb'</span> <span class="keyword">else</span> <span class="string">'yum'</span>
+<pre><code>reply=‘yuck’if food ==&apos;lamb&apos; else &apos;yum&apos;
 </code></pre><p>相当于</p>
-<pre><code><span class="keyword">if</span> food ==<span class="string">'lamb'</span>
-    reply=<span class="string">'yuck'</span>
-<span class="keyword">else</span>
-    replay=<span class="string">'yum'</span>
+<pre><code>if food ==&apos;lamb&apos;
+    reply=&apos;yuck&apos;
+else
+    replay=&apos;yum&apos;
 </code></pre><p>循环<br>        for i in range(10):<br>              print (i)<br>while </p>
-<pre><code><span class="built_in">i</span>=<span class="number">0</span>
-<span class="keyword">while</span> <span class="built_in">i</span>&lt;<span class="number">10</span>:
-    print(<span class="built_in">i</span>)
-    <span class="built_in">i</span>=<span class="built_in">i</span>+<span class="number">1</span>
+<pre><code>i=0
+while i&lt;10:
+    print(i)
+    i=i+1
 </code></pre><p>python 使用缩进来表示代码块，要在Python中 表示代码块，必须以同样程度缩进代码块的每一行，但Python 允许你编写包含任意数量语句的代码块,但注意冒号</p>
 <p>函数定义 </p>
-<pre><code><span class="function"><span class="keyword">def</span> <span class="title">say_hello</span><span class="params">()</span>:</span>
-    <span class="keyword">print</span> (<span class="string">'hello'</span>)
+<pre><code>def say_hello():
+    print (&apos;hello&apos;)
 </code></pre><p>默认值</p>
-<pre><code><span class="function"><span class="keyword">def</span> <span class="title">greet</span><span class="params">(name,greeting =<span class="string">'hello'</span>)</span>:</span>
+<pre><code>def greet(name,greeting =&apos;hello&apos;):
     print(name+greeting)
-greet(<span class="string">'kunkun'</span>)
-greet(<span class="string">'kunkun'</span>,<span class="string">'你好'</span>)
+greet(&apos;kunkun&apos;)
+greet(&apos;kunkun&apos;,&apos;你好&apos;)
 </code></pre><p>输出结果 </p>
-<pre><code><span class="title">kunkunhello</span>
+<pre><code>kunkunhello
 kunkun你好
 </code></pre><p>关键字参数</p>
-<pre><code><span class="function"><span class="title">greet</span><span class="params">(greeting=<span class="string">'nihao'</span>,name=<span class="string">'kunkun'</span>)</span></span>
+<pre><code>greet(greeting=&apos;nihao&apos;,name=&apos;kunkun&apos;)
 </code></pre>
         
 
@@ -307,7 +305,7 @@ kunkun你好
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串"><span class="nav-number">1.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型转换"><span class="nav-number">2.</span> <span class="nav-text">类型转换</span></a></li></ol>
+        
       </div>
     
   </div>

@@ -129,45 +129,45 @@
 
         
           <p>如果将对象用于Javascript的关系比较运算符，比如<code>&lt;</code>、<code>&lt;=</code>，javascript会首先调用对象的valueOf方法，如果这个方法返回一个原始值，则直接比较原始值。定义一个类Person</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">person</span><span class="params">(age,name)</span></span>{
-    <span class="keyword">this</span>.age=age;
-    <span class="keyword">this</span>.valueOf=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
-        <span class="keyword">return</span> <span class="keyword">this</span>.age;
+<pre><code>function person(age,name){
+    this.age=age;
+    this.valueOf=function(){
+        return this.age;
     }
 }
 </code></pre><p>然后新建两个Person的实例。</p>
-<pre><code><span class="reserved">var</span> person1=<span class="keyword">new</span> person(<span class="number">12</span>,<span class="string">'张三'</span>);
-<span class="reserved">var</span> person2=<span class="keyword">new</span> person(<span class="number">13</span>,<span class="string">'李四'</span>);
-<span class="built_in">console</span>.log(person1&lt;person2) <span class="regexp">//</span><span class="literal">true</span>
-<span class="built_in">console</span>.log(person1&gt;person2)<span class="regexp">//</span><span class="literal">false</span>
+<pre><code>var person1=new person(12,&apos;张三&apos;);
+var person2=new person(13,&apos;李四&apos;);
+console.log(person1&lt;person2) //true
+console.log(person1&gt;person2)//false
 </code></pre><p>如果构造函数没有valueOf方法，以上对象无轮如何比较都是输出false<br>此外在对两个对象求和的话，也会尝试调用valueOf方法</p>
 <p>比如<br>        var person1=new person(12,’张三’);<br>        var person2=new person(13,’李四’);<br>        console.log(person1+person2) //25</p>
 <p>当然如果构造函数没有valueOf方法,则会对象会先自动调用的toString方法。。默认情况下对象使用的是Object的toString方法的话则输出<code>[object Object]</code>;我们也可以重写toString方法。</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">person</span><span class="params">(age,name)</span></span>{
-    <span class="keyword">this</span>.age=age;
-    <span class="keyword">this</span>.name=name;
-    <span class="keyword">this</span>.toString=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
-        <span class="keyword">return</span> <span class="keyword">this</span>.name;
+<pre><code>function person(age,name){
+    this.age=age;
+    this.name=name;
+    this.toString=function(){
+        return this.name;
     }
 }
 
-<span class="keyword">var</span> person1=<span class="keyword">new</span> person(<span class="number">12</span>,<span class="string">'张三'</span>);
-<span class="keyword">var</span> person2=<span class="keyword">new</span> person(<span class="number">13</span>,<span class="string">'李四'</span>);
-<span class="built_in">console</span>.log(person1+person2);<span class="comment">//张三李四。</span>
+var person1=new person(12,&apos;张三&apos;);
+var person2=new person(13,&apos;李四&apos;);
+console.log(person1+person2);//张三李四。
 </code></pre><p>如果一个构造函数中同时重写了valueOf和toString的话则只调用valueOf返回的结果参与运算.如下</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">person</span><span class="params">(age,name)</span></span>{
-    <span class="keyword">this</span>.age=age;
-    <span class="keyword">this</span>.valueOf=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
-        <span class="keyword">return</span> <span class="keyword">this</span>.age;
+<pre><code>function person(age,name){
+    this.age=age;
+    this.valueOf=function(){
+        return this.age;
     }
-    <span class="keyword">this</span>.toString=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
-        <span class="keyword">return</span> <span class="keyword">this</span>.name;
+    this.toString=function(){
+        return this.name;
     }
 }
 
-<span class="keyword">var</span> person1=<span class="keyword">new</span> person(<span class="number">12</span>,<span class="string">'张三'</span>);
-<span class="keyword">var</span> person2=<span class="keyword">new</span> person(<span class="number">13</span>,<span class="string">'李四'</span>);
-<span class="built_in">console</span>.log(person1+person2);<span class="comment">//25</span>
+var person1=new person(12,&apos;张三&apos;);
+var person2=new person(13,&apos;李四&apos;);
+console.log(person1+person2);//25
 </code></pre>
         
 

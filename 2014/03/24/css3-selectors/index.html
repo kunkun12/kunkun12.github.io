@@ -131,7 +131,8 @@
           <blockquote>
 <p>在学习新技术的同时不要忘记复习一下那些最基础的东西</p>
 </blockquote>
-<h4 id="基本选择器">基本选择器</h4><ul>
+<p>####基本选择器</p>
+<ul>
 <li>通配符选择器(*) 通配符选择器是用来选择所有元素，，也可以选择某个元素下的所有元素</li>
 <li>元素选择器 根据tag名字来选择 比如 p body div 等等</li>
 <li>类选择器 .className</li>
@@ -151,7 +152,8 @@
 </blockquote>
 </li>
 </ul>
-<h4 id="属性选择器">属性选择器</h4><ul>
+<p>####属性选择器</p>
+<ul>
 <li>E[attr]：只使用属性名，而不论这个属性值是什么，你就可以使用这个属性选择器</li>
 <li>E[attr=”value”]：指定属性名，并指定了该属性的属性值为value；</li>
 <li>E[attr~=”value”]：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的“~”不能不写;属性选择器中有波浪（〜）时属性值有value时就相匹配，没有波浪（〜）时属性值要完全是value时才匹配。</li>
@@ -160,16 +162,18 @@
 <li>E[attr*=”value”]：而且属值中包含了value；</li>
 <li>E[attr|=”value”]：属性值是value或者以“value-”开头的值</li>
 </ul>
-<h4 id="伪类选择器">伪类选择器</h4><h5 id="动态伪类">动态伪类</h5><ul>
+<p>####伪类选择器</p>
+<p>#####动态伪类</p>
+<ul>
 <li>:hover用于当用户把鼠标移动到元素上面时的效果；</li>
 <li>:active用于用户点击元素那一下的效果（正发生在点的那一下，松开鼠标左键此动作也就完成了）</li>
-<li><p>:focus用于元素成为焦点，这个经常用在表单元素上。</p>
-<h5 id="UI元素状态伪类">UI元素状态伪类</h5></li>
+<li><p>:focus用于元素成为焦点，这个经常用在表单元素上。<br>#####UI元素状态伪类</p>
+</li>
 <li><p>:enabled 表单元素可用（比如”type=”text”有enable和disabled两种状态，前者为可写状态后者为不可状态）</p>
 </li>
 <li>:disabled    </li>
-<li><p>:checked 表单元素选中适用于radio checked</p>
-<h5 id="CSS3的:nth选择器">CSS3的:nth选择器</h5></li>
+<li><p>:checked 表单元素选中适用于radio checked<br>#####CSS3的:nth选择器</p>
+</li>
 <li><p>:fist-child选择某个元素的第一个子元素；</p>
 </li>
 <li>:last-child选择某个元素的最后一个子元素；</li>
@@ -195,23 +199,24 @@
 <li>:only-of-type选择一个元素是它的上级元素的唯一一个相同类型的子元素；</li>
 <li>:empty是用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格.</li>
 </ul>
-<h5 id="否定选择器（:not）selctorA:not(slectorB)">否定选择器（:not）selctorA:not(slectorB)</h5><blockquote>
+<p>#####否定选择器（:not）selctorA:not(slectorB)</p>
+<blockquote>
 <p>用来过滤元素，比如要选择除了type为button之外的任何input可以使用 input:not([type=”button”])<br>使用</p>
-<h5 id="伪元素">伪元素</h5><p>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
+<p>#####伪元素<br>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
 </blockquote>
 <ul>
 <li>::first-line选择元素内容的第一行</li>
 <li>::first-letter选择文本块的第一个字母，比如用来实现首字下沉。</li>
 <li><p>::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常用”content”配合使用，比如流行的清除浮动。</p>
-<pre><code><span class="class">.clearfix</span><span class="pseudo">:before</span>,
-<span class="class">.clearfix</span><span class="pseudo">:after</span> <span class="rules">{
-    <span class="rule"><span class="attribute">content</span>:<span class="value"> <span class="string">"."</span></span></span>;
-    <span class="rule"><span class="attribute">display</span>:<span class="value"> block</span></span>;
-    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">0</span></span></span>;
-    <span class="rule"><span class="attribute">visibility</span>:<span class="value"> hidden</span></span>;
-<span class="rule">}</span></span>
-<span class="class">.clearfix</span><span class="pseudo">:after</span> <span class="rules">{<span class="rule"><span class="attribute">clear</span>:<span class="value"> both</span></span>;<span class="rule">}</span></span>
-<span class="class">.clearfix</span> <span class="rules">{<span class="rule"><span class="attribute">zoom</span>:<span class="value"> <span class="number">1</span></span></span>;<span class="rule">}</span></span>
+<pre><code>.clearfix:before,
+.clearfix:after {
+    content: &quot;.&quot;;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix:after {clear: both;}
+.clearfix {zoom: 1;}
 </code></pre><p>-::selection用来改变浏览网页选中文的默认效果</p>
 </li>
 </ul>
@@ -334,7 +339,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本选择器"><span class="nav-number">1.</span> <span class="nav-text">基本选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性选择器"><span class="nav-number">2.</span> <span class="nav-text">属性选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪类选择器"><span class="nav-number">3.</span> <span class="nav-text">伪类选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#动态伪类"><span class="nav-number">3.1.</span> <span class="nav-text">动态伪类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UI元素状态伪类"><span class="nav-number">3.2.</span> <span class="nav-text">UI元素状态伪类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CSS3的:nth选择器"><span class="nav-number">3.3.</span> <span class="nav-text">CSS3的:nth选择器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#否定选择器（:not）selctorA:not(slectorB)"><span class="nav-number">3.4.</span> <span class="nav-text">否定选择器（:not）selctorA:not(slectorB)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#伪元素"><span class="nav-number">3.5.</span> <span class="nav-text">伪元素</span></a></li></ol></li></ol>
+        
       </div>
     
   </div>

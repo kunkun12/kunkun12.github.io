@@ -129,25 +129,26 @@
 
         
           <p>媒体查询在CSS2中就有了，CSS3中得到了进一步增强，简单来说我们可以设置不同类型的媒体条件，并根据对应的条件，给相应符合条件的媒体调用相对应的样式表，说白了就是就是根据设备当前本身的环境(比如屏幕的长宽，设备的种类等）来对元素应用响应的CSS文件，但是所有的CSS 文件总是要下载到本地的。</p>
-<h4 id="引入方式">引入方式</h4><ul>
+<p>####引入方式</p>
+<ul>
 <li><p>link方法引入 </p>
-<pre><code>&lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">type=</span><span class="string">"text/css"</span> <span class="variable">href=</span><span class="string">"../css/print.css"</span> <span class="variable">media=</span><span class="string">"print"</span> /&gt;
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../css/print.css&quot; media=&quot;print&quot; /&gt;
 </code></pre></li>
 <li><p>xml方式引入</p>
-<pre><code>&lt;?xml-stylesheet <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"screen"</span> <span class="variable">href=</span><span class="string">"css/style.css"</span> ？&gt;
+<pre><code>&lt;?xml-stylesheet rel=&quot;stylesheet&quot; media=&quot;screen&quot; href=&quot;css/style.css&quot; ？&gt;
 </code></pre></li>
 <li><p>@import方式引入</p>
-<pre><code><span class="at_rule">@<span class="keyword">import</span> <span class="function">url</span>(<span class="string">"css/reset.css"</span>) screen</span>;
+<pre><code>@import url(&quot;css/reset.css&quot;) screen;
 </code></pre></li>
 <li><p>@media引入</p>
-<pre><code><span class="at_rule">@<span class="keyword">media</span> screen</span>{
-     选择器<span class="rules">{
-    <span class="rule">属性：属性值；
-     }</span></span>
+<pre><code>@media screen{
+     选择器{
+    属性：属性值；
+     }
    }
 </code></pre></li>
 </ul>
-<h4 id="如何定义查询条件">如何定义查询条件</h4><p>媒体类型包括如下几种</p>
+<p>####如何定义查询条件<br>媒体类型包括如下几种</p>
 <ul>
 <li>all 所有设备可用</li>
 <li>braille 盲文</li>
@@ -160,45 +161,52 @@
 <li>tty 电传打字机 </li>
 <li>tv 电视</li>
 </ul>
-<h4 id="最大宽度Max_Width,max-height,max-width">最大宽度Max Width,max-height,max-width</h4><pre><code>&lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"screen and (max-width:600px)"</span> <span class="variable">href=</span><span class="string">"small.css"</span> <span class="variable">type=</span><span class="string">"text/css"</span> /&gt;
+<p>####最大宽度Max Width,max-height,max-width</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width:600px)&quot; href=&quot;small.css&quot; type=&quot;text/css&quot; /&gt;
 </code></pre><p>也可在style 标签或者单独的CSS文件里面:</p>
-<pre><code><span class="at_rule">@<span class="keyword">media</span> only screen and (max-device-width: <span class="number">480px</span>) </span>{
-        <span class="tag">div</span><span class="id">#wrapper</span> <span class="rules">{
-            <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">400px</span></span></span>;
-        <span class="rule">}</span></span>
+<pre><code>@media only screen and (max-device-width: 480px) {
+        div#wrapper {
+            width: 400px;
+        }
 
-        <span class="tag">div</span><span class="id">#header</span> <span class="rules">{
-            <span class="rule"><span class="attribute">background-image</span>:<span class="value"> <span class="function">url</span>(media-queries-phone.jpg)</span></span>;
-            <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">93px</span></span></span>;
-            <span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>;
-        <span class="rule">}</span></span>
+        div#header {
+            background-image: url(media-queries-phone.jpg);
+            height: 93px;
+            position: relative;
+        }
 
-        <span class="tag">div</span><span class="id">#header</span> <span class="tag">h1</span> <span class="rules">{
-            <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">140%</span></span></span>;
-        <span class="rule">}</span></span>
+        div#header h1 {
+            font-size: 140%;
+        }
 
-        <span class="id">#content</span> <span class="rules">{
-            <span class="rule"><span class="attribute">float</span>:<span class="value"> none</span></span>;
-            <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100%</span></span></span>;
-        <span class="rule">}</span></span>
+        #content {
+            float: none;
+            width: 100%;
+        }
 
-        <span class="id">#navigation</span> <span class="rules">{
-            <span class="rule"><span class="attribute">float</span>:<span class="value">none</span></span>;
-            <span class="rule"><span class="attribute">width</span>:<span class="value"> auto</span></span>;
-        <span class="rule">}</span></span>
+        #navigation {
+            float:none;
+            width: auto;
+        }
     }
-</code></pre><h4 id="最小宽度Min_Width_min-width,min-height">最小宽度Min Width min-width,min-height</h4><pre><code>&lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"screen and (min-width:900px)"</span> <span class="variable">href=</span><span class="string">"big.css"</span> <span class="variable">type=</span><span class="string">"text/css"</span>  /&gt;
-</code></pre><h4 id="and_not_only关键字">and not only关键字</h4><h5 id="多个Media_Queries使用查询取交集">多个Media Queries使用查询取交集</h5><pre><code>&lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"screen and (min-width:600px) and (max-width:900px)"</span> <span class="variable">href=</span><span class="string">"style.css"</span> <span class="variable">type=</span><span class="string">"text/css"</span> /&gt;
-</code></pre><h5 id="not用于排除符合表达式的设备。">not用于排除符合表达式的设备。</h5><pre><code>&lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"not print and (max-width: 1200px)"</span> <span class="variable">href=</span><span class="string">"print.css"</span> <span class="variable">type=</span><span class="string">"text/css"</span> /&gt;
-</code></pre><h5 id="only用来定某种特定的媒体类型">only用来定某种特定的媒体类型</h5><pre><code>&lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"only screen and (max-device-width:240px)"</span> <span class="variable">href=</span><span class="string">"android240.css"</span> <span class="variable">type=</span><span class="string">"text/css"</span> /&gt;
-</code></pre><h4 id="Device_Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用">Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用</h4><p>max-device-width、min-device-width</p>
-<h4 id="orientation_横屏或者竖屏">orientation 横屏或者竖屏</h4><h4 id="device-pixel-ratio_设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio">device-pixel-ratio 设备的宽高比<code>min-device-pixel-ratio</code>，<code>max-device-pixel-ratio</code></h4><h4 id="resolution_分辨率_min-resolution_max-resolution。">resolution 分辨率 <code>min-resolution</code>  <code>max-resolution</code>。</h4><p>可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下<br>使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。</p>
-<pre><code><span class="comment">/*240px的宽度*/</span>
- &lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"only screen and (max-device-width:240px)"</span> <span class="variable">href=</span><span class="string">"android240.css"</span> <span class="variable">type=</span><span class="string">"text/css"</span> /&gt;
- <span class="comment">/*360px的宽度*/</span>
- &lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"only screen and (min-device-width:241px) and (max-device-width:360px)"</span> <span class="variable">href=</span><span class="string">"android360.css"</span> <span class="variable">type=</span><span class="string">"text/css"</span> /&gt;
- <span class="comment">/*480px的宽度*/</span>
- &lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">media=</span><span class="string">"only screen and (min-device-width:361px) and (max-device-width:480px)"</span> <span class="variable">href=</span><span class="string">"android480.css"</span> <span class="variable">type=</span><span class="string">"text/css"</span> /&gt;。
+</code></pre><p>####最小宽度Min Width min-width,min-height</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:900px)&quot; href=&quot;big.css&quot; type=&quot;text/css&quot;  /&gt;
+</code></pre><h4 id="and_not_only_u5173_u952E_u5B57"><a href="#and_not_only_u5173_u952E_u5B57" class="headerlink" title="and not only关键字"></a>and not only关键字</h4><h5 id="u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6"><a href="#u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6" class="headerlink" title="多个Media Queries使用查询取交集"></a>多个Media Queries使用查询取交集</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:600px) and (max-width:900px)&quot; href=&quot;style.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><p>#####not用于排除符合表达式的设备。</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;not print and (max-width: 1200px)&quot; href=&quot;print.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><p>#####only用来定某种特定的媒体类型</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><p>####Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用<br>max-device-width、min-device-width</p>
+<p>####orientation 横屏或者竖屏</p>
+<p>####device-pixel-ratio 设备的宽高比<code>min-device-pixel-ratio</code>，<code>max-device-pixel-ratio</code></p>
+<p>####resolution 分辨率 <code>min-resolution</code>  <code>max-resolution</code>。</p>
+<p>可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下<br>使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。</p>
+<pre><code>/*240px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
+ /*360px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:241px) and (max-device-width:360px)&quot; href=&quot;android360.css&quot; type=&quot;text/css&quot; /&gt;
+ /*480px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:361px) and (max-device-width:480px)&quot; href=&quot;android480.css&quot; type=&quot;text/css&quot; /&gt;。
 </code></pre><p>总结：media query 就是让我们根据屏幕的大小来对HTML元素应用适合当前屏幕的样式，能够在不同尺寸的屏幕，甚至是不同的设备上达到较好的用户体验。</p>
 
         
@@ -319,7 +327,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#引入方式"><span class="nav-number">1.</span> <span class="nav-text">引入方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何定义查询条件"><span class="nav-number">2.</span> <span class="nav-text">如何定义查询条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大宽度Max_Width,max-height,max-width"><span class="nav-number">3.</span> <span class="nav-text">最大宽度Max Width,max-height,max-width</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最小宽度Min_Width_min-width,min-height"><span class="nav-number">4.</span> <span class="nav-text">最小宽度Min Width min-width,min-height</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#and_not_only关键字"><span class="nav-number">5.</span> <span class="nav-text">and not only关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#多个Media_Queries使用查询取交集"><span class="nav-number">5.1.</span> <span class="nav-text">多个Media Queries使用查询取交集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#not用于排除符合表达式的设备。"><span class="nav-number">5.2.</span> <span class="nav-text">not用于排除符合表达式的设备。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#only用来定某种特定的媒体类型"><span class="nav-number">5.3.</span> <span class="nav-text">only用来定某种特定的媒体类型</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Device_Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"><span class="nav-number">6.</span> <span class="nav-text">Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orientation_横屏或者竖屏"><span class="nav-number">7.</span> <span class="nav-text">orientation 横屏或者竖屏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#device-pixel-ratio_设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"><span class="nav-number">8.</span> <span class="nav-text">device-pixel-ratio 设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resolution_分辨率_min-resolution_max-resolution。"><span class="nav-number">9.</span> <span class="nav-text">resolution 分辨率 min-resolution  max-resolution。</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#and_not_only_u5173_u952E_u5B57"><span class="nav-number">1.</span> <span class="nav-text">and not only关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6"><span class="nav-number">1.1.</span> <span class="nav-text">多个Media Queries使用查询取交集</span></a></li></ol></li></ol>
       </div>
     
   </div>

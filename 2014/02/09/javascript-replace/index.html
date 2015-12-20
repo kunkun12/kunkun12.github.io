@@ -128,24 +128,23 @@
         
 
         
-          <h3 id="简单介绍">简单介绍</h3><p><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
-<h3 id="字符串替换字符串">字符串替换字符串</h3><p><code>&#39;I am loser!&#39;.replace(&#39;loser&#39;,&#39;hero&#39;)//I am hero!</code></p>
+          <p>###简单介绍<br><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
+<p>###字符串替换字符串<br><code>&#39;I am loser!&#39;.replace(&#39;loser&#39;,&#39;hero&#39;)//I am hero!</code></p>
 <p>直接使用字符串能让自己从loser变成hero，但是如果有2个loser就不能一起变成hero了。</p>
 <p><code>&#39;I am loser,You are loser&#39;.replace(&#39;loser&#39;,&#39;hero&#39;);//I am hero,You are loser</code></p>
 <p>正则表达式替换为字符串、并将正则的global属性改为true则可以让所有loser都变为hero</p>
 <p><code>&#39;I am loser,You are loser&#39;.replace(/loser/g,&#39;hero&#39;)//I am hero,You are hero</code></p>
-<h3 id="有趣的替换字符">有趣的替换字符</h3><h4 id="使用$&amp;字符给匹配字符加大括号">使用$&amp;字符给匹配字符加大括号</h4><pre><code><span class="keyword">var</span> sStr=<span class="string">'讨论一下正则表达式中的replace的用法'</span>;
-sStr.replace(<span class="regexp">/正则表达式/</span>,<span class="string">'{$&amp;}'</span>);<span class="comment">//讨论一下{正则表达式}中的replace的用法</span>
-</code></pre><h4 id="使用$和$&#39;字符替换内容,$位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。">使用$<code>和$&#39;字符替换内容,$</code>位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。</h4><pre><code><span class="variable">'abc</span><span class="variable">'.replace</span><span class="list">(<span class="keyword">/b/</span>,<span class="string">"$`"</span>)</span><span class="comment">;//aac</span>
-<span class="variable">'abc</span><span class="variable">'.replace</span><span class="list">(<span class="keyword">/b/</span>,<span class="string">"$'"</span>)</span><span class="comment">;//acc</span>
-</code></pre><h4 id="使用分组匹配组合新的字符串">使用分组匹配组合新的字符串</h4><pre><code><span class="string">'nimojs@126.com'</span>.<span class="function"><span class="title">replace</span><span class="params">(/(.+)</span><span class="params">(@)</span><span class="params">(.*)</span></span>/,<span class="string">"$2$1"</span>)<span class="comment">//@nimojs</span>
-</code></pre><h4 id="replaceValue参数可以是一个函数">replaceValue参数可以是一个函数</h4><p><code>StringObject.replace(searchValue,replaceValue)</code>中的<strong>replaceValue</strong>可以是一个函数.如果replaceValue是一个函数的话那么，这个函数的arguments会有n+3个参数（n为正则匹配到的次数)</p>
-<pre><code><span class="reserved">function</span> logArguments(){    
-<span class="built_in">console</span>.log(arguments);<span class="regexp">//</span>[<span class="string">"nimojs@126.com"</span>, <span class="string">"nimojs"</span>, <span class="string">"@"</span>, <span class="string">"126.com"</span>, <span class="number">0</span>, <span class="string">"nimojs@126.com"</span>] 
-    <span class="keyword">return</span> <span class="string">'返回值会替换掉匹配到的目标'</span>
+<p>###有趣的替换字符</p>
+<p>####使用$&amp;字符给匹配字符加大括号<br>        var sStr=’讨论一下正则表达式中的replace的用法’;<br>        sStr.replace(/正则表达式/,’{$&amp;}’);//讨论一下{正则表达式}中的replace的用法</p>
+<p>####使用$<code>和$&#39;字符替换内容,$</code>位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。<br>        ‘abc’.replace(/b/,”$`”);//aac<br>        ‘abc’.replace(/b/,”$’”);//acc</p>
+<p>####使用分组匹配组合新的字符串<br>        ‘nimojs@126.com’.replace(/(.+)(@)(.*)/,”$2$1”)//@nimojs</p>
+<p>####replaceValue参数可以是一个函数<br><code>StringObject.replace(searchValue,replaceValue)</code>中的<strong>replaceValue</strong>可以是一个函数.如果replaceValue是一个函数的话那么，这个函数的arguments会有n+3个参数（n为正则匹配到的次数)</p>
+<pre><code>function logArguments(){    
+console.log(arguments);//[&quot;nimojs@126.com&quot;, &quot;nimojs&quot;, &quot;@&quot;, &quot;126.com&quot;, 0, &quot;nimojs@126.com&quot;] 
+    return &apos;返回值会替换掉匹配到的目标&apos;
 }
-<span class="built_in">console</span>.log(
-<span class="string">'nimojs@126.com'</span>.replace(<span class="regexp">/(.+)(@)(.*)/</span>,logArguments)
+console.log(
+&apos;nimojs@126.com&apos;.replace(/(.+)(@)(.*)/,logArguments)
 )
 </code></pre><p><strong>参数分别为</strong></p>
 <ol>
@@ -273,7 +272,7 @@ sStr.replace(<span class="regexp">/正则表达式/</span>,<span class="string">
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单介绍"><span class="nav-number">1.</span> <span class="nav-text">简单介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串替换字符串"><span class="nav-number">2.</span> <span class="nav-text">字符串替换字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有趣的替换字符"><span class="nav-number">3.</span> <span class="nav-text">有趣的替换字符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用$&字符给匹配字符加大括号"><span class="nav-number">3.1.</span> <span class="nav-text">使用$&字符给匹配字符加大括号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用$和$'字符替换内容,$位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。"><span class="nav-number">3.2.</span> <span class="nav-text">使用$和$'字符替换内容,$位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用分组匹配组合新的字符串"><span class="nav-number">3.3.</span> <span class="nav-text">使用分组匹配组合新的字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#replaceValue参数可以是一个函数"><span class="nav-number">3.4.</span> <span class="nav-text">replaceValue参数可以是一个函数</span></a></li></ol></li></ol>
+        
       </div>
     
   </div>

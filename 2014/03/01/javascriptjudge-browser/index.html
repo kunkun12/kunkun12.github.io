@@ -128,54 +128,54 @@
         
 
         
-          <h3 id="浏览器类型判断">浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    —    浏览器代码名的字符串表示<br>    appName    —    官方浏览器名的字符串表示<br>    appVersion    —    浏览器版本信息的字符串表示<br>    cookieEnabled    —    如果启用cookie返回true，否则返回false<br>    javaEnabled    —    如果启用java返回true，否则返回false<br>    platform    —    浏览器所在计算机平台的字符串表示<br>    plugins    —    安装在浏览器中的插件数组<br>    taintEnabled    —    如果启用了数据污点返回true，否则返回false<br>    userAgent    —    用户代理头的字符串表示</p>
+          <p>###浏览器类型判断<br>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
 <p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
-<pre><code> <span class="keyword">var</span> Sys = {}; 
-<span class="keyword">var</span> ua = navigator.userAgent.toLowerCase(); 
-<span class="keyword">var</span> s; 
-(s = ua.<span class="literal">match</span>(/msie ([/<span class="keyword">d</span>.]+)/)) ? Sys.ie = s[1] : 
-(s = ua.<span class="literal">match</span>(/firefox<span class="comment">//([/d.]+)/)) ? Sys.firefox = s[1] : </span>
-(s = ua.<span class="literal">match</span>(/chrome<span class="comment">//([/d.]+)/)) ? Sys.chrome = s[1] : </span>
-(s = ua.<span class="literal">match</span>(/opera.([/<span class="keyword">d</span>.]+)/)) ? Sys.opera = s[1] : 
-(s = ua.<span class="literal">match</span>(/<span class="keyword">version</span><span class="comment">//([/d.]+).*safari/)) ? Sys.safari = s[1] : 0;</span>
+<pre><code> var Sys = {}; 
+var ua = navigator.userAgent.toLowerCase(); 
+var s; 
+(s = ua.match(/msie ([/d.]+)/)) ? Sys.ie = s[1] : 
+(s = ua.match(/firefox//([/d.]+)/)) ? Sys.firefox = s[1] : 
+(s = ua.match(/chrome//([/d.]+)/)) ? Sys.chrome = s[1] : 
+(s = ua.match(/opera.([/d.]+)/)) ? Sys.opera = s[1] : 
+(s = ua.match(/version//([/d.]+).*safari/)) ? Sys.safari = s[1] : 0;
 </code></pre><p>测试代码</p>
-<pre><code><span class="keyword">if</span> (Sys.ie) <span class="built_in">document</span>.write(<span class="string">'IE: '</span> + Sys.ie); 
-<span class="keyword">if</span> (Sys.firefox) <span class="built_in">document</span>.write(<span class="string">'Firefox: '</span> + Sys.firefox); 
-<span class="keyword">if</span> (Sys.chrome) <span class="built_in">document</span>.write(<span class="string">'Chrome: '</span> + Sys.chrome); 
-<span class="keyword">if</span> (Sys.opera) <span class="built_in">document</span>.write(<span class="string">'Opera: '</span> + Sys.opera); 
-<span class="keyword">if</span> (Sys.safari) <span class="built_in">document</span>.write(<span class="string">'Safari: '</span> + Sys.safari);
+<pre><code>if (Sys.ie) document.write(&apos;IE: &apos; + Sys.ie); 
+if (Sys.firefox) document.write(&apos;Firefox: &apos; + Sys.firefox); 
+if (Sys.chrome) document.write(&apos;Chrome: &apos; + Sys.chrome); 
+if (Sys.opera) document.write(&apos;Opera: &apos; + Sys.opera); 
+if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
 </code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>实现。</p>
-<h3 id="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"><a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
-<pre><code><span class="keyword">if</span> <span class="comment">(Modernizr.borderradius)</span> {
-      <span class="comment">//do something</span>
+<h3 id="Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><a href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
+<pre><code>if (Modernizr.borderradius) {
+      //do something
    }
 
-   <span class="keyword">if</span> <span class="comment">(Modernizr.csstransforms)</span> {
-      <span class="comment">//</span>
+   if (Modernizr.csstransforms) {
+      //
    }
 </code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="external">shim/polyfill</a>脚本来达到支持的目的.</p>
 <p>可以使用Modernizr的load()函数来动态加载脚本，该函数的test属性是表明要测试是否支持的新特性，如果测试成功支持的话，就加载yep属性设置的脚本，如果不支持就加载nope属性设置的脚本，不管是否支持，both属性里设置的脚本都会加载的。例子代码如下：</p>
-<pre><code><span class="tag">Modernizr</span><span class="class">.load</span>({
-    <span class="attribute">test</span>: Modernizr.canvas,
-    <span class="attribute">yep</span>:  'html5CanvasAvailable.js’,
-    <span class="attribute">nope</span>: 'excanvas.js’, 
-    <span class="attribute">both</span>: <span class="string">'myCustomScript.js'</span> 
+<pre><code>Modernizr.load({
+    test: Modernizr.canvas,
+    yep:  &apos;html5CanvasAvailable.js’,
+    nope: &apos;excanvas.js’, 
+    both: &apos;myCustomScript.js&apos; 
 });
 </code></pre><p>在该例子里，Modernizr会判断当前浏览器是否支持canvas特性，如果支持，那就会加载html5CanvasAvailable.js和myCustomScript.js这两个脚本，如果不支持，就会加载excanvas.js（用于IE9之前的版本）脚本文件以让该浏览器支持canvas功能，然后再加载myCustomScript.js脚本。</p>
 <p>因为Modernizr可以加载脚本，所以你还可以用于其它的用途，比如，如果你引用的第三方脚本（例如提供CDN服务的Google和Microsoft提供jquery的托管）加载失败的情况下，可以加载备用的文件。下面的代码是Modernizr提供的一个加载jquery的示例：</p>
-<pre><code>Modernizr.<span class="built_in">load</span>([
+<pre><code>Modernizr.load([
     {
-        <span class="built_in">load</span>: <span class="string">'//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js'</span>,
-        complete: <span class="function"><span class="keyword">function</span> <span class="params">()</span></span> {
-            <span class="keyword">if</span> (!window.jQuery) {
-                Modernizr.<span class="built_in">load</span>(<span class="string">'js/libs/jquery-1.6.4.min.js'</span>);
+        load: &apos;//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js&apos;,
+        complete: function () {
+            if (!window.jQuery) {
+                Modernizr.load(&apos;js/libs/jquery-1.6.4.min.js&apos;);
             }
         }
     },
     {
-        // This will wait <span class="keyword">for</span> the fallback to <span class="built_in">load</span> <span class="keyword">and</span>
-        // execute <span class="keyword">if</span> it needs to.
-        <span class="built_in">load</span>: <span class="string">'needs-jQuery.js'</span>
+        // This will wait for the fallback to load and
+        // execute if it needs to.
+        load: &apos;needs-jQuery.js&apos;
     }
 ]);
 </code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="external">Detecting HTML5/CSS3 Features using Modernizr</a></p>
@@ -298,7 +298,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器类型判断"><span class="nav-number">1.</span> <span class="nav-text">浏览器类型判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"><span class="nav-number">2.</span> <span class="nav-text">Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><span class="nav-number">1.</span> <span class="nav-text">Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。</span></a></li></ol>
       </div>
     
   </div>

@@ -128,96 +128,97 @@
         
 
         
-          <h4 id="问题提出_我要获取一个对象包含属性的个数">问题提出 我要获取一个对象包含属性的个数</h4><p>在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下</p>
-<pre><code><span class="keyword">var</span> bookAuthors = {
-    <span class="string">"Farmer Giles of Ham"</span>: <span class="string">"J.R.R. Tolkien"</span>,
-    <span class="string">"Out of the Silent Planet"</span>: <span class="string">"C.S. Lewis"</span>,
-    <span class="string">"The Place of the Lion"</span>: <span class="string">"Charles Williams"</span>,
-    <span class="string">"Poetic Diction"</span>: <span class="string">"Owen Barfield"</span>
+          <p>####问题提出 我要获取一个对象包含属性的个数<br>在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下</p>
+<pre><code>var bookAuthors = {
+    &quot;Farmer Giles of Ham&quot;: &quot;J.R.R. Tolkien&quot;,
+    &quot;Out of the Silent Planet&quot;: &quot;C.S. Lewis&quot;,
+    &quot;The Place of the Lion&quot;: &quot;Charles Williams&quot;,
+    &quot;Poetic Diction&quot;: &quot;Owen Barfield&quot;
 };
 </code></pre><p>作为分析的一部分，我们像一个API发送图书作者的数据，不幸的是 这个API只能接受一个包含100本左右的图书对象，于是我们需要向一个号的解决方案，在向API发送之前想告诉它一共包含了多少本书。</p>
-<h4 id="解决方案，使用for_in_变量所有属性，hasOwnProperty判断是不是属于当前对象本身的">解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的</h4><p>于是最初的设计可能如下</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">countProperties</span> <span class="params">(obj)</span> </span>{
-    <span class="keyword">var</span> count = <span class="number">0</span>;
+<p>####解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的<br>于是最初的设计可能如下</p>
+<pre><code>function countProperties (obj) {
+    var count = 0;
 
-    <span class="keyword">for</span> (<span class="keyword">var</span> property <span class="keyword">in</span> obj) {
-        <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, property)) {
+    for (var property in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, property)) {
             count++;
         }
     }
 
-    <span class="keyword">return</span> count;
+    return count;
 }
-<span class="keyword">var</span> bookCount = countProperties(bookAuthors);
-<span class="comment">// Outputs: 4</span>
-<span class="built_in">console</span>.log(bookCount);
+var bookCount = countProperties(bookAuthors);
+// Outputs: 4
+console.log(bookCount);
 </code></pre><p>之所以使用hasOwnProperty 是因为 for in 不但会对象本身的属性，同时也会遍历继承而来的属性 判断</p>
-<h4 id="Object-keys">Object.keys</h4><p>当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于</p>
-<pre><code>  <span class="keyword">for</span> (var <span class="keyword">property</span> <span class="keyword">in</span> obj) {
-     <span class="keyword">if</span> (Object.prototype.hasOwnProperty.<span class="keyword">call</span>(obj, <span class="keyword">property</span>)) {                      
+<p>####Object.keys<br>当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于</p>
+<pre><code>  for (var property in obj) {
+     if (Object.prototype.hasOwnProperty.call(obj, property)) {                      
     }
 }
 </code></pre><p>如果要获取一个对象属性的个数 获取Keys之后，通过数组的length属性就可以获取了。值得一提的是Object.keys(obj) ,只能通过这种方式，他是Object对象中的方法（有点是静态的意思），并不是在Object.prototype上的 因此我们自己定义的对象时没有这个方法的，所以正确的使用方式如下</p>
-<pre><code><span class="keyword">var</span> bookCount = <span class="built_in">Object</span>.keys(bookAuthors).length;
-<span class="comment">// Outputs: 4</span>
-<span class="built_in">console</span>.log(bookCount);
+<pre><code>var bookCount = Object.keys(bookAuthors).length;
+// Outputs: 4
+console.log(bookCount);
 </code></pre><p>错误的使用方式</p>
-<pre><code>var bookCount = bookAuthors.<span class="built_in">keys</span>().<span class="built_in">length</span>;<span class="comment"> //会报错的，自己声明的对象时不具有这个方法的</span>
-</code></pre><h4 id="其他-Object-getOwnPropertyNames">其他-Object.getOwnPropertyNames</h4><p>同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别</p>
+<pre><code>var bookCount = bookAuthors.keys().length; //会报错的，自己声明的对象时不具有这个方法的
+</code></pre><p>####其他-Object.getOwnPropertyNames</p>
+<p>同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别</p>
 <p>Object.keys 以及Object.getOwnPropertyNames()用来获取对象中的属性的name，不包括继承来的属性，两者区别是Object.keys 只能获取可遍历的属性的名字的数组。举个例子</p>
-<pre><code> <span class="keyword">var</span> person = {};
-<span class="built_in">Object</span>.defineProperties(person, 
+<pre><code> var person = {};
+Object.defineProperties(person, 
     {
-        <span class="string">"name"</span>: {value: <span class="string">'Cody Lindley'</span>,enumerable: <span class="literal">true</span>},
-        <span class="string">"age"</span>: {value: <span class="number">38</span>,enumerable: <span class="literal">false</span>}
+        &quot;name&quot;: {value: &apos;Cody Lindley&apos;,enumerable: true},
+        &quot;age&quot;: {value: 38,enumerable: false}
     }
 );
-<span class="comment">//只返回可以可遍历的属性 </span>
-<span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(person)); <span class="comment">//logs ["name"]</span>
-<span class="comment">//return array of all properties, including ones that are non-enumerable</span>
-<span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyNames(person)); <span class="comment">//returns ["name", "age"]</span>
-</code></pre><h4 id="ployFill_为不支持ES5的浏览器提供支持">ployFill 为不支持ES5的浏览器提供支持</h4><p>以下摘自<a href="https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js" target="_blank" rel="external">es5-shim</a></p>
-<pre><code>   <span class="keyword">var</span> hasDontEnumBug = <span class="literal">true</span>,
-        hasProtoEnumBug = (function () {}).propertyIsEnumerable(<span class="symbol">'prototyp</span>e'),
+//只返回可以可遍历的属性 
+console.log(Object.keys(person)); //logs [&quot;name&quot;]
+//return array of all properties, including ones that are non-enumerable
+console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
+</code></pre><p>####ployFill 为不支持ES5的浏览器提供支持<br>以下摘自<a href="https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js" target="_blank" rel="external">es5-shim</a></p>
+<pre><code>   var hasDontEnumBug = true,
+        hasProtoEnumBug = (function () {}).propertyIsEnumerable(&apos;prototype&apos;),
         dontEnums = [
-            <span class="string">"toString"</span>,
-            <span class="string">"toLocaleString"</span>,
-            <span class="string">"valueOf"</span>,
-            <span class="string">"hasOwnProperty"</span>,
-            <span class="string">"isPrototypeOf"</span>,
-            <span class="string">"propertyIsEnumerable"</span>,
-            <span class="string">"constructor"</span>
+            &quot;toString&quot;,
+            &quot;toLocaleString&quot;,
+            &quot;valueOf&quot;,
+            &quot;hasOwnProperty&quot;,
+            &quot;isPrototypeOf&quot;,
+            &quot;propertyIsEnumerable&quot;,
+            &quot;constructor&quot;
         ],
         dontEnumsLength = dontEnums.length;
-    <span class="keyword">for</span> (<span class="keyword">var</span> key in {<span class="string">"toString"</span>: <span class="literal">null</span>}) {
-        hasDontEnumBug = <span class="literal">false</span>;
+    for (var key in {&quot;toString&quot;: null}) {
+        hasDontEnumBug = false;
     }
-    <span class="type">Object</span>.keys = function keys(<span class="class"><span class="keyword">object</span>) {</span>
-        <span class="keyword">var</span> isFunction = _toString(<span class="class"><span class="keyword">object</span>) <span class="title">===</span> '[</span><span class="class"><span class="keyword">object</span> <span class="title">Function</span>]',
-</span>            isObject = <span class="class"><span class="keyword">object</span> <span class="title">!==</span> <span class="title">null</span> <span class="title">&amp;&amp;</span> <span class="title">typeof</span> <span class="title">object</span> <span class="title">===</span> '<span class="title">object</span>';</span>
+    Object.keys = function keys(object) {
+        var isFunction = _toString(object) === &apos;[object Function]&apos;,
+            isObject = object !== null &amp;&amp; typeof object === &apos;object&apos;;
 
-        <span class="keyword">if</span> (!isObject &amp;&amp; !isFunction) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">TypeError</span>(<span class="string">"Object.keys called on a non-object"</span>);
+        if (!isObject &amp;&amp; !isFunction) {
+            throw new TypeError(&quot;Object.keys called on a non-object&quot;);
         }
 
-        <span class="keyword">var</span> keys = [],
+        var keys = [],
             skipProto = hasProtoEnumBug &amp;&amp; isFunction;
-        <span class="keyword">for</span> (<span class="keyword">var</span> name in <span class="class"><span class="keyword">object</span>) {</span>
-            <span class="keyword">if</span> (!(skipProto &amp;&amp; name === <span class="symbol">'prototyp</span>e') &amp;&amp; owns(<span class="class"><span class="keyword">object</span>, <span class="title">name</span>)) {</span>
+        for (var name in object) {
+            if (!(skipProto &amp;&amp; name === &apos;prototype&apos;) &amp;&amp; owns(object, name)) {
                 keys.push(name);
             }
         }
-        <span class="keyword">if</span> (hasDontEnumBug) {
-            <span class="keyword">var</span> ctor = <span class="class"><span class="keyword">object</span>.<span class="title">constructor</span>,
-</span>                skipConstructor = ctor &amp;&amp; ctor.prototype === <span class="class"><span class="keyword">object</span>;</span>
-            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; dontEnumsLength; i++) {
-                <span class="keyword">var</span> dontEnum = dontEnums[i];
-                <span class="keyword">if</span> (!(skipConstructor &amp;&amp; dontEnum === <span class="symbol">'constructo</span>r') &amp;&amp; owns(<span class="class"><span class="keyword">object</span>, <span class="title">dontEnum</span>)) {</span>
+        if (hasDontEnumBug) {
+            var ctor = object.constructor,
+                skipConstructor = ctor &amp;&amp; ctor.prototype === object;
+            for (var i = 0; i &lt; dontEnumsLength; i++) {
+                var dontEnum = dontEnums[i];
+                if (!(skipConstructor &amp;&amp; dontEnum === &apos;constructor&apos;) &amp;&amp; owns(object, dontEnum)) {
                     keys.push(dontEnum);
                 }
             }
         }
-        <span class="keyword">return</span> keys;
+        return keys;
     };
 
 }
@@ -340,7 +341,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题提出_我要获取一个对象包含属性的个数"><span class="nav-number">1.</span> <span class="nav-text">问题提出 我要获取一个对象包含属性的个数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方案，使用for_in_变量所有属性，hasOwnProperty判断是不是属于当前对象本身的"><span class="nav-number">2.</span> <span class="nav-text">解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Object-keys"><span class="nav-number">3.</span> <span class="nav-text">Object.keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他-Object-getOwnPropertyNames"><span class="nav-number">4.</span> <span class="nav-text">其他-Object.getOwnPropertyNames</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ployFill_为不支持ES5的浏览器提供支持"><span class="nav-number">5.</span> <span class="nav-text">ployFill 为不支持ES5的浏览器提供支持</span></a></li></ol>
+        
       </div>
     
   </div>

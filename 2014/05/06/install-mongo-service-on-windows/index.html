@@ -136,53 +136,54 @@
 <li><p>解压到制定目录。我的机器目录如下</p>
 <pre><code>D:
   mongodb
-         <span class="string">|mongodb                            </span>
-                <span class="string">|mongod.cfg</span>
-                <span class="string">|README</span>
-                <span class="string">|THIRD-PARTY-NOTICES</span>
-                <span class="string">|bin</span>
+         |mongodb                            
+                |mongod.cfg
+                |README
+                |THIRD-PARTY-NOTICES
+                |bin
 </code></pre></li>
 <li>创建MongoDb的数据存储目录，可以再任意文件夹下创建，这里我在<strong>D:/mongodb</strong>下创建了<strong>D:/mongodb/data/db</strong>目录</li>
 <li><p>启动MongoDb服务，打开命令行模式下 进入MongoDb的bin目录 运行<strong>mongod.exe</strong>命令</p>
-<pre><code>D:<span class="command">\mongodb</span><span class="command">\mongodb</span><span class="command">\bin</span><span class="command">\mongod</span>.exe --dbpath d:<span class="command">\mongodb</span><span class="command">\data</span>
+<pre><code>D:\mongodb\mongodb\bin\mongod.exe --dbpath d:\mongodb\data
 </code></pre></li>
 </ul>
 <p>输出的结果如下,表示服务启动成功.然后在浏览器输入localhost:28017会打开一个MongoDb的监控网页</p>
-<pre><code>Tue May 06 08:56:28.645 [initandlisten] MongoDB starting : pid=808 port=27017 <span class="keyword">db</span>
-path=<span class="keyword">d</span>:\mongodb\data 64-bit host=DuBaoKun
-Tue May 06 08:56:28.646 [initandlisten] <span class="keyword">db</span> <span class="keyword">version</span> v2.4.1
-Tue May 06 08:56:28.646 [initandlisten] git <span class="keyword">version</span>: 1560959e9ce11a693be8b4d0d16
+<pre><code>Tue May 06 08:56:28.645 [initandlisten] MongoDB starting : pid=808 port=27017 db
+path=d:\mongodb\data 64-bit host=DuBaoKun
+Tue May 06 08:56:28.646 [initandlisten] db version v2.4.1
+Tue May 06 08:56:28.646 [initandlisten] git version: 1560959e9ce11a693be8b4d0d16
 0d633eee75110
-<span class="comment">********</span>
-Tue May 06 08:56:29.056 [initandlisten] command <span class="keyword">local</span>.<span class="label">$cmd</span> command: { create: "<span class="literal">s</span>
-tartup_log", size: 10485760, capped: true } ntoreturn:1 keyUpdates:0  reslen:37
+********
+Tue May 06 08:56:29.056 [initandlisten] command local.$cmd command: { create: &quot;s
+tartup_log&quot;, size: 10485760, capped: true } ntoreturn:1 keyUpdates:0  reslen:37
 290ms
-Tue May 06 08:56:29.077 [initandlisten] waiting <span class="keyword">for</span> connections <span class="keyword">on</span> port 27017
-Tue May 06 08:56:29.077 [websvr] admin web console waiting <span class="keyword">for</span> connections <span class="keyword">on</span> po
+Tue May 06 08:56:29.077 [initandlisten] waiting for connections on port 27017
+Tue May 06 08:56:29.077 [websvr] admin web console waiting for connections on po
 rt 28017
 </code></pre><ul>
 <li>连接数据库 保持上述的Mongodb服务处于开启状态 在开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="external">这篇文章</a>继续操作</li>
 </ul>
-<h3 id="将MongoDb配置为服务">将MongoDb配置为服务</h3><blockquote>
+<p>###将MongoDb配置为服务</p>
+<blockquote>
 <p>虽然进行了以上的配置，但是之后每次使用Mongodb的时候都要先启动服务，如果配置为windows服务，让其自动启动。</p>
 </blockquote>
 <ul>
 <li>创建日志目录：除了配置数据存储目录外，MongoDb还需要要一个日志存储的目录。在<strong>d:\mongodb</strong>目录下创建log目录(这个目录是任意的)</li>
 <li><p>创建服务配置文件：在<strong>d:\mongodb</strong>目录下创建<strong>mongod.cfg</strong>文件。用记事本打开配置dbpath和logpath</p>
-<pre><code>logpath=D:<span class="command">\mongodb</span><span class="command">\log</span><span class="command">\mongo</span>.log
-dbpath=D:<span class="command">\mongodb</span><span class="command">\data</span><span class="command">\db</span>
+<pre><code>logpath=D:\mongodb\log\mongo.log
+dbpath=D:\mongodb\data\db
 </code></pre></li>
 <li><p>安装服务。在命令行中运行如下命令</p>
-<pre><code>D:<span class="command">\mongodb</span><span class="command">\mongodb</span><span class="command">\bin</span><span class="command">\mongod</span>.exe --config D:<span class="command">\mongodb</span><span class="command">\mongod</span>.cfg --install
+<pre><code>D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --install
 </code></pre><p>运行之后提示如下</p>
-<pre><code><span class="comment"><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tue May <span class="number">06</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">12.151</span> Trying <span class="keyword">to</span> install Windows service <span class="string">'MongoDB'</span></span><br><span class="line">Tue May <span class="number">06</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">12.358</span> Service <span class="string">'MongoDB'</span> (Mongo DB) installed <span class="keyword">with</span> command line</span><br><span class="line"><span class="string">'D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --service'</span></span><br><span class="line">Tue May <span class="number">06</span> <span class="number">10</span>:<span class="number">03</span>:<span class="number">12.359</span> Service can be started <span class="keyword">from</span> the command line <span class="keyword">with</span> <span class="string">'net s</span><br><span class="line">tart MongoDB'</span></span><br></pre></td></tr></table></figure></span>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tue May 06 10:03:12.151 Trying to install Windows service &#39;MongoDB&#39;&#10;Tue May 06 10:03:12.358 Service &#39;MongoDB&#39; (Mongo DB) installed with command line&#10;&#39;D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --service&#39;&#10;Tue May 06 10:03:12.359 Service can be started from the command line with &#39;net s&#10;tart MongoDB&#39;</span><br></pre></td></tr></table></figure>
 </code></pre></li>
 </ul>
 <p>此命令成功之后会安装 Mongo Db的服务。并且开机会自动启动，如果要自己控制启动，在开始栏的搜索框输入services.msc可以到计算机管理服务里找个Mongo Db的服务进行设置.</p>
 <blockquote>
 <p>启动服务 <strong>net start MongoDB</strong></p>
 <p>停止服务 <strong>net stop MongoDB</strong></p>
-<p>删除服务 <strong>“C:\Program Files\MongoDB\bin\mongod.exe” —remove</strong></p>
+<p>删除服务 <strong>“C:\Program Files\MongoDB\bin\mongod.exe” –remove</strong></p>
 </blockquote>
 <ul>
 <li>连接数据库 保持Mongodb服务处于开启状态 开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="external">这篇文章</a>继续操作</li>
@@ -306,7 +307,7 @@ dbpath=D:<span class="command">\mongodb</span><span class="command">\data</span>
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#将MongoDb配置为服务"><span class="nav-number">1.</span> <span class="nav-text">将MongoDb配置为服务</span></a></li></ol>
+        
       </div>
     
   </div>

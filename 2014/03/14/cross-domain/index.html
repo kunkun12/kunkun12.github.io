@@ -128,7 +128,8 @@
         
 
         
-          <h4 id="何为跨域">何为跨域</h4><p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
+          <p>####何为跨域</p>
+<p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
 <ul>
 <li><a href="http://www.baidu.com:6080" target="_blank" rel="external">http://www.baidu.com:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 端口号不同</li>
 <li><a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 与<a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 协议不同</li>
@@ -137,58 +138,59 @@
 <p>如上的各种组合还有好多情况，那么我们如何才能绕过浏览器的跨域限制 正常地访问服务呢。</p>
 <p>在flash或者silverlight中，只要服务的页面下放入 跨域策略文件就可以允许不同域下flash/silverlight的页面来调用,内容大致如下</p>
 <pre><code>&lt;cross-domain-policy&gt; 
-&lt;allow-access-<span class="keyword">from</span> domain=<span class="string">"*"</span> <span class="keyword">to</span>-ports=<span class="string">"507"</span> /&gt; 
-&lt;allow-access-<span class="keyword">from</span> domain=<span class="string">"*.example.com"</span> <span class="keyword">to</span>-ports=<span class="string">"507,516"</span> /&gt; 
-&lt;allow-access-<span class="keyword">from</span> domain=<span class="string">"*.example2.com"</span> <span class="keyword">to</span>-ports=<span class="string">"516-523"</span> /&gt; 
-&lt;allow-access-<span class="keyword">from</span> domain=<span class="string">"www.example2.com"</span> <span class="keyword">to</span>-ports=<span class="string">"507,516-523"</span> /&gt; 
-&lt;allow-access-<span class="keyword">from</span> domain=<span class="string">"www.example3.com"</span> <span class="keyword">to</span>-ports=<span class="string">"*"</span> /&gt; 
+&lt;allow-access-from domain=&quot;*&quot; to-ports=&quot;507&quot; /&gt; 
+&lt;allow-access-from domain=&quot;*.example.com&quot; to-ports=&quot;507,516&quot; /&gt; 
+&lt;allow-access-from domain=&quot;*.example2.com&quot; to-ports=&quot;516-523&quot; /&gt; 
+&lt;allow-access-from domain=&quot;www.example2.com&quot; to-ports=&quot;507,516-523&quot; /&gt; 
+&lt;allow-access-from domain=&quot;www.example3.com&quot; to-ports=&quot;*&quot; /&gt; 
 &lt;/cross-domain-policy&gt; 
 </code></pre><p>关于Flash 的跨域情况 在这里不说解释,本文重点介绍Javascript的情况。</p>
-<h4 id="JSONP">JSONP</h4><p>虽然浏览器默认禁止了跨域访问，但并不禁止在页面中引用其他域的JS文件，并可以自由执行引入的JS文件中的function（包括操作cookie、Dom等等）。根据这一点，可以方便地通过创建script节点的方法来实现完全跨域的通信。这种方式叫JSONP解决方案。</p>
+<p>####JSONP<br>虽然浏览器默认禁止了跨域访问，但并不禁止在页面中引用其他域的JS文件，并可以自由执行引入的JS文件中的function（包括操作cookie、Dom等等）。根据这一点，可以方便地通过创建script节点的方法来实现完全跨域的通信。这种方式叫JSONP解决方案。</p>
 <p>利用动态的script来请求服务，服务端返回函数的调用的形式，比如callback(“hello world”);前端如果实现已经定义好了一个callback 的函数既可以获得helloworld;下面开始具体实现。</p>
 <p>服务端使用NodeJS+express实现。新建express项目，app.js如下</p>
-<pre><code><span class="keyword">var</span> express = require(<span class="string">'express'</span>);
-<span class="keyword">var</span> http = require(<span class="string">'http'</span>);
-<span class="keyword">var</span> path = require(<span class="string">'path'</span>);
-<span class="keyword">var</span> app = express();
-app.<span class="keyword">set</span>(<span class="string">'port'</span>, process.env.PORT || <span class="number">3000</span>);
-app.<span class="keyword">set</span>(<span class="string">'port1'</span>, process.env.PORT || <span class="number">3002</span>);
-app.<span class="keyword">use</span>(app.router);
-app.<span class="keyword">use</span>(express.<span class="keyword">static</span>(path.join(__dirname, <span class="string">'public'</span>)))
+<pre><code>var express = require(&apos;express&apos;);
+var http = require(&apos;http&apos;);
+var path = require(&apos;path&apos;);
+var app = express();
+app.set(&apos;port&apos;, process.env.PORT || 3000);
+app.set(&apos;port1&apos;, process.env.PORT || 3002);
+app.use(app.router);
+app.use(express.static(path.join(__dirname, &apos;public&apos;)))
 
-        <span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(a,b)</span></span>{
-            <span class="keyword">return</span> a+b;
+        function add(a,b){
+            return a+b;
         } 
-app.<span class="keyword">get</span>(<span class="string">'/add'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req,res)</span></span>{
-    <span class="keyword">var</span> a=parseInt(req.query.a);
-    <span class="keyword">var</span> b=parseInt(req.query.b);
-     res.send(<span class="string">"addresult("</span>+add(a,b)+<span class="string">")"</span>);
+app.get(&apos;/add&apos;, function(req,res){
+    var a=parseInt(req.query.a);
+    var b=parseInt(req.query.b);
+     res.send(&quot;addresult(&quot;+add(a,b)+&quot;)&quot;);
 });
 
-http.createServer(app).listen(app.<span class="keyword">get</span>(<span class="string">'port'</span>), <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
-  console.log(<span class="string">'Express server listening on port '</span> + app.<span class="keyword">get</span>(<span class="string">'port'</span>));
+http.createServer(app).listen(app.get(&apos;port&apos;), function(){
+  console.log(&apos;Express server listening on port &apos; + app.get(&apos;port&apos;));
 });
-http.createServer(app).listen(app.<span class="keyword">get</span>(<span class="string">'port1'</span>), <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
-  console.log(<span class="string">'Express server listening on port '</span> + app.<span class="keyword">get</span>(<span class="string">'port1'</span>));
+http.createServer(app).listen(app.get(&apos;port1&apos;), function(){
+  console.log(&apos;Express server listening on port &apos; + app.get(&apos;port1&apos;));
 });
 </code></pre><p>为了方便演示，这里的跨域具体是指端口号不同，并且在一个文件里面开了两个server，一个3000端口，一个3002端口，这里的服务主要是实现一个加法的功能，读取两个参数，然后进行加法运算，最后返回结果用addresult包起来，比如前端传入过来的参数分别为a=3,b=7,则返回的参数为addresult(7) <code>app.use(express.static(path.join(__dirname, &#39;public&#39;)))</code>是将当前目录下的public 文件件配置为静态目录，接下来在public文件夹下新建crossdomain.html文件，关键代码如下。</p>
-<pre><code><span class="keyword">var</span>   $=<span class="function"><span class="keyword">function</span><span class="params">(id)</span></span>{
-               <span class="keyword">return</span> <span class="built_in">document</span>.getElementById(id);
+<pre><code>var   $=function(id){
+               return document.getElementById(id);
    }                
-       <span class="keyword">var</span> a=$(<span class="string">'a'</span>).value;
-       <span class="keyword">var</span> b=$(<span class="string">'b'</span>).value;
-       <span class="keyword">var</span> querystring=<span class="string">"a="</span>+a+<span class="string">"&amp;b="</span>+b;
-       <span class="keyword">var</span> script=<span class="built_in">document</span>.createElement(<span class="string">'script'</span>);
-       script.async=<span class="literal">true</span>;
-       script.src=<span class="string">"http://localhost:3000/add?"</span>+querystring;
-       <span class="built_in">document</span>.body.appendChild(script);
+       var a=$(&apos;a&apos;).value;
+       var b=$(&apos;b&apos;).value;
+       var querystring=&quot;a=&quot;+a+&quot;&amp;b=&quot;+b;
+       var script=document.createElement(&apos;script&apos;);
+       script.async=true;
+       script.src=&quot;http://localhost:3000/add?&quot;+querystring;
+       document.body.appendChild(script);
 </code></pre><p>以上$为自定义的函数,根据ID 获取元素，然后从文本框中读取值。作为服务的参数传入。接下来要定义一个名字为addresult的函数来接受返回结果：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">addresult</span> <span class="params">(data)</span> </span>{
-    <span class="comment">// body... </span>
-    $(<span class="string">"result"</span>).innerHTML=a;
+<pre><code>function addresult (data) {
+    // body... 
+    $(&quot;result&quot;).innerHTML=a;
 }
 </code></pre><p>启动程序输入 <code>http://localhost:3002/crossdomain.html</code>，这里是在3002上的页面调用的是3000端口上的服务。视为跨域，运行之后在文本框中输入两个值我们发现实现了跨域调用。<br>以上是实现了一个JSONP的精简版。当然还有些问题要考虑，比如回调函数名字的问题也可以作为参数来传入。第二个问题就是要在服务执行完毕或者请求失败之后 删除动态创建的script标签。</p>
-<h4 id="CORS">CORS</h4><p>随着HTML5标准的 不断完善，也推出了一种新的跨域解决方案Cross-Origin Resource Sharing (CORS)，现在已经是W3C指定的标准。允许 XMLHttpRequest 进行跨域调用，支持CORS的浏览器有</p>
+<p>####CORS </p>
+<p>随着HTML5标准的 不断完善，也推出了一种新的跨域解决方案Cross-Origin Resource Sharing (CORS)，现在已经是W3C指定的标准。允许 XMLHttpRequest 进行跨域调用，支持CORS的浏览器有</p>
 <ul>
 <li>Chrome 3+</li>
 <li>Firefox 3.5+</li>
@@ -197,40 +199,40 @@ http.createServer(app).listen(app.<span class="keyword">get</span>(<span class="
 <li>Internet Explorer 8+ (IE 8下为   XDomainRequest对象)</li>
 </ul>
 <p>这里需要服务端和客户端配合 ，要求服务端返回的返回头中必须包含：</p>
-<pre><code>Access-Control-Allow-<span class="string">Origin:</span> <span class="comment">//发起请求的XMLHttpRequest所在的域</span>
-Access-Control-Allow-<span class="string">Methods:</span> <span class="comment">//支持的请求的方法</span>
-Access-Control-Allow-<span class="string">Credentials:</span><span class="literal">true</span>
+<pre><code>Access-Control-Allow-Origin: //发起请求的XMLHttpRequest所在的域
+Access-Control-Allow-Methods: //支持的请求的方法
+Access-Control-Allow-Credentials:true
 </code></pre><p>同时在请求服务的时候需要将xhr的withCredentials设置为true;如</p>
-<pre><code><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
-xhr.open(<span class="string">"get"</span>, <span class="string">"url"</span>, <span class="literal">true</span>);
-xhr.withCredentials = <span class="literal">true</span>; <span class="comment">//设置这个参数是为了允许cookie发送</span>
+<pre><code>var xhr = new XMLHttpRequest();
+xhr.open(&quot;get&quot;, &quot;url&quot;, true);
+xhr.withCredentials = true; //设置这个参数是为了允许cookie发送
 </code></pre><p>这里请求的时候会发两次http请求，第一次是option请求，判断服务端时候只是CORS 以及支持哪些行为(post,get,put等)如果满足条件话则继续进行服务请求，同样这里也以NodeJS为例写个服务端。代码如下</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">multiply</span><span class="params">(a,b)</span></span>{
-        <span class="keyword">return</span> a*b;
+<pre><code>function multiply(a,b){
+        return a*b;
 }
-app.get(<span class="string">"/multiply"</span>,<span class="function"><span class="keyword">function</span><span class="params">(req,res)</span></span>{
-    <span class="built_in">console</span>.log(res.query);
-    <span class="keyword">var</span> a=<span class="built_in">parseInt</span>(req.query.a);
-    <span class="keyword">var</span> b=<span class="built_in">parseInt</span>(req.query.b);
+app.get(&quot;/multiply&quot;,function(req,res){
+    console.log(res.query);
+    var a=parseInt(req.query.a);
+    var b=parseInt(req.query.b);
     res.set({
-              <span class="string">'Access-Control-Allow-Origin'</span>: req.headers.origin,
-              <span class="string">'Access-Control-Allow-Credentials'</span>: <span class="literal">true</span>,
-              <span class="string">'Access-Control-Allow-Methods'</span>:<span class="string">'POST, GET, PUT, DELETE, OPTIONS'</span>
+              &apos;Access-Control-Allow-Origin&apos;: req.headers.origin,
+              &apos;Access-Control-Allow-Credentials&apos;: true,
+              &apos;Access-Control-Allow-Methods&apos;:&apos;POST, GET, PUT, DELETE, OPTIONS&apos;
             });
 });
 </code></pre><p>客户端的带代码如下</p>
-<pre><code>    <span class="keyword">var</span> a=$(<span class="string">'a'</span>).value;
-    <span class="keyword">var</span> b=$(<span class="string">'b'</span>).value;
-    <span class="keyword">var</span> querystring=<span class="string">"c="</span>+a+<span class="string">"&amp;d="</span>+b;
-    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
-        xhr.open(<span class="string">"get"</span>, <span class="string">"http://localhost:3000/multiply?"</span>+querystring, <span class="literal">true</span>);
-        xhr.withCredentials = <span class="literal">true</span>;<span class="comment">//经测试这个貌似没有什么作用</span>
-        xhr.onload =<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
-        <span class="keyword">var</span> data = xhr.responseText;
-        $(<span class="string">"result"</span>).innerHTML=<span class="string">"这两个数的乘积为"</span>+data;
+<pre><code>    var a=$(&apos;a&apos;).value;
+    var b=$(&apos;b&apos;).value;
+    var querystring=&quot;c=&quot;+a+&quot;&amp;d=&quot;+b;
+    var xhr = new XMLHttpRequest();
+        xhr.open(&quot;get&quot;, &quot;http://localhost:3000/multiply?&quot;+querystring, true);
+        xhr.withCredentials = true;//经测试这个貌似没有什么作用
+        xhr.onload =function(){
+        var data = xhr.responseText;
+        $(&quot;result&quot;).innerHTML=&quot;这两个数的乘积为&quot;+data;
     }
 xhr.send();　　
-</code></pre><h4 id="其他的跨域解决方案。还有比如window-name,iframe，img标签等方式">其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</h4><p>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
+</code></pre><p>####其他的跨域解决方案。还有比如window.name,iframe，img标签等方式<br>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
 <p>本博文的用到的<a href="https://github.com/kunkun12/cross-domain" target="_blank" rel="external">Demo的源码</a></p>
 
         
@@ -351,7 +353,7 @@ xhr.send();　　
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#何为跨域"><span class="nav-number">1.</span> <span class="nav-text">何为跨域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONP"><span class="nav-number">2.</span> <span class="nav-text">JSONP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CORS"><span class="nav-number">3.</span> <span class="nav-text">CORS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他的跨域解决方案。还有比如window-name,iframe，img标签等方式"><span class="nav-number">4.</span> <span class="nav-text">其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</span></a></li></ol>
+        
       </div>
     
   </div>

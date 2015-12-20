@@ -137,17 +137,17 @@
 <p><code>[Decode error - output not utf-8]</code></p>
 <p>大概猜出是编码的问题，于是百度了解决方案为，在Sublime插件包里修改 <code>Python.sublime-build</code> 这个文件在<code>C:\Users\kunkun\AppData\Roaming\Sublime Text 2\Packages\Python</code>下面.在最后一行里面添加·<code>&quot;encoding&quot;: &quot;cp936&quot;</code>,原来的文件为：</p>
 <pre><code>{
-    "<span class="attribute">cmd</span>": <span class="value">[<span class="string">"python"</span>, <span class="string">"-u"</span>, <span class="string">"$file"</span>]</span>,
-    "<span class="attribute">file_regex</span>": <span class="value"><span class="string">"^[ ]*File \"(...*?)\", line ([0-9]*)"</span></span>,
-    "<span class="attribute">selector</span>": <span class="value"><span class="string">"source.python"</span>
-</span>}
+    &quot;cmd&quot;: [&quot;python&quot;, &quot;-u&quot;, &quot;$file&quot;],
+    &quot;file_regex&quot;: &quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;,
+    &quot;selector&quot;: &quot;source.python&quot;
+}
 </code></pre><p>修改后的文件</p>
 <pre><code>{
-  "<span class="attribute">cmd</span>": <span class="value">[<span class="string">"python"</span>, <span class="string">"-u"</span>, <span class="string">"$file"</span>]</span>,
-  "<span class="attribute">file_regex</span>": <span class="value"><span class="string">"^[ ]*File \"(...*?)\", line ([0-9]*)"</span></span>,
-   "<span class="attribute">selector</span>": <span class="value"><span class="string">"source.python"</span></span>,
-   "<span class="attribute">encoding</span>": <span class="value"><span class="string">"cp936"</span>
-</span>}
+  &quot;cmd&quot;: [&quot;python&quot;, &quot;-u&quot;, &quot;$file&quot;],
+  &quot;file_regex&quot;: &quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;,
+   &quot;selector&quot;: &quot;source.python&quot;,
+   &quot;encoding&quot;: &quot;cp936&quot;
+}
 </code></pre><p>改完之后则可以正常输出中文了。</p>
 <p>如果nodejs在控制台输出中文乱码的问题</p>
 <p>修改Nodejs.sublime-build文件中的encoding为utf-8</p>

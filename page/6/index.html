@@ -133,7 +133,7 @@
         
 
         
-          <h4 id="HTTP_method">HTTP method</h4><p>在rest程序设计中对资源都是通过URI来体现的，对资源的操作主要是通过Http请求的方法来实现的。API功能是由http method+ URI共同体现的。举例如下</p>
+          <h4 id="HTTP_method"><a href="#HTTP_method" class="headerlink" title="HTTP method"></a>HTTP method</h4><p>在rest程序设计中对资源都是通过URI来体现的，对资源的操作主要是通过Http请求的方法来实现的。API功能是由http method+ URI共同体现的。举例如下</p>
 <ul>
 <li>GET /tasks - 获取任务列表信息</li>
 <li>GET /tasks/12 -获取指定的任务信息</li>
@@ -143,7 +143,7 @@
 <li>DELETE /tasks/12 - 删除指定的任务</li>
 </ul>
 <p>以上中get 、post、put、delete比较常用。主要实现对资源的CURD。</p>
-<h4 id="HTTP_status">HTTP status</h4><p>作为 API 的设计者，正确的将 API 执行结果和失败原因用清晰简洁的方式传达给客户程序是十分关键的一步。 我们确实可以在 HTTP 的相应内容中描述是否成功，如果出错是因为什么， 然而， 这就意味着用户需要进行内容解析，才知道执行结果和错误原因。因此，HTTP 响应代码可以保证客户端在第一时间用最高效的方式获知 API 运行结果，并采取相应动作。 下表列出了比较常用的响应代码。</p>
+<h4 id="HTTP_status"><a href="#HTTP_status" class="headerlink" title="HTTP status"></a>HTTP status</h4><p>作为 API 的设计者，正确的将 API 执行结果和失败原因用清晰简洁的方式传达给客户程序是十分关键的一步。 我们确实可以在 HTTP 的相应内容中描述是否成功，如果出错是因为什么， 然而， 这就意味着用户需要进行内容解析，才知道执行结果和错误原因。因此，HTTP 响应代码可以保证客户端在第一时间用最高效的方式获知 API 运行结果，并采取相应动作。 下表列出了比较常用的响应代码。</p>
 <ul>
 <li>200 响应成功。主要响应GET, PUT, PATCH 、DELETE.请求，同时也可以响应资源创建成功无返回结果的post请求</li>
 <li>201 资源成功创建，同时在location header 里面有新资源的 地址</li>
@@ -236,11 +236,11 @@
 
         
           <p>原文地址<http: blog.163.com="" wumingli456@126="" blog="" static="" 28896414201211121629525=""></http:></p>
-<h3 id="面向对象的特性">面向对象的特性</h3><p>三个基本的特性：封装、继承与多态。</p>
+<p>###面向对象的特性<br>三个基本的特性：封装、继承与多态。</p>
 <p>1、封装<br>面向对象编程核心思想这一就是就是将数据和对数据的操作封装在一起.通过抽象,即从具体的实例中抽取共同的性质形成一般的概念,比如类的概念.</p>
 <p>2、继承<br>继承体现了一种先进的编程模式.子类可以继承父类的属性和功能,即子类继承了父类所具有的数据和数据上的操作,同时又可以增添子类独有的数据和数据上的操作.例如,”人类”继承了”哺乳类”的属性和功能,同时又增添了人类独有的属性和功能.</p>
 <p>3、多态<br> 多态是面向对象编程的又一重要特征.有两种意义的多态（表现为方法的重写(Overriding)和重载(Overloading)）<br> 一种是操作名称的多态,即有多个操作具有相同的名字,但这些操作所接收的消息类型必须不同.所谓操作名称的多态是指可以向操作传递不同消息,以便让对象根据相应的消息来产生一定的行为.</p>
-<h3 id="七大基本原则">七大基本原则</h3><p> 单一职责原则SRP(Single Responsibility Principle)、开放封闭原则OCP(Open－Close Principle) 、替换原则、依赖原则(the Dependency Inversion Principle DIP) (the Liskov Substitution Principle LSP) 、接口分离原则(the Interface Segregation Principle ISP)、“迪米特”法则 、组合/聚合原则 </p>
+<p>###七大基本原则<br> 单一职责原则SRP(Single Responsibility Principle)、开放封闭原则OCP(Open－Close Principle) 、替换原则、依赖原则(the Dependency Inversion Principle DIP) (the Liskov Substitution Principle LSP) 、接口分离原则(the Interface Segregation Principle ISP)、“迪米特”法则 、组合/聚合原则 </p>
 <p>1、单一职责原则SRP(Single Responsibility Principle)<br>即一个类只负责一项职责<br>可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>提高类的可读性，提高系统的可维护性；<br>变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
 <p>2、开放封闭原则OCP(Open－Close Principle)<br>一个模块在扩展性方面应该是开放的而在更改性方面应该是封闭的。比如：一个网络模块，原来只服务端功能，而现在要加入客户端功能，<br>那么应当在不用修改服务端功能代码的前提下，就能够增加客户端功能的实现代码，这要求在设计之初，就应当将服务端和客户端分开，公共部分抽象出来。</p>
 <p>3、里氏替换原则(the Liskov Substitution Principle LSP)<br>子类应当可以替换父类并出现在父类能够出现的任何地方。</p>
@@ -333,7 +333,8 @@
 
         
           <p>今天使用要为元素设置水平居中的时候发现 <code>margin:0 auto</code> 不起作用，查资料发现原来我给div设置了的是<code>disply:inline-block</code>属性,这种情况下 <code>margin:0 auto</code> 是无效的，于是通过给父元素div 设置了 <code>text-aglin:center</code>得以解决.然后搜集了一些资料，加深一下对inline 属性的了解。</p>
-<h3 id="测试结果">测试结果</h3><ol>
+<p>###测试结果 </p>
+<ol>
 <li>inline元素, 有效的: <code>background</code>, <code>margin-left</code>, <code>margin-right</code>, <code>padding</code>, <code>border</code></li>
 <li>inline元素, 无效的: <code>width</code>, <code>height</code>, <code>margin-top</code>, <code>margin-bottom</code> (个别除外)</li>
 <li>因width, height无效, 因此下列属性也无效: <code>text-align</code>, <code>text-indent</code>, <code>min|max-width|height</code>, <code>overflow</code> </li>
@@ -342,13 +343,14 @@
 <li><code>float</code>,<code>position</code>及与之相关<code>top</code>,<code>left</code>, 不考虑, 已经不是inline了 </li>
 <li><code>img</code>, <code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 设置inline与inline-block, 效果是一样的, 没有变化, 都等同于设置了inline-block </li>
 </ol>
-<h4 id="思考:">思考:</h4><ol>
+<p>####思考: </p>
+<ol>
 <li>inline元素的宽高是不能定义, 即宽高度是由inline元素inline内容的元素决定的,(ie6,ie7下高度会受inline-block元素的影响) </li>
 <li>即宽高完全是自适应而得出的, 因此也不存在overflow的问题, <code>min|max-width|height</code>也没有影响 </li>
 <li>margin四个属性, <code>left|right</code> 与 <code>top|bottom</code>有不同的待遇 </li>
 <li><code>margin-top</code>, <code>margin-bottom</code>, 可以用line-height模拟, 但有很大不同, 与<code>inline-block</code>也不兼容,  另 <code>margin:0 auto</code> 的居中效果, 也没有作用 </li>
 </ol>
-<h4 id="最后:">最后:</h4><p>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
+<p>####最后:<br>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
 <ul>
 <li><code>b</code>, <code>big</code>, <code>i</code>, <code>small</code>, <code>tt</code></li>
 <li><code>abbr</code>, <code>acronym</code>, <code>cite</code>, <code>code</code>, <code>dfn</code>, <code>em</code>, <code>kbd</code>, <code>strong</code>, <code>samp</code>, <code>var</code></li>

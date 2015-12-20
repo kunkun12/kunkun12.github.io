@@ -129,12 +129,12 @@
 
         
           <p>Ng中有一些内置的指令，来响应我们的操作事件，比如ng-click,ng-change ng-select等等，但是我发现众多指令中缺少一个 当键盘按下的指令，比如 按回车的指令，比如我在一个搜索框中输入关键字之后按回车键，然后自动进行关键字来搜索，虽然ng中没有自带这个指令，但是我们很容易的定义一个这样的指令。下面就是一个ng-enter指令来完成这样的操作，使用的时候与ng-click这等方法类似，传递一个函数即可。当绑定该指令的元素处于焦点状态的时候，按下回车键就会触发 ng-enter的函数。</p>
-<pre><code>app.directive(<span class="string">'ngEnter'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
-    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(scope, element, attrs)</span> </span>{
-        element.bind(<span class="string">"keydown keypress"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(event)</span> </span>{
-            <span class="keyword">if</span>(event.which === <span class="number">13</span>) {
-                scope.<span class="variable">$apply</span>(<span class="function"><span class="keyword">function</span> <span class="params">()</span></span>{
-                    scope.<span class="variable">$eval</span>(attrs.ngEnter);
+<pre><code>app.directive(&apos;ngEnter&apos;, function () {
+    return function (scope, element, attrs) {
+        element.bind(&quot;keydown keypress&quot;, function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
                 });
 
                 event.preventDefault();

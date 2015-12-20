@@ -133,96 +133,97 @@
         
 
         
-          <h4 id="问题提出_我要获取一个对象包含属性的个数">问题提出 我要获取一个对象包含属性的个数</h4><p>在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下</p>
-<pre><code><span class="keyword">var</span> bookAuthors = {
-    <span class="string">"Farmer Giles of Ham"</span>: <span class="string">"J.R.R. Tolkien"</span>,
-    <span class="string">"Out of the Silent Planet"</span>: <span class="string">"C.S. Lewis"</span>,
-    <span class="string">"The Place of the Lion"</span>: <span class="string">"Charles Williams"</span>,
-    <span class="string">"Poetic Diction"</span>: <span class="string">"Owen Barfield"</span>
+          <p>####问题提出 我要获取一个对象包含属性的个数<br>在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下</p>
+<pre><code>var bookAuthors = {
+    &quot;Farmer Giles of Ham&quot;: &quot;J.R.R. Tolkien&quot;,
+    &quot;Out of the Silent Planet&quot;: &quot;C.S. Lewis&quot;,
+    &quot;The Place of the Lion&quot;: &quot;Charles Williams&quot;,
+    &quot;Poetic Diction&quot;: &quot;Owen Barfield&quot;
 };
 </code></pre><p>作为分析的一部分，我们像一个API发送图书作者的数据，不幸的是 这个API只能接受一个包含100本左右的图书对象，于是我们需要向一个号的解决方案，在向API发送之前想告诉它一共包含了多少本书。</p>
-<h4 id="解决方案，使用for_in_变量所有属性，hasOwnProperty判断是不是属于当前对象本身的">解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的</h4><p>于是最初的设计可能如下</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">countProperties</span> <span class="params">(obj)</span> </span>{
-    <span class="keyword">var</span> count = <span class="number">0</span>;
+<p>####解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的<br>于是最初的设计可能如下</p>
+<pre><code>function countProperties (obj) {
+    var count = 0;
 
-    <span class="keyword">for</span> (<span class="keyword">var</span> property <span class="keyword">in</span> obj) {
-        <span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, property)) {
+    for (var property in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, property)) {
             count++;
         }
     }
 
-    <span class="keyword">return</span> count;
+    return count;
 }
-<span class="keyword">var</span> bookCount = countProperties(bookAuthors);
-<span class="comment">// Outputs: 4</span>
-<span class="built_in">console</span>.log(bookCount);
+var bookCount = countProperties(bookAuthors);
+// Outputs: 4
+console.log(bookCount);
 </code></pre><p>之所以使用hasOwnProperty 是因为 for in 不但会对象本身的属性，同时也会遍历继承而来的属性 判断</p>
-<h4 id="Object-keys">Object.keys</h4><p>当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于</p>
-<pre><code>  <span class="keyword">for</span> (var <span class="keyword">property</span> <span class="keyword">in</span> obj) {
-     <span class="keyword">if</span> (Object.prototype.hasOwnProperty.<span class="keyword">call</span>(obj, <span class="keyword">property</span>)) {                      
+<p>####Object.keys<br>当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于</p>
+<pre><code>  for (var property in obj) {
+     if (Object.prototype.hasOwnProperty.call(obj, property)) {                      
     }
 }
 </code></pre><p>如果要获取一个对象属性的个数 获取Keys之后，通过数组的length属性就可以获取了。值得一提的是Object.keys(obj) ,只能通过这种方式，他是Object对象中的方法（有点是静态的意思），并不是在Object.prototype上的 因此我们自己定义的对象时没有这个方法的，所以正确的使用方式如下</p>
-<pre><code><span class="keyword">var</span> bookCount = <span class="built_in">Object</span>.keys(bookAuthors).length;
-<span class="comment">// Outputs: 4</span>
-<span class="built_in">console</span>.log(bookCount);
+<pre><code>var bookCount = Object.keys(bookAuthors).length;
+// Outputs: 4
+console.log(bookCount);
 </code></pre><p>错误的使用方式</p>
-<pre><code>var bookCount = bookAuthors.<span class="built_in">keys</span>().<span class="built_in">length</span>;<span class="comment"> //会报错的，自己声明的对象时不具有这个方法的</span>
-</code></pre><h4 id="其他-Object-getOwnPropertyNames">其他-Object.getOwnPropertyNames</h4><p>同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别</p>
+<pre><code>var bookCount = bookAuthors.keys().length; //会报错的，自己声明的对象时不具有这个方法的
+</code></pre><p>####其他-Object.getOwnPropertyNames</p>
+<p>同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别</p>
 <p>Object.keys 以及Object.getOwnPropertyNames()用来获取对象中的属性的name，不包括继承来的属性，两者区别是Object.keys 只能获取可遍历的属性的名字的数组。举个例子</p>
-<pre><code> <span class="keyword">var</span> person = {};
-<span class="built_in">Object</span>.defineProperties(person, 
+<pre><code> var person = {};
+Object.defineProperties(person, 
     {
-        <span class="string">"name"</span>: {value: <span class="string">'Cody Lindley'</span>,enumerable: <span class="literal">true</span>},
-        <span class="string">"age"</span>: {value: <span class="number">38</span>,enumerable: <span class="literal">false</span>}
+        &quot;name&quot;: {value: &apos;Cody Lindley&apos;,enumerable: true},
+        &quot;age&quot;: {value: 38,enumerable: false}
     }
 );
-<span class="comment">//只返回可以可遍历的属性 </span>
-<span class="built_in">console</span>.log(<span class="built_in">Object</span>.keys(person)); <span class="comment">//logs ["name"]</span>
-<span class="comment">//return array of all properties, including ones that are non-enumerable</span>
-<span class="built_in">console</span>.log(<span class="built_in">Object</span>.getOwnPropertyNames(person)); <span class="comment">//returns ["name", "age"]</span>
-</code></pre><h4 id="ployFill_为不支持ES5的浏览器提供支持">ployFill 为不支持ES5的浏览器提供支持</h4><p>以下摘自<a href="https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js" target="_blank" rel="external">es5-shim</a></p>
-<pre><code>   <span class="keyword">var</span> hasDontEnumBug = <span class="literal">true</span>,
-        hasProtoEnumBug = (function () {}).propertyIsEnumerable(<span class="symbol">'prototyp</span>e'),
+//只返回可以可遍历的属性 
+console.log(Object.keys(person)); //logs [&quot;name&quot;]
+//return array of all properties, including ones that are non-enumerable
+console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
+</code></pre><p>####ployFill 为不支持ES5的浏览器提供支持<br>以下摘自<a href="https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js" target="_blank" rel="external">es5-shim</a></p>
+<pre><code>   var hasDontEnumBug = true,
+        hasProtoEnumBug = (function () {}).propertyIsEnumerable(&apos;prototype&apos;),
         dontEnums = [
-            <span class="string">"toString"</span>,
-            <span class="string">"toLocaleString"</span>,
-            <span class="string">"valueOf"</span>,
-            <span class="string">"hasOwnProperty"</span>,
-            <span class="string">"isPrototypeOf"</span>,
-            <span class="string">"propertyIsEnumerable"</span>,
-            <span class="string">"constructor"</span>
+            &quot;toString&quot;,
+            &quot;toLocaleString&quot;,
+            &quot;valueOf&quot;,
+            &quot;hasOwnProperty&quot;,
+            &quot;isPrototypeOf&quot;,
+            &quot;propertyIsEnumerable&quot;,
+            &quot;constructor&quot;
         ],
         dontEnumsLength = dontEnums.length;
-    <span class="keyword">for</span> (<span class="keyword">var</span> key in {<span class="string">"toString"</span>: <span class="literal">null</span>}) {
-        hasDontEnumBug = <span class="literal">false</span>;
+    for (var key in {&quot;toString&quot;: null}) {
+        hasDontEnumBug = false;
     }
-    <span class="type">Object</span>.keys = function keys(<span class="class"><span class="keyword">object</span>) {</span>
-        <span class="keyword">var</span> isFunction = _toString(<span class="class"><span class="keyword">object</span>) <span class="title">===</span> '[</span><span class="class"><span class="keyword">object</span> <span class="title">Function</span>]',
-</span>            isObject = <span class="class"><span class="keyword">object</span> <span class="title">!==</span> <span class="title">null</span> <span class="title">&amp;&amp;</span> <span class="title">typeof</span> <span class="title">object</span> <span class="title">===</span> '<span class="title">object</span>';</span>
+    Object.keys = function keys(object) {
+        var isFunction = _toString(object) === &apos;[object Function]&apos;,
+            isObject = object !== null &amp;&amp; typeof object === &apos;object&apos;;
 
-        <span class="keyword">if</span> (!isObject &amp;&amp; !isFunction) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">TypeError</span>(<span class="string">"Object.keys called on a non-object"</span>);
+        if (!isObject &amp;&amp; !isFunction) {
+            throw new TypeError(&quot;Object.keys called on a non-object&quot;);
         }
 
-        <span class="keyword">var</span> keys = [],
+        var keys = [],
             skipProto = hasProtoEnumBug &amp;&amp; isFunction;
-        <span class="keyword">for</span> (<span class="keyword">var</span> name in <span class="class"><span class="keyword">object</span>) {</span>
-            <span class="keyword">if</span> (!(skipProto &amp;&amp; name === <span class="symbol">'prototyp</span>e') &amp;&amp; owns(<span class="class"><span class="keyword">object</span>, <span class="title">name</span>)) {</span>
+        for (var name in object) {
+            if (!(skipProto &amp;&amp; name === &apos;prototype&apos;) &amp;&amp; owns(object, name)) {
                 keys.push(name);
             }
         }
-        <span class="keyword">if</span> (hasDontEnumBug) {
-            <span class="keyword">var</span> ctor = <span class="class"><span class="keyword">object</span>.<span class="title">constructor</span>,
-</span>                skipConstructor = ctor &amp;&amp; ctor.prototype === <span class="class"><span class="keyword">object</span>;</span>
-            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; dontEnumsLength; i++) {
-                <span class="keyword">var</span> dontEnum = dontEnums[i];
-                <span class="keyword">if</span> (!(skipConstructor &amp;&amp; dontEnum === <span class="symbol">'constructo</span>r') &amp;&amp; owns(<span class="class"><span class="keyword">object</span>, <span class="title">dontEnum</span>)) {</span>
+        if (hasDontEnumBug) {
+            var ctor = object.constructor,
+                skipConstructor = ctor &amp;&amp; ctor.prototype === object;
+            for (var i = 0; i &lt; dontEnumsLength; i++) {
+                var dontEnum = dontEnums[i];
+                if (!(skipConstructor &amp;&amp; dontEnum === &apos;constructor&apos;) &amp;&amp; owns(object, dontEnum)) {
                     keys.push(dontEnum);
                 }
             }
         }
-        <span class="keyword">return</span> keys;
+        return keys;
     };
 
 }
@@ -301,7 +302,7 @@
 
         
           <p>前段时间学习了Phonegap开发，本篇作为记录，希望对初道者有帮助,本篇主要介绍Phonegap以及环境的搭建。下篇结合Angluar 开发小Demo</p>
-<h3 id="Phonegap介绍">Phonegap介绍</h3><p>Phonegap 作为一个开源的框架来帮助开发者使用Javascript/HTML5/CSS 开发跨平台的移动应用。他可以根据指定的移动平台打包为对应的包，支持的平台种类如下。</p>
+<p>###Phonegap介绍<br>Phonegap 作为一个开源的框架来帮助开发者使用Javascript/HTML5/CSS 开发跨平台的移动应用。他可以根据指定的移动平台打包为对应的包，支持的平台种类如下。</p>
 <ul>
 <li>iOS</li>
 <li>Android</li>
@@ -313,7 +314,7 @@
 <li>Tizen</li>
 <li>Firefox OS（3.4版本开始支持的）</li>
 </ul>
-<h3 id="插件">插件</h3><p>Phonegap 本质上是在本地原生应用程序中包裹了一个Webview 来支持使用HTML5 进行开发。但是这种方式本质上是不支持访问设备的功能，比如访问文件系统，或者照相机,但是Phonegap通过桥接机制允许Webview中的Javascript 来调用原生的代码，于是Phonegap就拥有了许多插件来支持访问设备API比如</p>
+<h3 id="u63D2_u4EF6"><a href="#u63D2_u4EF6" class="headerlink" title="插件"></a>插件</h3><p>Phonegap 本质上是在本地原生应用程序中包裹了一个Webview 来支持使用HTML5 进行开发。但是这种方式本质上是不支持访问设备的功能，比如访问文件系统，或者照相机,但是Phonegap通过桥接机制允许Webview中的Javascript 来调用原生的代码，于是Phonegap就拥有了许多插件来支持访问设备API比如</p>
 <ul>
 <li>加速度计</li>
 <li>相机</li>
@@ -332,7 +333,7 @@
 <li>日历</li>
 </ul>
 <p>在之前版本的Phonegap中 包括了一些预编译的插件。随着Phonegap 3的到来，一个新的插件架构取代了原来的插件访问。同时有一个注册中心来创建兼容Phonegap 3的插件</p>
-<h4 id="HTML/CSS_/Javascript_移动开发基础。">HTML/CSS /Javascript 移动开发基础。</h4><p>Phonegap本身提供的大部分功能是提供了一些非可视化的功能组件，比如访问文件系统，网络能力，地理定位，等等。Phonegap本身并没有提供构建图形界面的能力，对于此，我们必须使用HTML、CSS来构建，为了更方便地开发中应用，因此推荐结合JS 框架来进行组织程序的开发。这些框架包括</p>
+<p>####HTML/CSS /Javascript 移动开发基础。<br>Phonegap本身提供的大部分功能是提供了一些非可视化的功能组件，比如访问文件系统，网络能力，地理定位，等等。Phonegap本身并没有提供构建图形界面的能力，对于此，我们必须使用HTML、CSS来构建，为了更方便地开发中应用，因此推荐结合JS 框架来进行组织程序的开发。这些框架包括</p>
 <ul>
 <li>jQuery Mobile</li>
 <li>Ionic</li>
@@ -343,28 +344,30 @@
 <li>TopCoat</li>
 </ul>
 <p>jQuery Mobile 这个就不用说了，简单理解Jquery的移动版本，AngluarJS 是一个比较火的MMV框架，Ionic也是AngluarJS构建的，这里我采用的是AngluarJs。开发之前还要了解一下面的这个问题。</p>
-<h4 id="PhoneGap_Or_Cordova的关系">PhoneGap Or Cordova的关系</h4><p>在学习Phonegap的过程中，我们经常会碰到Cordova 这个词，事实上，我们使用命令行工具创建的Phonegap工程其实是Cordova，。Cordova是贡献给Apache后的开源项目，是从PhoneGap中抽出的核心代码，是驱动PhoneGap的核心引擎。Cordova提供了一组设备相关的API，通过这组API，移动应用能够以JavaScript访问原生的设备功能，如摄像头、麦克风等。<br>Cordova还提供了一组统一的JavaScript类库，以及为这些类库所用的设备相关的原生后台代码。你可以把他想象成类似于Webkit和Google Chrome的关系。在大部分情况下这两个名字是可以交换的，随着Phonegap作为Adobe的商标，这个开源的项目需要一个新的名字，因此就有了Cordova，Phonegap继续作为Adobe的商业产品，大部分仍然将这个整体的项目称为Phonegap。</p>
+<p>####PhoneGap Or Cordova的关系</p>
+<p>在学习Phonegap的过程中，我们经常会碰到Cordova 这个词，事实上，我们使用命令行工具创建的Phonegap工程其实是Cordova，。Cordova是贡献给Apache后的开源项目，是从PhoneGap中抽出的核心代码，是驱动PhoneGap的核心引擎。Cordova提供了一组设备相关的API，通过这组API，移动应用能够以JavaScript访问原生的设备功能，如摄像头、麦克风等。<br>Cordova还提供了一组统一的JavaScript类库，以及为这些类库所用的设备相关的原生后台代码。你可以把他想象成类似于Webkit和Google Chrome的关系。在大部分情况下这两个名字是可以交换的，随着Phonegap作为Adobe的商标，这个开源的项目需要一个新的名字，因此就有了Cordova，Phonegap继续作为Adobe的商业产品，大部分仍然将这个整体的项目称为Phonegap。</p>
 <ul>
 <li><a href="http://phonegap.com/" target="_blank" rel="external">Phonega 官网</a></li>
 <li><a href="http://cordova.apache.org/" target="_blank" rel="external">cordova 官网</a></li>
 </ul>
-<h4 id="Phonegap_开发环境搭建。">Phonegap 开发环境搭建。</h4><p>这里我要基于Phonegap开发能够运行在android上的程序。</p>
-<h4 id="建环境的基本准备:">建环境的基本准备:</h4><ol>
+<p>####Phonegap 开发环境搭建。<br>这里我要基于Phonegap开发能够运行在android上的程序。</p>
+<p>####建环境的基本准备:</p>
+<ol>
 <li>java JDK、配置Java环境变量</li>
 <li>下载<a href="https://developer.android.com/sdk/index.html?hl=sk" target="_blank" rel="external">android ADT Bundle</a>(里面是一个继承了安卓开发环境的Eclipse)，下载之后将android SDK下的tools的目录添加到环境变量中，启动下载包里面的eclipse 创建AVD</li>
 <li>Ant 打包工具(windows 下载推荐下载 <a href="https://code.google.com/p/winant/" target="_blank" rel="external">winant</a>)</li>
 <li><a href="http://nodejs.org/" target="_blank" rel="external">NodeJS</a></li>
 <li><p>安装phonegap</p>
-<pre><code>npm <span class="keyword">install</span> -g cordova
+<pre><code>npm install -g cordova
 </code></pre><p> 或者</p>
-<pre><code>npm <span class="keyword">install</span> -g phonegap
+<pre><code>npm install -g phonegap
 </code></pre><p>cordova和phonegap这两个命令是通用的。<code>npm install -g phonegap</code> 是3.0之后的新出的一种安装方式，这里我使用是phonegap。</p>
 </li>
 </ol>
-<h4 id="创建Helloword">创建Helloword</h4><p>在命令行下运行</p>
-<pre><code>phonegap create my-<span class="keyword">app</span>
-<span class="keyword">cd</span> my-<span class="keyword">app</span>
-phonegap <span class="keyword">run</span> android
+<p>####创建Helloword<br>在命令行下运行</p>
+<pre><code>phonegap create my-app
+cd my-app
+phonegap run android
 </code></pre><p>如果有android 设备连接了电脑的话，这时候会自动将应用部署到设备上，如果没有设备的话，会自动启用刚才创建的模拟器（注意 前面配置过程中一定要把android SDK下的tool 目录添加到环境变量中，并且确保已经创建了模拟器（AVD））到此为止一个Phonegap 版本的Hello World 已经开发完毕。</p>
 <p>下面看进入my-app的目录，进入之后我们发现有5个文件夹</p>
 <ul>
@@ -449,11 +452,13 @@ phonegap <span class="keyword">run</span> android
         
 
         
-          <h3 id="安装环境">安装环境</h3><p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
-<pre><code>npm <span class="keyword">install</span> express -g
+          <p>###安装环境</p>
+<p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
+<pre><code>npm install express -g
 </code></pre><p>3 创建express 项目</p>
-<pre><code><span class="title">express</span> myapp
-</code></pre><h3 id="API设计">API设计</h3><p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
+<pre><code>express myapp
+</code></pre><p>###API设计</p>
+<p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
 <ul>
 <li>GET /tasks/ 返回计划任务列表</li>
 <li>GET /tasks/:id  根据指定的任务id 返回计划任务的信息</li>
@@ -466,127 +471,139 @@ phonegap <span class="keyword">run</span> android
 <li>访问get请求之外的api ，如果执行成功返回http 状态符为200</li>
 <li>如果访问不存的计划信息 则返回http 状态符为 404</li>
 </ul>
-<h3 id="实现">实现</h3><h4 id="数据">数据</h4><p>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">TaskRepository</span><span class="params">()</span> </span>{}
-<span class="comment">/**
+<p>###实现</p>
+<p>####数据<br>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
+<pre><code>function TaskRepository() {}
+/**
  * Find a task by id
  * Param: id of the task to find
  * Returns: the task corresponding to the specified id
- */</span>
-TaskRepository.prototype.find = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
-<span class="comment">/**
+ */
+TaskRepository.prototype.find = function (id) {}
+/**
  * Find the index of a task
  * Param: id of the task to find
  * Returns: the index of the task identified by id
- */</span>
-TaskRepository.prototype.findIndex = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
-<span class="comment">/**
+ */
+TaskRepository.prototype.findIndex = function (id) {}
+/**
  * Retrieve all tasks
  * Returns: array of tasks
- */</span>
-TaskRepository.prototype.findAll = <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
-    <span class="keyword">return</span> <span class="keyword">this</span>.tasks;
+ */
+TaskRepository.prototype.findAll = function () {
+    return this.tasks;
 }
-<span class="comment">/**
+/**
  * Save a task (create or update)
  * Param: task the task to save
- */</span>
-TaskRepository.prototype.save = <span class="function"><span class="keyword">function</span> <span class="params">(task)</span> </span>{}
-<span class="comment">/**
+ */
+TaskRepository.prototype.save = function (task) {}
+/**
  * Remove a task
  * Param: id the of the task to remove
- */</span>
-TaskRepository.prototype.remove = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
-</code></pre><h4 id="创建express_server">创建express server</h4><pre><code><span class="keyword">var</span> express = <span class="keyword">require</span>(<span class="string">'express'</span>);
-<span class="keyword">var</span> app = express();
-app.configure(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
-    app.<span class="keyword">use</span>(express.bodyParser()); <span class="comment">// used to parse JSON object given in the request body</span>
+ */
+TaskRepository.prototype.remove = function (id) {}
+</code></pre><p>####创建express server</p>
+<pre><code>var express = require(&apos;express&apos;);
+var app = express();
+app.configure(function() {
+    app.use(express.bodyParser()); // used to parse JSON object given in the request body
 });
-</code></pre><h4 id="获取计划的列表_get">获取计划的列表 get</h4><pre><code>app.<span class="keyword">get</span>(<span class="string">'/tasks'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
+</code></pre><p>####获取计划的列表 get</p>
+<pre><code>app.get(&apos;/tasks&apos;, function (request, response) {
     response.json({tasks: taskRepository.findAll()});
 });
-</code></pre><h4 id="根据指定的id获取一个计划的信息_get">根据指定的id获取一个计划的信息 get</h4><pre><code>app.<span class="keyword">get</span>(<span class="string">'/tasks/:id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
-    <span class="keyword">var</span> taskId = request.params.id;
-    <span class="keyword">try</span> {
+</code></pre><p>####根据指定的id获取一个计划的信息 get</p>
+<pre><code>app.get(&apos;/tasks/:id&apos;, function (request, response) {
+    var taskId = request.params.id;
+    try {
         response.json(taskRepository.find(taskId));
-    } <span class="keyword">catch</span> (exeception) {
-        response.send(<span class="number">404</span>);
+    } catch (exeception) {
+        response.send(404);
     }
 });
-</code></pre><h4 id="创建一个新的计划_post">创建一个新的计划 post</h4><pre><code>app.post(<span class="string">'/tasks'</span>, function (request, response) {
-    var <span class="keyword">task</span> = request.body;
+</code></pre><p>####创建一个新的计划 post</p>
+<pre><code>app.post(&apos;/tasks&apos;, function (request, response) {
+    var task = request.body;
     taskRepository.save({
-        title: <span class="keyword">task</span>.title || <span class="string">'Default title'</span>,
-        <span class="keyword">description</span>: <span class="keyword">task</span>.<span class="keyword">description</span> || <span class="string">'Default description'</span>,
-        dueDate: <span class="keyword">task</span>.dueDate,
-        status: <span class="keyword">task</span>.status || <span class="string">'not completed'</span>
+        title: task.title || &apos;Default title&apos;,
+        description: task.description || &apos;Default description&apos;,
+        dueDate: task.dueDate,
+        status: task.status || &apos;not completed&apos;
     });
-    response.send(<span class="number">200</span>);
+    response.send(200);
 });
-</code></pre><h4 id="更新计划信息_put">更新计划信息 put</h4><pre><code><span class="component">app.put('/tasks/:id', function (request, response) {
-    var task = request<span class="string">.body</span>;
-    var taskId = request<span class="string">.params.id</span>;
+</code></pre><p>####更新计划信息 put</p>
+<pre><code>app.put(&apos;/tasks/:id&apos;, function (request, response) {
+    var task = request.body;
+    var taskId = request.params.id;
     try {
-        var persistedTask = taskRepository<span class="string">.find(taskId)</span>;
-        taskRepository<span class="string">.save({</span>
-            taskId: persistedTask<span class="string">.taskId</span>,
-            title: task<span class="string">.title</span> || persistedTask<span class="string">.title</span>,
-            description: task<span class="string">.description</span> || persistedTask<span class="string">.description</span>,
-            dueDate: task<span class="string">.dueDate</span> || persistedTask<span class="string">.dueDate</span>,
-            status: task<span class="string">.status</span> || persistedTask<span class="string">.status</span>
-        }</span>);
+        var persistedTask = taskRepository.find(taskId);
+        taskRepository.save({
+            taskId: persistedTask.taskId,
+            title: task.title || persistedTask.title,
+            description: task.description || persistedTask.description,
+            dueDate: task.dueDate || persistedTask.dueDate,
+            status: task.status || persistedTask.status
+        });
         response.send(200);
     } catch (exception) {
         response.send(404);
     }
 });
-</code></pre><h4 id="删除计划delete">删除计划delete</h4><pre><code>app.<span class="keyword">delete</span>(<span class="string">'/tasks/:id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
-    <span class="keyword">try</span> {
+</code></pre><p>####删除计划delete</p>
+<pre><code>app.delete(&apos;/tasks/:id&apos;, function (request, response) {
+    try {
         taskRepository.remove(request.params.id);
-        response.send(<span class="number">200</span>);
-    } <span class="keyword">catch</span> (exeception) {
-        response.send(<span class="number">404</span>);
+        response.send(200);
+    } catch (exeception) {
+        response.send(404);
     }
 });
-</code></pre><h4 id="启动express_server">启动express server</h4><pre><code>app.<span class="function"><span class="title">listen</span><span class="params">(<span class="number">8080</span>)</span></span>
-</code></pre><h3 id="测试_这里使用_curl_执行http请求访问rest_api">测试 这里使用 curl 执行http请求访问rest api</h3><p>首先启动程序</p>
-<pre><code><span class="title">node</span> rest_api.js
+</code></pre><p>####启动express server</p>
+<pre><code>app.listen(8080)
+</code></pre><p>###测试 这里使用 curl 执行http请求访问rest api</p>
+<p>首先启动程序</p>
+<pre><code>node rest_api.js
 </code></pre><p>最初的情况下访问计划列表应该空的</p>
-<pre><code>$ curl -i <span class="string">http:</span><span class="comment">//localhost:8080/tasks/</span>
-HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
-X-Powered-<span class="string">By:</span> Express
-Content-<span class="string">Type:</span> application/json; charset=utf-<span class="number">8</span>
-Content-<span class="string">Length:</span> <span class="number">17</span>
-<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">37</span>:<span class="number">45</span> GMT
-<span class="string">Connection:</span> keep-alive
+<pre><code>$ curl -i http://localhost:8080/tasks/
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 17
+Date: Sun, 10 Feb 2013 12:37:45 GMT
+Connection: keep-alive
 
 {
-  <span class="string">"tasks"</span>: []
+  &quot;tasks&quot;: []
 }
-</code></pre><h4 id="创建计划">创建计划</h4><pre><code>$ curl -i -X POST <span class="string">http:</span><span class="comment">//localhost:8080/tasks --data '{}' -H "Content-Type: application/json"</span>
-HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
-X-Powered-<span class="string">By:</span> Express
-Content-<span class="string">Type:</span> text/plain
-Content-<span class="string">Length:</span> <span class="number">2</span>
-<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">39</span>:<span class="number">13</span> GMT
-<span class="string">Connection:</span> keep-alive
+</code></pre><p>####创建计划</p>
+<pre><code>$ curl -i -X POST http://localhost:8080/tasks --data &apos;{}&apos; -H &quot;Content-Type: application/json&quot;
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:39:13 GMT
+Connection: keep-alive
 
 OK
-</code></pre><h4 id="更新计划">更新计划</h4><pre><code>$ curl -i -X PUT <span class="string">http:</span><span class="comment">//localhost:8080/tasks/1 --data '{"description":"blabla"}' -H "Content-Type: application/json"</span>
-HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
-X-Powered-<span class="string">By:</span> Express
-Content-<span class="string">Type:</span> text/plain
-Content-<span class="string">Length:</span> <span class="number">2</span>
-<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">42</span>:<span class="number">39</span> GMT
-<span class="string">Connection:</span> keep-alive
+</code></pre><p>####更新计划</p>
+<pre><code>$ curl -i -X PUT http://localhost:8080/tasks/1 --data &apos;{&quot;description&quot;:&quot;blabla&quot;}&apos; -H &quot;Content-Type: application/json&quot;
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:42:39 GMT
+Connection: keep-alive
 OK
-</code></pre><h4 id="删除计划">删除计划</h4><pre><code>$ curl -i -X DELETE <span class="string">http:</span><span class="comment">//localhost:8080/tasks/1</span>
-HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
-X-Powered-<span class="string">By:</span> Express
-Content-<span class="string">Type:</span> text/plain
-Content-<span class="string">Length:</span> <span class="number">2</span>
-<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">43</span>:<span class="number">31</span> GMT
-<span class="string">Connection:</span> keep-alive
+</code></pre><p>####删除计划</p>
+<pre><code>$ curl -i -X DELETE http://localhost:8080/tasks/1
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:43:31 GMT
+Connection: keep-alive
 
 OK
 </code></pre><p>这里介绍了用express创建rest api的大致过程，而实际过程中要复杂一些，比如存储数据使用数据库(mongodb 或者传统的关系数据库）来解决，有的也会包括一些复杂的逻辑信息。</p>

@@ -128,11 +128,13 @@
         
 
         
-          <h3 id="安装环境">安装环境</h3><p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
-<pre><code>npm <span class="keyword">install</span> express -g
+          <p>###安装环境</p>
+<p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
+<pre><code>npm install express -g
 </code></pre><p>3 创建express 项目</p>
-<pre><code><span class="title">express</span> myapp
-</code></pre><h3 id="API设计">API设计</h3><p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
+<pre><code>express myapp
+</code></pre><p>###API设计</p>
+<p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
 <ul>
 <li>GET /tasks/ 返回计划任务列表</li>
 <li>GET /tasks/:id  根据指定的任务id 返回计划任务的信息</li>
@@ -145,127 +147,139 @@
 <li>访问get请求之外的api ，如果执行成功返回http 状态符为200</li>
 <li>如果访问不存的计划信息 则返回http 状态符为 404</li>
 </ul>
-<h3 id="实现">实现</h3><h4 id="数据">数据</h4><p>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">TaskRepository</span><span class="params">()</span> </span>{}
-<span class="comment">/**
+<p>###实现</p>
+<p>####数据<br>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
+<pre><code>function TaskRepository() {}
+/**
  * Find a task by id
  * Param: id of the task to find
  * Returns: the task corresponding to the specified id
- */</span>
-TaskRepository.prototype.find = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
-<span class="comment">/**
+ */
+TaskRepository.prototype.find = function (id) {}
+/**
  * Find the index of a task
  * Param: id of the task to find
  * Returns: the index of the task identified by id
- */</span>
-TaskRepository.prototype.findIndex = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
-<span class="comment">/**
+ */
+TaskRepository.prototype.findIndex = function (id) {}
+/**
  * Retrieve all tasks
  * Returns: array of tasks
- */</span>
-TaskRepository.prototype.findAll = <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
-    <span class="keyword">return</span> <span class="keyword">this</span>.tasks;
+ */
+TaskRepository.prototype.findAll = function () {
+    return this.tasks;
 }
-<span class="comment">/**
+/**
  * Save a task (create or update)
  * Param: task the task to save
- */</span>
-TaskRepository.prototype.save = <span class="function"><span class="keyword">function</span> <span class="params">(task)</span> </span>{}
-<span class="comment">/**
+ */
+TaskRepository.prototype.save = function (task) {}
+/**
  * Remove a task
  * Param: id the of the task to remove
- */</span>
-TaskRepository.prototype.remove = <span class="function"><span class="keyword">function</span> <span class="params">(id)</span> </span>{}
-</code></pre><h4 id="创建express_server">创建express server</h4><pre><code><span class="keyword">var</span> express = <span class="keyword">require</span>(<span class="string">'express'</span>);
-<span class="keyword">var</span> app = express();
-app.configure(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{
-    app.<span class="keyword">use</span>(express.bodyParser()); <span class="comment">// used to parse JSON object given in the request body</span>
+ */
+TaskRepository.prototype.remove = function (id) {}
+</code></pre><p>####创建express server</p>
+<pre><code>var express = require(&apos;express&apos;);
+var app = express();
+app.configure(function() {
+    app.use(express.bodyParser()); // used to parse JSON object given in the request body
 });
-</code></pre><h4 id="获取计划的列表_get">获取计划的列表 get</h4><pre><code>app.<span class="keyword">get</span>(<span class="string">'/tasks'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
+</code></pre><p>####获取计划的列表 get</p>
+<pre><code>app.get(&apos;/tasks&apos;, function (request, response) {
     response.json({tasks: taskRepository.findAll()});
 });
-</code></pre><h4 id="根据指定的id获取一个计划的信息_get">根据指定的id获取一个计划的信息 get</h4><pre><code>app.<span class="keyword">get</span>(<span class="string">'/tasks/:id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
-    <span class="keyword">var</span> taskId = request.params.id;
-    <span class="keyword">try</span> {
+</code></pre><p>####根据指定的id获取一个计划的信息 get</p>
+<pre><code>app.get(&apos;/tasks/:id&apos;, function (request, response) {
+    var taskId = request.params.id;
+    try {
         response.json(taskRepository.find(taskId));
-    } <span class="keyword">catch</span> (exeception) {
-        response.send(<span class="number">404</span>);
+    } catch (exeception) {
+        response.send(404);
     }
 });
-</code></pre><h4 id="创建一个新的计划_post">创建一个新的计划 post</h4><pre><code>app.post(<span class="string">'/tasks'</span>, function (request, response) {
-    var <span class="keyword">task</span> = request.body;
+</code></pre><p>####创建一个新的计划 post</p>
+<pre><code>app.post(&apos;/tasks&apos;, function (request, response) {
+    var task = request.body;
     taskRepository.save({
-        title: <span class="keyword">task</span>.title || <span class="string">'Default title'</span>,
-        <span class="keyword">description</span>: <span class="keyword">task</span>.<span class="keyword">description</span> || <span class="string">'Default description'</span>,
-        dueDate: <span class="keyword">task</span>.dueDate,
-        status: <span class="keyword">task</span>.status || <span class="string">'not completed'</span>
+        title: task.title || &apos;Default title&apos;,
+        description: task.description || &apos;Default description&apos;,
+        dueDate: task.dueDate,
+        status: task.status || &apos;not completed&apos;
     });
-    response.send(<span class="number">200</span>);
+    response.send(200);
 });
-</code></pre><h4 id="更新计划信息_put">更新计划信息 put</h4><pre><code><span class="component">app.put('/tasks/:id', function (request, response) {
-    var task = request<span class="string">.body</span>;
-    var taskId = request<span class="string">.params.id</span>;
+</code></pre><p>####更新计划信息 put</p>
+<pre><code>app.put(&apos;/tasks/:id&apos;, function (request, response) {
+    var task = request.body;
+    var taskId = request.params.id;
     try {
-        var persistedTask = taskRepository<span class="string">.find(taskId)</span>;
-        taskRepository<span class="string">.save({</span>
-            taskId: persistedTask<span class="string">.taskId</span>,
-            title: task<span class="string">.title</span> || persistedTask<span class="string">.title</span>,
-            description: task<span class="string">.description</span> || persistedTask<span class="string">.description</span>,
-            dueDate: task<span class="string">.dueDate</span> || persistedTask<span class="string">.dueDate</span>,
-            status: task<span class="string">.status</span> || persistedTask<span class="string">.status</span>
-        }</span>);
+        var persistedTask = taskRepository.find(taskId);
+        taskRepository.save({
+            taskId: persistedTask.taskId,
+            title: task.title || persistedTask.title,
+            description: task.description || persistedTask.description,
+            dueDate: task.dueDate || persistedTask.dueDate,
+            status: task.status || persistedTask.status
+        });
         response.send(200);
     } catch (exception) {
         response.send(404);
     }
 });
-</code></pre><h4 id="删除计划delete">删除计划delete</h4><pre><code>app.<span class="keyword">delete</span>(<span class="string">'/tasks/:id'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(request, response)</span> </span>{
-    <span class="keyword">try</span> {
+</code></pre><p>####删除计划delete</p>
+<pre><code>app.delete(&apos;/tasks/:id&apos;, function (request, response) {
+    try {
         taskRepository.remove(request.params.id);
-        response.send(<span class="number">200</span>);
-    } <span class="keyword">catch</span> (exeception) {
-        response.send(<span class="number">404</span>);
+        response.send(200);
+    } catch (exeception) {
+        response.send(404);
     }
 });
-</code></pre><h4 id="启动express_server">启动express server</h4><pre><code>app.<span class="function"><span class="title">listen</span><span class="params">(<span class="number">8080</span>)</span></span>
-</code></pre><h3 id="测试_这里使用_curl_执行http请求访问rest_api">测试 这里使用 curl 执行http请求访问rest api</h3><p>首先启动程序</p>
-<pre><code><span class="title">node</span> rest_api.js
+</code></pre><p>####启动express server</p>
+<pre><code>app.listen(8080)
+</code></pre><p>###测试 这里使用 curl 执行http请求访问rest api</p>
+<p>首先启动程序</p>
+<pre><code>node rest_api.js
 </code></pre><p>最初的情况下访问计划列表应该空的</p>
-<pre><code>$ curl -i <span class="string">http:</span><span class="comment">//localhost:8080/tasks/</span>
-HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
-X-Powered-<span class="string">By:</span> Express
-Content-<span class="string">Type:</span> application/json; charset=utf-<span class="number">8</span>
-Content-<span class="string">Length:</span> <span class="number">17</span>
-<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">37</span>:<span class="number">45</span> GMT
-<span class="string">Connection:</span> keep-alive
+<pre><code>$ curl -i http://localhost:8080/tasks/
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 17
+Date: Sun, 10 Feb 2013 12:37:45 GMT
+Connection: keep-alive
 
 {
-  <span class="string">"tasks"</span>: []
+  &quot;tasks&quot;: []
 }
-</code></pre><h4 id="创建计划">创建计划</h4><pre><code>$ curl -i -X POST <span class="string">http:</span><span class="comment">//localhost:8080/tasks --data '{}' -H "Content-Type: application/json"</span>
-HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
-X-Powered-<span class="string">By:</span> Express
-Content-<span class="string">Type:</span> text/plain
-Content-<span class="string">Length:</span> <span class="number">2</span>
-<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">39</span>:<span class="number">13</span> GMT
-<span class="string">Connection:</span> keep-alive
+</code></pre><p>####创建计划</p>
+<pre><code>$ curl -i -X POST http://localhost:8080/tasks --data &apos;{}&apos; -H &quot;Content-Type: application/json&quot;
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:39:13 GMT
+Connection: keep-alive
 
 OK
-</code></pre><h4 id="更新计划">更新计划</h4><pre><code>$ curl -i -X PUT <span class="string">http:</span><span class="comment">//localhost:8080/tasks/1 --data '{"description":"blabla"}' -H "Content-Type: application/json"</span>
-HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
-X-Powered-<span class="string">By:</span> Express
-Content-<span class="string">Type:</span> text/plain
-Content-<span class="string">Length:</span> <span class="number">2</span>
-<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">42</span>:<span class="number">39</span> GMT
-<span class="string">Connection:</span> keep-alive
+</code></pre><p>####更新计划</p>
+<pre><code>$ curl -i -X PUT http://localhost:8080/tasks/1 --data &apos;{&quot;description&quot;:&quot;blabla&quot;}&apos; -H &quot;Content-Type: application/json&quot;
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:42:39 GMT
+Connection: keep-alive
 OK
-</code></pre><h4 id="删除计划">删除计划</h4><pre><code>$ curl -i -X DELETE <span class="string">http:</span><span class="comment">//localhost:8080/tasks/1</span>
-HTTP/<span class="number">1.1</span> <span class="number">200</span> OK
-X-Powered-<span class="string">By:</span> Express
-Content-<span class="string">Type:</span> text/plain
-Content-<span class="string">Length:</span> <span class="number">2</span>
-<span class="string">Date:</span> Sun, <span class="number">10</span> Feb <span class="number">2013</span> <span class="number">12</span>:<span class="number">43</span>:<span class="number">31</span> GMT
-<span class="string">Connection:</span> keep-alive
+</code></pre><p>####删除计划</p>
+<pre><code>$ curl -i -X DELETE http://localhost:8080/tasks/1
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:43:31 GMT
+Connection: keep-alive
 
 OK
 </code></pre><p>这里介绍了用express创建rest api的大致过程，而实际过程中要复杂一些，比如存储数据使用数据库(mongodb 或者传统的关系数据库）来解决，有的也会包括一些复杂的逻辑信息。</p>
@@ -388,7 +402,7 @@ OK
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装环境"><span class="nav-number">1.</span> <span class="nav-text">安装环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API设计"><span class="nav-number">2.</span> <span class="nav-text">API设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据"><span class="nav-number">3.1.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建express_server"><span class="nav-number">3.2.</span> <span class="nav-text">创建express server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取计划的列表_get"><span class="nav-number">3.3.</span> <span class="nav-text">获取计划的列表 get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据指定的id获取一个计划的信息_get"><span class="nav-number">3.4.</span> <span class="nav-text">根据指定的id获取一个计划的信息 get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建一个新的计划_post"><span class="nav-number">3.5.</span> <span class="nav-text">创建一个新的计划 post</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新计划信息_put"><span class="nav-number">3.6.</span> <span class="nav-text">更新计划信息 put</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除计划delete"><span class="nav-number">3.7.</span> <span class="nav-text">删除计划delete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动express_server"><span class="nav-number">3.8.</span> <span class="nav-text">启动express server</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试_这里使用_curl_执行http请求访问rest_api"><span class="nav-number">4.</span> <span class="nav-text">测试 这里使用 curl 执行http请求访问rest api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建计划"><span class="nav-number">4.1.</span> <span class="nav-text">创建计划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新计划"><span class="nav-number">4.2.</span> <span class="nav-text">更新计划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除计划"><span class="nav-number">4.3.</span> <span class="nav-text">删除计划</span></a></li></ol></li></ol>
+        
       </div>
     
   </div>

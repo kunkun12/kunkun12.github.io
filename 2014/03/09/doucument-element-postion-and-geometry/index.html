@@ -132,78 +132,80 @@
 <p>“视口”是我们人眼看到的页面,只是实际显示文档内容的一部分：他不包括浏览器的外壳，(如菜单，工具条，标签页等),另一个是文档坐标，他的原点是页面的左上角，不随着页面的滚动发生变化，而视口坐标系的原点位置相对浏览器窗体是不发生变化的，当页面中没有滚动条时候，视口坐标系原点与文档坐标系原点重合的。然后如果存在滚动条的话。向下滚动页面，则某一元素的文档坐标是不发生变化的，视口的Y坐标变小。同理向右滚动的话，元素相对时候X坐标变小。</p>
 <p>文档坐标比视口坐标更加基础，并且不随着用户滚动页面而发生变化，当使用CSS指定元素位置是使用了文档坐标吗，但是客户端编程中视口坐标是非常常见的，简单的查询元素在显示页面中位置方法是返回视口坐标系的位置。</p>
 <p>为了再坐标系之前进行互相转换，我们需要判定浏览器窗口滚动条的位置，windows对象的pageXOffset和pageYOffset，属性在所有浏览器中提供了这些值除了IE8 以及更低版本的浏览器，不过可以使用scrollleft和scrollTop属性来获取滚动条的位置，正常情况下使用document.documentElemt来获得，在怪异模式下使用document.body对象来获得。下面封装了一个获取浏览器中滚动条位置的方法，并且兼容所有的浏览器</p>
-<h3 id="获得浏览中滚动条的位置">获得浏览中滚动条的位置</h3><pre><code><span class="reserved">function</span> getScrollOffset(w){
-            w=w||<span class="built_in">window</span>;
-            <span class="keyword">if</span>(w.pageXOffset)<span class="keyword">return</span> {
-                <span class="attribute">x</span>:w.pageXOffset,
-                <span class="attribute">y</span>:w.pageYOffset
+<p>###获得浏览中滚动条的位置</p>
+<pre><code>function getScrollOffset(w){
+            w=w||window;
+            if(w.pageXOffset)return {
+                x:w.pageXOffset,
+                y:w.pageYOffset
             }
-        <span class="reserved">var</span> d=w.<span class="built_in">document</span>;
-        <span class="keyword">if</span>(<span class="built_in">document</span>.compatMode==<span class="string">'CSS1Compact'</span>){
-            <span class="keyword">return</span> {<span class="attribute">x</span>:d.<span class="built_in">document</span>.scrollLeft,<span class="attribute">y</span>:d.<span class="built_in">document</span>.scrollTop}
+        var d=w.document;
+        if(document.compatMode==&apos;CSS1Compact&apos;){
+            return {x:d.document.scrollLeft,y:d.document.scrollTop}
         }
 
-        <span class="keyword">return</span> {
-            <span class="attribute">x</span>:d.body.scrollLeft,
-            <span class="attribute">y</span>:d.body.scrollTop
+        return {
+            x:d.body.scrollLeft,
+            y:d.body.scrollTop
         }
 };
-</code></pre><h3 id="查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。">查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</h3><pre><code>function getViewportSize(w){
-    w=w||<span class="built_in">window</span>;
-    <span class="comment">//ie8+</span>
-    <span class="keyword">if</span>(w.innerWidth !=<span class="keyword">null</span>)<span class="keyword">return</span>{w:w.innerWidth ,h:w.innerHeight}
-     <span class="comment">//ie标准模式以及其他浏览器</span>
-        <span class="keyword">var</span> d=w.<span class="built_in">document</span>;
-    <span class="keyword">if</span>(<span class="built_in">document</span>.compatMode==<span class="string">'CSS1Compact'</span>){
-        <span class="keyword">return</span> {
-            w:d.<span class="built_in">document</span>.clientWidth,
-            h:d.<span class="built_in">document</span>.clientHeight
+</code></pre><p>###查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</p>
+<pre><code>function getViewportSize(w){
+    w=w||window;
+    //ie8+
+    if(w.innerWidth !=null)return{w:w.innerWidth ,h:w.innerHeight}
+     //ie标准模式以及其他浏览器
+        var d=w.document;
+    if(document.compatMode==&apos;CSS1Compact&apos;){
+        return {
+            w:d.document.clientWidth,
+            h:d.document.clientHeight
         }
     }
-    <span class="comment">// 怪异模式下的浏览器</span>
-    <span class="keyword">return</span>{
-        w:d.body.<span class="built_in">document</span>.clientWidth,
-        h:d.body.<span class="built_in">document</span>.clientHeight
+    // 怪异模式下的浏览器
+    return{
+        w:d.body.document.clientWidth,
+        h:d.body.document.clientHeight
     }
 
 }
-</code></pre><h3 id="查询元素的尺寸">查询元素的尺寸</h3><p>判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。</p>
-<pre><code><span class="keyword">var</span> box=<span class="keyword">e</span>.getBoundingClientRect();
-<span class="keyword">var</span> offsets=getScrollOffset();
-<span class="keyword">var</span> x=box.left;
-<span class="keyword">var</span> y=box.top;
+</code></pre><p>###查询元素的尺寸<br>判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。</p>
+<pre><code>var box=e.getBoundingClientRect();
+var offsets=getScrollOffset();
+var x=box.left;
+var y=box.top;
 </code></pre><p>很多浏览器中还可以获得width和height属性但是IE中未实现。getBoundingClientRect()返回的值包括内边距和边框，但是不包含外边距。<br>使用elementFromPoint查询视口中指定位置有什么元素。参数为视口坐标系下的x,y坐标</p>
 <p>任何HTML元素的只读属性offsetWidth 和offsetHeight以CSS像素返回他的屏幕的尺寸，返回的尺寸包括元素的边框和内边距，不包括外边距。所有的HTML元素用有OffsetLeft和offsetTop属性来返回元素的X和Y坐标，这些值都是文档坐标。对于已经定位的元素的后代和一些其他的元素，这些属性返回是相对于祖先元素而非文档，offsetParent指定这些元素相对的父元素，如果offsetParent为null这些属性都是文档坐标，一般来说用offsetLeft和OffsetTop来计算元素e的位置需要一个循环</p>
-<pre><code>function getElmentPosition(<span class="keyword">e</span>){
-    <span class="keyword">var</span> x=0,y=0;
-    <span class="keyword">while</span>(<span class="keyword">e</span>){
-        x+=<span class="keyword">e</span>.offsetLeft;
-        y+=<span class="keyword">e</span>.offsetTop;
-        <span class="keyword">e</span>=<span class="keyword">e</span>.offsetParentl
+<pre><code>function getElmentPosition(e){
+    var x=0,y=0;
+    while(e){
+        x+=e.offsetLeft;
+        y+=e.offsetTop;
+        e=e.offsetParentl
     }
-    <span class="keyword">return</span>{
+    return{
         x:x,
-        y:<span class="literal">y</span>
+        y:y
     }
 }
 </code></pre><p>所有HTML元素定义了如下与位置相关的属性。</p>
 <p>offsetwidth        clientWidth     scrollWidth<br>offsetHeight    clientHeight    scrollHeight<br>offsetLeft        clientLeft        scrollLeft<br>offsetTop        clientTop        scrollTop<br>offsetParent</p>
 <p>offsetHeight、offsetwidth包含内边距和边框、clientWidth、clientHeight不包含边框，只包含内容和内边距。scrollWidth、scrollHeight内容+内边距+任何内容溢出的尺寸。其中scrollLeft、scrollTop指定滚动条的位置。当文档中包含滚动条且有内容溢出时上面的getElmentPosition(e) 不在起作用了，因为没有把滚动条考虑进去。offsetLeft offsetTop为文档坐标包含了滚动条的位置    修改版本如下</p>
 <pre><code>function getElementPos(elt){
-    <span class="keyword">var</span> x=0,y=0;
-    <span class="keyword">for</span>(<span class="keyword">var</span> <span class="keyword">e</span>=elt;<span class="keyword">e</span>!=null;<span class="keyword">e</span>=<span class="keyword">e</span>.offsetParent){
-        x+=<span class="keyword">e</span>.offsetLeft；
-        y+<span class="keyword">e</span>.offsetTop;
+    var x=0,y=0;
+    for(var e=elt;e!=null;e=e.offsetParent){
+        x+=e.offsetLeft；
+        y+e.offsetTop;
     }
-    <span class="comment">//offsetLeft offsetTop为文档坐标包含了滚动条的位置，再次循环所有的祖先元素，</span>
-    <span class="comment">//减去滚动条的偏移量，并转换为视口坐标</span>
-    <span class="keyword">for</span>(<span class="keyword">var</span> <span class="keyword">e</span>=elt.parentNode;<span class="keyword">e</span>!=null&amp;&amp;<span class="keyword">e</span>.nodeType==1;<span class="keyword">e</span>=<span class="keyword">e</span>.parentNode){
-        x-=<span class="keyword">e</span>.scrollLeft;
-        y-=<span class="keyword">e</span>.scrollTop;
+    //offsetLeft offsetTop为文档坐标包含了滚动条的位置，再次循环所有的祖先元素，
+    //减去滚动条的偏移量，并转换为视口坐标
+    for(var e=elt.parentNode;e!=null&amp;&amp;e.nodeType==1;e=e.parentNode){
+        x-=e.scrollLeft;
+        y-=e.scrollTop;
     }
-    <span class="keyword">return</span> {
+    return {
             x:x;
-            y:<span class="literal">y</span>
+            y:y
     }
 }
 </code></pre><ul>
@@ -330,7 +332,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#获得浏览中滚动条的位置"><span class="nav-number">1.</span> <span class="nav-text">获得浏览中滚动条的位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。"><span class="nav-number">2.</span> <span class="nav-text">查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询元素的尺寸"><span class="nav-number">3.</span> <span class="nav-text">查询元素的尺寸</span></a></li></ol>
+        
       </div>
     
   </div>

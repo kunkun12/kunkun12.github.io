@@ -128,7 +128,8 @@
         
 
         
-          <h2 id="关于dojo中统一数据访问接口">关于dojo中统一数据访问接口</h2><p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
+          <p>##关于dojo中统一数据访问接口</p>
+<p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
 <blockquote>
 <p>数据的提供者不用再关心数据如何被展示，以及数据的使用者不用关心数据来自于哪里。通过接口（协议）来实现职责的分离，即使同一个人来完成数据的获取以及展示，也要将数据的获取与展示做到分离，因为这种松散的耦合 也方便系统的维护。</p>
 </blockquote>
@@ -153,8 +154,10 @@
 <p>具体内容可以参见<br><a href="http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/</a>不错的文章好好读读</p>
 <p>基本以上能满足所有对数据操作的需求。。如果你已经读完了上面的这篇文章，或者对dojo data API有所了解，你可能会发现这些对数据的操作非常滴麻烦，虽然能达到了接口的统一，但是繁琐的交互接口也不利于Widget之间的通信，关键是开发者用着不爽，好消息是，这些接口的确已经被淘汰了。。于是引入今天的主题- <em>Dojo Object Store API</em>。</p>
 <p>那么首先区分一下两个名词,旧的数据访问接口是 <code>dojo data store API</code> ，就是上面介绍的那些东西，在dojo目录的 dojo/data 里面，建议以后不要用这里面的东西来存取东西，也就是说 不要再用 <code>dojo/data/ItemFileReadStore</code> <code>dojo/data/ItemFileWriteStore</code>这两个东西了。。。新的数据统一访问接口是     <code>dojo Object Store</code> 。。具体的接口以及实现在源码（文档）目录的 dojo/store里面，请注意区分</p>
-<h2 id="关于dojo_Object_store_API。">关于dojo Object store API。</h2><p>翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于<strong>HTML5 object store</strong> API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。</p>
-<h2 id="dojo对象存储API背后的几个理念">dojo对象存储API背后的几个理念</h2><ul>
+<p>##关于dojo Object store API。 </p>
+<p>翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于<strong>HTML5 object store</strong> API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。</p>
+<p>##dojo对象存储API背后的几个理念</p>
+<ul>
 <li>数据与UI关注点分离，让我们将数据与展现关注点进行分离，并且方便数据与部件之间独立的实现。</li>
 <li>保持简单 可以仅仅地创建一个具有query和get方法的对象来创建一个简单的数据存储对象，如果要提供创建一个新的对象功能，可以增加一个add方法，如果要增加更新对象的功能 只需要增加一个put方法</li>
 <li>基于纯的javascript对象 dojo store api 使用纯的JS对象即{}，使用get返回一个对象或者使用query来返回一个对象的数据，这些对象可以像普通的JS对象一样被操做，比如可以通过点直接访问查询结果对象的属性，或者可以用 <em>for  in</em> 来循环便利对象的属性。如果要保存/更新对象可以将一个更新过的纯JS对象传递给put方法即可。</li>
@@ -162,7 +165,7 @@
 <li>独立简单的功能实现 不需要任何方法来设置存储对象的功能，如果你想知道是否可以添加一个新的对象到存储对象中，只需要检查他是否具有add方法，如果想知道它是否支持查询，只需要检查是否有query方法；如果只是想实现一个只读的存储对象，只需要实现读的方法(<code>get</code>, <code>query</code>, <code>getIdentity</code>)</li>
 <li>功能的层次性增强 通过分层的功能，就可以基于一个轻量级的，简单的存储，通过插件对原始的store进行包装来增加store的功能。比如Dojo中提供了（<code>dojo/store/Cache</code>）包装数据存储对象实现数据缓存，用来提高性能。<code>dojo/store/Observable</code>包装数据存储对象用来实现对对象变化的检测，而这并不是必须的。这种插件机制 让我们的原始的存储对象更简单轻量。</li>
 </ul>
-<h3 id="关于dojo_Object_API中的方法以及属性。">关于dojo Object API中的方法以及属性。</h3><p>下面的这些方法都是可选的。实现的时候可以根据需要来提供不同的方法。任何一个方法除了特别指明意外都可以返回一个promise 来更好滴完成异步的操作。（这里与W3C中 IndexDB api 有些出入）可以到<em>dojo/store/api/store</em>里面来查看这些接口具体的方法和属性</p>
+<h3 id="u5173_u4E8Edojo_Object_API_u4E2D_u7684_u65B9_u6CD5_u4EE5_u53CA_u5C5E_u6027_u3002"><a href="#u5173_u4E8Edojo_Object_API_u4E2D_u7684_u65B9_u6CD5_u4EE5_u53CA_u5C5E_u6027_u3002" class="headerlink" title="关于dojo Object API中的方法以及属性。"></a>关于dojo Object API中的方法以及属性。</h3><p>下面的这些方法都是可选的。实现的时候可以根据需要来提供不同的方法。任何一个方法除了特别指明意外都可以返回一个promise 来更好滴完成异步的操作。（这里与W3C中 IndexDB api 有些出入）可以到<em>dojo/store/api/store</em>里面来查看这些接口具体的方法和属性</p>
 <ul>
 <li><code>get(id)</code> 查询方法根据唯一标识返回一个对象。</li>
 <li><code>query(query, options)</code> 查询方法 根据查询条件来查询对象。返回一个数据或者promise（可以从then方法里获得查询结果） ，查询结果具有<em>forEach()</em> , <em>map()</em>, <em>filter()</em>, <em>reduce()</em> 方法来让我们，同时返回结果还包括一个total属性来标标识返回结果列表中包含的对象的的个数（当然也可以自己调用length手动获得),第一个参数为查询条件可以为字符串,对象,函数类型,第二个参数是为可选部分，包含三个属性<code>start</code>查询的起始处。<code>count</code>返回结果的最大个数 <code>sort</code> 排序信息,sort为数组类型可以根据多个字段进行排序</li>
@@ -181,178 +184,183 @@
 <li><code>data</code>   原始数据的数组</li>
 </ul>
 <p>以上只是API中的方法，dojo也有对应的类对此进行了实现后面会做具体的介绍。此外为了直观些可以看一下直接画的图<br><a href="http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow" target="_blank" rel="external">http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow</a></p>
-<h3 id="关于返回的对象。">关于返回的对象。</h3><p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
-<h3 id="检测结果集的变化">检测结果集的变化</h3><p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
+<p>###关于返回的对象。</p>
+<p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
+<p>###检测结果集的变化</p>
+<p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
 <ul>
 <li><p><code>observe(listener, includeObjectUpdates)</code> 第一个参数是一个监听函数函数签名<code>listener(object, removedFrom, insertedInto);</code>第一个参数为变动的对象可能是增加的新对象，修改或者是删除的对象。removedFrom 为删除对象的索引 如果这个值为-1 说明没有对象被删除，可能是发生了增加或者是修改行为。insertedInto 返回被增加对象在结果集中的索引.</p>
 </li>
 <li><p><code>close</code>  如果查询结果集调用colse 方法 ，停止监听这些变化。</p>
 </li>
 </ul>
-<h2 id="关于_dojo/store/Memory">关于 <code>dojo/store/Memory</code></h2><p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
+<p>##关于 <code>dojo/store/Memory</code></p>
+<p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
 <ul>
 <li><p><code>dojo/store/Memory</code> 一个简单的内存存储， 是dojo/store API的实现类， 这个是创建 dojo store 非常有用的一个类，特别是小型的数据集，可以用内存的对象数组作为数据源。构造好之后就可以对其进行操作了。</p>
 <p>数据源为<em>PM2.5信息的数据</em> 如下格式的数据</p>
-<pre><code> <span class="keyword">var</span> mydata=[
+<pre><code> var mydata=[
     {
-        <span class="string">"aqi"</span>: <span class="number">30</span>, <span class="comment">//空气质量指数（Air Quality Index</span>
-        <span class="string">"aqimsg"</span>: <span class="string">"优"</span>,
-        <span class="string">"collectTime"</span>: <span class="number">1418798880775</span>,
-        <span class="string">"lvmsg"</span>: <span class="string">"lv-good"</span>,
-        <span class="string">"name"</span>: <span class="string">"房山良乡"</span>,
-        <span class="string">"path"</span>: <span class="string">"beijing/fangshanliangxiang"</span>,
-        <span class="string">"source"</span>: <span class="string">"aqicn.org"</span>,
-        <span class="string">"updateTime"</span>: <span class="string">"星期二21点"</span>,
-        <span class="string">"values"</span>: {}
+        &quot;aqi&quot;: 30, //空气质量指数（Air Quality Index
+        &quot;aqimsg&quot;: &quot;优&quot;,
+        &quot;collectTime&quot;: 1418798880775,
+        &quot;lvmsg&quot;: &quot;lv-good&quot;,
+        &quot;name&quot;: &quot;房山良乡&quot;,
+        &quot;path&quot;: &quot;beijing/fangshanliangxiang&quot;,
+        &quot;source&quot;: &quot;aqicn.org&quot;,
+        &quot;updateTime&quot;: &quot;星期二21点&quot;,
+        &quot;values&quot;: {}
         },
         {
-        <span class="string">"aqi"</span>: <span class="number">25</span>,
-        <span class="string">"aqimsg"</span>: <span class="string">"优"</span>,
-        <span class="string">"collectTime"</span>: <span class="number">1418798880775</span>,
-        <span class="string">"lvmsg"</span>: <span class="string">"lv-good"</span>,
-        <span class="string">"name"</span>: <span class="string">"昌平定陵"</span>,
-        <span class="string">"path"</span>: <span class="string">"beijing/changpingdingling"</span>,
-        <span class="string">"source"</span>: <span class="string">"aqicn.org"</span>,
-        <span class="string">"updateTime"</span>: <span class="string">"星期二21点"</span>,
-        <span class="string">"values"</span>: {}
+        &quot;aqi&quot;: 25,
+        &quot;aqimsg&quot;: &quot;优&quot;,
+        &quot;collectTime&quot;: 1418798880775,
+        &quot;lvmsg&quot;: &quot;lv-good&quot;,
+        &quot;name&quot;: &quot;昌平定陵&quot;,
+        &quot;path&quot;: &quot;beijing/changpingdingling&quot;,
+        &quot;source&quot;: &quot;aqicn.org&quot;,
+        &quot;updateTime&quot;: &quot;星期二21点&quot;,
+        &quot;values&quot;: {}
     }。。。
     。。。。。由于篇幅这里不全部列出 知道这个格式就行了
 ];
 </code></pre></li>
 </ul>
 <p>引入<code>dojo/store/Memory</code> 构造Memory对象</p>
-<pre><code><span class="built_in">require</span>([<span class="string">"dojo/store/Memory"</span>], <span class="function"><span class="keyword">function</span><span class="params">(Memory)</span></span>{
-    mystore = <span class="keyword">new</span> Memory({data: myData,idProperty:<span class="string">'name'</span>});
-    <span class="comment">//注意这里的idProperty，JSON对象的唯一标识 如果不指定默认为"id"字段</span>
+<pre><code>require([&quot;dojo/store/Memory&quot;], function(Memory){
+    mystore = new Memory({data: myData,idProperty:&apos;name&apos;});
+    //注意这里的idProperty，JSON对象的唯一标识 如果不指定默认为&quot;id&quot;字段
 
 });
-</code></pre><h3 id="查询">查询</h3><ul>
+</code></pre><p>###查询</p>
+<ul>
 <li><p><em>get</em>根据对象唯一标识来查询一个，返回一个JS对象，查询‘密云镇’的数据</p>
-<pre><code><span class="keyword">var</span> obj1= mystore.<span class="keyword">get</span>(<span class="string">'密云镇'</span>);<span class="comment">//get 跟据唯一标示（idProperty)来查询对象,这里查询 name为 丰台花园的信息</span>
+<pre><code>var obj1= mystore.get(&apos;密云镇&apos;);//get 跟据唯一标示（idProperty)来查询对象,这里查询 name为 丰台花园的信息
 
     {
-        <span class="string">"aqi"</span>: <span class="number">23</span>,
-        <span class="string">"aqimsg"</span>: <span class="string">"优"</span>,
-        <span class="string">"collectTime"</span>: <span class="number">1418798880775</span>,
-        <span class="string">"lvmsg"</span>: <span class="string">"lv-good"</span>,
-        <span class="string">"name"</span>: <span class="string">"密云镇"</span>,
-        <span class="string">"path"</span>: <span class="string">"beijing/miyunzhen"</span>,
-        <span class="string">"source"</span>: <span class="string">"aqicn.org"</span>,
-        <span class="string">"updateTime"</span>: <span class="string">"星期二21点"</span>,
-        <span class="string">"values"</span>: {}
+        &quot;aqi&quot;: 23,
+        &quot;aqimsg&quot;: &quot;优&quot;,
+        &quot;collectTime&quot;: 1418798880775,
+        &quot;lvmsg&quot;: &quot;lv-good&quot;,
+        &quot;name&quot;: &quot;密云镇&quot;,
+        &quot;path&quot;: &quot;beijing/miyunzhen&quot;,
+        &quot;source&quot;: &quot;aqicn.org&quot;,
+        &quot;updateTime&quot;: &quot;星期二21点&quot;,
+        &quot;values&quot;: {}
     }
 </code></pre></li>
 </ul>
 <ul>
 <li><p><em>query</em> 根据查询条件来检索对象 返回符合条件的对象数组,查询结果如果参数为空返回所有的数据</p>
-<pre><code><span class="tag">var</span>    alldataarray=mystore.<span class="function"><span class="title">query</span><span class="params">()</span></span>
+<pre><code>var    alldataarray=mystore.query()
 </code></pre></li>
 <li><p>查询条件可以为一个对象</p>
-<pre><code> <span class="keyword">var</span>    array2=mystore.query({name:<span class="string">'密云镇'</span>}) <span class="comment">//</span>
+<pre><code> var    array2=mystore.query({name:&apos;密云镇&apos;}) //
 
-<span class="comment">//好吧 再复杂点 查询空气质量指数为 38 并且评级为‘优’的检测点</span>
- <span class="keyword">var</span>    array3=mystore.query({
-      <span class="string">"aqi"</span>: <span class="number">38</span>,
-      <span class="string">"aqimsg"</span>: <span class="string">"优"</span>
+//好吧 再复杂点 查询空气质量指数为 38 并且评级为‘优’的检测点
+ var    array3=mystore.query({
+      &quot;aqi&quot;: 38,
+      &quot;aqimsg&quot;: &quot;优&quot;
      });
 
- <span class="comment">//查询对象还可以为 函数 与 Array.filter类似 实现复杂的查询 或者模糊查询</span>
- <span class="comment">//查询 api 小于38 </span>
- <span class="keyword">var</span>    array4=mystore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
-         <span class="keyword">return</span> obj.aqi&lt;<span class="number">38</span>;
+ //查询对象还可以为 函数 与 Array.filter类似 实现复杂的查询 或者模糊查询
+ //查询 api 小于38 
+ var    array4=mystore.query(function(obj){
+         return obj.aqi&lt;38;
    }
  );
 </code></pre></li>
 <li><p>还可以把查询函数参数放到store 对象上作为store的一个方法,在调用query的时候写入方法的名字</p>
-<pre><code> mystore.myquerymethod=<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
-     <span class="keyword">return</span> obj.aqi&lt;<span class="number">38</span>;
+<pre><code> mystore.myquerymethod=function(obj){
+     return obj.aqi&lt;38;
  };
-   <span class="keyword">var</span> array5=mystore.query(<span class="string">'myquerymethod'</span>);
-<span class="comment">//console.log(array5);</span>
+   var array5=mystore.query(&apos;myquerymethod&apos;);
+//console.log(array5);
 </code></pre></li>
 </ul>
 <blockquote>
 <p>这样有什么好处呢？？个人认为这种情况能很方便把查询条件缓存下来，在其他的地方下次查询方便使用，并且可以给查询方法取有意义的名字 比如增加个查询方法 查询评级为优的检测站点 </p>
 </blockquote>
 <pre><code>mystore.getgoodstation=unction(obj){
-     <span class="keyword">return</span> obj.aqimsg===<span class="string">'优'</span>;
+     return obj.aqimsg===&apos;优&apos;;
        };
-mystore.query(<span class="string">'getgoodstation'</span>);
+mystore.query(&apos;getgoodstation&apos;);
 </code></pre><ul>
 <li>更复杂的查询</li>
 </ul>
 <p>查询条件：空气质量指数在38-50之间的检测点,然后根据aqi从大到小排序，从第三个开始返回，返回的最大个数3</p>
-<pre><code> <span class="keyword">var</span> result6 =mystore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
-   <span class="keyword">return</span> obj.aqi&gt;<span class="number">38</span>&amp;&amp;obj.aqi&lt;<span class="number">50</span>
+<pre><code> var result6 =mystore.query(function(obj){
+   return obj.aqi&gt;38&amp;&amp;obj.aqi&lt;50
  },{
-     start:<span class="number">3</span>,
-     count:<span class="number">3</span>,          
+     start:3,
+     count:3,          
    sort:[{
-     attribute:<span class="string">'aqi'</span>,
-     descending: <span class="literal">true</span> <span class="comment">//为ture 表示从大到小，为false 表示从小到大</span>
+     attribute:&apos;aqi&apos;,
+     descending: true //为ture 表示从大到小，为false 表示从小到大
    }]
  }); 
 
-result6.forEach(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>{
-  <span class="built_in">console</span>.log(a.name)
+result6.forEach(function(a){
+  console.log(a.name)
 })
 </code></pre><blockquote>
 <p>说明：在query的结果集中 有个total属性，这个是满足条件的个数。即满足query的 第一个参数的对象的个数，在query第二个参数中，如果不包含start和count属性的话，则total等于最终结果集的个数即length==total</p>
 </blockquote>
 <p>因为返回的数组具有<em>forEach，fitler,map</em>等方法，方便对结果进一步处理</p>
-<pre><code>array6.forEach(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>{
-  <span class="built_in">console</span>.log(a.name)
+<pre><code>array6.forEach(function(a){
+  console.log(a.name)
 })
 </code></pre><p>关于查询结果集的接口定义 可以查阅 <code>dojo/store/api/Store.QueryResults</code> ,如果是异步查询的话 query 会返回一个promise ，即他会拥有一个then方法，从callback里面可以获取查询结果。`比如</p>
-<pre><code>query().<span class="keyword">then</span>(<span class="function"><span class="keyword">function</span><span class="params">(data)</span><span class="comment">{
+<pre><code>query().then(function(data){
     console.log(data);
-}</span>);</span>
+});
 </code></pre><p>在实际的实现中<code>dojo/store/Memory</code> 是对内存中数据的操作是<em>同步</em>的，而<code>dojo/store/JsonRest</code>则是<em>异步</em>的。</p>
-<h3 id="修改对象的属性很简单">修改对象的属性很简单</h3><pre><code><span class="keyword">var</span> array7 =mystore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
-        <span class="keyword">return</span> obj.name==<span class="string">"密云镇"</span>
+<h3 id="u4FEE_u6539_u5BF9_u8C61_u7684_u5C5E_u6027_u5F88_u7B80_u5355"><a href="#u4FEE_u6539_u5BF9_u8C61_u7684_u5C5E_u6027_u5F88_u7B80_u5355" class="headerlink" title="修改对象的属性很简单"></a>修改对象的属性很简单</h3><pre><code>var array7 =mystore.query(function(obj){
+        return obj.name==&quot;密云镇&quot;
 });  
- array7.forEach(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>{
-   <span class="built_in">console</span>.log(a.aqi)
-   a.aqi=<span class="number">100</span> <span class="comment">//修改赋值 没有调用put方法</span>
+ array7.forEach(function(a){
+   console.log(a.aqi)
+   a.aqi=100 //修改赋值 没有调用put方法
  });
 
-<span class="keyword">var</span> array8 =mystore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
-      <span class="keyword">return</span> obj.name==<span class="string">"密云镇"</span>
+var array8 =mystore.query(function(obj){
+      return obj.name==&quot;密云镇&quot;
 })       
- array8.forEach(<span class="function"><span class="keyword">function</span><span class="params">(b)</span></span>{
-  <span class="built_in">console</span>.log(b.aqi)<span class="comment">//100 说明已经修改了</span>
+ array8.forEach(function(b){
+  console.log(b.aqi)//100 说明已经修改了
  })
 </code></pre><p>可是说好的修改用put呢??? 好吧，JS是引用传递的,查询到的对象是JS中的普通对象。。。对象属性直接赋值就能实现修改了，</p>
-<pre><code><span class="keyword">var</span> objmiyun= mystore.<span class="keyword">get</span>(<span class="string">'密云镇'</span>);
-objmiyun.aqi=<span class="number">10</span>;      
-<span class="keyword">var</span> objmiyun1= mystore.<span class="keyword">get</span>(<span class="string">'密云镇'</span>);
-console.log(objmiyun.aqi)<span class="comment">//10</span>
-console.log(objmiyun===objmiyun1);<span class="comment">//为true 说明两次get返回的是同一个对象的引用</span>
+<pre><code>var objmiyun= mystore.get(&apos;密云镇&apos;);
+objmiyun.aqi=10;      
+var objmiyun1= mystore.get(&apos;密云镇&apos;);
+console.log(objmiyun.aqi)//10
+console.log(objmiyun===objmiyun1);//为true 说明两次get返回的是同一个对象的引用
 </code></pre><p>那么通过query 查询到的又是如此呢</p>
-<pre><code> mystore.getmiyun=<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
-        <span class="keyword">return</span> obj.name===<span class="string">'密云镇'</span>;
+<pre><code> mystore.getmiyun=function(obj){
+        return obj.name===&apos;密云镇&apos;;
  };
 
-<span class="keyword">var</span> arraym3= mystore.query(<span class="string">"getmiyun"</span>);
-<span class="keyword">var</span> arraym4= mystore.query(<span class="string">"getmiyun"</span>);
-<span class="built_in">console</span>.log(arraym3[<span class="number">0</span>]===arraym4[<span class="number">0</span>])<span class="comment">//true</span>
-<span class="built_in">console</span>.log(arraym3[<span class="number">0</span>]===mystore.data[<span class="number">1</span>])<span class="comment">//true</span>
+var arraym3= mystore.query(&quot;getmiyun&quot;);
+var arraym4= mystore.query(&quot;getmiyun&quot;);
+console.log(arraym3[0]===arraym4[0])//true
+console.log(arraym3[0]===mystore.data[1])//true
 </code></pre><p>综上不管是通过get还是query来查询，得到的对象都是原始数据的引用。所以修改很easy了</p>
 <blockquote>
 <p>注意：原则上说我们调用一下put方法来标识更新对象。<code>store.put(obj)</code> 这样如果通过<code>dojo/store/Observable</code> 包装的话 监听函数才能监听的到.</p>
 </blockquote>
-<h3 id="删除">删除</h3><p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
-<pre><code>store.remove(<span class="property">id</span>);
+<p>###删除  </p>
+<p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
+<pre><code>store.remove(id);
 </code></pre><blockquote>
 <p>其实感觉删除的方法设计不好，删除的参数只能是唯一标识，却不能是根据查询条件来删除。。。也无法达到批量删除的目的。。感觉如果参数为Obj的查询参数类型，以及唯一标识数组类型 就更好了。。</p>
 </blockquote>
 <p>另外更新数据源可以使用 store.setData方法。</p>
-<h3 id="dojo/store/JsonRest"><code>dojo/store/JsonRest</code></h3><p><code>dojo/store/JsonRest</code>(与dojox里面的JsonRest不同) 也是dojo Object storeAPI的实现，与<em>Memory</em>不同的是，<em>Memory</em>的数据源存在内存中，而JSONRest的数据源是远程的JSON，JsonRest 实现了对标准Rest接口访问的封装，JSONRest非常适合大量数据的展示(数据存在远端，分页异步获取等来降低性能的损耗)，上面已经提到JSONrest 所有的操作都是以promise形式返回的。JsonRest object store 与服务端交互的方式与<code>dojox.data.JsonRestStore</code>类似，但是<code>dojo/store/JsonRest</code>是基于新的<em>dojo Object store APi </em>简单方便使用的理念，进行重新设计，并做出了很大的简化。只需要提供一个url 既可以构造一个<code>dojo/store/JsonRest</code>。</p>
+<h3 id="dojo/store/JsonRest"><a href="#dojo/store/JsonRest" class="headerlink" title="dojo/store/JsonRest"></a><code>dojo/store/JsonRest</code></h3><p><code>dojo/store/JsonRest</code>(与dojox里面的JsonRest不同) 也是dojo Object storeAPI的实现，与<em>Memory</em>不同的是，<em>Memory</em>的数据源存在内存中，而JSONRest的数据源是远程的JSON，JsonRest 实现了对标准Rest接口访问的封装，JSONRest非常适合大量数据的展示(数据存在远端，分页异步获取等来降低性能的损耗)，上面已经提到JSONrest 所有的操作都是以promise形式返回的。JsonRest object store 与服务端交互的方式与<code>dojox.data.JsonRestStore</code>类似，但是<code>dojo/store/JsonRest</code>是基于新的<em>dojo Object store APi </em>简单方便使用的理念，进行重新设计，并做出了很大的简化。只需要提供一个url 既可以构造一个<code>dojo/store/JsonRest</code>。</p>
 <p><em>JsonRest</em> 主要干了一件事 就是在不同的方法里面发送不同的类型的http请求，最终完成了服务端数据的CURD（对应的请求类型为get，put，post，delete。使用JSONrest的难点就是服务端必须是标准的Rest风格的。因此要求服务的编写者对Rest有一定的了解，同时要求返回的格式必须为JSON，那么首先要了解前端发出的请求格式。这里假设构造好了一个JSONRest</p>
-<pre><code>require([<span class="string">'dojo/store/JsonRest'</span>, <span class="string">"dojo/domReady!"</span>], <span class="function"><span class="keyword">function</span><span class="params">(JsonRest)</span> </span>{     
-        jsonreststore = <span class="keyword">new</span> JsonRest({target:<span class="string">"/Data/"</span>});
+<pre><code>require([&apos;dojo/store/JsonRest&apos;, &quot;dojo/domReady!&quot;], function(JsonRest) {     
+        jsonreststore = new JsonRest({target:&quot;/Data/&quot;});
 
-        jsonreststore.<span class="keyword">get</span>(<span class="string">"some-id"</span>).then(<span class="function"><span class="keyword">function</span><span class="params">(someObject)</span></span>{
+        jsonreststore.get(&quot;some-id&quot;).then(function(someObject){
 
         });
 });
@@ -365,9 +373,9 @@ console.log(objmiyun===objmiyun1);<span class="comment">//为true 说明两次ge
 </li>
 <li><p><code>query({name:&#39;hello&#39;,aqi:20})</code>,如果query的参数为Object类型，则会使用 dojo/io-query::objectToQuery()将Object转为查询字符串的形式添加到URL上，即/Data/?name=hello&amp;aqi=20 发送get请求。如果包含两个参数，第二个参数也会被序列化为查询字符串添加到url上，</p>
 <p>   query({name:’hello’,aqi:20}, {</p>
-<pre><code>   <span class="keyword">count</span>: <span class="number">10</span>,
-  <span class="keyword">sort</span>: [
-    { attribute: <span class="string">"aqi"</span> }
+<pre><code>   count: 10,
+  sort: [
+    { attribute: &quot;aqi&quot; }
   ]
 });
 </code></pre></li>
@@ -381,67 +389,68 @@ console.log(objmiyun===objmiyun1);<span class="comment">//为true 说明两次ge
 </ul>
 <p><code>remove(&#39;id&#39;)</code> //向 Data/id发送delete请求。</p>
 <p>另外如果要为请求增加header信息，可以在第二个参数里面设置headers字段即可，比如要添加分页信息，如果要为所有的请求统一添加请求header，可以在构造JsonRest对象的构造函数里面设置如</p>
-<pre><code><span class="keyword">var</span> store = <span class="keyword">new</span> JsonRest({
-  target: <span class="string">"/FooObject/"</span>,
-  headers: { <span class="string">"X-Custom-Header"</span>: <span class="string">"Foo"</span> } <span class="comment">// 所有的请求都会包含X-Custom-Header: Foo</span>
+<pre><code>var store = new JsonRest({
+  target: &quot;/FooObject/&quot;,
+  headers: { &quot;X-Custom-Header&quot;: &quot;Foo&quot; } // 所有的请求都会包含X-Custom-Header: Foo
 });
 
-store.query({ foo: <span class="string">"value1"</span> }, {
-  headers: { <span class="string">"X-Custom-Header"</span>: <span class="string">"Bar"</span> } <span class="comment">// 仅在本次请求中包含 include X-Custom-Header: Bar instead</span>
+store.query({ foo: &quot;value1&quot; }, {
+  headers: { &quot;X-Custom-Header&quot;: &quot;Bar&quot; } // 仅在本次请求中包含 include X-Custom-Header: Bar instead
 });
-</code></pre><h4 id="JSONREST与分页查询">JSONREST与分页查询</h4><p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
-<pre><code><span class="tag">query</span>(<span class="rules">{
-    <span class="rule"><span class="attribute">aqi</span>:<span class="value"> <span class="number">40</span>
-    </span></span></span>}, <span class="rules">{
-    <span class="rule"><span class="attribute">headers</span>:<span class="value"> {
-        Range: <span class="string">"items=0-24"</span>
-    </span></span></span>}
+</code></pre><p>####JSONREST与分页查询 </p>
+<p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
+<pre><code>query({
+    aqi: 40
+    }, {
+    headers: {
+        Range: &quot;items=0-24&quot;
+    }
 });
 </code></pre><p>鉴于http的标准，要求服务端返回的头中包含分页信息 即Content-Range 头例如 <code>Content-Range: items 0-24/66</code> <em>0-24</em>表示实际返回的索引<em>0-24</em>的对象，<em>66</em>表示符合条件的对象的总个数。为啥要这种格式呢，因为这是http协议上就这么说的。</p>
 <blockquote>
 <p>对于使用者来说，<strong>JsonRest</strong>的难点还是后端的实现，后端可以解析http请求的内容<em>（method,querystring，请求头，请求body）</em> 来对CURD做实际的处理。</p>
 </blockquote>
-<h3 id="将异步和同步进行统一处理">将异步和同步进行统一处理</h3><p>上面的<em>MemoryStore</em> 和 <em>JsonRest store</em> 都是实现了<code>dojo Object Store API</code> 具有的方法也基本一致，但是一个重要区别就是<em>MemoryStor</em>e的操作是同步的结果直接返回，而JsonRest操作是异步的，返回的是promise，可以在then方法的回调函数里面获得操作结果，我们可以使用dojo/when 来封装以屏蔽这种差距。不用再关心是同步还是异步的，统一在then方法里面进行处理，比如这里有个store 你不知道他是<em>Memorystore</em>，还是<em>JsonRest store</em>。你关注的是查询里面的数据，可以如下处理</p>
-<pre><code>require([<span class="string">'dojo/when'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(when)</span> </span>{
-  when(store.<span class="keyword">get</span>(id), <span class="function"><span class="keyword">function</span><span class="params">(object)</span></span>{
+<h3 id="u5C06_u5F02_u6B65_u548C_u540C_u6B65_u8FDB_u884C_u7EDF_u4E00_u5904_u7406"><a href="#u5C06_u5F02_u6B65_u548C_u540C_u6B65_u8FDB_u884C_u7EDF_u4E00_u5904_u7406" class="headerlink" title="将异步和同步进行统一处理"></a>将异步和同步进行统一处理</h3><p>上面的<em>MemoryStore</em> 和 <em>JsonRest store</em> 都是实现了<code>dojo Object Store API</code> 具有的方法也基本一致，但是一个重要区别就是<em>MemoryStor</em>e的操作是同步的结果直接返回，而JsonRest操作是异步的，返回的是promise，可以在then方法的回调函数里面获得操作结果，我们可以使用dojo/when 来封装以屏蔽这种差距。不用再关心是同步还是异步的，统一在then方法里面进行处理，比如这里有个store 你不知道他是<em>Memorystore</em>，还是<em>JsonRest store</em>。你关注的是查询里面的数据，可以如下处理</p>
+<pre><code>require([&apos;dojo/when&apos;], function (when) {
+  when(store.get(id), function(object){
 
   });
   }};
 </code></pre><p>通过这种方式 来达到了操作上的统一，当然你也可以使用其他的方式进行门面封装 ，暴露出来统一的操作方法，既然官方推荐了，我们就暂时用 dojo/when吧。</p>
-<h2 id="包装器wrappers。">包装器wrappers。</h2><p>在dojo里面如果要增强已有的类的话，可以使用包装器进行层次性的增强，类似插件的性质，这种理念能够让我们做到按需的选择，根据不同的功能来选择不同的<code>wrapper</code>类进行包装，以避免不必要的资源浪费。对于dojo/store来说 这里有两个重要的包装器<code>dojo/store/Cache</code> 和<code>dojo/store/Observable</code></p>
-<h3 id="dojo/store/Cache">dojo/store/Cache</h3><p>一个Cache对象主要是用来缓存JsonRest的，将远程端的JsonRest的缓存到本地，避免发重复的查询请求，这样就需要构造一个MemoryStore来存储缓存下来的数据，JsonRest来与远程的数据交互。使用的例子如下</p>
-<pre><code><span class="keyword">require</span>([<span class="string">'dojo/store/Memory'</span>, <span class="string">'dojo/store/JsonRest'</span>, <span class="string">'dojo/store/Cache'</span>],
-    <span class="keyword">function</span> (Memory, JsonRest, Cache) {
+<h2 id="u5305_u88C5_u5668wrappers_u3002"><a href="#u5305_u88C5_u5668wrappers_u3002" class="headerlink" title="包装器wrappers。"></a>包装器wrappers。</h2><p>在dojo里面如果要增强已有的类的话，可以使用包装器进行层次性的增强，类似插件的性质，这种理念能够让我们做到按需的选择，根据不同的功能来选择不同的<code>wrapper</code>类进行包装，以避免不必要的资源浪费。对于dojo/store来说 这里有两个重要的包装器<code>dojo/store/Cache</code> 和<code>dojo/store/Observable</code></p>
+<h3 id="dojo/store/Cache"><a href="#dojo/store/Cache" class="headerlink" title="dojo/store/Cache"></a>dojo/store/Cache</h3><p>一个Cache对象主要是用来缓存JsonRest的，将远程端的JsonRest的缓存到本地，避免发重复的查询请求，这样就需要构造一个MemoryStore来存储缓存下来的数据，JsonRest来与远程的数据交互。使用的例子如下</p>
+<pre><code>require([&apos;dojo/store/Memory&apos;, &apos;dojo/store/JsonRest&apos;, &apos;dojo/store/Cache&apos;],
+    function (Memory, JsonRest, Cache) {
   memoryStore = new Memory({});
-  restStore = new JsonRest({target:<span class="string">"/Data/"</span>});
+  restStore = new JsonRest({target:&quot;/Data/&quot;});
   store = new Cache(restStore, memoryStore);
-  <span class="keyword">...</span>
+  ...
 </code></pre><p>查询所有的数据</p>
-<pre><code><span class="keyword">var</span> results = store.<span class="keyword">query</span>();
+<pre><code>var results = store.query();
 </code></pre><p>查询结果会被缓存到MemoryStore里面，这里我们可以查询数据，来避免不必要的请求</p>
-<pre><code><span class="keyword">object</span> = store.<span class="keyword">get</span>(<span class="string">"some-id"</span>);
+<pre><code>object = store.get(&quot;some-id&quot;);
 </code></pre><p>如果对store进行更新 删除 增加操作，对应的memoryStore 也会自动发生更新，可以直接访问memoryStore 来查看缓存的数据。</p>
-<h3 id="“dojo/store/Observable”">“dojo/store/Observable”</h3><p><code>dojo/store/Observable</code>包装后的dojo store（只要是实现了dojo/store API 的类都可以用Observable来包装)功能会得到增强—在支持原来的API的基础上 又让查询结果集的变化可以被监听的。通过store.query得到的结果数组（结果集）有一个observe方法（如果是异步的返回的promise也会拥有这个方法），通过这个方法可以监听我们对查询结果集的操作变动情况，注意observe方法存在<em>查询结果</em>的方法中，而不是store中，事实store上会拥有一个notify方法，用于发出广播（这是一个典型的观察者模式），因为我们对数据的操作都是在store上进行的。因此监听查询结果的变动情况。好吧可能还需要解释一下，操作对象（即更新删除增加对象）是在store上进行的。 而observe是在查询结果集中进行的，也就是说如果store中变动的对象符合调用observe的查询结果集当时的查询条件，那么这些变动将会发通知到查询结果集里面，然后查询结果集的observe会监听到。这种通知变化的机制与旧版本的<em>dojo/data</em> 是不一样的。通过这种模式 可以实现数据的变化与UI更新的分离，对于UI组件实现者来说只需要监听查询结果集的变动即可（显示查询结果集中的东西），对于UI组件的使用者来说完全不必关系如何更新UI，只需要对store进行 CURD即可。</p>
+<h3 id="u201Cdojo/store/Observable_u201D"><a href="#u201Cdojo/store/Observable_u201D" class="headerlink" title="“dojo/store/Observable”"></a>“dojo/store/Observable”</h3><p><code>dojo/store/Observable</code>包装后的dojo store（只要是实现了dojo/store API 的类都可以用Observable来包装)功能会得到增强–在支持原来的API的基础上 又让查询结果集的变化可以被监听的。通过store.query得到的结果数组（结果集）有一个observe方法（如果是异步的返回的promise也会拥有这个方法），通过这个方法可以监听我们对查询结果集的操作变动情况，注意observe方法存在<em>查询结果</em>的方法中，而不是store中，事实store上会拥有一个notify方法，用于发出广播（这是一个典型的观察者模式），因为我们对数据的操作都是在store上进行的。因此监听查询结果的变动情况。好吧可能还需要解释一下，操作对象（即更新删除增加对象）是在store上进行的。 而observe是在查询结果集中进行的，也就是说如果store中变动的对象符合调用observe的查询结果集当时的查询条件，那么这些变动将会发通知到查询结果集里面，然后查询结果集的observe会监听到。这种通知变化的机制与旧版本的<em>dojo/data</em> 是不一样的。通过这种模式 可以实现数据的变化与UI更新的分离，对于UI组件实现者来说只需要监听查询结果集的变动即可（显示查询结果集中的东西），对于UI组件的使用者来说完全不必关系如何更新UI，只需要对store进行 CURD即可。</p>
 <p>我们的关注的是我们要查询的数据，我们的操作是对store的操作，我们队store操作的时候，store会调用notify方法，如果变化的内容符合查询结果集的查询条件，则结果集的observe会被监听的到。还是上代码吧.</p>
 <p>构建 ObservableStore</p>
-<pre><code><span class="built_in">require</span>([<span class="string">"dojo/store/Memory"</span>, <span class="string">'dojo/store/Observable'</span>,<span class="string">"dojo/domReady!"</span>], <span class="function"><span class="keyword">function</span><span class="params">(    
-                Memory,Observable)</span> </span>{
+<pre><code>require([&quot;dojo/store/Memory&quot;, &apos;dojo/store/Observable&apos;,&quot;dojo/domReady!&quot;], function(    
+                Memory,Observable) {
 
-                memorystore = <span class="keyword">new</span> Memory({
+                memorystore = new Memory({
                     data: pmData,
-                    idProperty: <span class="string">'name'</span>
+                    idProperty: &apos;name&apos;
                  });
-                observablestore = <span class="keyword">new</span> Observable(store); 
+                observablestore = new Observable(store); 
     });
 </code></pre><p>这里还是以空气质量PM2.5的数据为例吧，查询 aqi 值大于80的站点。值越高空气质量越差</p>
-<pre><code><span class="keyword">var</span> worsedata=observablestore.query(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>{
-        <span class="keyword">return</span> obj.aqi&gt;<span class="number">80</span>;
+<pre><code>var worsedata=observablestore.query(function(obj){
+        return obj.aqi&gt;80;
     })
- worsedata.forEach(<span class="function"><span class="keyword">function</span><span class="params">(d)</span></span>{
-     <span class="built_in">console</span>.log(d.name);
+ worsedata.forEach(function(d){
+     console.log(d.name);
  })
 </code></pre><p>经过<em>Observable</em> 来包装<em>Memory Store</em>(也可以包装JsonRest)，调用query之后的结果集（resultset中）拥有一个observe方法，接口的定义格式如下</p>
-<pre><code>resultSet.observe<span class="comment">(listener, includeObjectUpdates)</span>;
+<pre><code>resultSet.observe(listener, includeObjectUpdates);
 </code></pre><p>第一个参数为监听器，一个毁掉函数，接受三个参数 <code>listener(object, removedFrom, insertedInto)</code>;</p>
 <ul>
 <li><code>object</code> 被操作（修改，删除，增加）的对象</li>
@@ -460,39 +469,41 @@ store.query({ foo: <span class="string">"value1"</span> }, {
 </ul>
 <p>记住我们关注点是<code>查询结果集</code>即符合查询条件的对象，对store的操作只有让查询结果集发生变化（能让查询结果集增加或者修改）listener才会触发。一个元素从查询结果集中被移除 不一定从store上移除，相反如果结果集中增加了元素也不一定是store上新增的对象。而我们关注点是查询结果集，虽然我们的操作是在store上进行的。这种变动会直接反应到查询结果上面。因此Observalstore中的查询结果集 会随着store中的数据的变化做相应的更新。</p>
 <p>继续看代码吧 接着上面的例子</p>
-<pre><code> worsedata.observe(<span class="function"><span class="keyword">function</span><span class="params">(object, removedFrom, insertedInto)</span></span>{
-    <span class="built_in">console</span>.log(object);
-    <span class="keyword">if</span>(removedFrom===-<span class="number">1</span>){
-        <span class="built_in">console</span>.log(<span class="string">"worsedata中的对象增加，新增对象的索引为"</span>,insertedInto)
+<pre><code> worsedata.observe(function(object, removedFrom, insertedInto){
+    console.log(object);
+    if(removedFrom===-1){
+        console.log(&quot;worsedata中的对象增加，新增对象的索引为&quot;,insertedInto)
     }
-    <span class="keyword">else</span> <span class="keyword">if</span>(insertedInto===-<span class="number">1</span>){
-        <span class="built_in">console</span>.log(<span class="string">"worsedata中的对象被移除,删除对象的索引为"</span>,removedFrom)
+    else if(insertedInto===-1){
+        console.log(&quot;worsedata中的对象被移除,删除对象的索引为&quot;,removedFrom)
     }
- <span class="keyword">else</span> <span class="keyword">if</span>(removedFrom===insertedInto){
-     <span class="comment">//需要将observe的第二个参数设置为 true</span>
-    <span class="built_in">console</span>.log(<span class="string">"worsedata中的对象的属性发生更新,更新对象的索引为"</span>,removedFrom)
+ else if(removedFrom===insertedInto){
+     //需要将observe的第二个参数设置为 true
+    console.log(&quot;worsedata中的对象的属性发生更新,更新对象的索引为&quot;,removedFrom)
  }
-worsedata.forEach(<span class="function"><span class="keyword">function</span><span class="params">(a)</span></span>{
-     <span class="built_in">console</span>.log(<span class="string">"name:"</span>,a.name,<span class="string">'aqi:'</span>,a.aqi);
+worsedata.forEach(function(a){
+     console.log(&quot;name:&quot;,a.name,&apos;aqi:&apos;,a.aqi);
     });
- },<span class="literal">true</span>);
+ },true);
 
 newobj={
-        <span class="string">"aqi"</span>: <span class="number">83</span>,
-        <span class="string">"aqimsg"</span>: <span class="string">"优"</span>,
-        <span class="string">"collectTime"</span>: <span class="number">1418798880775</span>,
-        <span class="string">"lvmsg"</span>: <span class="string">"lv-good"</span>,
-        <span class="string">"name"</span>: <span class="string">"天安门"</span>,
-        <span class="string">"path"</span>: <span class="string">"beijing/fengtaiyungang"</span>,
-        <span class="string">"source"</span>: <span class="string">"aqicn.org"</span>,
-        <span class="string">"updateTime"</span>: <span class="string">"星期二21点"</span>,
-        <span class="string">"values"</span>: {}
+        &quot;aqi&quot;: 83,
+        &quot;aqimsg&quot;: &quot;优&quot;,
+        &quot;collectTime&quot;: 1418798880775,
+        &quot;lvmsg&quot;: &quot;lv-good&quot;,
+        &quot;name&quot;: &quot;天安门&quot;,
+        &quot;path&quot;: &quot;beijing/fengtaiyungang&quot;,
+        &quot;source&quot;: &quot;aqicn.org&quot;,
+        &quot;updateTime&quot;: &quot;星期二21点&quot;,
+        &quot;values&quot;: {}
     }
  observablestore.put(newobj); 
 </code></pre><p> 新增加的这个对象满足worsedata的条件（即aqi大于80）所以上面的函数会监听的到变动，worsedata值也会自动做相应的增加。如果 此前aqi为70的话，则上面的监听函数不会被触发，因为虽然对store增加了元素，但是这不会对我们的之前的查询结果造成影响,关于修改的例子这里就不再举例子了。Observe的这种设计是非常合理</p>
 <p>另外 查询结果集还有个 <code>cancel</code>方法来取消监听（dojo store API 上说的是close ，这里有点出入）</p>
-<h3 id="dojo/store/DataStore">dojo/store/DataStore</h3><p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
-<h2 id="总结">总结</h2><p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
+<p>###dojo/store/DataStore </p>
+<p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
+<p>##总结</p>
+<p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
 <p>好吧 <code>dojo/data</code>包里面的已经是老掉牙的东西，<em>dojo Object store</em> 目前的 <code>dojo/store</code>包里的东西也正在被换血。。dojo store的未来 是 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a> 既然如此，可是本博文还有什么用呢，这不是在祸害人么。。。我想估计也没多少人能看到这里。。哈哈，能保持耐心看到这里的就直接看dstore 的源码吧。。</p>
 <blockquote>
 <p>The dstore package is a data infrastructure framework, providing the tools for modelling and interacting with data collections and objects. dstore is designed to work with a variety of data storage mediums, and provide a consistent interface for accessing data across different user interface components. </p>
@@ -619,7 +630,7 @@ newobj={
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于dojo中统一数据访问接口"><span class="nav-number">1.</span> <span class="nav-text">关于dojo中统一数据访问接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于dojo_Object_store_API。"><span class="nav-number">2.</span> <span class="nav-text">关于dojo Object store API。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dojo对象存储API背后的几个理念"><span class="nav-number">3.</span> <span class="nav-text">dojo对象存储API背后的几个理念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于dojo_Object_API中的方法以及属性。"><span class="nav-number">3.1.</span> <span class="nav-text">关于dojo Object API中的方法以及属性。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于返回的对象。"><span class="nav-number">3.2.</span> <span class="nav-text">关于返回的对象。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测结果集的变化"><span class="nav-number">3.3.</span> <span class="nav-text">检测结果集的变化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于_dojo/store/Memory"><span class="nav-number">4.</span> <span class="nav-text">关于 dojo/store/Memory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询"><span class="nav-number">4.1.</span> <span class="nav-text">查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改对象的属性很简单"><span class="nav-number">4.2.</span> <span class="nav-text">修改对象的属性很简单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">4.3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/JsonRest"><span class="nav-number">4.4.</span> <span class="nav-text">dojo/store/JsonRest</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONREST与分页查询"><span class="nav-number">4.4.1.</span> <span class="nav-text">JSONREST与分页查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将异步和同步进行统一处理"><span class="nav-number">4.5.</span> <span class="nav-text">将异步和同步进行统一处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包装器wrappers。"><span class="nav-number">5.</span> <span class="nav-text">包装器wrappers。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/Cache"><span class="nav-number">5.1.</span> <span class="nav-text">dojo/store/Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“dojo/store/Observable”"><span class="nav-number">5.2.</span> <span class="nav-text">“dojo/store/Observable”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/DataStore"><span class="nav-number">5.3.</span> <span class="nav-text">dojo/store/DataStore</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5173_u4E8Edojo_Object_API_u4E2D_u7684_u65B9_u6CD5_u4EE5_u53CA_u5C5E_u6027_u3002"><span class="nav-number">1.</span> <span class="nav-text">关于dojo Object API中的方法以及属性。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4FEE_u6539_u5BF9_u8C61_u7684_u5C5E_u6027_u5F88_u7B80_u5355"><span class="nav-number">2.</span> <span class="nav-text">修改对象的属性很简单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/JsonRest"><span class="nav-number">3.</span> <span class="nav-text">dojo/store/JsonRest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5C06_u5F02_u6B65_u548C_u540C_u6B65_u8FDB_u884C_u7EDF_u4E00_u5904_u7406"><span class="nav-number">4.</span> <span class="nav-text">将异步和同步进行统一处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5305_u88C5_u5668wrappers_u3002"><span class="nav-number"></span> <span class="nav-text">包装器wrappers。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/Cache"><span class="nav-number">1.</span> <span class="nav-text">dojo/store/Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u201Cdojo/store/Observable_u201D"><span class="nav-number">2.</span> <span class="nav-text">“dojo/store/Observable”</span></a></li></ol>
       </div>
     
   </div>
