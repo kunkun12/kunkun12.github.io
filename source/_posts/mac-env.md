@@ -76,5 +76,6 @@ tags:
 
 
 
-### 2015-四月9号开始使用atom 代码编辑器，感觉比sublime还要爽,不过打开大文件会卡。
+# 2015-四月9号开始使用atom 代码编辑器，感觉比sublime还要爽,不过打开大文件会卡。
 需要配合一些插件。比如git-plus,autocomplete-plus,color-picker,git-log,language-jade,open-last-project,terminal-panel(shift+enter)
+- 然而用了 atom 半年之久实在太卡了，最终转回来了sublime3 
