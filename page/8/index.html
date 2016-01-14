@@ -99,6 +99,235 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/">
+                如何使用Node+express创建Rest API
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-15
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>###安装环境</p>
+<p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
+<pre><code>npm install express -g
+</code></pre><p>3 创建express 项目</p>
+<pre><code>express myapp
+</code></pre><p>###API设计</p>
+<p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
+<ul>
+<li>GET /tasks/ 返回计划任务列表</li>
+<li>GET /tasks/:id  根据指定的任务id 返回计划任务的信息</li>
+<li>POST /tasks/ 接受传进来的JSON数据来创建一个新的计划任务</li>
+<li>PUT /tasks/:id 更新计划任务信息</li>
+<li>DELETE /tasks/:id 根据指定的计划Id 删除计划任务</li>
+</ul>
+<p>这些方法的返回如下</p>
+<ul>
+<li>访问get请求之外的api ，如果执行成功返回http 状态符为200</li>
+<li>如果访问不存的计划信息 则返回http 状态符为 404</li>
+</ul>
+<p>###实现</p>
+<p>####数据<br>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
+<pre><code>function TaskRepository() {}
+/**
+ * Find a task by id
+ * Param: id of the task to find
+ * Returns: the task corresponding to the specified id
+ */
+TaskRepository.prototype.find = function (id) {}
+/**
+ * Find the index of a task
+ * Param: id of the task to find
+ * Returns: the index of the task identified by id
+ */
+TaskRepository.prototype.findIndex = function (id) {}
+/**
+ * Retrieve all tasks
+ * Returns: array of tasks
+ */
+TaskRepository.prototype.findAll = function () {
+    return this.tasks;
+}
+/**
+ * Save a task (create or update)
+ * Param: task the task to save
+ */
+TaskRepository.prototype.save = function (task) {}
+/**
+ * Remove a task
+ * Param: id the of the task to remove
+ */
+TaskRepository.prototype.remove = function (id) {}
+</code></pre><p>####创建express server</p>
+<pre><code>var express = require(&apos;express&apos;);
+var app = express();
+app.configure(function() {
+    app.use(express.bodyParser()); // used to parse JSON object given in the request body
+});
+</code></pre><p>####获取计划的列表 get</p>
+<pre><code>app.get(&apos;/tasks&apos;, function (request, response) {
+    response.json({tasks: taskRepository.findAll()});
+});
+</code></pre><p>####根据指定的id获取一个计划的信息 get</p>
+<pre><code>app.get(&apos;/tasks/:id&apos;, function (request, response) {
+    var taskId = request.params.id;
+    try {
+        response.json(taskRepository.find(taskId));
+    } catch (exeception) {
+        response.send(404);
+    }
+});
+</code></pre><p>####创建一个新的计划 post</p>
+<pre><code>app.post(&apos;/tasks&apos;, function (request, response) {
+    var task = request.body;
+    taskRepository.save({
+        title: task.title || &apos;Default title&apos;,
+        description: task.description || &apos;Default description&apos;,
+        dueDate: task.dueDate,
+        status: task.status || &apos;not completed&apos;
+    });
+    response.send(200);
+});
+</code></pre><p>####更新计划信息 put</p>
+<pre><code>app.put(&apos;/tasks/:id&apos;, function (request, response) {
+    var task = request.body;
+    var taskId = request.params.id;
+    try {
+        var persistedTask = taskRepository.find(taskId);
+        taskRepository.save({
+            taskId: persistedTask.taskId,
+            title: task.title || persistedTask.title,
+            description: task.description || persistedTask.description,
+            dueDate: task.dueDate || persistedTask.dueDate,
+            status: task.status || persistedTask.status
+        });
+        response.send(200);
+    } catch (exception) {
+        response.send(404);
+    }
+});
+</code></pre><p>####删除计划delete</p>
+<pre><code>app.delete(&apos;/tasks/:id&apos;, function (request, response) {
+    try {
+        taskRepository.remove(request.params.id);
+        response.send(200);
+    } catch (exeception) {
+        response.send(404);
+    }
+});
+</code></pre><p>####启动express server</p>
+<pre><code>app.listen(8080)
+</code></pre><p>###测试 这里使用 curl 执行http请求访问rest api</p>
+<p>首先启动程序</p>
+<pre><code>node rest_api.js
+</code></pre><p>最初的情况下访问计划列表应该空的</p>
+<pre><code>$ curl -i http://localhost:8080/tasks/
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 17
+Date: Sun, 10 Feb 2013 12:37:45 GMT
+Connection: keep-alive
+
+{
+  &quot;tasks&quot;: []
+}
+</code></pre><p>####创建计划</p>
+<pre><code>$ curl -i -X POST http://localhost:8080/tasks --data &apos;{}&apos; -H &quot;Content-Type: application/json&quot;
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:39:13 GMT
+Connection: keep-alive
+
+OK
+</code></pre><p>####更新计划</p>
+<pre><code>$ curl -i -X PUT http://localhost:8080/tasks/1 --data &apos;{&quot;description&quot;:&quot;blabla&quot;}&apos; -H &quot;Content-Type: application/json&quot;
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:42:39 GMT
+Connection: keep-alive
+OK
+</code></pre><p>####删除计划</p>
+<pre><code>$ curl -i -X DELETE http://localhost:8080/tasks/1
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:43:31 GMT
+Connection: keep-alive
+
+OK
+</code></pre><p>这里介绍了用express创建rest api的大致过程，而实际过程中要复杂一些，比如存储数据使用数据库(mongodb 或者传统的关系数据库）来解决，有的也会包括一些复杂的逻辑信息。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Node/">
+                #Node
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/15/using-postgresql-with-django/">
                 在django中使用postgresQL
               </a>
@@ -366,162 +595,6 @@ xhr.send();　　
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/14/html5-geolocation-api/">
-                HTML5 Geolocation API-获取设备的地理位置
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-13
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/14/html5-geolocation-api/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/14/html5-geolocation-api/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>###地理位置API介绍</p>
-<p>地理位置API能够神奇地定位出你正待在世界的什么地方，并且在你允许的情况下，将你的位置信息分享给你信任的人，关于内部的定位原理，主要通过三种手段：</p>
-<ol>
-<li>IP地址</li>
-<li>GPS定位</li>
-<li>MAC地址</li>
-<li>GSM基站网络</li>
-<li>用户定义的地址位置。</li>
-</ol>
-<p>###地理位置获取流程：</p>
-<p>1、用户打开需要获取地理位置的web应用。<br>2、应用向浏览器请求地理位置，浏览器弹出询问窗口询问用户是否共享地理位置。<br>3、假设用户允许，浏览器从设别查询相关信息。<br>4、浏览器将相关信息发送到一个信任的位置服务器，服务器返回具体的地理位置。</p>
-<p>###监测浏览器支持情况</p>
-<p>如果浏览器支持地理位置API话，在全局的 navigator对象上回有一个名字为geolocation的属性，反之，navigator 对象上该属性为undefined 。于是可以编写如下函数</p>
-<pre><code>function suport_geolocation(){
-    return !!navigator.geolocation
-}
-</code></pre><p>或者使用一个专门监测HTML5 特性的库Modernizr，提供的方法来监测浏览器是否支持地理位置API，如下</p>
-<pre><code>if(Modernizr.geolocation){
-
-}
-else{
-
-}
-</code></pre><p>###navigator对象中的方法，</p>
-<p>####getCurrentPosition函数<br>这个函数是通过navigator.geolocation对象来调用的，所以在脚本中需要先取得此对象。这个函数接受一个必选参数和两个可选参数。</p>
-<pre><code>void getCurrentPosition(
-
-        in PositionCallback successCallBack,
-        in optional PositionErrorCallback errorCallback,
-        in optional PositionOptios options
-);
-</code></pre><p>. successCallBack：必选参数,为浏览器指明位置数据可用时应调用的函数，即收到实际位置信息并进行处理的地方。<br>. errorCallback：可选参数，出错处理<br>. options：可选参数，用来调整HTML5 Geolocation服务的数据收集方式。</p>
-<p>示例</p>
-<pre><code>navigator.geolocation.getCurrentPosition(updateLocation,handleeLocationError);
-</code></pre><p>这里updateLocation就是接收位置信息并进行重的函数，handleeLocationError是进行错误处理的函数。updateLocation只接受一个参数：位置对象。这个对象包含坐标(coords)和一个获取位置数据时的时间戳。以下是坐标的主要特性：</p>
-<ul>
-<li>latitude(纬度)</li>
-<li>longitude(经度)</li>
-<li><p>accuracy(准确度)</p>
-<pre><code>function updateLocation(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-
-        if (!latitude || !longitude) {
-            document.getElementById(&quot;status&quot;).innerHTML = &quot;HTML5 Geolocation is supported in your browser, but location is currently not available.&quot;;
-            return;
-        }
-
-        document.getElementById(&quot;latitude&quot;).innerHTML = latitude;
-        document.getElementById(&quot;longitude&quot;).innerHTML = longitude;
-    }
-</code></pre><p>handleeLocationError()函数</p>
-</li>
-</ul>
-<p>HTML5定义了一些错误编号</p>
-<ul>
-<li>PERMISSION_DENIED(错误编号为1)——用户选择拒绝浏览器获得其位置信息。</li>
-<li>POSITION_UNAVAILABLE(错误编号为2)——尝试获取用户位置数据失败。</li>
-<li><p>TIMEOUT(错误编号为3)——设置了可选的timeout值，获取用户位置超时。</p>
-<pre><code>function handleeLocationError(error)
-   {
-       switch (error.code) {
-           case 0: alert(error.message); break;
-           case 1: alert(error.message); break;
-           case 2: alert(error.message); break;
-           case 3: alert(error.message); break;
-       }
-   }
-</code></pre></li>
-</ul>
-<p>options：可选的地理定位请求特性</p>
-<ul>
-<li>enableHighAccuracy:如果启用该参数，则通知浏览器启用HTML5 Geolocation服务的高精度模式，参数的默认值为false.</li>
-<li>timeout:可选值，单位为ms，告诉浏览器计算当前位置所允许的最长时间。默认值为Infinity，即为无穷大或无限制。</li>
-<li>maximumAge:这个值表示浏览器重新计算位置的时间间隔。它也是一个以ms为单位的值，默认为零，这意味着浏览器每次请求时必须立即重新计算位置。</li>
-</ul>
-<p>###watchPosition函数</p>
-<pre><code>navigator.geolocation.watchPosition(updateLocation,handleLocationError);
-</code></pre><p>监听位置的变化，如果位置发生变化则调用updateLocation函数，如果程序不再需要接收用户的位置信息，则可以调用<code>navigator.geolocation.clearWatch(watchId)</code>,例子如下</p>
-<pre><code>var watchId = navigator.geolocation.watchPosition(updateLocation, handleeLocationError);
-navigator.geolocation.clearWatch(watchId);
-</code></pre><p>很多情况下，获得的位置在地图上在来展示，可视化地展示出我们所在的位置，<a href="http://developers.arcgis.com/javascript/samples/exp_geolocate/" target="_blank" rel="external">参见demo</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -554,7 +627,7 @@ navigator.geolocation.clearWatch(watchId);
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

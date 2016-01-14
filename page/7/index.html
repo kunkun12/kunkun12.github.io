@@ -99,6 +99,105 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/20/css-inline/">
+                css inline
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-20
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/20/css-inline/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/css-inline/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>今天使用要为元素设置水平居中的时候发现 <code>margin:0 auto</code> 不起作用，查资料发现原来我给div设置了的是<code>disply:inline-block</code>属性,这种情况下 <code>margin:0 auto</code> 是无效的，于是通过给父元素div 设置了 <code>text-aglin:center</code>得以解决.然后搜集了一些资料，加深一下对inline 属性的了解。</p>
+<p>###测试结果 </p>
+<ol>
+<li>inline元素, 有效的: <code>background</code>, <code>margin-left</code>, <code>margin-right</code>, <code>padding</code>, <code>border</code></li>
+<li>inline元素, 无效的: <code>width</code>, <code>height</code>, <code>margin-top</code>, <code>margin-bottom</code> (个别除外)</li>
+<li>因width, height无效, 因此下列属性也无效: <code>text-align</code>, <code>text-indent</code>, <code>min|max-width|height</code>, <code>overflow</code> </li>
+<li>原文字相关的依然有效, 如<code>word-spacing</code>,  <code>word-wrap</code>,  <code>white-space</code>, <code>letter-spacing</code> </li>
+<li>下面两个有效, <code>line-height</code>, <code>vertical-align</code>, <code>box-shadow</code> </li>
+<li><code>float</code>,<code>position</code>及与之相关<code>top</code>,<code>left</code>, 不考虑, 已经不是inline了 </li>
+<li><code>img</code>, <code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 设置inline与inline-block, 效果是一样的, 没有变化, 都等同于设置了inline-block </li>
+</ol>
+<p>####思考: </p>
+<ol>
+<li>inline元素的宽高是不能定义, 即宽高度是由inline元素inline内容的元素决定的,(ie6,ie7下高度会受inline-block元素的影响) </li>
+<li>即宽高完全是自适应而得出的, 因此也不存在overflow的问题, <code>min|max-width|height</code>也没有影响 </li>
+<li>margin四个属性, <code>left|right</code> 与 <code>top|bottom</code>有不同的待遇 </li>
+<li><code>margin-top</code>, <code>margin-bottom</code>, 可以用line-height模拟, 但有很大不同, 与<code>inline-block</code>也不兼容,  另 <code>margin:0 auto</code> 的居中效果, 也没有作用 </li>
+</ol>
+<p>####最后:<br>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
+<ul>
+<li><code>b</code>, <code>big</code>, <code>i</code>, <code>small</code>, <code>tt</code></li>
+<li><code>abbr</code>, <code>acronym</code>, <code>cite</code>, <code>code</code>, <code>dfn</code>, <code>em</code>, <code>kbd</code>, <code>strong</code>, <code>samp</code>, <code>var</code></li>
+<li><code>a</code>, <code>bdo</code>, <code>br</code>, <code>img</code>, <code>map</code>, <code>object</code>, <code>q</code>, <code>script</code>, <code>span</code>, <code>sub</code>, <code>sup</code></li>
+<li>表单元素:<code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 与inline-block等同</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/19/finding-object-size/">
                 ECMASCRIPT 5 Object.keys 
               </a>
@@ -407,235 +506,6 @@ phonegap run android
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/">
-                如何使用Node+express创建Rest API
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-15
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>###安装环境</p>
-<p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
-<pre><code>npm install express -g
-</code></pre><p>3 创建express 项目</p>
-<pre><code>express myapp
-</code></pre><p>###API设计</p>
-<p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
-<ul>
-<li>GET /tasks/ 返回计划任务列表</li>
-<li>GET /tasks/:id  根据指定的任务id 返回计划任务的信息</li>
-<li>POST /tasks/ 接受传进来的JSON数据来创建一个新的计划任务</li>
-<li>PUT /tasks/:id 更新计划任务信息</li>
-<li>DELETE /tasks/:id 根据指定的计划Id 删除计划任务</li>
-</ul>
-<p>这些方法的返回如下</p>
-<ul>
-<li>访问get请求之外的api ，如果执行成功返回http 状态符为200</li>
-<li>如果访问不存的计划信息 则返回http 状态符为 404</li>
-</ul>
-<p>###实现</p>
-<p>####数据<br>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
-<pre><code>function TaskRepository() {}
-/**
- * Find a task by id
- * Param: id of the task to find
- * Returns: the task corresponding to the specified id
- */
-TaskRepository.prototype.find = function (id) {}
-/**
- * Find the index of a task
- * Param: id of the task to find
- * Returns: the index of the task identified by id
- */
-TaskRepository.prototype.findIndex = function (id) {}
-/**
- * Retrieve all tasks
- * Returns: array of tasks
- */
-TaskRepository.prototype.findAll = function () {
-    return this.tasks;
-}
-/**
- * Save a task (create or update)
- * Param: task the task to save
- */
-TaskRepository.prototype.save = function (task) {}
-/**
- * Remove a task
- * Param: id the of the task to remove
- */
-TaskRepository.prototype.remove = function (id) {}
-</code></pre><p>####创建express server</p>
-<pre><code>var express = require(&apos;express&apos;);
-var app = express();
-app.configure(function() {
-    app.use(express.bodyParser()); // used to parse JSON object given in the request body
-});
-</code></pre><p>####获取计划的列表 get</p>
-<pre><code>app.get(&apos;/tasks&apos;, function (request, response) {
-    response.json({tasks: taskRepository.findAll()});
-});
-</code></pre><p>####根据指定的id获取一个计划的信息 get</p>
-<pre><code>app.get(&apos;/tasks/:id&apos;, function (request, response) {
-    var taskId = request.params.id;
-    try {
-        response.json(taskRepository.find(taskId));
-    } catch (exeception) {
-        response.send(404);
-    }
-});
-</code></pre><p>####创建一个新的计划 post</p>
-<pre><code>app.post(&apos;/tasks&apos;, function (request, response) {
-    var task = request.body;
-    taskRepository.save({
-        title: task.title || &apos;Default title&apos;,
-        description: task.description || &apos;Default description&apos;,
-        dueDate: task.dueDate,
-        status: task.status || &apos;not completed&apos;
-    });
-    response.send(200);
-});
-</code></pre><p>####更新计划信息 put</p>
-<pre><code>app.put(&apos;/tasks/:id&apos;, function (request, response) {
-    var task = request.body;
-    var taskId = request.params.id;
-    try {
-        var persistedTask = taskRepository.find(taskId);
-        taskRepository.save({
-            taskId: persistedTask.taskId,
-            title: task.title || persistedTask.title,
-            description: task.description || persistedTask.description,
-            dueDate: task.dueDate || persistedTask.dueDate,
-            status: task.status || persistedTask.status
-        });
-        response.send(200);
-    } catch (exception) {
-        response.send(404);
-    }
-});
-</code></pre><p>####删除计划delete</p>
-<pre><code>app.delete(&apos;/tasks/:id&apos;, function (request, response) {
-    try {
-        taskRepository.remove(request.params.id);
-        response.send(200);
-    } catch (exeception) {
-        response.send(404);
-    }
-});
-</code></pre><p>####启动express server</p>
-<pre><code>app.listen(8080)
-</code></pre><p>###测试 这里使用 curl 执行http请求访问rest api</p>
-<p>首先启动程序</p>
-<pre><code>node rest_api.js
-</code></pre><p>最初的情况下访问计划列表应该空的</p>
-<pre><code>$ curl -i http://localhost:8080/tasks/
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: application/json; charset=utf-8
-Content-Length: 17
-Date: Sun, 10 Feb 2013 12:37:45 GMT
-Connection: keep-alive
-
-{
-  &quot;tasks&quot;: []
-}
-</code></pre><p>####创建计划</p>
-<pre><code>$ curl -i -X POST http://localhost:8080/tasks --data &apos;{}&apos; -H &quot;Content-Type: application/json&quot;
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: text/plain
-Content-Length: 2
-Date: Sun, 10 Feb 2013 12:39:13 GMT
-Connection: keep-alive
-
-OK
-</code></pre><p>####更新计划</p>
-<pre><code>$ curl -i -X PUT http://localhost:8080/tasks/1 --data &apos;{&quot;description&quot;:&quot;blabla&quot;}&apos; -H &quot;Content-Type: application/json&quot;
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: text/plain
-Content-Length: 2
-Date: Sun, 10 Feb 2013 12:42:39 GMT
-Connection: keep-alive
-OK
-</code></pre><p>####删除计划</p>
-<pre><code>$ curl -i -X DELETE http://localhost:8080/tasks/1
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: text/plain
-Content-Length: 2
-Date: Sun, 10 Feb 2013 12:43:31 GMT
-Connection: keep-alive
-
-OK
-</code></pre><p>这里介绍了用express创建rest api的大致过程，而实际过程中要复杂一些，比如存储数据使用数据库(mongodb 或者传统的关系数据库）来解决，有的也会包括一些复杂的逻辑信息。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Node/">
-                #Node
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -668,7 +538,7 @@ OK
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

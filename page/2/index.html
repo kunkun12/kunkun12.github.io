@@ -99,6 +99,135 @@
           
           
             
+              <a class="post-title-link" href="/2015/01/14/ng-directive-callfunction-pass-argument/">
+                angluarJS 指令与控制器中的方法的调用。
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-01-14
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/01/14/ng-directive-callfunction-pass-argument/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/14/ng-directive-callfunction-pass-argument/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09"><a href="#u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09" class="headerlink" title="指令调用控制器中的方式（给指令的事件绑定执行函数）"></a>指令调用控制器中的方式（给指令的事件绑定执行函数）</h3><p>angluarJS中，如果指令内部的事件触发，这个时候需要调用外部controller中的方法，可以在指令的隔离作用域中使用<code>&amp;</code>将controller中的方法传递到指令中，供指令调用，需要注意的事，如果传递参数的话（比如自定义的ngChange事件触发，会把当前的选择项作为参数传递到控制器中）这个时候在声明指令时候,需要填写方法调用的函数表达式，并且如果包含函数的话，需要在调用改方法的时候指明参数，该参数名字与在指令中调用中传递的参数JSON的key一致（指令中必须传递JSON的形式来调用）</p>
+<pre><code>    angular.module(&quot;app1&quot;, [])
+.controller(&quot;Ctrl1&quot;, function($scope, $element)
+{
+  $scope.someThingChanged = function(arg1,arg2)
+  {
+       console.log(arg1,arg2);
+  }
+})
+.directive(&quot;myDirective&quot;, function($timeout)
+{
+  return {
+    scope: {
+      ngChange: &apos;&amp;&apos;
+    },
+    link: function(scope, element, attrs)
+    {
+      $timeout(function()
+      {
+        scope.ngChange({
+          name:&apos;张三&apos;,
+          age:28
+        });
+      });
+    }
+  }
+})
+</code></pre><p>声明指令</p>
+<pre><code>&lt;div my-directive ng-change=&quot;someThingChanged(name,age)&quot;&gt;&lt;/div&gt;
+调用时候上面输出 ：  张三 28
+</code></pre><h3 id="u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002"><a href="#u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002" class="headerlink" title="控制器调用指令的方法。"></a>控制器调用指令的方法。</h3><p>使用双向绑定的形式，首先在控制器新建一个空对象，在指令中将方法赋值给这个对象的一个属性，这样在控制器用就可以获取这个方法，进而进行调用。</p>
+<pre><code>var app = angular.module(&apos;plunker&apos;, []);
+app.controller(&apos;MainCtrl&apos;, function($scope) {
+  $scope.focusinControl = {
+  };
+});
+app.directive(&apos;focusin&apos;, function factory() {
+  return {
+    restrict: &apos;E&apos;,
+    replace: true,
+    template: &apos;&lt;div&gt;A:&lt;/div&gt;&apos;,
+    scope: {
+      control: &apos;=&apos;
+    },
+    link  : function (scope, element, attrs) {
+      scope.internalControl = scope.control || {};
+      scope.internalControl.takenTablets = 0;
+      scope.internalControl.takeTablet = function() {
+        scope.internalControl.takenTablets += 1;  
+      }
+    }
+  };
+});
+</code></pre><p>html </p>
+<pre><code>&lt;focusin control=&quot;focusinControl&quot;&gt;&lt;/focusin&gt;
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/AngularJS/">
+                #AngularJS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/01/11/less-features/">
                 less常用特性
               </a>
@@ -468,96 +597,6 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/12/30/ngEter/">
-                angularJS 实现ngEnter
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-12-30
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/12/30/ngEter/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/30/ngEter/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>Ng中有一些内置的指令，来响应我们的操作事件，比如ng-click,ng-change ng-select等等，但是我发现众多指令中缺少一个 当键盘按下的指令，比如 按回车的指令，比如我在一个搜索框中输入关键字之后按回车键，然后自动进行关键字来搜索，虽然ng中没有自带这个指令，但是我们很容易的定义一个这样的指令。下面就是一个ng-enter指令来完成这样的操作，使用的时候与ng-click这等方法类似，传递一个函数即可。当绑定该指令的元素处于焦点状态的时候，按下回车键就会触发 ng-enter的函数。</p>
-<pre><code>app.directive(&apos;ngEnter&apos;, function () {
-    return function (scope, element, attrs) {
-        element.bind(&quot;keydown keypress&quot;, function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
-                    scope.$eval(attrs.ngEnter);
-                });
-
-                event.preventDefault();
-            }
-        });
-    };
-});
-</code></pre><p>关于 <code>keydown</code>,<code>keypress</code>可以参阅<a href="http://www.cnblogs.com/silence516/archive/2013/01/25/2876611.html" target="_blank" rel="external">http://www.cnblogs.com/silence516/archive/2013/01/25/2876611.html</a></p>
-<p>使用方式 <code>&lt;input ng-enter=&#39;myfunction()&#39;/&gt;</code></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/AngularJS/">
-                #AngularJS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -590,7 +629,7 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

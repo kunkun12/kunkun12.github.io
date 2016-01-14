@@ -99,6 +99,167 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/14/vue-1-0-changes/">
+                vue 1.0 的主要变化
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2016-01-14
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2016/01/14/vue-1-0-changes/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/14/vue-1-0-changes/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>目前工作中还在使用 0.12.x版本，突然发现 1.0在使用上有不小的变化，于是参考 官方的更新日志<a href="https://github.com/vuejs/vue/releases/tag/1.0.0" target="_blank" rel="external">https://github.com/vuejs/vue/releases/tag/1.0.0</a>总结如下</p>
+<ul>
+<li>v-repeat  替换为 v-for<br>使用方法 <code>v-for=&quot;item in items&quot;</code> 不能使用 <code>v-for=&quot;imtes&quot;</code> 可以使用$index来获取当前项在数组中的索引</li>
+</ul>
+<pre><code>&lt;ul id=&apos;example-1&apos;&gt;
+&lt;li v-for=&apos;item in items&apos;&gt;
+      $index 
+&lt;/li&gt;
+&lt;ul&gt;
+</code></pre><p>或者  给索引取一个别名 如下 v-for  块中的内容可以使用其父作用域中的属性</p>
+<pre><code>   &lt;ul id=&apos;example-1&apos;&gt;
+   &lt;li v-for=&apos;(index,item) in items&apos;&gt;
+          
+   &lt;/li&gt;
+   &lt;ul&gt;
+
+
+var example=new Vue({
+   el:&apos;#example&apos;,
+   data:{
+       items:[
+           {message:&apos;Fool&apos;},
+           {message:&quot;Bar&quot;}
+       ]
+   }
+   })
+</code></pre><ul>
+<li><p>v-on=’action:fun’ 替换为 v-on:action=’func’ 缩写 @action=’func’，新增了两个事件修饰符号 .prevent与stop</p>
+<pre><code>&lt;button v-on:click=&quot;doThis&quot;&gt;&lt;/button&gt;
+&lt;button v-on:click=&quot;doThat(&apos;hello&apos;, $event)&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 缩写 --&gt;
+&lt;button @click=&quot;doThis&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 停止冒泡 --&gt;
+&lt;button @click.stop=&quot;doThis&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 阻止默认--&gt;
+&lt;button @click.prevent=&quot;doThis&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 组织默认的提交表单 --&gt;
+&lt;form @submit.prevent&gt;&lt;/form&gt;
+
+&lt;!-- 链式执行绑定的方法并阻止冒泡 --&gt;
+&lt;button @click.stop.prevent=&quot;doThis&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 绑定键盘事件 --&gt;
+&lt;input @keyup.enter=&quot;onEnter&quot;&gt;
+
+&lt;!-- 缩写形式 --&gt;
+&lt;input @keyup.13=&quot;onEnter&quot;&gt;
+</code></pre></li>
+<li><p>v-attr=’attr:val’ 替换为 v-bind:attr=”val” 缩写 :attr=”val”</p>
+</li>
+<li>新增 v-else 指令 与 v-if / v-show 成对使用</li>
+<li><p>v-el 指令，注册指令 可以在VM中通过 $els 来获得注册DOM的哈希对象</p>
+<pre><code>&lt;span v-el:msg&gt;hello&lt;/span&gt;
+&lt;span v-el:other-msg&gt;world&lt;/span&gt;
+
+this.$els.msg.textContent // -&gt; &quot;hello&quot;
+this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
+</code></pre></li>
+<li>v-pre 跳过VUE的处理 比如使用 直接显示 <code></code> 这样的形式</li>
+<li>v-component指令过时了，建议使用is<code>&lt;component :is=&quot;componentId&quot;&gt;&lt;/component&gt;</code> 更多关于 组件的内容参考  <a href="http://vuejs.org/guide/components.html" target="_blank" rel="external">http://vuejs.org/guide/components.html</a></li>
+<li><p>props 的传递变更为</p>
+<pre><code>&lt;!-- 单向绑定 --&gt;
+&lt;child :msg=&apos;parentMsg&apos;&gt;&lt;/child&gt;  
+&lt;!-- 双向绑定 --&gt;
+&lt;child :msg.sync=&apos;parentMsg&apos;&gt;&lt;/child&gt; 
+&lt;!--  单次绑定 --&gt;
+&lt;child :msg.once=&apos;parentMsg&apos;&gt;&lt;/child&gt;
+</code></pre></li>
+</ul>
+<ul>
+<li><p>v-class and v-style 过时了 推荐使用 <code>v-bind:class</code>、<code>v-bind:style</code></p>
+<pre><code>&lt;!-- 切换class--&gt;
+&lt;div v-bind:class=&quot;{ &apos;class-a&apos;: true, &apos;class-b&apos;: false }&quot;&gt;&lt;/div&gt;
+&lt;!-- 应用样式列表 --&gt;
+&lt;div v-bind:class=&quot;[ dynamicClass, &apos;literal-class&apos; ]&quot;&gt;&lt;/div&gt;
+
+&lt;!-- 接受驼峰式属性 --&gt;
+&lt;div v-bind:style=&quot;{ fontSize: &apos;14px&apos;, color: &apos;red&apos; }&quot;&gt;&lt;/div&gt;
+&lt;!--  支持样式的绑定--&gt;
+&lt;div v-bind:style=&quot;[ styleObjectA, styleObjectB ]&quot;&gt;&lt;/div&gt;
+</code></pre></li>
+<li><p>v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了<a href="https://github.com/vitalets/checklist-model" target="_blank" rel="external">一个插件</a>来完成这个功能</p>
+<pre><code>&lt;input type=&quot;checkbox&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;input type=&quot;checkbox&quot; value=&quot;John&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;input type=&quot;checkbox&quot; value=&quot;Mike&quot; v-model=&quot;checkedNames&quot;&gt;
+被选中的项的value值将会与 checkedNames的数组绑定
+</code></pre></li>
+<li><p>过滤器<br>1、<code>debounce</code> 是空闲时间必须大于或等于 一定值的时候，才会执行调用方法。debounce是空闲时间的间隔控制。比如我们做autocomplete，这时需要我们很好的控制输入文字时调用方法时间间隔。一般时第一个输入的字符马上开始调用，根据一定的时间间隔重复调用执行的方法。</p>
+<pre><code>&lt;input @keyup=&quot;onKeyup | debounce 500&quot;&gt;
+</code></pre></li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/02/26/mac-env/">
                 mac上常用的工具
               </a>
@@ -293,135 +454,6 @@
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/01/14/ng-directive-callfunction-pass-argument/">
-                angluarJS 指令与控制器中的方法的调用。
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2015-01-14
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/01/14/ng-directive-callfunction-pass-argument/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/14/ng-directive-callfunction-pass-argument/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09"><a href="#u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09" class="headerlink" title="指令调用控制器中的方式（给指令的事件绑定执行函数）"></a>指令调用控制器中的方式（给指令的事件绑定执行函数）</h3><p>angluarJS中，如果指令内部的事件触发，这个时候需要调用外部controller中的方法，可以在指令的隔离作用域中使用<code>&amp;</code>将controller中的方法传递到指令中，供指令调用，需要注意的事，如果传递参数的话（比如自定义的ngChange事件触发，会把当前的选择项作为参数传递到控制器中）这个时候在声明指令时候,需要填写方法调用的函数表达式，并且如果包含函数的话，需要在调用改方法的时候指明参数，该参数名字与在指令中调用中传递的参数JSON的key一致（指令中必须传递JSON的形式来调用）</p>
-<pre><code>    angular.module(&quot;app1&quot;, [])
-.controller(&quot;Ctrl1&quot;, function($scope, $element)
-{
-  $scope.someThingChanged = function(arg1,arg2)
-  {
-       console.log(arg1,arg2);
-  }
-})
-.directive(&quot;myDirective&quot;, function($timeout)
-{
-  return {
-    scope: {
-      ngChange: &apos;&amp;&apos;
-    },
-    link: function(scope, element, attrs)
-    {
-      $timeout(function()
-      {
-        scope.ngChange({
-          name:&apos;张三&apos;,
-          age:28
-        });
-      });
-    }
-  }
-})
-</code></pre><p>声明指令</p>
-<pre><code>&lt;div my-directive ng-change=&quot;someThingChanged(name,age)&quot;&gt;&lt;/div&gt;
-调用时候上面输出 ：  张三 28
-</code></pre><h3 id="u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002"><a href="#u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002" class="headerlink" title="控制器调用指令的方法。"></a>控制器调用指令的方法。</h3><p>使用双向绑定的形式，首先在控制器新建一个空对象，在指令中将方法赋值给这个对象的一个属性，这样在控制器用就可以获取这个方法，进而进行调用。</p>
-<pre><code>var app = angular.module(&apos;plunker&apos;, []);
-app.controller(&apos;MainCtrl&apos;, function($scope) {
-  $scope.focusinControl = {
-  };
-});
-app.directive(&apos;focusin&apos;, function factory() {
-  return {
-    restrict: &apos;E&apos;,
-    replace: true,
-    template: &apos;&lt;div&gt;A:&lt;/div&gt;&apos;,
-    scope: {
-      control: &apos;=&apos;
-    },
-    link  : function (scope, element, attrs) {
-      scope.internalControl = scope.control || {};
-      scope.internalControl.takenTablets = 0;
-      scope.internalControl.takeTablet = function() {
-        scope.internalControl.takenTablets += 1;  
-      }
-    }
-  };
-});
-</code></pre><p>html </p>
-<pre><code>&lt;focusin control=&quot;focusinControl&quot;&gt;&lt;/focusin&gt;
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/AngularJS/">
-                #AngularJS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -454,7 +486,7 @@ app.directive(&apos;focusin&apos;, function factory() {
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

@@ -99,6 +99,162 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/14/html5-geolocation-api/">
+                HTML5 Geolocation API-获取设备的地理位置
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-13
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/14/html5-geolocation-api/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/14/html5-geolocation-api/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>###地理位置API介绍</p>
+<p>地理位置API能够神奇地定位出你正待在世界的什么地方，并且在你允许的情况下，将你的位置信息分享给你信任的人，关于内部的定位原理，主要通过三种手段：</p>
+<ol>
+<li>IP地址</li>
+<li>GPS定位</li>
+<li>MAC地址</li>
+<li>GSM基站网络</li>
+<li>用户定义的地址位置。</li>
+</ol>
+<p>###地理位置获取流程：</p>
+<p>1、用户打开需要获取地理位置的web应用。<br>2、应用向浏览器请求地理位置，浏览器弹出询问窗口询问用户是否共享地理位置。<br>3、假设用户允许，浏览器从设别查询相关信息。<br>4、浏览器将相关信息发送到一个信任的位置服务器，服务器返回具体的地理位置。</p>
+<p>###监测浏览器支持情况</p>
+<p>如果浏览器支持地理位置API话，在全局的 navigator对象上回有一个名字为geolocation的属性，反之，navigator 对象上该属性为undefined 。于是可以编写如下函数</p>
+<pre><code>function suport_geolocation(){
+    return !!navigator.geolocation
+}
+</code></pre><p>或者使用一个专门监测HTML5 特性的库Modernizr，提供的方法来监测浏览器是否支持地理位置API，如下</p>
+<pre><code>if(Modernizr.geolocation){
+
+}
+else{
+
+}
+</code></pre><p>###navigator对象中的方法，</p>
+<p>####getCurrentPosition函数<br>这个函数是通过navigator.geolocation对象来调用的，所以在脚本中需要先取得此对象。这个函数接受一个必选参数和两个可选参数。</p>
+<pre><code>void getCurrentPosition(
+
+        in PositionCallback successCallBack,
+        in optional PositionErrorCallback errorCallback,
+        in optional PositionOptios options
+);
+</code></pre><p>. successCallBack：必选参数,为浏览器指明位置数据可用时应调用的函数，即收到实际位置信息并进行处理的地方。<br>. errorCallback：可选参数，出错处理<br>. options：可选参数，用来调整HTML5 Geolocation服务的数据收集方式。</p>
+<p>示例</p>
+<pre><code>navigator.geolocation.getCurrentPosition(updateLocation,handleeLocationError);
+</code></pre><p>这里updateLocation就是接收位置信息并进行重的函数，handleeLocationError是进行错误处理的函数。updateLocation只接受一个参数：位置对象。这个对象包含坐标(coords)和一个获取位置数据时的时间戳。以下是坐标的主要特性：</p>
+<ul>
+<li>latitude(纬度)</li>
+<li>longitude(经度)</li>
+<li><p>accuracy(准确度)</p>
+<pre><code>function updateLocation(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        if (!latitude || !longitude) {
+            document.getElementById(&quot;status&quot;).innerHTML = &quot;HTML5 Geolocation is supported in your browser, but location is currently not available.&quot;;
+            return;
+        }
+
+        document.getElementById(&quot;latitude&quot;).innerHTML = latitude;
+        document.getElementById(&quot;longitude&quot;).innerHTML = longitude;
+    }
+</code></pre><p>handleeLocationError()函数</p>
+</li>
+</ul>
+<p>HTML5定义了一些错误编号</p>
+<ul>
+<li>PERMISSION_DENIED(错误编号为1)——用户选择拒绝浏览器获得其位置信息。</li>
+<li>POSITION_UNAVAILABLE(错误编号为2)——尝试获取用户位置数据失败。</li>
+<li><p>TIMEOUT(错误编号为3)——设置了可选的timeout值，获取用户位置超时。</p>
+<pre><code>function handleeLocationError(error)
+   {
+       switch (error.code) {
+           case 0: alert(error.message); break;
+           case 1: alert(error.message); break;
+           case 2: alert(error.message); break;
+           case 3: alert(error.message); break;
+       }
+   }
+</code></pre></li>
+</ul>
+<p>options：可选的地理定位请求特性</p>
+<ul>
+<li>enableHighAccuracy:如果启用该参数，则通知浏览器启用HTML5 Geolocation服务的高精度模式，参数的默认值为false.</li>
+<li>timeout:可选值，单位为ms，告诉浏览器计算当前位置所允许的最长时间。默认值为Infinity，即为无穷大或无限制。</li>
+<li>maximumAge:这个值表示浏览器重新计算位置的时间间隔。它也是一个以ms为单位的值，默认为零，这意味着浏览器每次请求时必须立即重新计算位置。</li>
+</ul>
+<p>###watchPosition函数</p>
+<pre><code>navigator.geolocation.watchPosition(updateLocation,handleLocationError);
+</code></pre><p>监听位置的变化，如果位置发生变化则调用updateLocation函数，如果程序不再需要接收用户的位置信息，则可以调用<code>navigator.geolocation.clearWatch(watchId)</code>,例子如下</p>
+<pre><code>var watchId = navigator.geolocation.watchPosition(updateLocation, handleeLocationError);
+navigator.geolocation.clearWatch(watchId);
+</code></pre><p>很多情况下，获得的位置在地图上在来展示，可视化地展示出我们所在的位置，<a href="http://developers.arcgis.com/javascript/samples/exp_geolocate/" target="_blank" rel="external">参见demo</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/12/javascript-bind-function/">
                 javascript bind function
               </a>
@@ -395,258 +551,6 @@ expires:31 Dec 2008
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/10/html5-canvas/">
-                html5 canvas 2d绘图API 学习总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-10
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/10/html5-canvas/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/10/html5-canvas/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>###基本知识<br>canvas本身提供的属性和方法很少 属性有hegight,width(这个属性与通过CSS设置的是不同的),绘图功能主要是存在通过canvas.getContext()返回的上下文中.有个一个toDataUrl()方法, 可以将canvas的转为一定格式的图片。下面主要介绍，context2d里面的方法。之前学过C语言绘图，貌似方法很类似</p>
-<p>获取绘图上下文</p>
-<pre><code>var context =canvas.getContext(&quot;2d&quot;);
-</code></pre><p>canvas元素绘制图像的时候有两种方法，分别是</p>
-<ul>
-<li>context.fill()//填充</li>
-<li>context.stroke()//绘制边框</li>
-</ul>
-<p>style:在进行图形绘制前，要设置好绘图的样式</p>
-<ul>
-<li>context.fillStyle//填充的样式</li>
-<li>context.strokeStyle//边框样式</li>
-<li>context.lineWidth//图形边框宽度</li>
-</ul>
-<p>颜色的表示方式:</p>
-<ul>
-<li>直接用颜色名称:”red” “green” “blue”</li>
-<li>十六进制颜色值: “#EEEEFF”</li>
-<li>rgb(1-255,1-255,1-255)</li>
-<li>rgba(1-255,1-255,1-255,透明度)<br>默认情况下坐标原点为canvas的左上角，水平向右为X</li>
-</ul>
-<p>#####绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)</p>
-<ul>
-<li><em>x:矩形起点横坐标</em></li>
-<li><em>y:矩形起点纵坐标</em></li>
-<li><em>width:矩形长度</em></li>
-<li><em>height:矩形高度</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/Rect.html" target="_blank" rel="external">查看Demo</a></p>
-<p>#####清除矩形区域 context.clearRect(x,y,width,height)</p>
-<ul>
-<li><em>x:清除矩形起点横坐标</em></li>
-<li><em>y:清除矩形起点纵坐标</em></li>
-<li><em>width:清除矩形长度</em></li>
-<li><em>height:清除矩形高度</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/clearRect.html" target="_blank" rel="external">查看Demo</a></p>
-<p>#####圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)</p>
-<ul>
-<li><em>x:圆心的x坐标</em></li>
-<li><em>y:圆心的y坐标</em></li>
-<li><em>straAngle:开始角度</em></li>
-<li><em>endAngle:结束角度</em></li>
-<li><p><em>anticlockwise:是否逆时针（true）为逆时针，(false)为顺时针</em></p>
-<p><a href="http://kunkun12.com/CanvasDemo/drawline.html">查看demo</a></p>
-</li>
-</ul>
-<p>#####路径  context.beginPath()    context.closePath()</p>
-<ul>
-<li>系统默认在绘制第一个路径的开始点为beginPath</li>
-<li>如果画完前面的路径没有重新指定beginPath，那么画第其他路径的时候会将前面最近指定的beginPath后的全部路径重新绘制</li>
-<li><p>每次调用context.fill（）的时候会自动把当次绘制的路径的开始点和结束点相连，接着填充封闭的部分</p>
-<p><a href="http://kunkun12.github.io/CanvasDemo/closepath.html" target="_blank" rel="external">查看demo</a><br>####绘制线段 context.moveTo(x,y)  context.lineTo(x,y)</p>
-</li>
-<li><p><em>x:x坐标</em></p>
-</li>
-<li><em>y:y坐标</em></li>
-</ul>
-<p>每次画线都从moveTo的点到lineTo的点，<br>如果没有moveTo那么第一次lineTo的效果和moveTo一样，<br>每次lineTo后如果没有moveTo，那么下次lineTo的开始点为前一次lineTo的结束点</p>
-<p><a href="http://kunkun12.github.io/CanvasDemo/drawarc.html" target="_blank" rel="external">查看demo</a></p>
-<p>#####绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y) </p>
-<ul>
-<li><em>cp1x:第一个控制点x坐标</em></li>
-<li><em>cp1y:第一个控制点y坐标</em></li>
-<li><em>cp2y:第二个控制点y坐标</em></li>
-<li><em>x:终点x坐标</em></li>
-<li><em>y:终点y坐标</em></li>
-</ul>
-<p>#####绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)</p>
-<ul>
-<li><em>qcpx:二次样条曲线控制点x坐标</em></li>
-<li><em>qcpy:二次样条曲线控制点y坐标</em></li>
-<li><em>qx:二次样条曲线终点x坐标</em></li>
-<li><em>qy:二次样条曲线终点y坐标</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/bezier.html" target="_blank" rel="external">查看demo</a></p>
-<p>#####线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)</p>
-<ul>
-<li><em>xstart:渐变开始点x坐标</em></li>
-<li><em>ystart:渐变开始点y坐标</em></li>
-<li><em>xEnd:渐变结束点x坐标</em></li>
-<li><em>yEnd:渐变结束点y坐标</em></li>
-<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
-<li><em>color:绘制时要使用的颜色</em></li>
-</ul>
-<p>#####径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)</p>
-<p>#####径向渐变（发散）颜色rg.addColorStop(offset,color)</p>
-<ul>
-<li><em>xStart:发散开始圆心x坐标</em></li>
-<li><em>yStart:发散开始圆心y坐标</em></li>
-<li><em>radiusStart:发散开始圆的半径</em></li>
-<li><em>xEnd:发散结束圆心的x坐标</em></li>
-<li><em>yEnd:发散结束圆心的y坐标</em></li>
-<li><em>radiusEnd:发散结束圆的半径</em></li>
-<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
-<li><em>color:绘制时要使用的颜色</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/Gradient.html" target="_blank" rel="external">渐变Demo</a></p>
-<p>#####图形变换(坐标系变换)</p>
-<p>1、平移context.translate(x,y)</p>
-<ul>
-<li>x:坐标原点向x轴方向平移x</li>
-<li>y:坐标原点向y轴方向平移y</li>
-</ul>
-<p>2、缩放context.scale(x,y)</p>
-<ul>
-<li>x:x坐标轴按x比例缩放</li>
-<li>y:y坐标轴按y比例缩放</li>
-</ul>
-<p>3、旋转context.rotate(angle)</p>
-<ul>
-<li>angle:坐标轴旋转x角度（角度变化模型和画圆的模型一样)</li>
-</ul>
-<p>#####矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)<br> 所谓的矩阵变换其实是context内实现平移，缩放，旋转的一种机制,他的主要原理就是矩阵相乘<br><a href="http://kunkun12.github.io/CanvasDemo/transform.html" target="_blank" rel="external">参见demo</a></p>
-<p>图形组合 context.globalCompositeOperation=type</p>
-<p>图形组合就是两个图形相互叠加了图形的表现形式,是后画的覆盖掉先画的呢，还是相互重叠的部分不显示等等，至于怎么显示就取决于type的值了<br>type：</p>
-<pre><code>source-over（默认值）:在原有图形上绘制新图形
-
-destination-over:在原有图形下绘制新图形
-
-source-in:显示原有图形和新图形的交集，新图形在上，所以颜色为新图形的颜色
-
-destination-in:显示原有图形和新图形的交集，原有图形在上，所以颜色为原有图形的颜色
-
-source-out:只显示新图形非交集部分
-
-destination-out:只显示原有图形非交集部分
-
-source-atop:显示原有图形和交集部分，新图形在上，所以交集部分的颜色为新图形的颜色
-
-destination-atop:显示新图形和交集部分，新图形在下，所以交集部分的颜色为原有图形的颜色
-
-lighter:原有图形和新图形都显示，交集部分做颜色叠加
-
-xor:重叠飞部分不现实
-
-copy:只显示新图形
-</code></pre><p>#####给图形绘制阴影</p>
-<ul>
-<li>context.shadowOffsetX :阴影的横向位移量（默认值为0）</li>
-<li>context.shadowOffsetY :阴影的纵向位移量（默认值为0）</li>
-<li>context.shadowColor :阴影的颜色</li>
-<li>context.shadowBlur :阴影的模糊范围（值越大越模糊）</li>
-</ul>
-<p>#####绘制图像 </p>
-<ul>
-<li><p>绘图：context.drawImage</p>
-</li>
-<li><p>图像平铺：context.createPattern(image,type)</p>
-</li>
-<li><p>图像裁剪：context.clip()</p>
-</li>
-<li><p>像素处理：var imagedata=context.getImageData(sx,sy,sw,sh)</p>
-</li>
-<li><p>设置像素颜色：context.putImageData(imagedata,dx,dy,dirtyX,dirtyY,dirtyWidth,dirtyHeight)</p>
-</li>
-</ul>
-<p>#####绘制文字</p>
-<ul>
-<li>填充文字：context.fillText(text,x,y)  </li>
-<li><p>绘制文字轮廓 context.strokeText(text,x,y) </p>
-</li>
-<li><p>text:要绘制的文字</p>
-</li>
-<li>x:文字起点的x坐标轴</li>
-<li>y:文字起点的y坐标轴</li>
-<li>context.font:设置字体样式</li>
-<li>context.textAlign:水平对齐方式<pre><code>start、end、right、center
-</code></pre></li>
-<li>context.textBaseline:垂直对齐方式：top、hanging、middle、alphabetic、ideographic、bottom</li>
-</ul>
-<p>#####保存和恢复上下文状态，主要包括坐标系，裁剪区域等 </p>
-<ul>
-<li>保存：context.save()</li>
-<li>恢复：context.restore()</li>
-</ul>
-<p>#####保存文件  canvas.toDataURL(MIME)</p>
-<p>在canvas中绘出的图片只是canvas标签而已，并非是真正的图片，是不能右键，另存为的，我们可以利用canvas.toDataURL()这个方法把canvas绘制的图形生成一幅图片，生成图片后，就能对图片进行相应的操作了。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -679,7 +583,7 @@ copy:只显示新图形
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
