@@ -99,6 +99,157 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/16/phonegap-create-mobileapp/">
+                Phonegap创建移动应用
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-15
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/16/phonegap-create-mobileapp/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/16/phonegap-create-mobileapp/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>前段时间学习了Phonegap开发，本篇作为记录，希望对初道者有帮助,本篇主要介绍Phonegap以及环境的搭建。下篇结合Angluar 开发小Demo</p>
+<p>###Phonegap介绍<br>Phonegap 作为一个开源的框架来帮助开发者使用Javascript/HTML5/CSS 开发跨平台的移动应用。他可以根据指定的移动平台打包为对应的包，支持的平台种类如下。</p>
+<ul>
+<li>iOS</li>
+<li>Android</li>
+<li>Windows 8</li>
+<li>Windows Phone 7 and 8</li>
+<li>BlackBerry 5.x+</li>
+<li>WebOS</li>
+<li>Symbian</li>
+<li>Tizen</li>
+<li>Firefox OS（3.4版本开始支持的）</li>
+</ul>
+<h3 id="u63D2_u4EF6"><a href="#u63D2_u4EF6" class="headerlink" title="插件"></a>插件</h3><p>Phonegap 本质上是在本地原生应用程序中包裹了一个Webview 来支持使用HTML5 进行开发。但是这种方式本质上是不支持访问设备的功能，比如访问文件系统，或者照相机,但是Phonegap通过桥接机制允许Webview中的Javascript 来调用原生的代码，于是Phonegap就拥有了许多插件来支持访问设备API比如</p>
+<ul>
+<li>加速度计</li>
+<li>相机</li>
+<li>联系人</li>
+<li>文件系统</li>
+<li>媒体文件的播放 以及录音</li>
+<li>网络</li>
+<li>存储</li>
+</ul>
+<p>同时Phonegap 可以允许开发者通过扩展插件来访问更多的设备API比如</p>
+<ul>
+<li>二维码扫描</li>
+<li>蓝牙</li>
+<li>推送通知</li>
+<li>语音合成</li>
+<li>日历</li>
+</ul>
+<p>在之前版本的Phonegap中 包括了一些预编译的插件。随着Phonegap 3的到来，一个新的插件架构取代了原来的插件访问。同时有一个注册中心来创建兼容Phonegap 3的插件</p>
+<p>####HTML/CSS /Javascript 移动开发基础。<br>Phonegap本身提供的大部分功能是提供了一些非可视化的功能组件，比如访问文件系统，网络能力，地理定位，等等。Phonegap本身并没有提供构建图形界面的能力，对于此，我们必须使用HTML、CSS来构建，为了更方便地开发中应用，因此推荐结合JS 框架来进行组织程序的开发。这些框架包括</p>
+<ul>
+<li>jQuery Mobile</li>
+<li>Ionic</li>
+<li>Sencha Touch</li>
+<li>Kendo UI Complete</li>
+<li>AppGyver’s Steroids</li>
+<li>Enyo</li>
+<li>TopCoat</li>
+</ul>
+<p>jQuery Mobile 这个就不用说了，简单理解Jquery的移动版本，AngluarJS 是一个比较火的MMV框架，Ionic也是AngluarJS构建的，这里我采用的是AngluarJs。开发之前还要了解一下面的这个问题。</p>
+<p>####PhoneGap Or Cordova的关系</p>
+<p>在学习Phonegap的过程中，我们经常会碰到Cordova 这个词，事实上，我们使用命令行工具创建的Phonegap工程其实是Cordova，。Cordova是贡献给Apache后的开源项目，是从PhoneGap中抽出的核心代码，是驱动PhoneGap的核心引擎。Cordova提供了一组设备相关的API，通过这组API，移动应用能够以JavaScript访问原生的设备功能，如摄像头、麦克风等。<br>Cordova还提供了一组统一的JavaScript类库，以及为这些类库所用的设备相关的原生后台代码。你可以把他想象成类似于Webkit和Google Chrome的关系。在大部分情况下这两个名字是可以交换的，随着Phonegap作为Adobe的商标，这个开源的项目需要一个新的名字，因此就有了Cordova，Phonegap继续作为Adobe的商业产品，大部分仍然将这个整体的项目称为Phonegap。</p>
+<ul>
+<li><a href="http://phonegap.com/" target="_blank" rel="external">Phonega 官网</a></li>
+<li><a href="http://cordova.apache.org/" target="_blank" rel="external">cordova 官网</a></li>
+</ul>
+<p>####Phonegap 开发环境搭建。<br>这里我要基于Phonegap开发能够运行在android上的程序。</p>
+<p>####建环境的基本准备:</p>
+<ol>
+<li>java JDK、配置Java环境变量</li>
+<li>下载<a href="https://developer.android.com/sdk/index.html?hl=sk" target="_blank" rel="external">android ADT Bundle</a>(里面是一个继承了安卓开发环境的Eclipse)，下载之后将android SDK下的tools的目录添加到环境变量中，启动下载包里面的eclipse 创建AVD</li>
+<li>Ant 打包工具(windows 下载推荐下载 <a href="https://code.google.com/p/winant/" target="_blank" rel="external">winant</a>)</li>
+<li><a href="http://nodejs.org/" target="_blank" rel="external">NodeJS</a></li>
+<li><p>安装phonegap</p>
+<pre><code>npm install -g cordova
+</code></pre><p> 或者</p>
+<pre><code>npm install -g phonegap
+</code></pre><p>cordova和phonegap这两个命令是通用的。<code>npm install -g phonegap</code> 是3.0之后的新出的一种安装方式，这里我使用是phonegap。</p>
+</li>
+</ol>
+<p>####创建Helloword<br>在命令行下运行</p>
+<pre><code>phonegap create my-app
+cd my-app
+phonegap run android
+</code></pre><p>如果有android 设备连接了电脑的话，这时候会自动将应用部署到设备上，如果没有设备的话，会自动启用刚才创建的模拟器（注意 前面配置过程中一定要把android SDK下的tool 目录添加到环境变量中，并且确保已经创建了模拟器（AVD））到此为止一个Phonegap 版本的Hello World 已经开发完毕。</p>
+<p>下面看进入my-app的目录，进入之后我们发现有5个文件夹</p>
+<ul>
+<li>www              : 文件夹  开发的 HTML5 ; CSS ; JS 文件都拷贝到这下面，以后我们开发HTML5的应用主要在这个文件夹下进行</li>
+<li>plugins          : 文件夹  存放的是phonegap插件比如文件,摄像头等插件都下载到这里。</li>
+<li>merges          : （这个我还不了解）</li>
+<li>platforms      : 文件夹 存放的是编译好后的android文件,(如果这个文件夹为空,需要你在命令行编译一次才能生成. 如上面 phonegap run android)</li>
+<li>.cordova        : 存放的是配置文件 。</li>
+</ul>
+<p>将这个工程 导入到 Eclipse 下可以查看更多的工程信息。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/PhoneGap/">
+                #PhoneGap
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/">
                 如何使用Node+express创建Rest API
               </a>
@@ -415,186 +566,6 @@ OK
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/14/cross-domain/">
-                跨域解决方案之JSONP,CORS
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-14
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/14/cross-domain/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/14/cross-domain/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>####何为跨域</p>
-<p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
-<ul>
-<li><a href="http://www.baidu.com:6080" target="_blank" rel="external">http://www.baidu.com:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 端口号不同</li>
-<li><a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 与<a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 协议不同</li>
-<li><a href="http://www.QQ:6080" target="_blank" rel="external">http://www.QQ:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a>  hostname不同。</li>
-</ul>
-<p>如上的各种组合还有好多情况，那么我们如何才能绕过浏览器的跨域限制 正常地访问服务呢。</p>
-<p>在flash或者silverlight中，只要服务的页面下放入 跨域策略文件就可以允许不同域下flash/silverlight的页面来调用,内容大致如下</p>
-<pre><code>&lt;cross-domain-policy&gt; 
-&lt;allow-access-from domain=&quot;*&quot; to-ports=&quot;507&quot; /&gt; 
-&lt;allow-access-from domain=&quot;*.example.com&quot; to-ports=&quot;507,516&quot; /&gt; 
-&lt;allow-access-from domain=&quot;*.example2.com&quot; to-ports=&quot;516-523&quot; /&gt; 
-&lt;allow-access-from domain=&quot;www.example2.com&quot; to-ports=&quot;507,516-523&quot; /&gt; 
-&lt;allow-access-from domain=&quot;www.example3.com&quot; to-ports=&quot;*&quot; /&gt; 
-&lt;/cross-domain-policy&gt; 
-</code></pre><p>关于Flash 的跨域情况 在这里不说解释,本文重点介绍Javascript的情况。</p>
-<p>####JSONP<br>虽然浏览器默认禁止了跨域访问，但并不禁止在页面中引用其他域的JS文件，并可以自由执行引入的JS文件中的function（包括操作cookie、Dom等等）。根据这一点，可以方便地通过创建script节点的方法来实现完全跨域的通信。这种方式叫JSONP解决方案。</p>
-<p>利用动态的script来请求服务，服务端返回函数的调用的形式，比如callback(“hello world”);前端如果实现已经定义好了一个callback 的函数既可以获得helloworld;下面开始具体实现。</p>
-<p>服务端使用NodeJS+express实现。新建express项目，app.js如下</p>
-<pre><code>var express = require(&apos;express&apos;);
-var http = require(&apos;http&apos;);
-var path = require(&apos;path&apos;);
-var app = express();
-app.set(&apos;port&apos;, process.env.PORT || 3000);
-app.set(&apos;port1&apos;, process.env.PORT || 3002);
-app.use(app.router);
-app.use(express.static(path.join(__dirname, &apos;public&apos;)))
-
-        function add(a,b){
-            return a+b;
-        } 
-app.get(&apos;/add&apos;, function(req,res){
-    var a=parseInt(req.query.a);
-    var b=parseInt(req.query.b);
-     res.send(&quot;addresult(&quot;+add(a,b)+&quot;)&quot;);
-});
-
-http.createServer(app).listen(app.get(&apos;port&apos;), function(){
-  console.log(&apos;Express server listening on port &apos; + app.get(&apos;port&apos;));
-});
-http.createServer(app).listen(app.get(&apos;port1&apos;), function(){
-  console.log(&apos;Express server listening on port &apos; + app.get(&apos;port1&apos;));
-});
-</code></pre><p>为了方便演示，这里的跨域具体是指端口号不同，并且在一个文件里面开了两个server，一个3000端口，一个3002端口，这里的服务主要是实现一个加法的功能，读取两个参数，然后进行加法运算，最后返回结果用addresult包起来，比如前端传入过来的参数分别为a=3,b=7,则返回的参数为addresult(7) <code>app.use(express.static(path.join(__dirname, &#39;public&#39;)))</code>是将当前目录下的public 文件件配置为静态目录，接下来在public文件夹下新建crossdomain.html文件，关键代码如下。</p>
-<pre><code>var   $=function(id){
-               return document.getElementById(id);
-   }                
-       var a=$(&apos;a&apos;).value;
-       var b=$(&apos;b&apos;).value;
-       var querystring=&quot;a=&quot;+a+&quot;&amp;b=&quot;+b;
-       var script=document.createElement(&apos;script&apos;);
-       script.async=true;
-       script.src=&quot;http://localhost:3000/add?&quot;+querystring;
-       document.body.appendChild(script);
-</code></pre><p>以上$为自定义的函数,根据ID 获取元素，然后从文本框中读取值。作为服务的参数传入。接下来要定义一个名字为addresult的函数来接受返回结果：</p>
-<pre><code>function addresult (data) {
-    // body... 
-    $(&quot;result&quot;).innerHTML=a;
-}
-</code></pre><p>启动程序输入 <code>http://localhost:3002/crossdomain.html</code>，这里是在3002上的页面调用的是3000端口上的服务。视为跨域，运行之后在文本框中输入两个值我们发现实现了跨域调用。<br>以上是实现了一个JSONP的精简版。当然还有些问题要考虑，比如回调函数名字的问题也可以作为参数来传入。第二个问题就是要在服务执行完毕或者请求失败之后 删除动态创建的script标签。</p>
-<p>####CORS </p>
-<p>随着HTML5标准的 不断完善，也推出了一种新的跨域解决方案Cross-Origin Resource Sharing (CORS)，现在已经是W3C指定的标准。允许 XMLHttpRequest 进行跨域调用，支持CORS的浏览器有</p>
-<ul>
-<li>Chrome 3+</li>
-<li>Firefox 3.5+</li>
-<li>Opera 12+</li>
-<li>Safari 4+</li>
-<li>Internet Explorer 8+ (IE 8下为   XDomainRequest对象)</li>
-</ul>
-<p>这里需要服务端和客户端配合 ，要求服务端返回的返回头中必须包含：</p>
-<pre><code>Access-Control-Allow-Origin: //发起请求的XMLHttpRequest所在的域
-Access-Control-Allow-Methods: //支持的请求的方法
-Access-Control-Allow-Credentials:true
-</code></pre><p>同时在请求服务的时候需要将xhr的withCredentials设置为true;如</p>
-<pre><code>var xhr = new XMLHttpRequest();
-xhr.open(&quot;get&quot;, &quot;url&quot;, true);
-xhr.withCredentials = true; //设置这个参数是为了允许cookie发送
-</code></pre><p>这里请求的时候会发两次http请求，第一次是option请求，判断服务端时候只是CORS 以及支持哪些行为(post,get,put等)如果满足条件话则继续进行服务请求，同样这里也以NodeJS为例写个服务端。代码如下</p>
-<pre><code>function multiply(a,b){
-        return a*b;
-}
-app.get(&quot;/multiply&quot;,function(req,res){
-    console.log(res.query);
-    var a=parseInt(req.query.a);
-    var b=parseInt(req.query.b);
-    res.set({
-              &apos;Access-Control-Allow-Origin&apos;: req.headers.origin,
-              &apos;Access-Control-Allow-Credentials&apos;: true,
-              &apos;Access-Control-Allow-Methods&apos;:&apos;POST, GET, PUT, DELETE, OPTIONS&apos;
-            });
-});
-</code></pre><p>客户端的带代码如下</p>
-<pre><code>    var a=$(&apos;a&apos;).value;
-    var b=$(&apos;b&apos;).value;
-    var querystring=&quot;c=&quot;+a+&quot;&amp;d=&quot;+b;
-    var xhr = new XMLHttpRequest();
-        xhr.open(&quot;get&quot;, &quot;http://localhost:3000/multiply?&quot;+querystring, true);
-        xhr.withCredentials = true;//经测试这个貌似没有什么作用
-        xhr.onload =function(){
-        var data = xhr.responseText;
-        $(&quot;result&quot;).innerHTML=&quot;这两个数的乘积为&quot;+data;
-    }
-xhr.send();　　
-</code></pre><p>####其他的跨域解决方案。还有比如window.name,iframe，img标签等方式<br>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
-<p>本博文的用到的<a href="https://github.com/kunkun12/cross-domain" target="_blank" rel="external">Demo的源码</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/跨域/">
-                #跨域
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -627,7 +598,7 @@ xhr.send();　　
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

@@ -99,6 +99,121 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/11/html-5-meta-tag/">
+                html 5 meta tag
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-11
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/11/html-5-meta-tag/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/html-5-meta-tag/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>###meta的作用<br>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
+<ul>
+<li><meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。</li>
+<li><meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。</li>
+</ul>
+<p>每个meta标签必须具有content属性，定义与 http-equiv 或 name 属性相关的元信息。</p>
+<p>###可选属性</p>
+<p>####http-equiv 属性<br>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
+<pre><code>&lt;meta http-equiv=&quot;charset&quot; content=&quot;iso-8859-1&quot;&gt;
+&lt;meta http-equiv=&quot;expires&quot; content=&quot;31 Dec 2008&quot;&gt;
+</code></pre><p>这样发送到浏览器的头部就应该包含：</p>
+<pre><code>content-type: text/html
+charset:iso-8859-1
+expires:31 Dec 2008
+</code></pre><p>5秒刷新一次页面</p>
+<pre><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot; /&gt;
+</code></pre><p>####content 属性</p>
+<ul>
+<li>content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。</li>
+<li>content 属性始终要和 name 属性或 http-equiv 属性一起使用。</li>
+</ul>
+<p>####name 属性</p>
+<p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
+<pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;HTML,ASP,PHP,SQL&quot;&gt;
+&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词； 
+&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容； 
+&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者； 
+&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt; 
+</code></pre><p>其中的属性说明如下： </p>
+<ul>
+<li>设定为all：文件将被检索，且页面上的链接可以被查询； </li>
+<li>设定为none：文件将不被检索，且页面上的链接不可以被查询； </li>
+<li>设定为index：文件将被检索； </li>
+<li>设定为follow：页面上的链接可以被查询； </li>
+<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询； </li>
+<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。 </li>
+</ul>
+<p>另外一点需要注意的是在HTML4中定义页面的字符集需要，放在content-type对应的content里面</p>
+<pre><code>&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=ISO-8859-1&quot;&gt;
+</code></pre><p>HTML5中新增了 charset属性 ，使用更简单</p>
+<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/10/html5-canvas/">
                 html5 canvas 2d绘图API 学习总结
               </a>
@@ -618,165 +733,6 @@ copy:只显示新图形
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/09/doucument-element-postion-and-geometry/">
-                文档元素的几何形状以及位置判定
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-09
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/09/doucument-element-postion-and-geometry/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/doucument-element-postion-and-geometry/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>元素的位置是以像素来度量的,向右代表X坐标增加，向下代表Y坐标增加，但是有两个不同的点作为坐标系的原点，元素的X和Y坐标可以相对于文档的左上角，或者相对于其中文档视口的左上角.</p>
-<p>“视口”是我们人眼看到的页面,只是实际显示文档内容的一部分：他不包括浏览器的外壳，(如菜单，工具条，标签页等),另一个是文档坐标，他的原点是页面的左上角，不随着页面的滚动发生变化，而视口坐标系的原点位置相对浏览器窗体是不发生变化的，当页面中没有滚动条时候，视口坐标系原点与文档坐标系原点重合的。然后如果存在滚动条的话。向下滚动页面，则某一元素的文档坐标是不发生变化的，视口的Y坐标变小。同理向右滚动的话，元素相对时候X坐标变小。</p>
-<p>文档坐标比视口坐标更加基础，并且不随着用户滚动页面而发生变化，当使用CSS指定元素位置是使用了文档坐标吗，但是客户端编程中视口坐标是非常常见的，简单的查询元素在显示页面中位置方法是返回视口坐标系的位置。</p>
-<p>为了再坐标系之前进行互相转换，我们需要判定浏览器窗口滚动条的位置，windows对象的pageXOffset和pageYOffset，属性在所有浏览器中提供了这些值除了IE8 以及更低版本的浏览器，不过可以使用scrollleft和scrollTop属性来获取滚动条的位置，正常情况下使用document.documentElemt来获得，在怪异模式下使用document.body对象来获得。下面封装了一个获取浏览器中滚动条位置的方法，并且兼容所有的浏览器</p>
-<p>###获得浏览中滚动条的位置</p>
-<pre><code>function getScrollOffset(w){
-            w=w||window;
-            if(w.pageXOffset)return {
-                x:w.pageXOffset,
-                y:w.pageYOffset
-            }
-        var d=w.document;
-        if(document.compatMode==&apos;CSS1Compact&apos;){
-            return {x:d.document.scrollLeft,y:d.document.scrollTop}
-        }
-
-        return {
-            x:d.body.scrollLeft,
-            y:d.body.scrollTop
-        }
-};
-</code></pre><p>###查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</p>
-<pre><code>function getViewportSize(w){
-    w=w||window;
-    //ie8+
-    if(w.innerWidth !=null)return{w:w.innerWidth ,h:w.innerHeight}
-     //ie标准模式以及其他浏览器
-        var d=w.document;
-    if(document.compatMode==&apos;CSS1Compact&apos;){
-        return {
-            w:d.document.clientWidth,
-            h:d.document.clientHeight
-        }
-    }
-    // 怪异模式下的浏览器
-    return{
-        w:d.body.document.clientWidth,
-        h:d.body.document.clientHeight
-    }
-
-}
-</code></pre><p>###查询元素的尺寸<br>判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。</p>
-<pre><code>var box=e.getBoundingClientRect();
-var offsets=getScrollOffset();
-var x=box.left;
-var y=box.top;
-</code></pre><p>很多浏览器中还可以获得width和height属性但是IE中未实现。getBoundingClientRect()返回的值包括内边距和边框，但是不包含外边距。<br>使用elementFromPoint查询视口中指定位置有什么元素。参数为视口坐标系下的x,y坐标</p>
-<p>任何HTML元素的只读属性offsetWidth 和offsetHeight以CSS像素返回他的屏幕的尺寸，返回的尺寸包括元素的边框和内边距，不包括外边距。所有的HTML元素用有OffsetLeft和offsetTop属性来返回元素的X和Y坐标，这些值都是文档坐标。对于已经定位的元素的后代和一些其他的元素，这些属性返回是相对于祖先元素而非文档，offsetParent指定这些元素相对的父元素，如果offsetParent为null这些属性都是文档坐标，一般来说用offsetLeft和OffsetTop来计算元素e的位置需要一个循环</p>
-<pre><code>function getElmentPosition(e){
-    var x=0,y=0;
-    while(e){
-        x+=e.offsetLeft;
-        y+=e.offsetTop;
-        e=e.offsetParentl
-    }
-    return{
-        x:x,
-        y:y
-    }
-}
-</code></pre><p>所有HTML元素定义了如下与位置相关的属性。</p>
-<p>offsetwidth        clientWidth     scrollWidth<br>offsetHeight    clientHeight    scrollHeight<br>offsetLeft        clientLeft        scrollLeft<br>offsetTop        clientTop        scrollTop<br>offsetParent</p>
-<p>offsetHeight、offsetwidth包含内边距和边框、clientWidth、clientHeight不包含边框，只包含内容和内边距。scrollWidth、scrollHeight内容+内边距+任何内容溢出的尺寸。其中scrollLeft、scrollTop指定滚动条的位置。当文档中包含滚动条且有内容溢出时上面的getElmentPosition(e) 不在起作用了，因为没有把滚动条考虑进去。offsetLeft offsetTop为文档坐标包含了滚动条的位置    修改版本如下</p>
-<pre><code>function getElementPos(elt){
-    var x=0,y=0;
-    for(var e=elt;e!=null;e=e.offsetParent){
-        x+=e.offsetLeft；
-        y+e.offsetTop;
-    }
-    //offsetLeft offsetTop为文档坐标包含了滚动条的位置，再次循环所有的祖先元素，
-    //减去滚动条的偏移量，并转换为视口坐标
-    for(var e=elt.parentNode;e!=null&amp;&amp;e.nodeType==1;e=e.parentNode){
-        x-=e.scrollLeft;
-        y-=e.scrollTop;
-    }
-    return {
-            x:x;
-            y:y
-    }
-}
-</code></pre><ul>
-<li>文档的高度 document.body.offsetHeight</li>
-<li>视口的高度 window.innerHeight</li>
-<li>滚动条滑动的高度 window.scrollY</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -809,7 +765,7 @@ var y=box.top;
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

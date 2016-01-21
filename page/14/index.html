@@ -99,6 +99,116 @@
           
           
             
+              <a class="post-title-link" href="/2014/02/15/css-bfc/">
+                CSS 定位之BFC
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-02-15
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/02/15/css-bfc/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/css-bfc/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>在 CSS 面试中问 BFC 等概念，就如在 JS 面试中问闭包等概念一样，经常会刷掉一些真正优秀的人。 ——玉伯</p>
+</blockquote>
+<p>第一次接触BFC是在清除浮动的时候，清除浮动主要有两种法</p>
+<p>它决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。</p>
+<ul>
+<li>利用 clear属性，清除浮动</li>
+<li>使父容器形成BFC<br>于是当时查询了好多资料总结如下：<br>但在进一步说明 BFC 特性之前，首先要介绍另一个在 CSS 的可视化格式模型 (Visual Formatting Model) 中具有非常重要地位的概念——定位方案。定位方案是控制元素的布局，在 CSS 2.1 中，有三种定位方案——普通流 (Normal Flow) 、浮动 (Floats) 和绝对定位 (Absolute Positioning) ，下面分别对这三种布局简略说明一下。</li>
+</ul>
+<p>####普通流(Normal Flow)</p>
+<p>在普通流中，元素按照其在 HTML 中的先后位置至上而下布局，在这个过程中，行内元素水平排列，直到当行被占满然后换行，块级元素则会被渲染为完整的一个新行， 除非另外指定，否则所有元素默认都是普通流定位，也可以说，普通流中元素的位置由该元素在 HTML 文档中的位置决定。</p>
+<h4 id="u6D6E_u52A8__28Floats_29"><a href="#u6D6E_u52A8__28Floats_29" class="headerlink" title="浮动 (Floats)"></a>浮动 (Floats)</h4><p>在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。</p>
+<p>####绝对定位 (Absolute Positioning)</p>
+<p>在绝对定位布局中，元素会整体脱离普通流，因此绝对定位元素不会对其兄弟元素造成影响（如果看了上文的童鞋，会发现这点与浮动元素会影响兄弟元素是不同的），而元素具体的位置由绝对定位的坐标决定。</p>
+<p>BFC 正是属于普通流的，因此它对兄弟元素也不会造成什么影响。</p>
+<p>####BFC的定义<br>在进行盒子元素布局的时候， BFC 提供了一个环境， 在这个环境中按照一定规则进<br>行布局不会影响到其它环境中的布局。比如浮动元素会形成 BFC，浮动元素内部子元素<br>的主要受该浮动元素影响，两个浮动元素之间是互不影响的。<br>也就是说，如果一个元素符合了成为 BFC 的条件，该元素内部元素的布局和定位<br>就和外部元素互不影响(除非内部的盒子建立了新的  BFC)， 是一个隔离了的独立容器。<br>在  CSS3  中，BFC  叫做  Flow Root。</p>
+<p>####BFC到底是什么？<br>当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。</p>
+<p>####怎样才能形成BFC</p>
+<ul>
+<li>float的值不为none。</li>
+<li>overflow的值不为visible。</li>
+<li>display的值为table-cell, table-caption, inline-block中的任何一个。</li>
+<li>position的值不为relative和static。</li>
+<li>css3中flex boxes</li>
+</ul>
+<p>####BFC的作用</p>
+<ol>
+<li>包含浮动元素(清除浮动)<br>BFC 会 根据子元素的情况自 适应 高度 ，这个 特性 是 对父元素 使 用<br>overflow:hidden/auto/scroll、 float:left/right 样式可以闭合浮动的</li>
+<li>不被浮动元素覆盖<br>浮动元素会无视兄弟元素的存在， 覆盖在兄弟元素的上面， 为该兄弟元素创建<br>BFC 后可以阻止这种情况的出现</li>
+</ol>
+<p>BFC 主要有三个特性：</p>
+<p>(1) BFC 会阻止外边距折叠<br>两个相连的 div 在垂直上的外边距会发生叠加，在实际开发中，或许我们有时会不需要这种折叠，这时可以利用 BFC 的其中一个特性——阻止外边距叠加。阻止父子元素的 margin 折叠，仅当两个块级元素毗邻并且在同一个块级格式化上下文时，它们垂直方向之间的外边距才会叠加。也就<br>是说，即便两个块级元素相邻，但当它们不在同一个块级格式化上下文时它们的边<br>距也不会折叠。同时BFC 的元素，不和它的子元素发生外边距折叠。</p>
+<p>(2) BFC 可以包含浮动的元素<br>这也正是上面使用 overflow: hidden 与 overflow: auto 方法闭合浮动的原理，使用 overflow: hidden 或 overflow: auto 触发浮动元素父元素的 BFC 特性，从而可以包含浮动元素，闭合浮动。</p>
+<p>W3C 的原文是“’Auto’ heights for block formatting context roots”，也就是 BFC 会根据子元素的情况自动适应高度，即使其子元素中包括浮动元素。</p>
+<p>但是 IE6-7 并不支持 W3C 的 BFC ，而是使用自产的 hasLayout 。从表现上来说，它跟 BFC 很相似，只是 hasLayout 自身存在很多问题，导致了 IE6-7 中一系列的 bug 。触发 hasLayout 的条件与触发 BFC 有些相似，具体情况 Kayo 会另写文章介绍。这里 Kayo 推荐为元素设置 IE 特有的 CSS 属性 zoom: 1 触发 hasLayout ，zoom 用于设置或检索元素的缩放比例，值为“1”即使用元素的实际尺寸，使用 zoom: 1 既可以触发 hasLayout 又不会对元素造成其他影响，相对来说会更为方便。</p>
+<p>(3) BFC 可以阻止元素被浮动元素覆盖<br>如上面所说，浮动元素的块状兄弟元素会无视浮动元素的位置，尽量占满一整行，这样就会被浮动元素覆盖，为该兄弟元素触发 BFC 后可以阻止这种情况的发生。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/02/09/successful-git-branching-model/">
                 一个成功的 Git 分支模型
               </a>
@@ -262,138 +372,6 @@ console.log(
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/08/python-study-1/">
-                Python 学习笔记(1)
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-08
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/08/python-study-1/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/08/python-study-1/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>去年买了本Python基础教程，看了一个月，感觉Python 入门也挺easy的，也写了一些简单的代码，最近又买了本《Python入门教程》，感觉这个书不应该买的，就是太基础，书看完了,，将Python一些最基本的东西总结一下吧。将重点内容概括一下 作为读书笔记，好记性不如烂笔头啊。</p>
-<p>####字符串</p>
-<p>字符串有三种方式 </p>
-<pre><code>1. 单引号
-2. 双引号
-3. 三引号
-</code></pre><p>通过+ 完成字符串拼接<br>len (s) 求字符串的长度<br>3*”hello”复制三次字符串。</p>
-<p>列出模块中的所有函数 dir(math)<br>打印文档字符串 print(math.cos.<strong>doc</strong>)</p>
-<p>####类型转换<br>        int(“3”)<br>        str(3)<br>        float(‘3.0’)<br>        float(3)</p>
-<p>变量的引用赋值：让变量指向表达式的值 比如 x=2;x指向2，y=x;y也指向，改变y的值对x无影响，只是改变了y的指向而已</p>
-<p>多种赋值 </p>
-<pre><code>x,y,z=1,2,3  相当于x=1,y=2,z=3;
-</code></pre><p>从 键盘读取字符串 name=input();只能获取到字符串 ，如果要读取整数的话，需要类型转换，int(a)</p>
-<p>将字符串 首字母大写<br>        ‘du bao kun’.capitalize(); //Du bao kun<br>去除收尾的空格<br>        ‘  du  bao  kun   ‘.strip();// du bao kun</p>
-<p>print 在字符串  可以传入多个参数，以分隔符来输出，可以设置sep来自定义分割符号,比如  print(‘du’,’bao’,’kun’,sep=’.’)#du.bao.kun</p>
-<p>ord 获取字符编码 比如 ord(‘a’)#65<br>chr获取对应的字符 chr(97)#’a’</p>
-<p>转义字符  \单斜杠，\’单引号 、\”双引号、\n 回车，\r,换行\t 制表符</p>
-<p>获取字符串的字符 通过  [index]<br>字符串切片  比如<br>        food=’apple pie’;food[0:5] #apple</p>
-<p> 不包括索引5的字符,相当于food[:5]，如果起始索引忽略的话则相当于0，如果最后一个索引忽略，相当于 为字符串长度。</p>
-<p>负数索引， 比如 ‘food[-9,-4]’ #apple</p>
-<p>字符串测试函数:’s.endwith’ ,’s.startwith’,’s.isalnum’只包含字字母或者数字isalpha<br>只包含字母，’isdecimal’只包含十进制的数字的字符<br>‘isdigital’只包含数字，’isidentifier’只包含合法字符，’islower’只包含小写字母，’isnumric’只包含数字，’istitle’大小写符合头衔要求<br>‘isupper’只包含大写字母、’t in s s’包含字符串t<br>cout(t) 字符串中t出现的次数</p>
-<p>搜索函数：find(t) 如果没有找到子串t则返回-1、 rfind(t)、index(t)、rindex(t)没有找到会爆出异常</p>
-<p>要范文索引为i的字符 ，通过 ‘s[i]’或者 ‘s[i:i+1]’</p>
-<p>同时还有改变大小写、剥除函数、拆分函数，替换函数</p>
-<p><strong>format</strong>    函数 一下输出结果均为Jack like rose</p>
-<pre><code>print(&apos;{0} like {1} &apos;.format(&apos;jack&apos;,&apos;rose&apos;))
-print(&apos;{first} like {second} &apos;.format(second=&apos;rose&apos;,first=&apos;jack&apos;))
-</code></pre><p>eval可以解析 表达式的值 比如 ‘eval(‘5+3’)’结果为8<br>布尔逻辑 ：’not  and  or    ==、’<br>短路求值  如果 true or  x ，则表达式x值不再计算。同理如果 false and x，x表达是也不进行计算。<br>流程控制  if /else,if/elif/else</p>
-<pre><code>if x:
-    print(&apos;x&apos;)
-else
-    print(&apos;y&apos;)
-</code></pre><p>条件表达式</p>
-<pre><code>reply=‘yuck’if food ==&apos;lamb&apos; else &apos;yum&apos;
-</code></pre><p>相当于</p>
-<pre><code>if food ==&apos;lamb&apos;
-    reply=&apos;yuck&apos;
-else
-    replay=&apos;yum&apos;
-</code></pre><p>循环<br>        for i in range(10):<br>              print (i)<br>while </p>
-<pre><code>i=0
-while i&lt;10:
-    print(i)
-    i=i+1
-</code></pre><p>python 使用缩进来表示代码块，要在Python中 表示代码块，必须以同样程度缩进代码块的每一行，但Python 允许你编写包含任意数量语句的代码块,但注意冒号</p>
-<p>函数定义 </p>
-<pre><code>def say_hello():
-    print (&apos;hello&apos;)
-</code></pre><p>默认值</p>
-<pre><code>def greet(name,greeting =&apos;hello&apos;):
-    print(name+greeting)
-greet(&apos;kunkun&apos;)
-greet(&apos;kunkun&apos;,&apos;你好&apos;)
-</code></pre><p>输出结果 </p>
-<pre><code>kunkunhello
-kunkun你好
-</code></pre><p>关键字参数</p>
-<pre><code>greet(greeting=&apos;nihao&apos;,name=&apos;kunkun&apos;)
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Python/">
-                #Python
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -426,7 +404,7 @@ kunkun你好
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

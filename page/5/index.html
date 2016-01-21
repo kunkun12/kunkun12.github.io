@@ -99,6 +99,100 @@
           
           
             
+              <a class="post-title-link" href="/2014/09/23/css-margin-fold/">
+                css margin折叠
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-09-23
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/09/23/css-margin-fold/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/23/css-margin-fold/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="margin_u6298_u53E0-Collapsing_margin"><a href="#margin_u6298_u53E0-Collapsing_margin" class="headerlink" title="margin折叠-Collapsing margin"></a>margin折叠-Collapsing margin</h3><p>所谓margin折叠(Collapsing margin)，就是我们常说的盒子垂直边距叠加，具体是指在同一个块级格式化上下文（简称BFC）中，毗邻的两个或者多个垂直外边距会发生互相折叠的现象。其中所说的毗邻可以归结为以下两点</p>
+<ul>
+<li>两个或者多个外边距没有被非空内容、padding、border或者clear分隔开。 </li>
+<li>两个或者多个外边距所归属的元素都处于普通流中，而非浮动元素或者绝对定位元素。</li>
+</ul>
+<h3 id="u5E38_u89C1_u53D1_u751Fmargin_u6298_u53E0_u7684_u60C5_u51B5_u6709_uFF1A"><a href="#u5E38_u89C1_u53D1_u751Fmargin_u6298_u53E0_u7684_u60C5_u51B5_u6709_uFF1A" class="headerlink" title="常见发生margin折叠的情况有："></a>常见发生margin折叠的情况有：</h3><ul>
+<li>一个盒子元素的top margin与第一个子盒子元素的top margin。</li>
+<li>一个盒子元素的bottom margin与最后一个子盒子元素的bottom margin， 但须在该盒子元素的height为auto的情况下 * 一个盒子元素的bottom margin与紧接着的下一个盒子元素的top margin。</li>
+<li>一个盒子元素的top margin与其自身的bottom margin，但须满足没创建 BFC、零min-height、零或者“auto”的height、没有普通流的子盒子元素。</li>
+</ul>
+<h3 id="margin_u6298_u53E0_u7684_u540E_u7684_u5916_u8FB9_u8DDD_u8BA1_u7B97_uFF1A"><a href="#margin_u6298_u53E0_u7684_u540E_u7684_u5916_u8FB9_u8DDD_u8BA1_u7B97_uFF1A" class="headerlink" title="margin折叠的后的外边距计算："></a>margin折叠的后的外边距计算：</h3><ul>
+<li>参加折叠的元素指都为正，取其中较大的值; </li>
+<li>参加折叠的元素值都为负，取绝对值较大的，然后负向位移; </li>
+<li>参加折叠的元素有正有负，取出正值中最大的值+负值中绝对值最大的值; </li>
+<li>元素自身的 margin-bottom 和 margin-top 相邻时也会折叠，自身<br>margin-bottom 和 margin-top 相邻，只能是自身内容为空，垂直方向上 border、padding 为 0; </li>
+<li>相邻的 margin 要一起参与计算，不得分步计算，要注意，相邻的元素不一定非<br>要是兄弟节点，父子节点也可以，即使不是兄弟父子节点也可以相邻。而且，在计算时，相邻的 margin 要一起参与计算，不得分步计算。 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;div&#160;style=&#34;margin:50px&#160;0;&#160;background:green;&#160;width:50px;&#34;&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-60px&#160;0;&#34;&#62;&#160;&#10;&#160;&#160;&#160;&#60;div&#160;style=&#34;margin:150px&#160;0;&#34;&#62;A&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-100px&#160;0;background:green;&#160;width:50px;&#34;&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-120px&#160;0;&#34;&#62;&#160;&#10;&#160;&#160;&#160;&#160;&#60;div&#160;style=&#34;margin:200px&#160;0;&#34;&#62;B&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#60;/div&#62;</span><br></pre></td></tr></table></figure>
+<p>错误的计算方式：分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。  请注意，多个 margin 相邻折叠成一个 margin，计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。  以上例子中，A 和 B 之间的 margin 折叠产生的 margin，是6个相邻 margin 折叠的结果。将其 margin 值分为两组：    正值：50px，150px，200px   负值：-60px，-100px，-120px  根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 200 + (-120) = 80px。</p>
+<p><strong>创建了BFC(块级格式化上下文)的元素，不和内部的子元素发生margin 折叠</strong></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/05/06/install-mongo-service-on-windows/">
                 在windows 下安装 MongoDb
               </a>
@@ -307,172 +401,6 @@ dbpath=D:\mongodb\data\db
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/24/css3-selectors/">
-                CSS3 选择器总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-24
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/24/css3-selectors/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/24/css3-selectors/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <blockquote>
-<p>在学习新技术的同时不要忘记复习一下那些最基础的东西</p>
-</blockquote>
-<p>####基本选择器</p>
-<ul>
-<li>通配符选择器(*) 通配符选择器是用来选择所有元素，，也可以选择某个元素下的所有元素</li>
-<li>元素选择器 根据tag名字来选择 比如 p body div 等等</li>
-<li>类选择器 .className</li>
-<li>id选择器 #ID</li>
-<li>后代选择器 A B (A、B分别为选择器 中间) 有空格</li>
-<li>子元素选择器(A&gt;B)(IE6不支持子元素选择器)。</li>
-<li>相邻兄弟元素选择器(E + F)<blockquote>
-<p>相邻兄弟选择器可以选择紧接在另一元素后的元素，而且他们具有一个相同的父元素，换句话说，EF两元素具有一个相同的父元素，而且Ｆ元素在Ｅ元素后面，而且相邻，这样我们就可以使用相邻兄弟元素选择器来选择Ｆ元素。</p>
-</blockquote>
-</li>
-<li>通用兄弟选择器（Ｅ &gt;Ｆ）<blockquote>
-<p>通用兄弟元素选择器是CSS3新增加一种选择器，这种选择器将选择某元素后面的所有兄弟元素，他们也和相邻兄弟元素类似，需要在同一个父元素之中，换句话说，E和F元素是属于同一父元素之内，并且F元素在Ｅ元素之后，那么E ~ F 选择器将选择中所有Ｅ元素后面的Ｆ元素。比如下面的代码：</p>
-</blockquote>
-</li>
-<li>群组选择器（selector1,selector2,…,selectorN）<blockquote>
-<p>群组选择器是将具有相同样式的元素分组在一起，每个选择器之间使用逗号“，”隔开，如上面所示selector1,selector2,…,selectorN。这个逗号告诉浏览器，规则中包含多个不同的选择器，如果不有这个逗号，那么所表达的意就完全不同了，省去逗号就成了我们前面所说的后代选择器，这一点大家在使用中千万要小心加小心。</p>
-</blockquote>
-</li>
-</ul>
-<p>####属性选择器</p>
-<ul>
-<li>E[attr]：只使用属性名，而不论这个属性值是什么，你就可以使用这个属性选择器</li>
-<li>E[attr=”value”]：指定属性名，并指定了该属性的属性值为value；</li>
-<li>E[attr~=”value”]：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的“~”不能不写;属性选择器中有波浪（〜）时属性值有value时就相匹配，没有波浪（〜）时属性值要完全是value时才匹配。</li>
-<li>E[attr^=”value”]：属性值是以value开头的；</li>
-<li>E[attr$=”value”]：而且属性值是以value结束的；</li>
-<li>E[attr*=”value”]：而且属值中包含了value；</li>
-<li>E[attr|=”value”]：属性值是value或者以“value-”开头的值</li>
-</ul>
-<p>####伪类选择器</p>
-<p>#####动态伪类</p>
-<ul>
-<li>:hover用于当用户把鼠标移动到元素上面时的效果；</li>
-<li>:active用于用户点击元素那一下的效果（正发生在点的那一下，松开鼠标左键此动作也就完成了）</li>
-<li><p>:focus用于元素成为焦点，这个经常用在表单元素上。<br>#####UI元素状态伪类</p>
-</li>
-<li><p>:enabled 表单元素可用（比如”type=”text”有enable和disabled两种状态，前者为可写状态后者为不可状态）</p>
-</li>
-<li>:disabled    </li>
-<li><p>:checked 表单元素选中适用于radio checked<br>#####CSS3的:nth选择器</p>
-</li>
-<li><p>:fist-child选择某个元素的第一个子元素；</p>
-</li>
-<li>:last-child选择某个元素的最后一个子元素；</li>
-<li>:nth-child()选择某个元素的一个或多个特定的子元素；</li>
-</ul>
-<blockquote>
-<ul>
-<li>:nth-child(length);参数是具体数字</li>
-<li>:nth-child(n);参数是n,n从0开始计算</li>
-<li>:nth-child(n*length)n的倍数选择，n从0开始算</li>
-<li>:nth-child(n+length);选择大于length后面的元素</li>
-<li>:nth-child(-n+length)选择小于length前面的元素</li>
-<li>:nth-child(n*length+1);表示隔n选一</li>
-</ul>
-</blockquote>
-<ul>
-<li>:nth-last-child()选择某个元素的一个或多个特定的子元素，从这个元素的最后一个子元素开始算；</li>
-<li>:nth-of-type()选择指定的元素；</li>
-<li>:nth-last-of-type()选择指定的元素，从元素的最后一个开始计算；</li>
-<li>:first-of-type选择一个上级元素下的第一个同类子元素；</li>
-<li>:last-of-type选择一个上级元素的最后一个同类子元素；</li>
-<li>:only-child选择的元素是它的父元素的唯一一个了元素；</li>
-<li>:only-of-type选择一个元素是它的上级元素的唯一一个相同类型的子元素；</li>
-<li>:empty是用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格.</li>
-</ul>
-<p>#####否定选择器（:not）selctorA:not(slectorB)</p>
-<blockquote>
-<p>用来过滤元素，比如要选择除了type为button之外的任何input可以使用 input:not([type=”button”])<br>使用</p>
-<p>#####伪元素<br>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
-</blockquote>
-<ul>
-<li>::first-line选择元素内容的第一行</li>
-<li>::first-letter选择文本块的第一个字母，比如用来实现首字下沉。</li>
-<li><p>::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常用”content”配合使用，比如流行的清除浮动。</p>
-<pre><code>.clearfix:before,
-.clearfix:after {
-    content: &quot;.&quot;;
-    display: block;
-    height: 0;
-    visibility: hidden;
-}
-.clearfix:after {clear: both;}
-.clearfix {zoom: 1;}
-</code></pre><p>-::selection用来改变浏览网页选中文的默认效果</p>
-</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -505,7 +433,7 @@ dbpath=D:\mongodb\data\db
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

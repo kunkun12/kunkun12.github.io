@@ -99,6 +99,131 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/01/javascriptjudge-browser/">
+                判断浏览器特性
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-01
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/01/javascriptjudge-browser/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/javascriptjudge-browser/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>###浏览器类型判断<br>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
+<p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
+<pre><code> var Sys = {}; 
+var ua = navigator.userAgent.toLowerCase(); 
+var s; 
+(s = ua.match(/msie ([/d.]+)/)) ? Sys.ie = s[1] : 
+(s = ua.match(/firefox//([/d.]+)/)) ? Sys.firefox = s[1] : 
+(s = ua.match(/chrome//([/d.]+)/)) ? Sys.chrome = s[1] : 
+(s = ua.match(/opera.([/d.]+)/)) ? Sys.opera = s[1] : 
+(s = ua.match(/version//([/d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+</code></pre><p>测试代码</p>
+<pre><code>if (Sys.ie) document.write(&apos;IE: &apos; + Sys.ie); 
+if (Sys.firefox) document.write(&apos;Firefox: &apos; + Sys.firefox); 
+if (Sys.chrome) document.write(&apos;Chrome: &apos; + Sys.chrome); 
+if (Sys.opera) document.write(&apos;Opera: &apos; + Sys.opera); 
+if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
+</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>实现。</p>
+<h3 id="Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><a href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
+<pre><code>if (Modernizr.borderradius) {
+      //do something
+   }
+
+   if (Modernizr.csstransforms) {
+      //
+   }
+</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="external">shim/polyfill</a>脚本来达到支持的目的.</p>
+<p>可以使用Modernizr的load()函数来动态加载脚本，该函数的test属性是表明要测试是否支持的新特性，如果测试成功支持的话，就加载yep属性设置的脚本，如果不支持就加载nope属性设置的脚本，不管是否支持，both属性里设置的脚本都会加载的。例子代码如下：</p>
+<pre><code>Modernizr.load({
+    test: Modernizr.canvas,
+    yep:  &apos;html5CanvasAvailable.js’,
+    nope: &apos;excanvas.js’, 
+    both: &apos;myCustomScript.js&apos; 
+});
+</code></pre><p>在该例子里，Modernizr会判断当前浏览器是否支持canvas特性，如果支持，那就会加载html5CanvasAvailable.js和myCustomScript.js这两个脚本，如果不支持，就会加载excanvas.js（用于IE9之前的版本）脚本文件以让该浏览器支持canvas功能，然后再加载myCustomScript.js脚本。</p>
+<p>因为Modernizr可以加载脚本，所以你还可以用于其它的用途，比如，如果你引用的第三方脚本（例如提供CDN服务的Google和Microsoft提供jquery的托管）加载失败的情况下，可以加载备用的文件。下面的代码是Modernizr提供的一个加载jquery的示例：</p>
+<pre><code>Modernizr.load([
+    {
+        load: &apos;//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js&apos;,
+        complete: function () {
+            if (!window.jQuery) {
+                Modernizr.load(&apos;js/libs/jquery-1.6.4.min.js&apos;);
+            }
+        }
+    },
+    {
+        // This will wait for the fallback to load and
+        // execute if it needs to.
+        load: &apos;needs-jQuery.js&apos;
+    }
+]);
+</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="external">Detecting HTML5/CSS3 Features using Modernizr</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/01/what-is-node/">
                 Node.JS 究竟是什么?
               </a>
@@ -267,116 +392,6 @@ perfect for data-intensive real-time applications that run across distributed de
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/15/css-bfc/">
-                CSS 定位之BFC
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-15
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/15/css-bfc/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/css-bfc/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <blockquote>
-<p>在 CSS 面试中问 BFC 等概念，就如在 JS 面试中问闭包等概念一样，经常会刷掉一些真正优秀的人。 ——玉伯</p>
-</blockquote>
-<p>第一次接触BFC是在清除浮动的时候，清除浮动主要有两种法</p>
-<p>它决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。</p>
-<ul>
-<li>利用 clear属性，清除浮动</li>
-<li>使父容器形成BFC<br>于是当时查询了好多资料总结如下：<br>但在进一步说明 BFC 特性之前，首先要介绍另一个在 CSS 的可视化格式模型 (Visual Formatting Model) 中具有非常重要地位的概念——定位方案。定位方案是控制元素的布局，在 CSS 2.1 中，有三种定位方案——普通流 (Normal Flow) 、浮动 (Floats) 和绝对定位 (Absolute Positioning) ，下面分别对这三种布局简略说明一下。</li>
-</ul>
-<p>####普通流(Normal Flow)</p>
-<p>在普通流中，元素按照其在 HTML 中的先后位置至上而下布局，在这个过程中，行内元素水平排列，直到当行被占满然后换行，块级元素则会被渲染为完整的一个新行， 除非另外指定，否则所有元素默认都是普通流定位，也可以说，普通流中元素的位置由该元素在 HTML 文档中的位置决定。</p>
-<h4 id="u6D6E_u52A8__28Floats_29"><a href="#u6D6E_u52A8__28Floats_29" class="headerlink" title="浮动 (Floats)"></a>浮动 (Floats)</h4><p>在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。</p>
-<p>####绝对定位 (Absolute Positioning)</p>
-<p>在绝对定位布局中，元素会整体脱离普通流，因此绝对定位元素不会对其兄弟元素造成影响（如果看了上文的童鞋，会发现这点与浮动元素会影响兄弟元素是不同的），而元素具体的位置由绝对定位的坐标决定。</p>
-<p>BFC 正是属于普通流的，因此它对兄弟元素也不会造成什么影响。</p>
-<p>####BFC的定义<br>在进行盒子元素布局的时候， BFC 提供了一个环境， 在这个环境中按照一定规则进<br>行布局不会影响到其它环境中的布局。比如浮动元素会形成 BFC，浮动元素内部子元素<br>的主要受该浮动元素影响，两个浮动元素之间是互不影响的。<br>也就是说，如果一个元素符合了成为 BFC 的条件，该元素内部元素的布局和定位<br>就和外部元素互不影响(除非内部的盒子建立了新的  BFC)， 是一个隔离了的独立容器。<br>在  CSS3  中，BFC  叫做  Flow Root。</p>
-<p>####BFC到底是什么？<br>当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。</p>
-<p>####怎样才能形成BFC</p>
-<ul>
-<li>float的值不为none。</li>
-<li>overflow的值不为visible。</li>
-<li>display的值为table-cell, table-caption, inline-block中的任何一个。</li>
-<li>position的值不为relative和static。</li>
-<li>css3中flex boxes</li>
-</ul>
-<p>####BFC的作用</p>
-<ol>
-<li>包含浮动元素(清除浮动)<br>BFC 会 根据子元素的情况自 适应 高度 ，这个 特性 是 对父元素 使 用<br>overflow:hidden/auto/scroll、 float:left/right 样式可以闭合浮动的</li>
-<li>不被浮动元素覆盖<br>浮动元素会无视兄弟元素的存在， 覆盖在兄弟元素的上面， 为该兄弟元素创建<br>BFC 后可以阻止这种情况的出现</li>
-</ol>
-<p>BFC 主要有三个特性：</p>
-<p>(1) BFC 会阻止外边距折叠<br>两个相连的 div 在垂直上的外边距会发生叠加，在实际开发中，或许我们有时会不需要这种折叠，这时可以利用 BFC 的其中一个特性——阻止外边距叠加。阻止父子元素的 margin 折叠，仅当两个块级元素毗邻并且在同一个块级格式化上下文时，它们垂直方向之间的外边距才会叠加。也就<br>是说，即便两个块级元素相邻，但当它们不在同一个块级格式化上下文时它们的边<br>距也不会折叠。同时BFC 的元素，不和它的子元素发生外边距折叠。</p>
-<p>(2) BFC 可以包含浮动的元素<br>这也正是上面使用 overflow: hidden 与 overflow: auto 方法闭合浮动的原理，使用 overflow: hidden 或 overflow: auto 触发浮动元素父元素的 BFC 特性，从而可以包含浮动元素，闭合浮动。</p>
-<p>W3C 的原文是“’Auto’ heights for block formatting context roots”，也就是 BFC 会根据子元素的情况自动适应高度，即使其子元素中包括浮动元素。</p>
-<p>但是 IE6-7 并不支持 W3C 的 BFC ，而是使用自产的 hasLayout 。从表现上来说，它跟 BFC 很相似，只是 hasLayout 自身存在很多问题，导致了 IE6-7 中一系列的 bug 。触发 hasLayout 的条件与触发 BFC 有些相似，具体情况 Kayo 会另写文章介绍。这里 Kayo 推荐为元素设置 IE 特有的 CSS 属性 zoom: 1 触发 hasLayout ，zoom 用于设置或检索元素的缩放比例，值为“1”即使用元素的实际尺寸，使用 zoom: 1 既可以触发 hasLayout 又不会对元素造成其他影响，相对来说会更为方便。</p>
-<p>(3) BFC 可以阻止元素被浮动元素覆盖<br>如上面所说，浮动元素的块状兄弟元素会无视浮动元素的位置，尽量占满一整行，这样就会被浮动元素覆盖，为该兄弟元素触发 BFC 后可以阻止这种情况的发生。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -409,7 +424,7 @@ perfect for data-intensive real-time applications that run across distributed de
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

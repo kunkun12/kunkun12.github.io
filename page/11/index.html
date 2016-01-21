@@ -99,6 +99,165 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/09/doucument-element-postion-and-geometry/">
+                文档元素的几何形状以及位置判定
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-09
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/09/doucument-element-postion-and-geometry/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/doucument-element-postion-and-geometry/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>元素的位置是以像素来度量的,向右代表X坐标增加，向下代表Y坐标增加，但是有两个不同的点作为坐标系的原点，元素的X和Y坐标可以相对于文档的左上角，或者相对于其中文档视口的左上角.</p>
+<p>“视口”是我们人眼看到的页面,只是实际显示文档内容的一部分：他不包括浏览器的外壳，(如菜单，工具条，标签页等),另一个是文档坐标，他的原点是页面的左上角，不随着页面的滚动发生变化，而视口坐标系的原点位置相对浏览器窗体是不发生变化的，当页面中没有滚动条时候，视口坐标系原点与文档坐标系原点重合的。然后如果存在滚动条的话。向下滚动页面，则某一元素的文档坐标是不发生变化的，视口的Y坐标变小。同理向右滚动的话，元素相对时候X坐标变小。</p>
+<p>文档坐标比视口坐标更加基础，并且不随着用户滚动页面而发生变化，当使用CSS指定元素位置是使用了文档坐标吗，但是客户端编程中视口坐标是非常常见的，简单的查询元素在显示页面中位置方法是返回视口坐标系的位置。</p>
+<p>为了再坐标系之前进行互相转换，我们需要判定浏览器窗口滚动条的位置，windows对象的pageXOffset和pageYOffset，属性在所有浏览器中提供了这些值除了IE8 以及更低版本的浏览器，不过可以使用scrollleft和scrollTop属性来获取滚动条的位置，正常情况下使用document.documentElemt来获得，在怪异模式下使用document.body对象来获得。下面封装了一个获取浏览器中滚动条位置的方法，并且兼容所有的浏览器</p>
+<p>###获得浏览中滚动条的位置</p>
+<pre><code>function getScrollOffset(w){
+            w=w||window;
+            if(w.pageXOffset)return {
+                x:w.pageXOffset,
+                y:w.pageYOffset
+            }
+        var d=w.document;
+        if(document.compatMode==&apos;CSS1Compact&apos;){
+            return {x:d.document.scrollLeft,y:d.document.scrollTop}
+        }
+
+        return {
+            x:d.body.scrollLeft,
+            y:d.body.scrollTop
+        }
+};
+</code></pre><p>###查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</p>
+<pre><code>function getViewportSize(w){
+    w=w||window;
+    //ie8+
+    if(w.innerWidth !=null)return{w:w.innerWidth ,h:w.innerHeight}
+     //ie标准模式以及其他浏览器
+        var d=w.document;
+    if(document.compatMode==&apos;CSS1Compact&apos;){
+        return {
+            w:d.document.clientWidth,
+            h:d.document.clientHeight
+        }
+    }
+    // 怪异模式下的浏览器
+    return{
+        w:d.body.document.clientWidth,
+        h:d.body.document.clientHeight
+    }
+
+}
+</code></pre><p>###查询元素的尺寸<br>判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。</p>
+<pre><code>var box=e.getBoundingClientRect();
+var offsets=getScrollOffset();
+var x=box.left;
+var y=box.top;
+</code></pre><p>很多浏览器中还可以获得width和height属性但是IE中未实现。getBoundingClientRect()返回的值包括内边距和边框，但是不包含外边距。<br>使用elementFromPoint查询视口中指定位置有什么元素。参数为视口坐标系下的x,y坐标</p>
+<p>任何HTML元素的只读属性offsetWidth 和offsetHeight以CSS像素返回他的屏幕的尺寸，返回的尺寸包括元素的边框和内边距，不包括外边距。所有的HTML元素用有OffsetLeft和offsetTop属性来返回元素的X和Y坐标，这些值都是文档坐标。对于已经定位的元素的后代和一些其他的元素，这些属性返回是相对于祖先元素而非文档，offsetParent指定这些元素相对的父元素，如果offsetParent为null这些属性都是文档坐标，一般来说用offsetLeft和OffsetTop来计算元素e的位置需要一个循环</p>
+<pre><code>function getElmentPosition(e){
+    var x=0,y=0;
+    while(e){
+        x+=e.offsetLeft;
+        y+=e.offsetTop;
+        e=e.offsetParentl
+    }
+    return{
+        x:x,
+        y:y
+    }
+}
+</code></pre><p>所有HTML元素定义了如下与位置相关的属性。</p>
+<p>offsetwidth        clientWidth     scrollWidth<br>offsetHeight    clientHeight    scrollHeight<br>offsetLeft        clientLeft        scrollLeft<br>offsetTop        clientTop        scrollTop<br>offsetParent</p>
+<p>offsetHeight、offsetwidth包含内边距和边框、clientWidth、clientHeight不包含边框，只包含内容和内边距。scrollWidth、scrollHeight内容+内边距+任何内容溢出的尺寸。其中scrollLeft、scrollTop指定滚动条的位置。当文档中包含滚动条且有内容溢出时上面的getElmentPosition(e) 不在起作用了，因为没有把滚动条考虑进去。offsetLeft offsetTop为文档坐标包含了滚动条的位置    修改版本如下</p>
+<pre><code>function getElementPos(elt){
+    var x=0,y=0;
+    for(var e=elt;e!=null;e=e.offsetParent){
+        x+=e.offsetLeft；
+        y+e.offsetTop;
+    }
+    //offsetLeft offsetTop为文档坐标包含了滚动条的位置，再次循环所有的祖先元素，
+    //减去滚动条的偏移量，并转换为视口坐标
+    for(var e=elt.parentNode;e!=null&amp;&amp;e.nodeType==1;e=e.parentNode){
+        x-=e.scrollLeft;
+        y-=e.scrollTop;
+    }
+    return {
+            x:x;
+            y:y
+    }
+}
+</code></pre><ul>
+<li>文档的高度 document.body.offsetHeight</li>
+<li>视口的高度 window.innerHeight</li>
+<li>滚动条滑动的高度 window.scrollY</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/09/javascript-valueOf/">
                 javascript valueOf方法
               </a>
@@ -356,308 +515,6 @@ console.log(person1+person2);//25
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/05/es-5-feature/">
-                ECMAScript 5 学习总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-05
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/05/es-5-feature/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/es-5-feature/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>话说<a href="https://github.com/lukehoban/es6features" target="_blank" rel="external">ES6</a>的草稿都出来了，貌似好多人对ES5 还没有全面的了解，下面将我学习的关于ES5的一些东西总结一下。<br>ECMAScript 5.1(或者成为ES5 、ECMAScript 5)，在2009年发布草稿，2011发布正式版本，最初在2011年发布的Firefox 4上得到支持。但是万恶的IE（6、7、8） 并不支持ES5，因此这也一定程度上阻止了ES5的普及。但是我们可以通过ployfill的形式来让IE8支持ES5的一些功能，比如引入<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="external">shim</a>;</p>
-<p>###浏览器对ES5的支持情况。<br>ES5出现以前，用的最多的是ES3(ES4 流产了). 总体上当今主流的浏览器都已经支持了ES5.比如常见的ie9+，chrome 19+，safari5+，firefox4+，opera 12+，android 3+，Blackberry Browser 7+，IOS safari 5+，opera mobile 12+，ie mobile 10+,例外是IE 9不支持ES 5.1的严格模式，IE10 已经支持。Safari 5.1+在严格模式下不支持0宽字符，比如<code>var $\u200c = &#39;a&#39;</code> 或者<code>{_\u200d: &#39;vuur&#39;}</code>.IE8 是ES3的脚本引擎，但是支持ES5的一些特性，比如<code>JSON</code>、<code>Object.defineProperty</code>,<code>Object.getOwnPropertyDescriptor</code>,然而 我们最好还是要把IE8 称为ES3的浏览器。当然如果对于不支持ES 5的浏览器可以使用<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="external">shim</a> 来进行扩展，以提供支持。下面开始描述ES 5的那些东西。</p>
-<p>####数组或者是对象中的最后元素允许添加逗号。</p>
-<pre><code>var myObject = {
-    foo:&apos;foo&apos;,
-    bar:&apos;bar&apos;, //no error
-};
-
-var myArray = [1,2,3,];
-
-console.log(myArray.length) //logs 3, regardless of trailing comma 
-</code></pre><p>####使用\ 分割来实现多行字符串</p>
-<pre><code>//no error in ES5 scripting engines
-var stringLiteral = &quot;Lorem ipsum dolor sit amet, consectetur \ 
-elit, sed do eiusmod tempor incididunt ut labore et dolore \
-magna aliqua. Ut enim ad minim veniam, quis nostrud \
-exercitation ullamco laboris nisi ut aliquip ex ea&quot;;
-</code></pre><p>####对象属性的名字允许使用限定字符。</p>
-<pre><code>var myObject = {function:&apos;function&apos;,new:&apos;new&apos;};
-
-console.log(myObject.function,myObject.new); //logs &apos;function new&apos;
-</code></pre><p>####处理JSON 的方法 <code>JSON.parse</code>  <code>JSON.stringify</code></p>
-<p>####原生的字符串去空格方法<code>string.trim()</code><br>ES 5 提供String.trim()来去除字符串首尾的空格。</p>
-<pre><code>&apos;   foo   &apos;.trim(); // &apos;foo&apos;
-</code></pre><p>需要关注的是，有些浏览器已经提供了 <code>trimRight()</code>,<code>trimLeft()</code>,但是这并不是正式的标准。</p>
-<h4 id="u901A_u8FC7_5Bi_5D_u6765_u8BBF_u95EE_u5B57_u7B26_u4E32_u4E2D_u7684_u5B57_u7B26_u3002"><a href="#u901A_u8FC7_5Bi_5D_u6765_u8BBF_u95EE_u5B57_u7B26_u4E32_u4E2D_u7684_u5B57_u7B26_u3002" class="headerlink" title="通过[i]来访问字符串中的字符。"></a>通过[i]来访问字符串中的字符。</h4><pre><code>&apos;ES5&apos;[1]; //  &quot;S&quot;
-</code></pre><p>ES3中 是不允许这种方式来进行访问的</p>
-<h4 id="undefined_2CNaN__u4EE5_u53CAInfinty_u662F_u53EA_u8BFB_u7684_u5E38_u91CF_u3002"><a href="#undefined_2CNaN__u4EE5_u53CAInfinty_u662F_u53EA_u8BFB_u7684_u5E38_u91CF_u3002" class="headerlink" title="undefined,NaN 以及Infinty是只读的常量。"></a><code>undefined</code>,<code>NaN</code> 以及<code>Infinty</code>是只读的常量。</h4><p>在ES5 之前的版本中这三个变量是可读写的。于是可能给undefined赋值，这样undefined，就不是真的undefined了。</p>
-<h4 id="u6570_u7EC4_u76F8_u5173"><a href="#u6570_u7EC4_u76F8_u5173" class="headerlink" title="数组相关"></a>数组相关</h4><p>判断数组类型的最佳方法:<code>Array.isArray([])</code></p>
-<p>####Array.prototype 新增的方法。</p>
-<ul>
-<li>Array.prototype.every()</li>
-<li>Array.prototype.filter()</li>
-<li>Array.prototype.forEach()</li>
-<li>Array.prototype.indexOf()</li>
-<li>Array.prototype.lastIndexOf()</li>
-<li>Array.prototype.map()</li>
-<li>Array.prototype.reduce()</li>
-<li>Array.prototype.some()</li>
-</ul>
-<p>同时也可以在字符串以及类数组中使用这些方法，比如</p>
-<pre><code>//在字符串中使用
-[].forEach.call(&apos;ABC&apos;,console.log);
-
-//argument  
-var myFunction = function(a,b,c){
-    [].forEach.call(arguments,console.log);
-};
-myFunction(1,2,3);
-</code></pre><p>####为数组的 <code>forEach()</code>, <code>every()</code>, <code>some()</code>, <code>filter()</code>, <code>map()</code>中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 <code>arrayLikeObject</code> 对象，作为forEach Callback的this。</p>
-<pre><code>var arrayLikeObject = {0:&apos;f&apos;,1:&apos;o&apos;,2:&apos;g&apos;,length:3};
-
-[].forEach.call(arrayLikeObject,function(item){
-
-    // this = arrayLikeObject
-    console.log(item + &apos; total: &apos; + this.length);
-
-},arrayLikeObject); //注意第三个参数 传递了也是arrayLikeObject
-</code></pre><h4 id="u5C5E_u6027_u8BBF_u95EE_u5668_getter_setter"><a href="#u5C5E_u6027_u8BBF_u95EE_u5668_getter_setter" class="headerlink" title="属性访问器 getter setter"></a>属性访问器 getter setter</h4><pre><code>var myObject = {
-    //name:&apos;&apos;, WOULD CAUSE ERROR
-    get name() { //notice use of get to indicate accessor property 
-        console.log(&apos;read name&apos;);
-    },
-    set name(value) { //notice use of set to indicate accessor property
-        console.log(&apos;wrote to name the value: &apos; + value);
-    }
-
-};
-
-myObject.name = &apos;codylindley&apos;; //调用 set 
-myObject.name; //调用get
-</code></pre><p>####对象属性的配置项<br>ES5中新的特性让对象的属性具有可只读readable，可只写writable、可配置性configurable,可遍历enumerable，通过<code>Object.getOwnPropertyDescriptor()</code> 可以查看特性的描述信息。</p>
-<pre><code>var accessor = {
-    get name(){},
-    set name(){}
-};
-
-var data = {name:&apos;Cody Lindley&apos;};
-
-//logs {get: function, set: function, enumerable: true, configurable: true}
-console.log(Object.getOwnPropertyDescriptor(accessor,&apos;name&apos;));
-
-//logs {value: &quot;Cody Lindley&quot;, writable: true, enumerable: true, configurable: true}
-console.log(Object.getOwnPropertyDescriptor(data,&apos;name&apos;));
-</code></pre><p>默认情况下Object.defineProperty() Object.defineProperties()<code>writable: true, enumerable: true, configurable: true。</code>如果是通过属性访问器来定义的属性 默认特性为 <code>enumerable: true, configurable:true</code> 。</p>
-<p>####新的 定义/修改对象的语法<br>通过<code>Object.defineProperty()</code> 以及 <code>Object.defineProperties()</code>两个函数来定义对象的属性以及属性的特性。下面是通过<code>Object.defineProperty()</code>为data对象定义两个属性<code>age</code>和<code>name</code>.</p>
-<pre><code>var data = {}; //create data object
-Object.defineProperty( //在data 对象上定义属性age
-    data,
-    &quot;age&quot;, 
-    {
-        value: 38,//配置属性的特性 包括value writable enumerable configurable
-        writable: true,
-        enumerable: true,
-        configurable: true
-    }
-);
-
-var accessor = {}; 
-Object.defineProperty( //以get set的形式来定义属性 name
-    accessor,
-    &quot;name&quot;, 
-    {
-        get: function () {},
-        set: function (value){},
-        enumerable: true,
-        configurable: true
-    }
-);
-
-//{value: 38, writable: true, enumerable: true, configurable: true} 
-console.log(Object.getOwnPropertyDescriptor(data,&apos;age&apos;));
-
-//{get: function, set: function, enumerable: true, configurable: true}
-console.log(Object.getOwnPropertyDescriptor(accessor,&apos;name&apos;));
-</code></pre><p>与上不同的是<code>Object.defineProperties()</code> 可以同时定义多组属性</p>
-<pre><code>var cody = {}; //
-Object.defineProperties( //定义两个属性
-    cody, 
-    {
-        &quot;age&quot;: {
-            value: 38,
-            writable: true,
-            enumerable: true,
-            configurable: true
-        },
-        &quot;name&quot;: {
-            get: function(){},
-            set:function(value){},
-            enumerable: true,
-            configurable: true
-        }
-    }
-);
-
-//{value: 38, writable: true, enumerable: true, configurable: true} 
-console.log(Object.getOwnPropertyDescriptor(cody,&apos;age&apos;));
-
-// {get: function, set: function, enumerable: true, configurable: true}
-console.log(Object.getOwnPropertyDescriptor(cody,&apos;name&apos;));
-</code></pre><p>注意 通过<code>Object.defineProperty()</code> 以及<code>Object.defineProperties()</code>定义的属性默认配置为<code>writable: false, enumerable: false, configurable: false</code>.定义的访问器属性默认配置<code>enumerable: false, configurable:false</code></p>
-<p>####使用<code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>获取对象的属性的name。<br><code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>用来获取对象中的属性的name，不包括继承来的属性，两者区别是<code>Object.keys</code> 只能获取可遍历的属性的名字的数组，<code>Object.getOwnPropertyNames()</code>可以获得所有的属性的名字，作为字符串数组返回。</p>
-<pre><code>var person = {};
-Object.defineProperties(person, 
-    {
-        &quot;name&quot;: {value: &apos;Cody Lindley&apos;,enumerable: true},
-        &quot;age&quot;: {value: 38,enumerable: false}
-    }
-);
-
-//只返回可以可遍历的属性 
-console.log(Object.keys(person)); //logs [&quot;name&quot;]
-
-//return array of all properties, including ones that are non-enumerable
-console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
-</code></pre><h4 id="u5C5E_u6027_u4FDD_u62A4_extending_u3001_sealing_u3001freezing_u3002"><a href="#u5C5E_u6027_u4FDD_u62A4_extending_u3001_sealing_u3001freezing_u3002" class="headerlink" title="属性保护 extending、 sealing、freezing。"></a>属性保护 extending、 sealing、freezing。</h4><p>在ES5中 对象可以被设置为non-extensible, sealed, 以及 frozen。这是三种不同的属性保护级别，可以通过<code>Object.preventExtensions(myObject)</code>, <code>Object.seal(myObject)</code>,  <code>Object.freeze(myObject)</code>来进行设置。</p>
-<ul>
-<li>Object.preventExtensions() 让对象无法新增属性。</li>
-<li>Object.seal()包括了Object.preventExtensions()的功能，同时还具有让已经存在的属性不可修改配置也就说不能使用Object.defineProperty以及Object.defineProperties 来修改属性的配置，但是修改属性的值依然是可以修改的。</li>
-<li><p>Object.freeze() 包括了Object.preventExtensions(),Object.seal()的功能，同时为对象的所有数据属性将 writable 特性设置为 false。 当 writable 为 false 时，无法更改数据属性值。（如果 属性值是对象的话，还是可以改变的）</p>
-<pre><code>var  p={
-            user:&quot;kunkun&quot;
-        }
-Object.seal(p);
-p.name=&apos;du&apos;;
-console.log(p.name);//undefined 并没有增加
-Object.freeze(p);
-p.user=&apos;baokun&apos;
-console.log(p.user);// 输出kunkun 还是原来的值发现并没有被修改
-</code></pre></li>
-</ul>
-<p>同时也提供三个函数来对这三种保护级别进行判断</p>
-<ul>
-<li>Object.isExtensible()</li>
-<li>Object.isSealed()</li>
-<li>Object.isFrozen()</li>
-</ul>
-<p>####使用Object.create()显式继承。<br>在ES3中创建对象的方式主要有以下三种</p>
-<ul>
-<li>var objectViaObjectLiteral = {};</li>
-<li>var objectViaObjectConstructor = new Object();</li>
-<li>var objectViaCustomConstructor = new(function Person(){});</li>
-</ul>
-<p>ES5中新增了Object.create函数来让开发者现实地设置对象以及对象继承的原型。第一个参数为对象的原型</p>
-<pre><code>var object = Object.create(Object.prototype); //创建对象 与{} 、 new Object()功能相同。
-</code></pre><p>object.create的主要作用继承指定的对象来创建新的对象，如果不传递参数，则默认值为Object.prototype。如果传递null 表示对象将会不继承于任何东西，则创建一个真正的空对象</p>
-<pre><code>var person = {alive: true};
-var cody = Object.create(person, {
-    name: {
-        configurable: true,
-        enumerable: true,
-        writeable: true,
-        value: &apos;cody&apos;
-    }
-});
-
-console.log(cody.alive); // true
-
-//
-console.log(Object.getPrototypeOf(cody).alive); //logs true
-</code></pre><p>上面的例子中，可以看到create也传递了第二个参数来为对象增加属性,第二个参数与Object.defineProperties()结果是一样的。</p>
-<p>####使用getPrototypeOf() 来获取对象的原型。<br>ES3中有个非标准的<strong>proto</strong> 来获取对象的原型金，浏览器支持不兼容，ES5中有了标准化。</p>
-<pre><code>Object.getPrototypeOf(new Object(&apos;foo&apos;)) === String.prototype // true
-</code></pre><p>####bind ：为函数绑定上下文。</p>
-<p>在ES3中通过Apply或者call来实现 比如</p>
-<pre><code>Function.prototype.bind = function(obj) { 
-   var method = this, 
-   temp = function() { 
-     return method.apply(obj,arguments); 
-   }; 
-
-   return temp; 
-} 
-</code></pre><p>ES 5中有了正式的bind</p>
-<pre><code>var myObject = {foo:&apos;foo&apos;};
-var myFunction = function(){
-    console.log(this,arguments[0],arguments[1],arguments[2]);
-};
-var usingBind = myFunction.bind(myObject,1,2,3); 
-usingBind(); // {foo=&quot;foo&quot;} 1 2 3
-</code></pre><h4 id="use_strict__u4E25_u683C_u6A21_u5F0F"><a href="#use_strict__u4E25_u683C_u6A21_u5F0F" class="headerlink" title="use strict 严格模式"></a>use strict 严格模式</h4><p>JavaScript代码标志为“严格模式”，则其中运行的所有代码都必然是严格模式下的。<br>其一：如果在语法检测时发现语法问题，则整个代码块失效，并导致一个语法异常。<br>其二：如果在运行期出现了违反严格模式的代码，则抛出执行异常。</p>
-<ul>
-<li>主要规则 </li>
-<li>定义变量必须带var 、</li>
-<li>不能在JSON定义重复的key、</li>
-<li>函数不能有重复的参数、</li>
-<li>不能改变arguments的值</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -690,7 +547,7 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

@@ -99,6 +99,103 @@
           
           
             
+              <a class="post-title-link" href="/2014/11/22/dojocdn/">
+                dojocdn
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-11-22
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/11/22/dojocdn/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/22/dojocdn/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>谷歌为dojo提供了CDN服务，可惜我朝无法正常访问，于是自己在国内空间 -@七牛云存储 上部署了一份。。感谢</p>
+<p>dojo的最新版本 1.10.2</p>
+<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js</a></p>
+<p>未压缩版本</p>
+<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js</a></p>
+<p>本目录与dojo源码的目录一致，同时包含了<code>dojo</code> <code>dijit</code> <code>dojox</code> <code>dgrid</code> <code>put-selector</code> <code>xstyle</code> <code>dstore</code> 目录结构如下</p>
+<pre><code>http://dojocdn.qiniudn.com/dojo-1.10.2
+                                        |dojo
+                                        |dijit
+                                        |dojox
+                                        |dgrid
+                                        |put-selector
+                                        |xstyle
+                                        |dstore
+</code></pre><p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
+<p>如果要找dojo中的主题</p>
+<p>##claro.css</p>
+<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css</a></p>
+<p>##tundar主题</p>
+<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css</a></p>
+<p>##soria主题<br><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css</a></p>
+<p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
+<p><a href="http://jsbin.com/gogezu/2/edit?html,js,output" target="_blank" rel="external">以创建grid为例的Demo</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Dojo/">
+                #Dojo
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/11/05/javascript-constructor-and-prototype/">
                 Javascript中的类、对象、以及继承
               </a>
@@ -610,100 +707,6 @@ sub.getName();
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/09/23/css-margin-fold/">
-                css margin折叠
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-09-23
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/09/23/css-margin-fold/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/23/css-margin-fold/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="margin_u6298_u53E0-Collapsing_margin"><a href="#margin_u6298_u53E0-Collapsing_margin" class="headerlink" title="margin折叠-Collapsing margin"></a>margin折叠-Collapsing margin</h3><p>所谓margin折叠(Collapsing margin)，就是我们常说的盒子垂直边距叠加，具体是指在同一个块级格式化上下文（简称BFC）中，毗邻的两个或者多个垂直外边距会发生互相折叠的现象。其中所说的毗邻可以归结为以下两点</p>
-<ul>
-<li>两个或者多个外边距没有被非空内容、padding、border或者clear分隔开。 </li>
-<li>两个或者多个外边距所归属的元素都处于普通流中，而非浮动元素或者绝对定位元素。</li>
-</ul>
-<h3 id="u5E38_u89C1_u53D1_u751Fmargin_u6298_u53E0_u7684_u60C5_u51B5_u6709_uFF1A"><a href="#u5E38_u89C1_u53D1_u751Fmargin_u6298_u53E0_u7684_u60C5_u51B5_u6709_uFF1A" class="headerlink" title="常见发生margin折叠的情况有："></a>常见发生margin折叠的情况有：</h3><ul>
-<li>一个盒子元素的top margin与第一个子盒子元素的top margin。</li>
-<li>一个盒子元素的bottom margin与最后一个子盒子元素的bottom margin， 但须在该盒子元素的height为auto的情况下 * 一个盒子元素的bottom margin与紧接着的下一个盒子元素的top margin。</li>
-<li>一个盒子元素的top margin与其自身的bottom margin，但须满足没创建 BFC、零min-height、零或者“auto”的height、没有普通流的子盒子元素。</li>
-</ul>
-<h3 id="margin_u6298_u53E0_u7684_u540E_u7684_u5916_u8FB9_u8DDD_u8BA1_u7B97_uFF1A"><a href="#margin_u6298_u53E0_u7684_u540E_u7684_u5916_u8FB9_u8DDD_u8BA1_u7B97_uFF1A" class="headerlink" title="margin折叠的后的外边距计算："></a>margin折叠的后的外边距计算：</h3><ul>
-<li>参加折叠的元素指都为正，取其中较大的值; </li>
-<li>参加折叠的元素值都为负，取绝对值较大的，然后负向位移; </li>
-<li>参加折叠的元素有正有负，取出正值中最大的值+负值中绝对值最大的值; </li>
-<li>元素自身的 margin-bottom 和 margin-top 相邻时也会折叠，自身<br>margin-bottom 和 margin-top 相邻，只能是自身内容为空，垂直方向上 border、padding 为 0; </li>
-<li>相邻的 margin 要一起参与计算，不得分步计算，要注意，相邻的元素不一定非<br>要是兄弟节点，父子节点也可以，即使不是兄弟父子节点也可以相邻。而且，在计算时，相邻的 margin 要一起参与计算，不得分步计算。 </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;div&#160;style=&#34;margin:50px&#160;0;&#160;background:green;&#160;width:50px;&#34;&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-60px&#160;0;&#34;&#62;&#160;&#10;&#160;&#160;&#160;&#60;div&#160;style=&#34;margin:150px&#160;0;&#34;&#62;A&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-100px&#160;0;background:green;&#160;width:50px;&#34;&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-120px&#160;0;&#34;&#62;&#160;&#10;&#160;&#160;&#160;&#160;&#60;div&#160;style=&#34;margin:200px&#160;0;&#34;&#62;B&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#60;/div&#62;</span><br></pre></td></tr></table></figure>
-<p>错误的计算方式：分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。  请注意，多个 margin 相邻折叠成一个 margin，计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。  以上例子中，A 和 B 之间的 margin 折叠产生的 margin，是6个相邻 margin 折叠的结果。将其 margin 值分为两组：    正值：50px，150px，200px   负值：-60px，-100px，-120px  根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 200 + (-120) = 80px。</p>
-<p><strong>创建了BFC(块级格式化上下文)的元素，不和内部的子元素发生margin 折叠</strong></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -736,7 +739,7 @@ sub.getName();
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

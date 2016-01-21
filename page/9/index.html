@@ -99,6 +99,186 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/14/cross-domain/">
+                跨域解决方案之JSONP,CORS
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-14
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/14/cross-domain/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/14/cross-domain/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>####何为跨域</p>
+<p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
+<ul>
+<li><a href="http://www.baidu.com:6080" target="_blank" rel="external">http://www.baidu.com:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 端口号不同</li>
+<li><a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 与<a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 协议不同</li>
+<li><a href="http://www.QQ:6080" target="_blank" rel="external">http://www.QQ:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a>  hostname不同。</li>
+</ul>
+<p>如上的各种组合还有好多情况，那么我们如何才能绕过浏览器的跨域限制 正常地访问服务呢。</p>
+<p>在flash或者silverlight中，只要服务的页面下放入 跨域策略文件就可以允许不同域下flash/silverlight的页面来调用,内容大致如下</p>
+<pre><code>&lt;cross-domain-policy&gt; 
+&lt;allow-access-from domain=&quot;*&quot; to-ports=&quot;507&quot; /&gt; 
+&lt;allow-access-from domain=&quot;*.example.com&quot; to-ports=&quot;507,516&quot; /&gt; 
+&lt;allow-access-from domain=&quot;*.example2.com&quot; to-ports=&quot;516-523&quot; /&gt; 
+&lt;allow-access-from domain=&quot;www.example2.com&quot; to-ports=&quot;507,516-523&quot; /&gt; 
+&lt;allow-access-from domain=&quot;www.example3.com&quot; to-ports=&quot;*&quot; /&gt; 
+&lt;/cross-domain-policy&gt; 
+</code></pre><p>关于Flash 的跨域情况 在这里不说解释,本文重点介绍Javascript的情况。</p>
+<p>####JSONP<br>虽然浏览器默认禁止了跨域访问，但并不禁止在页面中引用其他域的JS文件，并可以自由执行引入的JS文件中的function（包括操作cookie、Dom等等）。根据这一点，可以方便地通过创建script节点的方法来实现完全跨域的通信。这种方式叫JSONP解决方案。</p>
+<p>利用动态的script来请求服务，服务端返回函数的调用的形式，比如callback(“hello world”);前端如果实现已经定义好了一个callback 的函数既可以获得helloworld;下面开始具体实现。</p>
+<p>服务端使用NodeJS+express实现。新建express项目，app.js如下</p>
+<pre><code>var express = require(&apos;express&apos;);
+var http = require(&apos;http&apos;);
+var path = require(&apos;path&apos;);
+var app = express();
+app.set(&apos;port&apos;, process.env.PORT || 3000);
+app.set(&apos;port1&apos;, process.env.PORT || 3002);
+app.use(app.router);
+app.use(express.static(path.join(__dirname, &apos;public&apos;)))
+
+        function add(a,b){
+            return a+b;
+        } 
+app.get(&apos;/add&apos;, function(req,res){
+    var a=parseInt(req.query.a);
+    var b=parseInt(req.query.b);
+     res.send(&quot;addresult(&quot;+add(a,b)+&quot;)&quot;);
+});
+
+http.createServer(app).listen(app.get(&apos;port&apos;), function(){
+  console.log(&apos;Express server listening on port &apos; + app.get(&apos;port&apos;));
+});
+http.createServer(app).listen(app.get(&apos;port1&apos;), function(){
+  console.log(&apos;Express server listening on port &apos; + app.get(&apos;port1&apos;));
+});
+</code></pre><p>为了方便演示，这里的跨域具体是指端口号不同，并且在一个文件里面开了两个server，一个3000端口，一个3002端口，这里的服务主要是实现一个加法的功能，读取两个参数，然后进行加法运算，最后返回结果用addresult包起来，比如前端传入过来的参数分别为a=3,b=7,则返回的参数为addresult(7) <code>app.use(express.static(path.join(__dirname, &#39;public&#39;)))</code>是将当前目录下的public 文件件配置为静态目录，接下来在public文件夹下新建crossdomain.html文件，关键代码如下。</p>
+<pre><code>var   $=function(id){
+               return document.getElementById(id);
+   }                
+       var a=$(&apos;a&apos;).value;
+       var b=$(&apos;b&apos;).value;
+       var querystring=&quot;a=&quot;+a+&quot;&amp;b=&quot;+b;
+       var script=document.createElement(&apos;script&apos;);
+       script.async=true;
+       script.src=&quot;http://localhost:3000/add?&quot;+querystring;
+       document.body.appendChild(script);
+</code></pre><p>以上$为自定义的函数,根据ID 获取元素，然后从文本框中读取值。作为服务的参数传入。接下来要定义一个名字为addresult的函数来接受返回结果：</p>
+<pre><code>function addresult (data) {
+    // body... 
+    $(&quot;result&quot;).innerHTML=a;
+}
+</code></pre><p>启动程序输入 <code>http://localhost:3002/crossdomain.html</code>，这里是在3002上的页面调用的是3000端口上的服务。视为跨域，运行之后在文本框中输入两个值我们发现实现了跨域调用。<br>以上是实现了一个JSONP的精简版。当然还有些问题要考虑，比如回调函数名字的问题也可以作为参数来传入。第二个问题就是要在服务执行完毕或者请求失败之后 删除动态创建的script标签。</p>
+<p>####CORS </p>
+<p>随着HTML5标准的 不断完善，也推出了一种新的跨域解决方案Cross-Origin Resource Sharing (CORS)，现在已经是W3C指定的标准。允许 XMLHttpRequest 进行跨域调用，支持CORS的浏览器有</p>
+<ul>
+<li>Chrome 3+</li>
+<li>Firefox 3.5+</li>
+<li>Opera 12+</li>
+<li>Safari 4+</li>
+<li>Internet Explorer 8+ (IE 8下为   XDomainRequest对象)</li>
+</ul>
+<p>这里需要服务端和客户端配合 ，要求服务端返回的返回头中必须包含：</p>
+<pre><code>Access-Control-Allow-Origin: //发起请求的XMLHttpRequest所在的域
+Access-Control-Allow-Methods: //支持的请求的方法
+Access-Control-Allow-Credentials:true
+</code></pre><p>同时在请求服务的时候需要将xhr的withCredentials设置为true;如</p>
+<pre><code>var xhr = new XMLHttpRequest();
+xhr.open(&quot;get&quot;, &quot;url&quot;, true);
+xhr.withCredentials = true; //设置这个参数是为了允许cookie发送
+</code></pre><p>这里请求的时候会发两次http请求，第一次是option请求，判断服务端时候只是CORS 以及支持哪些行为(post,get,put等)如果满足条件话则继续进行服务请求，同样这里也以NodeJS为例写个服务端。代码如下</p>
+<pre><code>function multiply(a,b){
+        return a*b;
+}
+app.get(&quot;/multiply&quot;,function(req,res){
+    console.log(res.query);
+    var a=parseInt(req.query.a);
+    var b=parseInt(req.query.b);
+    res.set({
+              &apos;Access-Control-Allow-Origin&apos;: req.headers.origin,
+              &apos;Access-Control-Allow-Credentials&apos;: true,
+              &apos;Access-Control-Allow-Methods&apos;:&apos;POST, GET, PUT, DELETE, OPTIONS&apos;
+            });
+});
+</code></pre><p>客户端的带代码如下</p>
+<pre><code>    var a=$(&apos;a&apos;).value;
+    var b=$(&apos;b&apos;).value;
+    var querystring=&quot;c=&quot;+a+&quot;&amp;d=&quot;+b;
+    var xhr = new XMLHttpRequest();
+        xhr.open(&quot;get&quot;, &quot;http://localhost:3000/multiply?&quot;+querystring, true);
+        xhr.withCredentials = true;//经测试这个貌似没有什么作用
+        xhr.onload =function(){
+        var data = xhr.responseText;
+        $(&quot;result&quot;).innerHTML=&quot;这两个数的乘积为&quot;+data;
+    }
+xhr.send();　　
+</code></pre><p>####其他的跨域解决方案。还有比如window.name,iframe，img标签等方式<br>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
+<p>本博文的用到的<a href="https://github.com/kunkun12/cross-domain" target="_blank" rel="external">Demo的源码</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/跨域/">
+                #跨域
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/14/html5-geolocation-api/">
                 HTML5 Geolocation API-获取设备的地理位置
               </a>
@@ -436,121 +616,6 @@ var p=    User.print;
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/11/html-5-meta-tag/">
-                html 5 meta tag
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-11
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/11/html-5-meta-tag/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/html-5-meta-tag/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>###meta的作用<br>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
-<ul>
-<li><meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。</li>
-<li><meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。</li>
-</ul>
-<p>每个meta标签必须具有content属性，定义与 http-equiv 或 name 属性相关的元信息。</p>
-<p>###可选属性</p>
-<p>####http-equiv 属性<br>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
-<pre><code>&lt;meta http-equiv=&quot;charset&quot; content=&quot;iso-8859-1&quot;&gt;
-&lt;meta http-equiv=&quot;expires&quot; content=&quot;31 Dec 2008&quot;&gt;
-</code></pre><p>这样发送到浏览器的头部就应该包含：</p>
-<pre><code>content-type: text/html
-charset:iso-8859-1
-expires:31 Dec 2008
-</code></pre><p>5秒刷新一次页面</p>
-<pre><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot; /&gt;
-</code></pre><p>####content 属性</p>
-<ul>
-<li>content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。</li>
-<li>content 属性始终要和 name 属性或 http-equiv 属性一起使用。</li>
-</ul>
-<p>####name 属性</p>
-<p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
-<pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;HTML,ASP,PHP,SQL&quot;&gt;
-&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词； 
-&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容； 
-&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者； 
-&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt; 
-</code></pre><p>其中的属性说明如下： </p>
-<ul>
-<li>设定为all：文件将被检索，且页面上的链接可以被查询； </li>
-<li>设定为none：文件将不被检索，且页面上的链接不可以被查询； </li>
-<li>设定为index：文件将被检索； </li>
-<li>设定为follow：页面上的链接可以被查询； </li>
-<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询； </li>
-<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。 </li>
-</ul>
-<p>另外一点需要注意的是在HTML4中定义页面的字符集需要，放在content-type对应的content里面</p>
-<pre><code>&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=ISO-8859-1&quot;&gt;
-</code></pre><p>HTML5中新增了 charset属性 ，使用更简单</p>
-<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -583,7 +648,7 @@ expires:31 Dec 2008
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

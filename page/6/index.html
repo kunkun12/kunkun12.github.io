@@ -99,6 +99,172 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/24/css3-selectors/">
+                CSS3 选择器总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-24
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/24/css3-selectors/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/24/css3-selectors/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>在学习新技术的同时不要忘记复习一下那些最基础的东西</p>
+</blockquote>
+<p>####基本选择器</p>
+<ul>
+<li>通配符选择器(*) 通配符选择器是用来选择所有元素，，也可以选择某个元素下的所有元素</li>
+<li>元素选择器 根据tag名字来选择 比如 p body div 等等</li>
+<li>类选择器 .className</li>
+<li>id选择器 #ID</li>
+<li>后代选择器 A B (A、B分别为选择器 中间) 有空格</li>
+<li>子元素选择器(A&gt;B)(IE6不支持子元素选择器)。</li>
+<li>相邻兄弟元素选择器(E + F)<blockquote>
+<p>相邻兄弟选择器可以选择紧接在另一元素后的元素，而且他们具有一个相同的父元素，换句话说，EF两元素具有一个相同的父元素，而且Ｆ元素在Ｅ元素后面，而且相邻，这样我们就可以使用相邻兄弟元素选择器来选择Ｆ元素。</p>
+</blockquote>
+</li>
+<li>通用兄弟选择器（Ｅ &gt;Ｆ）<blockquote>
+<p>通用兄弟元素选择器是CSS3新增加一种选择器，这种选择器将选择某元素后面的所有兄弟元素，他们也和相邻兄弟元素类似，需要在同一个父元素之中，换句话说，E和F元素是属于同一父元素之内，并且F元素在Ｅ元素之后，那么E ~ F 选择器将选择中所有Ｅ元素后面的Ｆ元素。比如下面的代码：</p>
+</blockquote>
+</li>
+<li>群组选择器（selector1,selector2,…,selectorN）<blockquote>
+<p>群组选择器是将具有相同样式的元素分组在一起，每个选择器之间使用逗号“，”隔开，如上面所示selector1,selector2,…,selectorN。这个逗号告诉浏览器，规则中包含多个不同的选择器，如果不有这个逗号，那么所表达的意就完全不同了，省去逗号就成了我们前面所说的后代选择器，这一点大家在使用中千万要小心加小心。</p>
+</blockquote>
+</li>
+</ul>
+<p>####属性选择器</p>
+<ul>
+<li>E[attr]：只使用属性名，而不论这个属性值是什么，你就可以使用这个属性选择器</li>
+<li>E[attr=”value”]：指定属性名，并指定了该属性的属性值为value；</li>
+<li>E[attr~=”value”]：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的“~”不能不写;属性选择器中有波浪（〜）时属性值有value时就相匹配，没有波浪（〜）时属性值要完全是value时才匹配。</li>
+<li>E[attr^=”value”]：属性值是以value开头的；</li>
+<li>E[attr$=”value”]：而且属性值是以value结束的；</li>
+<li>E[attr*=”value”]：而且属值中包含了value；</li>
+<li>E[attr|=”value”]：属性值是value或者以“value-”开头的值</li>
+</ul>
+<p>####伪类选择器</p>
+<p>#####动态伪类</p>
+<ul>
+<li>:hover用于当用户把鼠标移动到元素上面时的效果；</li>
+<li>:active用于用户点击元素那一下的效果（正发生在点的那一下，松开鼠标左键此动作也就完成了）</li>
+<li><p>:focus用于元素成为焦点，这个经常用在表单元素上。<br>#####UI元素状态伪类</p>
+</li>
+<li><p>:enabled 表单元素可用（比如”type=”text”有enable和disabled两种状态，前者为可写状态后者为不可状态）</p>
+</li>
+<li>:disabled    </li>
+<li><p>:checked 表单元素选中适用于radio checked<br>#####CSS3的:nth选择器</p>
+</li>
+<li><p>:fist-child选择某个元素的第一个子元素；</p>
+</li>
+<li>:last-child选择某个元素的最后一个子元素；</li>
+<li>:nth-child()选择某个元素的一个或多个特定的子元素；</li>
+</ul>
+<blockquote>
+<ul>
+<li>:nth-child(length);参数是具体数字</li>
+<li>:nth-child(n);参数是n,n从0开始计算</li>
+<li>:nth-child(n*length)n的倍数选择，n从0开始算</li>
+<li>:nth-child(n+length);选择大于length后面的元素</li>
+<li>:nth-child(-n+length)选择小于length前面的元素</li>
+<li>:nth-child(n*length+1);表示隔n选一</li>
+</ul>
+</blockquote>
+<ul>
+<li>:nth-last-child()选择某个元素的一个或多个特定的子元素，从这个元素的最后一个子元素开始算；</li>
+<li>:nth-of-type()选择指定的元素；</li>
+<li>:nth-last-of-type()选择指定的元素，从元素的最后一个开始计算；</li>
+<li>:first-of-type选择一个上级元素下的第一个同类子元素；</li>
+<li>:last-of-type选择一个上级元素的最后一个同类子元素；</li>
+<li>:only-child选择的元素是它的父元素的唯一一个了元素；</li>
+<li>:only-of-type选择一个元素是它的上级元素的唯一一个相同类型的子元素；</li>
+<li>:empty是用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格.</li>
+</ul>
+<p>#####否定选择器（:not）selctorA:not(slectorB)</p>
+<blockquote>
+<p>用来过滤元素，比如要选择除了type为button之外的任何input可以使用 input:not([type=”button”])<br>使用</p>
+<p>#####伪元素<br>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
+</blockquote>
+<ul>
+<li>::first-line选择元素内容的第一行</li>
+<li>::first-letter选择文本块的第一个字母，比如用来实现首字下沉。</li>
+<li><p>::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常用”content”配合使用，比如流行的清除浮动。</p>
+<pre><code>.clearfix:before,
+.clearfix:after {
+    content: &quot;.&quot;;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix:after {clear: both;}
+.clearfix {zoom: 1;}
+</code></pre><p>-::selection用来改变浏览网页选中文的默认效果</p>
+</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/24/lines-javascript-library-for-calling-asynchronous-functions/">
                 7行代码实现异步函数顺序执行-No Callback
               </a>
@@ -394,103 +560,6 @@ var B = function(callback) {
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/20/oo-3-features/">
-                面向对象编程3大特性 7大原则[转] 
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-20
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/20/oo-3-features/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/oo-3-features/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>原文地址<http: blog.163.com="" wumingli456@126="" blog="" static="" 28896414201211121629525=""></http:></p>
-<p>###面向对象的特性<br>三个基本的特性：封装、继承与多态。</p>
-<p>1、封装<br>面向对象编程核心思想这一就是就是将数据和对数据的操作封装在一起.通过抽象,即从具体的实例中抽取共同的性质形成一般的概念,比如类的概念.</p>
-<p>2、继承<br>继承体现了一种先进的编程模式.子类可以继承父类的属性和功能,即子类继承了父类所具有的数据和数据上的操作,同时又可以增添子类独有的数据和数据上的操作.例如,”人类”继承了”哺乳类”的属性和功能,同时又增添了人类独有的属性和功能.</p>
-<p>3、多态<br> 多态是面向对象编程的又一重要特征.有两种意义的多态（表现为方法的重写(Overriding)和重载(Overloading)）<br> 一种是操作名称的多态,即有多个操作具有相同的名字,但这些操作所接收的消息类型必须不同.所谓操作名称的多态是指可以向操作传递不同消息,以便让对象根据相应的消息来产生一定的行为.</p>
-<p>###七大基本原则<br> 单一职责原则SRP(Single Responsibility Principle)、开放封闭原则OCP(Open－Close Principle) 、替换原则、依赖原则(the Dependency Inversion Principle DIP) (the Liskov Substitution Principle LSP) 、接口分离原则(the Interface Segregation Principle ISP)、“迪米特”法则 、组合/聚合原则 </p>
-<p>1、单一职责原则SRP(Single Responsibility Principle)<br>即一个类只负责一项职责<br>可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>提高类的可读性，提高系统的可维护性；<br>变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
-<p>2、开放封闭原则OCP(Open－Close Principle)<br>一个模块在扩展性方面应该是开放的而在更改性方面应该是封闭的。比如：一个网络模块，原来只服务端功能，而现在要加入客户端功能，<br>那么应当在不用修改服务端功能代码的前提下，就能够增加客户端功能的实现代码，这要求在设计之初，就应当将服务端和客户端分开，公共部分抽象出来。</p>
-<p>3、里氏替换原则(the Liskov Substitution Principle LSP)<br>子类应当可以替换父类并出现在父类能够出现的任何地方。</p>
-<p>4、依赖倒转原则(the Dependency Inversion Principle DIP)<br>具体依赖抽象，上层依赖下层。假设B是较A低的模块，但B需要使用到A的功能，<br>这个时候，B不应当直接使用A中的具体类： 而应当由B定义一抽象接口，并由A来实现这个抽象接口，B只使用这个抽象接口：这样就达到<br>了 依赖倒置的目的，B也解除了对A的依赖，反过来是A依赖于B定义的抽象接口。通过上层模块难以避免依赖下层模块，假如B也直接依赖A的实现，那么就可能造 成循环依赖。一个常见的问题就是编译A模块时需要直接包含到B模块的cpp文件，而编译B时同样要直接包含到A的cpp文件。</p>
-<p>5、接口分离原则(the Interface Segregation Principle ISP)<br>模块间要通过抽象接口隔离开，而不是通过具体的类强耦合起来。即面向接口编程</p>
-<p>6、“迪米特”法则<br>又叫最少知识原则，就是说，一个对象应当对其他对象有尽可能少的了解<br>① 在类的划分上，应该创建有弱耦合的类；<br>② 在类的结构设计上，每一个类都应当尽量降低成员的访问权限；<br>③ 在类的设计上，只要有可能，一个类应当设计成不变类；<br>④ 在对其他类的引用上，一个对象对其它对象的引用应当降到最低；<br>⑤ 尽量降低类的访问权限；<br>⑥ 谨慎使用序列化功能；<br>⑦ 不要暴露类成员，而应该提供相应的访问器(属性)。 </p>
-<p>7、.组合/聚合原则<br>又叫合成复用原则。原则就是在一个新的对象里面通过关联关系（包括组合关系和聚合关系）使用一些已有的对象，使之成为新对象的一部分，新对象通过委派调用已有对象的方法达到复用其已有功能的目的。也就是，要尽量使用类的合成复用，尽量不要使用继承。<br>就是在一个新的对象里面使用一些已有的对象，使之成为新对象的一部分，新的对象通过向这些对象的委派达到复用已有功能的目的。这个原则有一个简短的描述：要尽量使用合成、聚合，尽量不要使用继承。</p>
-<p>1)  新对象存取成分对象的唯一方法是通过成分对象的接口</p>
-<p>2)  这种复用是黑箱复用，因为成分对象的内部细节是新对象所看不到的</p>
-<p>3)  这种复用可以在运行时间内动态进行，新对象可以动态的引用与成分对象类型相同的对象</p>
-<p>4)  合成、聚合可以应用到任何环境中去，而继承只能应用到一些有限环境中去</p>
-<p>5)  导致错误的使用合成、聚合与继承的一个常见原因是错误的把“Has-a”关系当作“Is-a”关系。如果两个类是“Has-a”关系那么应使用合成、聚合，如果是“Is-a”关系那么可使用继承</p>
-<p>在面向对象设计中，可以通过两种基本方法在不同的环境中复用已有的设计和实现，即通过组合/聚合关系或通过继承。</p>
-<p>1)   继承复用：实现简单，易于扩展。破坏系统的封装性，从基类继承而来的实现是静态的，不可能在运行时发生改变，没有足够的灵活性；只能在有限的环境中使用。（“白箱”复用 ）</p>
-<p>2)   组合/聚合复用：耦合度相对较低，选择性地调用成员对象的操作；可以在运行时动态进行。（“黑箱”复用 ）</p>
-<p>组合/聚合可以使系统更加灵活，类与类之间的耦合度降低，一个类的变化对其他类造成的影响相对较少，因此一般首选使用组合/聚合来实现复用；</p>
-<p>其次才考虑继承，在使用继承时，需要严格遵循里氏代换原则，有效使用继承会有助于对问题的理解，降低复杂度，而滥用继承反而会增加系统构建和维护的难度以及系统的复杂度，因此需要慎重使用继承复用。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/object-oriented/">
-                #object oriented
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -523,7 +592,7 @@ var B = function(callback) {
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
