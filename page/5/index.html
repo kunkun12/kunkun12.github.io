@@ -99,6 +99,105 @@
           
           
             
+              <a class="post-title-link" href="/2014/10/04/High-Performance-Animations/">
+                高性能动画
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-10-04
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/10/04/High-Performance-Animations/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/04/High-Performance-Animations/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>现代浏览器在完成以下四种属性的动画时，消耗成本较低： position（位置）， scale（比例缩放）, rotation（旋转） 和 opacity（透明度）。如果你对其他的属性设置动画，你就需要对你的冒险负责。而且你的动画将可能达不到流畅的60fps</p>
+<h3 id="u901A_u8FC7DevTools_u4ECE_u6587_u6863_u5BF9_u8C61_u6A21_u578B_u5230_u50CF_u7D20_u7EA7_u522B_u7684_u89C2_u5BDF"><a href="#u901A_u8FC7DevTools_u4ECE_u6587_u6863_u5BF9_u8C61_u6A21_u578B_u5230_u50CF_u7D20_u7EA7_u522B_u7684_u89C2_u5BDF" class="headerlink" title="通过DevTools从文档对象模型到像素级别的观察"></a>通过DevTools从文档对象模型到像素级别的观察</h3><p>当你用 Chrome DevTools 的 timeline 来查看的话，你可以看到跟一下相似的模式</p>
+<p><img src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekyxoznj95j20mb0dj760.jpg" alt=""></p>
+<p>浏览器处理的过程很简单：计算元素的样式（重新计算样式），生成每个元素的几何形状和位置（布局），绘制图层中的每个像素（初始化绘图并且进行绘图）并且将图层绘制到屏幕上（图层的合成）。</p>
+<p>为了生成流畅的动画，你需要让浏览器尽可能少地工作，而最好的方式就是指改变影响合成的属性——transform 和 opacity。瀑布流越高 ，浏览器为了计算每个像素，就做的越多。</p>
+<h3 id="u5BF9_u5E03_u5C40_u8FDB_u884C_u52A8_u753B"><a href="#u5BF9_u5E03_u5C40_u8FDB_u884C_u52A8_u753B" class="headerlink" title="对布局进行动画"></a>对布局进行动画</h3><p>当你改变一个元素的时候，浏览器可能需要计算布局（位置和大小），这将影响到所有被这项改变影响的元素。如果你改变了一个元素，那么其他元素的几何结构可能会需要重新计算。举个例子，如果你改变 <em><html></html></em>元素的width属性，那么它所有的子元素都将被影响。由于元素的溢出和相互之间的影响，改变可能导致文档树的布局自下而上地被重新计算。</p>
+<p>文档树越大，计算布局所花费的时间就越长。所以你应该尽力避免对那些影响布局的的属性设置动画。</p>
+<p>项目中一些常见的，会引起布局变化的属性CSS属性：</p>
+<blockquote>
+<p>width    height<br>padding    margin<br>display    border-width<br>border    top<br>position    font-size<br>float    text-align<br>overflow-y    font-weight<br>overflow    left<br>font-family    line-height<br>vertical-align    right<br>clear    white-space<br>bottom    min-height</p>
+</blockquote>
+<h3 id="u7ED8_u56FE_u5C5E_u6027_u7684_u52A8_u753B"><a href="#u7ED8_u56FE_u5C5E_u6027_u7684_u52A8_u753B" class="headerlink" title="绘图属性的动画"></a>绘图属性的动画</h3><p>对一个元素的改变也可能引起绘图，而在现代浏览器中，主要的绘制工作会在软件光栅化中进行。这取决于元素在你的应用中如何分层。挨着被改变的元素旁边的其他元素也可能需要被重新绘制。</p>
+<p>有很多属性会引起元素的绘制，但以下这些是最常见的属性:</p>
+<blockquote>
+<p>color    border-style<br>visibility    background<br>text-decoration    background-image<br>background-position    background-repeat<br>outline-color    outline<br>outline-style    border-radius<br>outline-width    box-shadow<br>background-size</p>
+</blockquote>
+<p>如果你在元素中对以上的属性设置动画，那么将会引起重绘，并且元素所属的图层将提交给GPU进行处理。对于移动端设备来说，这代价是非常昂贵的，因为它们的CPU的处理能力明显弱于桌面端。这意味着，任务将用更长的时间来完成；并且CPU和GPU之间的带宽是有限的，所以数据的上传需要花费很长的一段时间。</p>
+<h3 id="u5408_u6210_u5C5E_u6027_u7684_u52A8_u753B"><a href="#u5408_u6210_u5C5E_u6027_u7684_u52A8_u753B" class="headerlink" title="合成属性的动画"></a>合成属性的动画</h3><p>有一个CSS属性，你可能认为它会引起重绘，但有时候并不会。就是：opacity. 当GPU在合成元素的纹理结构的时候，会以一个较低的alpha值去处理opacity的改变。它的条件是，元素必须是图层中唯一的一个元素。如果它和其它的元素组合在一起，那么对opacity的改变也会让GPU（错误地）淡化其它的元素。</p>
+<p>在Blink和WebKit内核的浏览器中，对于在CSS的transition或者animation中有opacity的改变的元素，将会为其创建一个图层。但也有很多开发者使用translateZ(0)或者translate3d(0,0,0)来人为地强制性地创建一个图层。 强制创建一个图层可以确保图层被绘制完毕并且可以在动画开始的时候，马上进入就绪状态。</p>
+<p>一个元素的变换，归结为改变它的位置，旋转角度和缩放。通常，位置的改变是使用left和top属性来改变的。问题是，如前面所述，left和top都会引起图层的变化，并且它的代价是昂贵的。更好的解决方案是使用不会引起图层变化的translate属性。</p>
+<h3 id="u547D_u4EE4_u5F0F_u52A8_u753Bvs_u8BF4_u660E_u5F0F_u52A8_u753B"><a href="#u547D_u4EE4_u5F0F_u52A8_u753Bvs_u8BF4_u660E_u5F0F_u52A8_u753B" class="headerlink" title="命令式动画vs说明式动画"></a>命令式动画vs说明式动画</h3><p>开发者常常需要决定它们的动画用JavaScript（命令式）来完成还是用CSS（说明式）来完成。</p>
+<h3 id="u547D_u4EE4_u5F0F_uFF08javascript_uFF09"><a href="#u547D_u4EE4_u5F0F_uFF08javascript_uFF09" class="headerlink" title="命令式（javascript）"></a>命令式（javascript）</h3><p>命令式动画主要的优点同时也是它主要的缺点的是：它在浏览器主进程的JavaScript中运行。主进程已经忙于运行其他的JavaScript，样式的计算，布局还有绘制。所以进程内存在这资源竞争。这实质上增加了掉帧的风险，可能这一帧是你认为最重要的帧。</p>
+<p>JavaScript中的动画可以为你提供更多的控制：开始，暂停，回放，中断和取消等细节。</p>
+<h3 id="u58F0_u660E_u5F0F_uFF08CSS_29"><a href="#u58F0_u660E_u5F0F_uFF08CSS_29" class="headerlink" title="声明式（CSS)"></a>声明式（CSS)</h3><p>作为替代的方案，你可以用CSS来实现你的渐变和动画。最主要的好处就是，浏览器会对动画进行优化。如果有需要，它会创建图层。并且可以在主进程之外完成一些操作。它最主要的缺点就是CSS动画相对于Javascript动画而言，缺乏表现力。并且很难有意义地组织动画，这意味着创造动画会带来较高的复杂度和错误率。</p>
+<p>总结：目前动画 优先使用  opacity 来改变透明度.  transfrom——<em>translate</em> <em>rotate</em> <em>scale</em></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/09/23/css-margin-fold/">
                 css margin折叠
               </a>
@@ -316,97 +415,12 @@ dbpath=D:\mongodb\data\db
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/29/graceful-degradation-with-progressive-enhancement/">
-                渐进性增强与优雅性降级
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-29
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/29/graceful-degradation-with-progressive-enhancement/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/29/graceful-degradation-with-progressive-enhancement/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <blockquote>
-<p>每个专业词语的背后是一种思想，理解并在实践中应用才是必要的。</p>
-</blockquote>
-<p>####优雅降级（graceful degradation）<br>一开始就构建站点的完整功能，然后针对浏览器测试和修复,使用优雅降级方案，Web站点在所有新式浏览器中都能正常工作，如果用户使用的是老式浏览器，则代码会检查以确认它们是否能正常工作。由于IE独特的盒模型布局问题，绝大多数Web设计师和开发者都通过专门的样式表或针对不同版本的IE的hack实践过优雅降级了；<br>使用优雅降级技术时，你必须首先完整的实现了网站，其中包括所有的功能和效果。然后再为那些无法支持所有功能的浏览器增加候选方案，使之在旧式浏览器上以某种形式降级体验却不至于完全失效.</p>
-<p>####渐进增强（progressive enhancement）<br>一开始只构建站点的最少特性，然后不断针对各浏览器追加功能。从被所有浏览器支持的基本功能开始，逐步地添加那些只有新式浏览器才支持的功能。渐进增强是值得所有开发者采用的做法。渐进增强方案并不假定所有用户都支持javascript，而总是提供一种候补方法，确保用户可以访问（主要的）内容。</p>
-<p>使用渐进增强时，无需为了一个已成型的网站在旧式浏览器下正常工作而做逆向工程。首先，只需要为所有的设备和浏览器准备好清晰且语义化的HTML以及完善的内容，然后再以无侵入（unobtrusive）的方式向页面增加无害于基础浏览器的额外样式和功能。当浏览器升级时，它们会自动地呈现出来并发挥作用。</p>
-<p>想让网站在任何环境下看起来都保持一致是不可能的，不管为此付出多少努力，结局依旧会令你失望。与其试图让IE看起来堪比年轻它十岁的浏览器，不如努力改善网站的可访问性，或是进行更多的可用性测试，而不仅仅是让页面看起来更靓一点。</p>
-<p>某些CSS3特性在不支持它的浏览器中简直是无法模拟实现的，但若使用渐进增强，就无需为了能让你的网站适合所有人而放弃这些技术。仅仅因为部分人不愿或不能升级浏览器，却让使用新型浏览器的用户无法享受CSS3所提供的伟大技术，这是毫无道理可言的。</p>
-<p>我们应该先让网站能够正常工作于尽可能旧的浏览器上，然后不断为它在新型浏览器上实现更多的增强和改进。随着时间的推移，当越来越多的人开始升级浏览器而浏览器本身的支持度也不断提升时，就会有越来越多的人体验到这些增强和改进，它持续有效的使网站越来越好，却如需你刻意做什么。</p>
-<p>#####思考</p>
-<p> 其实优雅降级和渐进增强都是页面的加分项，是针对技术的一种形而上的要求。保证尽可能多的用户都能正常使用网站是第一步，在此之上才需要考虑降级的极端情形和现代浏览器的体验增强。其实可以定义一个基准线，在此之上的增强叫做渐进增强，在此之下的兼容叫优雅降级。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
             </div>
           
         </div>
@@ -433,7 +447,7 @@ dbpath=D:\mongodb\data\db
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

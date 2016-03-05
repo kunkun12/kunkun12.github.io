@@ -99,6 +99,118 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/02/git-multiple-account-setting/">
+                git账户配置以及多账户配置
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-02
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/02/git-multiple-account-setting/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/02/git-multiple-account-setting/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>在使用git的时候，git与远程服务器是一般通过ssh传输的(也支持ftp，https)，我们在管理远程分支之前 需要在本机上创建ssh-key密钥对，并把其中的公钥添加到github中。</p>
+<p>###单用户情况<br>如果你就会一直在你的计算计算机使用一个远程的Git服务器，并且账号是一个，比较简单，生成key的时候也没有太大注意的地方，直接运行如下的第一步然后按回车就可以了<br>  1、在 gitbash上运行  ssh-keygen -t  rsa  -C  “Github账户邮箱”<br>  2、接下来会提示输入key的名字 默认名字为id_rsa .默认就行了<br>  3、然后会提示输入口令，这里口令与Github中的密码无关，随便输入可以为空。</p>
+<ol>
+<li><p>如果在第二步中的没有重新命名的话，则忽略此步骤，ssh agent默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中<br>ssh-add id_rsa<br>如果出现Could not open a connection to your authentication agent的错误，就试着先用以下命令：</p>
+<p>ssh-agent bash<br>ssh-add id_rsa<br>添加完之后 登陆Github   点击 网页右上侧的 Account Setting 按钮 - 选择 ssh-keys  点击Add SSH Key  ，在title中输入名字，然后将公约即id_rsa.pub添加到ssh-key处。</p>
+</li>
+</ol>
+<p>在git bash的命令行中输入 </p>
+<p>ssh -T git@github.com 如果能正常访问即可</p>
+<pre><code>$ ssh -T git@github.com
+Enter passphrase for key &apos;C:/Users/kunkun/.ssh/github.rsa&apos;:
+Hi kunkun01! You&apos;ve successfully authenticated, but GitHub does not provide shel
+l access.
+</code></pre><p>###多账户配置</p>
+<p> 多账户又分为两种情况  </p>
+<ul>
+<li>针对同一个服务器的同用户（比如 我平时开发开源的小东东，有的是一个账号是公司的账号对外开源项目用的，另外我自己也比较崇尚开源，所以自己也有了Github账号)</li>
+<li><p>针对不同服务器的用户(现在pass平台 部署应用都是通过git来管理的，比如常见的Openshift，Heroku appfog等，在这里我也注册了账号）</p>
+<p>在我们访问git服务器的时候，如果通过ssh的方式话，访问不同的服务器要使用不同的ssh-key。经过在第一步的过程中，在创建ssh-key的默认命名为id_rsa，如果使用不同的账户的，必须得给不同的key设置不同的名字，否则如果继续使用默认名字的话，会把之前的id_rsa覆盖掉。<br>具体操作如下 user2是我的另外一个Github账户<br>####1、新建user2的SSH Key<br>  #新建SSH key：<br> $ cd ~/.ssh     # 切换到C:\Users\Administrator.ssh<br> ssh-keygen -t rsa -C “mywork@email.com”  # 新建工作的SSH key</p>
+<h1 id="u8BBE_u7F6E_u540D_u79F0_u4E3Aid_rsa_work"><a href="#u8BBE_u7F6E_u540D_u79F0_u4E3Aid_rsa_work" class="headerlink" title="设置名称为id_rsa_work"></a>设置名称为id_rsa_work</h1><p> Enter file in which to save the key (/c/Users/Administrator/.ssh/id_rsa): id_rsa_work<br>####2、新密钥添加到SSH agent中<br>因为默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中：</p>
+<p> ssh-add ~/.ssh/id_rsa_work<br>上面提到了，如果出现Could not open a connection to your authentication agent的错误，就试着用以下命令：</p>
+<p> ssh-agent bash<br> ssh-add ~/.ssh/id_rsa_work<br>####3、修改config文件 将账户以及git服务器与对应的密钥关联。在<code>C:\Users\kunkun\.ssh</code>目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下：</p>
+<h1 id="u8BE5_u6587_u4EF6_u7528_u4E8E_u914D_u7F6E_u79C1_u94A5_u5BF9_u5E94_u7684_u670D_u52A1_u5668"><a href="#u8BE5_u6587_u4EF6_u7528_u4E8E_u914D_u7F6E_u79C1_u94A5_u5BF9_u5E94_u7684_u670D_u52A1_u5668" class="headerlink" title="该文件用于配置私钥对应的服务器"></a>该文件用于配置私钥对应的服务器</h1><h1 id="Default_github_user_28first@mail-com_29"><a href="#Default_github_user_28first@mail-com_29" class="headerlink" title="Default github user(first@mail.com)"></a>Default github user(first@mail.com)</h1><p>  Host github.com<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa</p>
+<h1 id="second_user_28second@mail-com_29"><a href="#second_user_28second@mail-com_29" class="headerlink" title="second user(second@mail.com)"></a>second user(second@mail.com)</h1><h1 id="u5EFA_u4E00_u4E2Agithub_u522B_u540D_uFF0C_u65B0_u5EFA_u7684_u5E10_u53F7_u4F7F_u7528_u8FD9_u4E2A_u522B_u540D_u505A_u514B_u9686_u548C_u66F4_u65B0"><a href="#u5EFA_u4E00_u4E2Agithub_u522B_u540D_uFF0C_u65B0_u5EFA_u7684_u5E10_u53F7_u4F7F_u7528_u8FD9_u4E2A_u522B_u540D_u505A_u514B_u9686_u548C_u66F4_u65B0" class="headerlink" title="建一个github别名，新建的帐号使用这个别名做克隆和更新"></a>建一个github别名，新建的帐号使用这个别名做克隆和更新</h1><p>  Host github2<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa_work<br>其规则就是：从上至下读取config的内容，在每个Host下寻找对应的私钥。这里将GitHub SSH仓库地址中的git@github.com替换成新建的Host别名如：github2，那么原地址是：git@github.com:kunkun/Mywork.git，替换后应该是：github2:kunkun/Mywork.git。</p>
+</li>
+</ul>
+<p>####4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。</p>
+<p>####5、测试：</p>
+<pre><code>$ ssh -T git@github.com
+Hi BeginMan! You&apos;ve successfully authenticated, but GitHub does not provide shel
+l access.
+
+$ ssh -T github2
+Hi BeginMan! You&apos;ve successfully authenticated, but GitHub does not provide shel
+l access.
+</code></pre><p>克隆的时候将Github.com替换为对应的别名即可<br>比如我的第二个账户中的一个仓库地址为git@github.com:kunkun12/PiesLayer.git。但是我以上的配置中使用</p>
+<p> git clone git@github2:kunkun12/PiesLayer.git</p>
+<p> 注意：如果你只是通过这篇文章中所述配置了Host，那么你多个账号下面的提交用户会是一个人，所以需要通过命令git config –global –unset user.email删除用户账户设置，在每一个repo下面使用git config –local user.email ‘你的github邮箱@mail.com’ 命令单独设置用户账户信息</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Git/">
+                #Git
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/01/javascriptjudge-browser/">
                 判断浏览器特性
               </a>
@@ -310,94 +422,12 @@ perfect for data-intensive real-time applications that run across distributed de
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/20/how-to-design-a-good-api/">
-                如何设计优秀的API
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-20
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/20/how-to-design-a-good-api/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/20/how-to-design-a-good-api/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>谷歌架构师Joshua Bloch最近分享了一份幻灯片，<a href="http://vidcat.org/papers/how-to-design-a-good-api-and-why-it-matters.html#.UxFCN_mSyKM" target="_blank" rel="external">系统的讨论了优秀API的设计原则</a>。他指出：每个API接口应该只专注一件事，并做好：如果它很难命名，那么这或许是个不好的征兆，好的名称可以驱动开发、并且只需拆分与合并模块即可。设计原则包括：</p>
-<ul>
-<li>API应尽可能地简洁：满足需求、对有疑问的地方可以暂时不使用（函数、类、方法、参数等，你可以不添加，但千万不要删除）、概念性的东西比体积重要）；</li>
-<li>实现不要影响API：关注实现细节（不要迷惑用户、不要随便改变实现方式）、意识到具体的实现细节（不要有越权的方法行为，例如不所有的调优参数都是可疑的）；</li>
-<li>不要让实现细节“泄露”到API（例如on-disk和on-the-wire格式等异常情况）；</li>
-<li>最小化可访问：设计人员应尽量把类及成员设为私有，公共类不应该有公共字段（包括异常实例），最大限度地提高信息隐藏，允许模块可以被使用、理解、构建、测试和独立调试；</li>
-<li>命名问题：应该见名知意，避免含糊的缩写、对同一样东西的命名应该有个一致性的前缀（遍及整个平台API）、讲究对称、代码应该易读。</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/API/">
-                #API
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/12/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/14/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/12/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/14/">&raquo;</a>
             </div>
           
         </div>
@@ -424,7 +454,7 @@ perfect for data-intensive real-time applications that run across distributed de
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

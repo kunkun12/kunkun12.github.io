@@ -99,6 +99,284 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/09/html5-tag/">
+                HTML5 语义化标签
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-09
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/09/html5-tag/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/html5-tag/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>在HTML 5出来之前，我们用div来表示页面章节，但是这些div都没有实际意义。（即使我们用css样式的id和class形容这块内容的意义）。这些标签只是我们提供给浏览器的指令，只是定义一个网页的某些部分。但现在，那些之前没“意义”的标签因为因为html5的出现消失了，这就是我们平时说的“语义”。<br>节点元素标签因使用的地方不同，我将他们分为：节元素标签、文本元素标签、分组元素标签分开来讲解HTML5中新增加的语义化标签和使用总结。</p>
+<p>###header元素<br><code>header</code> 元素代表“网页”或“section”的页眉。<br>通常包含<code>h1-h6</code>元素或<code>hgroup</code>，作为整个页面或者一个内容块的标题。也可以包裹一节的目录部分，一个搜索框，一个<code>nav</code>，或者任何相关logo。<br>整个页面没有限制<code>header</code>元素的个数，可以拥有多个，可以为每个内容块增加一个header元素</p>
+<pre><code>&lt;header&gt;
+    &lt;hgroup&gt;
+        &lt;h1&gt;网站标题&lt;/h1&gt;
+        &lt;h1&gt;网站副标题&lt;/h1&gt;
+    &lt;/hgroup&gt;
+&lt;/header&gt;
+</code></pre><ul>
+<li>header使用注意：</li>
+<li>可以是“网页”或任意“section”的头部部分；</li>
+<li>没有个数限制。</li>
+<li>如果hgroup或h1-h6自己就能工作的很好，那就不要用header。</li>
+</ul>
+<p>###footer元素<br><code>footer</code>元素代表“网页”或“section”的页脚，通常含有该节的一些基本信息，譬如：作者，相关文档链接，版权资料。如果<code>footer</code>元素包含了整个节，那么它们就代表附录，索引，提拔，许可协议，标签，类别等一些其他类似信息。</p>
+<pre><code>&lt;footer&gt;
+    COPYRIGHT@小北
+&lt;/footer&gt;
+</code></pre><p>footer使用注意：</p>
+<ul>
+<li>可以是“网页”或任意“section”的底部部分；</li>
+<li>没有个数限制，除了包裹的内容不一样，其他跟header类似。</li>
+</ul>
+<p>###hgroup元素<br><code>hgroup</code>元素代表“网页”或“section”的标题，当元素有多个层级时，该元素可以将h1到h6元素放在其内，譬如文章的主标题和副标题的组合</p>
+<pre><code>&lt;hgroup&gt;
+    &lt;h1&gt;这是一篇介绍HTML 5语义化标签和更简洁的结构&lt;/h1&gt;
+    &lt;h2&gt;HTML 5&lt;/h2&gt;
+&lt;/hgroup&gt;
+</code></pre><p>hgroup使用注意：</p>
+<ul>
+<li>如果只需要一个h1-h6标签就不用hgroup</li>
+<li>如果有连续多个h1-h6标签就用hgroup</li>
+<li>如果有连续多个标题和其他文章数据，h1-h6标签就用hgroup包住，和其他文章元数据一起放入header标签</li>
+</ul>
+<p>###nav元素</p>
+<p>nav元素代表页面的导航链接区域。用于定义页面的主要导航部分。</p>
+<pre><code>&lt;nav&gt;
+    &lt;ul&gt;
+        &lt;li&gt;HTML 5&lt;/li&gt;
+        &lt;li&gt;CSS3&lt;/li&gt;
+        &lt;li&gt;JavaScript&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;
+</code></pre><p>但是我在有些时候却情不自禁的想用它，譬如：侧边栏上目录，面包屑导航，搜索样式，或者下一篇上一篇文章，但是事实上规范上说nav只能用在页面主要导航部分上。页脚区域中的链接列表，虽然指向不同网站的不同区域，譬如服务条款，版权页等，这些footer元素就能够用了。</p>
+<p>nav使用注意：</p>
+<ul>
+<li>用在整个页面主要导航部分上，不合适就不要用nav元素</li>
+</ul>
+<p>###aside元素</p>
+<p>aside元素被包含在article元素中作为主要内容的附属信息部分，其中的内容可以是与当前文章有关的相关资料、标签、名次解释等。（特殊的section）<br>在article元素之外使用作为页面或站点全局的附属信息部分。最典型的是侧边栏，其中的内容可以是日志串连，其他组的导航，甚至广告，这些内容相关的页面。</p>
+<pre><code>&lt;article&gt;
+    &lt;p&gt;内容&lt;/p&gt;
+    &lt;aside&gt;
+        &lt;h1&gt;作者简介&lt;/h1&gt;
+        &lt;p&gt;小北，前端一枚&lt;/p&gt;
+    &lt;/aside&gt;
+&lt;/article&gt;
+</code></pre><p>aside使用总结：</p>
+<ul>
+<li>aside在article内表示主要内容的附属信息，</li>
+<li>在article之外则可做侧边栏，没有article与之对应，最好不用。</li>
+<li>如果是广告，其他日志链接或者其他分类导航也可以用</li>
+</ul>
+<p>###section元素</p>
+<p>section元素代表文档中的“节”或“段”，“段”可以是指一篇文章里按照主题的分段；“节”可以是指一个页面里的分组。<br>section通常还带标题，虽然html5中section会自动给标题h1-h6降级，但是最好手动给他们降级。如下：</p>
+<pre><code>&lt;section&gt;
+    &lt;h1&gt;section是啥？&lt;/h1&gt;
+    &lt;article&gt;
+        &lt;h2&gt;关于section&lt;/h1&gt;
+        &lt;p&gt;section的介绍&lt;/p&gt;
+        &lt;section&gt;
+            &lt;h3&gt;关于其他&lt;/h3&gt;
+            &lt;p&gt;关于其他section的介绍&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/article&gt;
+&lt;/section&gt;
+</code></pre><p>section使用注意：</p>
+<ul>
+<li>一张页面可以用section划分为简介、文章条目和联系信息。不过在文章内页，最好用article。section不是一般意义上的容器元素，如果想作为样式展示和脚本的便利，可以用div。</li>
+<li>表示文档中的节或者段；</li>
+<li>article、nav、aside可以理解为特殊的section，所以如果可以用article、nav、aside就不要用section，没实际意义的就用div</li>
+</ul>
+<p>###article元素</p>
+<p>article元素最容易跟section和div容易混淆，其实article代表一个在文档，页面或者网站中自成一体的内容，其目的是为了让开发者独立开发或重用。譬如论坛的帖子，博客上的文章，一篇用户的评论，一个互动的widget小工具。（特殊的section）<br>除了它的内容，article会有一个标题（通常会在header里），会有一个footer页脚。我们举几个例子介绍一下article，好更好区分article、section、div</p>
+<pre><code>&lt;article&gt;
+    &lt;h1&gt;一篇文章&lt;/h1&gt;
+    &lt;p&gt;文章内容..&lt;/p&gt;
+    &lt;footer&gt;
+        &lt;p&gt;&lt;small&gt;版权：html5jscss网所属，作者：小北&lt;/small&gt;&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/article&gt;
+</code></pre><p>上例是最好简单的article标签使用情况，如果在article内部再嵌套article，那就代表内嵌的article是与它外部的内容有关联的，如博客文章下面的评论，如下：</p>
+<pre><code>&lt;article&gt;
+    &lt;header&gt;
+        &lt;h1&gt;一篇文章&lt;/h1&gt;
+        &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03&quot;&gt;2012/10/03&lt;/time&gt;&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;p&gt;文章内容..&lt;/p&gt;
+    &lt;article&gt;
+        &lt;h2&gt;评论&lt;/h2&gt;
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h3&gt;评论者: XXX&lt;/h3&gt;
+                &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03T19:10-08:00&quot;&gt;~1 hour ago&lt;/time&gt;&lt;/p&gt;
+            &lt;/header&gt;
+            &lt;p&gt;哈哈哈&lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article&gt;
+            &lt;header&gt;
+                &lt;h3&gt;评论者: XXX&lt;/h3&gt;
+                &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03T19:10-08:00&quot;&gt;~1 hour ago&lt;/time&gt;&lt;/p&gt;
+            &lt;/header&gt;
+            &lt;p&gt;哈？哈？哈？&lt;/p&gt;
+        &lt;/article&gt;
+    &lt;/article&gt;
+&lt;/article&gt;
+</code></pre><p>文章里的评论，一个article嵌套article来表示的实例<br>article内部嵌套article，有可能是评论或其他跟文章有关联的内容。那article内部嵌套section一般是什么情况呢。如下：</p>
+<pre><code>&lt;article&gt;
+    &lt;h1&gt;前端技术&lt;/h1&gt;
+    &lt;p&gt;前端技术有那些&lt;/p&gt;
+    &lt;section&gt;
+        &lt;h2&gt;CSS&lt;/h2&gt;
+        &lt;p&gt;样式..&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section&gt;
+        &lt;h2&gt;JS&lt;/h2&gt;
+        &lt;p&gt;脚本&lt;/p&gt;
+    &lt;/section&gt;
+&lt;/article&gt;
+</code></pre><p>文章里的章节，一个article里的section实例<br>因为文章内section部分虽然也是独立的部分，但是它门只能算是组成整体的一部分，从属关系，article是大主体，section是构成这个大主体的一部分。本网站的全部文章都是article嵌套一个个section章节，这样能让浏览器更容易区分各个章节所包括的内容。<br>那section内部嵌套article又有哪些情况呢，如下</p>
+<pre><code>&lt;section&gt;
+    &lt;h1&gt;介绍: 网站制作成员配备&lt;/h1&gt;
+    &lt;article&gt;
+        &lt;h2&gt;设计师&lt;/h2&gt;
+        &lt;p&gt;设计网页的...&lt;/p&gt;
+    &lt;/article&gt;
+    &lt;article&gt;
+        &lt;h2&gt;程序员&lt;/h2&gt;
+        &lt;p&gt;后台写程序的..&lt;/p&gt;
+    &lt;/article&gt;
+    &lt;article&gt;
+        &lt;h2&gt;前端工程师&lt;/h2&gt;
+        &lt;p&gt;给楼上两位打杂的..&lt;/p&gt;
+    &lt;/article&gt;
+&lt;/section&gt;
+</code></pre><p>设计师、程序员、前端工程师都是一个独立的整体，他们组成了网站制作基本配备，当然还有其他成员~~。设计师、程序员、前端工程师就像article，是一个个独立的整体，而section将这些自成一体的article包裹，就组成了一个团体。<br>article和section和例子就例举这么多了，具体情况具体分析，不易深究。漏了div，其实div就是只是想用来把元素组合或者给它们加样式时使用。</p>
+<p>article使用注意：</p>
+<pre><code>自身独立的情况下：用article
+是相关内容：用section
+没有语义的：用div
+</code></pre><p>###HTML5其他结构元素标签</p>
+<p>HTML5节元素标签包括<code>body</code> <code>article</code> <code>nav</code> <code>aside</code> <code>section</code> <code>header</code> <code>footer</code> <code>hgroup</code> ，还有<code>h1-h6</code> <code>address</code>。</p>
+<ul>
+<li><code>address</code>代表区块容器，必须是作为联系信息出现，邮编地址、邮件地址等等,一般出现在footer。</li>
+<li><code>h1-h</code>6因为hgroup，section和article的出现，h1-h6定义也发生了变化，允许一张页面出现多个h1。</li>
+</ul>
+<p>###文本字体元素<br>文字对SEO影响很大，而HTML5对一些文本字体元素的语义又重新定义了一遍，也增加了一些新的。那我们就来重新认识他们。</p>
+<ul>
+<li>a（anchor 的缩写）： 用于定义超链接</li>
+<li>em(emphasis 的缩写)：em 是句意强调，加与不加会引起语义变化，也可以理解为局部强调，用在语句某个单词上来改变句子的侧重。</li>
+<li>strong：strong表示重要，strong 的强调则是一种随意无顺序的，看见某文时，立刻就凸显出来的关键词句。</li>
+<li>p：p元素</li>
+<li>b（bold 的缩写）：b 元素原本就是加粗，现在表示“文体突出”文字，通俗将是用来在文本中高亮显示某个或者几个字符，旨在引起用户的特别注意，无强调作用。譬如文档概要中的关键字，评论中的产品名，以及分类名。</li>
+<li>i（italic 的缩写）：i 元素原本只是倾斜，现在描述为在普通文章中突出不同意见或语气或其他的一段文本，就像剧本里的话外音（外语、译音），或也可以用做排版的斜体文字。</li>
+<li>code：定义计算机代码文本。</li>
+<li>q（quote 的缩写）：用于定义一段引用的内容（短内容）<br>-cite ：用于定义引用内容出自书籍或杂志等的标题，不允许其他信息，如作者，日期等。</li>
+<li>u （underline 的缩写）：定义下划线文本<br>-abbr （abbreviation 的缩写）：定义一个缩写文本，建议在 abbr 的 title 属性中描述缩写的全称</li>
+<li>dfn （defining instance 的缩写）：用于定义一个术语</li>
+<li>var ：定义计算机代码中的变量</li>
+<li>samp （sample 的缩写）：由程序输出的示例文本</li>
+<li>kbd （keyboard 的缩写）：定义由键盘输入的文本</li>
+<li>wbr (word break)的缩写：定义换行的时机</li>
+<li>span ：没有任何语义</li>
+<li>br ：定义一个换行符</li>
+</ul>
+<p>文本字体元素标签使用注意:</p>
+<ul>
+<li>在下面这些元素都不适合的时候：表重要的 strong ，表强调的 em ，表标题的 h1–h6，表高亮或标记文本的 p 等，就用 b 来表示。</li>
+<li>em 的强调是用在语句某个单词上来改变句子的侧重，可以说是局部的，而strong 和局部还是全局无关，局部强调用strong也可以，strong强调的是重要性，不会改变句意。</li>
+</ul>
+<p>###分组元素标签<br>我们熟悉的div、 p 、dl 、dt、dd、ol、ul、li、hr都是分组元素标签，我们接下来看一些不常用的和新加的分组元素标签</p>
+<ul>
+<li>blockquote：标记一段长引文。标记短引文（行内引文），应采用 q 元素！</li>
+<li>pre：pre 元素可定义预格式化的文本。被包围在 pre 元素中的文本通常会保留空格和换行符。而文本也会呈现为等宽字体。pre 标签的一个常见应用就是用来表示源代码。他跟code的关系好比blockquote和q的关系。</li>
+<li><p>ol元素<br>ol元素在HTML5有改良，增加了两个属性：</p>
+<ul>
+<li><code>start</code>：start属性用来定义列表编号的起始位置，</li>
+<li><code>reversed</code>:reversed属性表示将列表进行反转，但是目前还没有任何一款浏览器对其提供支持，在这里就不细说了。</li>
+</ul>
+</li>
+<li><p>figure元素与figcaption元素<br>figure元素用来包含一块独立内容，该内容如果被移除掉不会对周围的内容有影响。具体来说它可以用来表示图片，统计图，图表，音频，视频，代码片段等。如果需要你也可以给该内容添加一个标题，这个标题使用figcaption来表示。figcaption只能作为figure元素的子元素，可以放在figure元素内的任何位置。形如：</p>
+<pre><code>&lt;figure&gt;
+    &lt;img src=&quot;&quot; alt=&quot;&quot; /&gt;
+    &lt;figcaption&gt;html5jscss前端网是刚建立的小站&lt;/figcaption&gt;
+&lt;/figure&gt;
+</code></pre></li>
+</ul>
+<p>不是所有图片都用figure来包裹，img 标签也有语义的。如果纯粹只是为了呈现的图，也不在文档其他地方引用，那就绝对不要用figure。如果和上下文有关，也可以把它移动到附录，那就别用figure，aside可能适合。<br>figure元素和aside元素看起来表达的内容差不多，但是aside所能包含的内容比figure要广。当你不知道如何选择的时候可以这样来做：这段内容对周围的内容来说是一个要点，或者很重要，不可少，那么可以使用figure，否则使用aside。<br>注意：</p>
+<ul>
+<li>一个figure元素内最多只允许放置一个figcaption元素，也可以不放，但是其他元素可无限放置。注意不是所有图片都得用figure元素。</li>
+</ul>
+<p>嵌入元素标签</p>
+<p>在页面中除了显示文档活字符外，还需要放入一些其他元素，就是我们所说的嵌入元素。<br>嵌入元素包括img（图片），页面（iframe），多媒体对象将不再全部绑定在 object 或 embed 标签 中，而是由有 video(视频)audio（音频），用于绘画的 canvas 元素<br>这里我们不详细介绍它们的属性了.<br>HTML5中增加了一些表单元素和一些交互元素等新的标签，但是着重点不同，所以我们放在另一片文章来继续了解。HTML5语义标签到此结束。</p>
+<p><a href="http://www.html5jscss.com/html5-semantics-rich.html" target="_blank" rel="external">原文链接</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/09/doucument-element-postion-and-geometry/">
                 文档元素的几何形状以及位置判定
               </a>
@@ -361,166 +639,12 @@ console.log(person1+person2);//25
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/05/media-query/">
-                Media Queries
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-05
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/05/media-query/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/media-query/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>媒体查询在CSS2中就有了，CSS3中得到了进一步增强，简单来说我们可以设置不同类型的媒体条件，并根据对应的条件，给相应符合条件的媒体调用相对应的样式表，说白了就是就是根据设备当前本身的环境(比如屏幕的长宽，设备的种类等）来对元素应用响应的CSS文件，但是所有的CSS 文件总是要下载到本地的。</p>
-<p>####引入方式</p>
-<ul>
-<li><p>link方法引入 </p>
-<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../css/print.css&quot; media=&quot;print&quot; /&gt;
-</code></pre></li>
-<li><p>xml方式引入</p>
-<pre><code>&lt;?xml-stylesheet rel=&quot;stylesheet&quot; media=&quot;screen&quot; href=&quot;css/style.css&quot; ？&gt;
-</code></pre></li>
-<li><p>@import方式引入</p>
-<pre><code>@import url(&quot;css/reset.css&quot;) screen;
-</code></pre></li>
-<li><p>@media引入</p>
-<pre><code>@media screen{
-     选择器{
-    属性：属性值；
-     }
-   }
-</code></pre></li>
-</ul>
-<p>####如何定义查询条件<br>媒体类型包括如下几种</p>
-<ul>
-<li>all 所有设备可用</li>
-<li>braille 盲文</li>
-<li>embossed</li>
-<li>handheld</li>
-<li>print 打印</li>
-<li>projection 投影</li>
-<li>screen 显示器</li>
-<li>speech</li>
-<li>tty 电传打字机 </li>
-<li>tv 电视</li>
-</ul>
-<p>####最大宽度Max Width,max-height,max-width</p>
-<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width:600px)&quot; href=&quot;small.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><p>也可在style 标签或者单独的CSS文件里面:</p>
-<pre><code>@media only screen and (max-device-width: 480px) {
-        div#wrapper {
-            width: 400px;
-        }
-
-        div#header {
-            background-image: url(media-queries-phone.jpg);
-            height: 93px;
-            position: relative;
-        }
-
-        div#header h1 {
-            font-size: 140%;
-        }
-
-        #content {
-            float: none;
-            width: 100%;
-        }
-
-        #navigation {
-            float:none;
-            width: auto;
-        }
-    }
-</code></pre><p>####最小宽度Min Width min-width,min-height</p>
-<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:900px)&quot; href=&quot;big.css&quot; type=&quot;text/css&quot;  /&gt;
-</code></pre><h4 id="and_not_only_u5173_u952E_u5B57"><a href="#and_not_only_u5173_u952E_u5B57" class="headerlink" title="and not only关键字"></a>and not only关键字</h4><h5 id="u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6"><a href="#u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6" class="headerlink" title="多个Media Queries使用查询取交集"></a>多个Media Queries使用查询取交集</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:600px) and (max-width:900px)&quot; href=&quot;style.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><p>#####not用于排除符合表达式的设备。</p>
-<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;not print and (max-width: 1200px)&quot; href=&quot;print.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><p>#####only用来定某种特定的媒体类型</p>
-<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><p>####Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用<br>max-device-width、min-device-width</p>
-<p>####orientation 横屏或者竖屏</p>
-<p>####device-pixel-ratio 设备的宽高比<code>min-device-pixel-ratio</code>，<code>max-device-pixel-ratio</code></p>
-<p>####resolution 分辨率 <code>min-resolution</code>  <code>max-resolution</code>。</p>
-<p>可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下<br>使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。</p>
-<pre><code>/*240px的宽度*/
- &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
- /*360px的宽度*/
- &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:241px) and (max-device-width:360px)&quot; href=&quot;android360.css&quot; type=&quot;text/css&quot; /&gt;
- /*480px的宽度*/
- &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:361px) and (max-device-width:480px)&quot; href=&quot;android480.css&quot; type=&quot;text/css&quot; /&gt;。
-</code></pre><p>总结：media query 就是让我们根据屏幕的大小来对HTML元素应用适合当前屏幕的样式，能够在不同尺寸的屏幕，甚至是不同的设备上达到较好的用户体验。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/10/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/12/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/10/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/12/">&raquo;</a>
             </div>
           
         </div>
@@ -547,7 +671,7 @@ console.log(person1+person2);//25
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

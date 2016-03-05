@@ -99,6 +99,225 @@
           
           
             
+              <a class="post-title-link" href="/2016/03/05/React-createClass-VS-React-Component/">
+                React.createClass VS React.Component
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2016-03-05
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2016/03/05/React-createClass-VS-React-Component/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/05/React-createClass-VS-React-Component/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>创建react组件有两种方式，使用用 <code>React.createClass</code> 以及用es6模块化的方式<code>extends React.Component</code> 通过集成 <code>Component</code> 组件类的形式来实现。两者的作用类似，后者是新的语法也是趋势。于是赶紧对比下如何升级到新的语法</p>
+<h3 id="React-createClass"><a href="#React-createClass" class="headerlink" title="React.createClass"></a>React.createClass</h3><p>－ creatClass创建的组件赋值为<code>const</code>类型的变量，在组件内部实现必要的 <code>render</code>函数</p>
+<pre><code>import React from &apos;react&apos;;
+
+const Contacts = React.createClass({
+  render() {
+    return (
+      &lt;div&gt;&lt;/div&gt;
+    );
+  }
+});
+export default Contacts;
+</code></pre><h3 id="React-Component"><a href="#React-Component" class="headerlink" title="React.Component"></a>React.Component</h3><p>通过ES6的类继承模式在 构造函数里面要 先通过<code>super(props)</code>调用父组件的构造函数</p>
+<pre><code>import React from &apos;react&apos;;
+class Contacts extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      &lt;div&gt;&lt;/div&gt;
+    );
+  }
+}
+export default Contacts;
+</code></pre><h2 id="propTypes_and_getDefaultProps"><a href="#propTypes_and_getDefaultProps" class="headerlink" title="propTypes and getDefaultProps"></a>propTypes and getDefaultProps</h2><h3 id="React-createClass-1"><a href="#React-createClass-1" class="headerlink" title="React.createClass"></a>React.createClass</h3><pre><code>import React from &apos;react&apos;;
+const Contacts = React.createClass({
+  propTypes: {
+
+  },
+  getDefaultProps() {
+    return {
+
+    };
+  },
+  render() {
+    return (
+      &lt;div&gt;&lt;/div&gt;
+    );
+  }
+});
+export default Contacts;
+</code></pre><h3 id="React-Component-1"><a href="#React-Component-1" class="headerlink" title="React.Component"></a>React.Component</h3><p>给类增加属性的方式发生了变化，<code>defaultProps</code> 来替代 <code>getDefaultProps()</code> 似乎简单了不少</p>
+<pre><code>import React from &apos;react&apos;;
+class Contacts extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      &lt;div&gt;&lt;/div&gt;
+    );
+  }
+}
+Contacts.propTypes = {
+};
+Contacts.defaultProps = {
+};
+export default Contacts;
+</code></pre><h2 id="u72B6_u6001_u5B9A_u4E49_State"><a href="#u72B6_u6001_u5B9A_u4E49_State" class="headerlink" title="状态定义 State"></a>状态定义 State</h2><pre><code>import React from &apos;react&apos;;
+const Contacts = React.createClass({
+  getInitialState () {
+    return {
+
+    };
+  },
+  render() {
+    return (
+      &lt;div&gt;&lt;/div&gt;
+    );
+  }
+});
+export default Contacts;
+</code></pre><p>定义默认的状态在构造函数中实现来取代了 <code>getInitialState</code>,语法更简单</p>
+<pre><code>import React from &apos;react&apos;;
+class Contacts extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+  render() {
+    return (
+      &lt;div&gt;&lt;/div&gt;
+    );
+  }
+}
+export default Contacts;
+</code></pre><h3 id="this_u7684_u542B_u4E49_u4E0D_u540C"><a href="#this_u7684_u542B_u4E49_u4E0D_u540C" class="headerlink" title="this的含义不同"></a>this的含义不同</h3><p>在 <code>React.createClass</code>中，给组件绑定事件的函数中的 <code>this</code> 指向当前的组件 ，在 <code>React.Component</code> 中事件函数中的 <code>this</code> 默认指向为空</p>
+<pre><code>import React from &apos;react&apos;;
+const Contacts = React.createClass({
+  handleClick() {
+    console.log(this); // 但前的组件实例
+  },
+  render() {
+    return (
+      &lt;div onClick={this.handleClick}&gt;&lt;/div&gt;
+    );
+  }
+});
+export default Contacts;
+
+import React from &apos;react&apos;;
+class Contacts extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  handleClick() {
+    console.log(this); // null
+  }
+  render() {
+    return (
+      &lt;div onClick={this.handleClick}&gt;&lt;/div&gt;
+    );
+  }
+}
+export default Contacts;
+</code></pre><p>可以在绑定事件的时候使用 JS中的bind来绑定this 对象 <code>&lt;div onClick={this.handleClick.bind(this)}&gt;&lt;/div&gt;</code>也可以在 构造函数里面手动的 bind <code>this.handleClick = this.handleClick.bind(this);</code></p>
+<pre><code>import React from &apos;react&apos;;
+class Contacts extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    console.log(this); // React Component instance
+  }
+  render() {
+    return (
+      &lt;div onClick={this.handleClick}&gt;&lt;/div&gt;
+    );
+  }
+}
+export default Contacts;
+</code></pre><h3 id="Mixins"><a href="#Mixins" class="headerlink" title="Mixins"></a>Mixins</h3><p>使用mixins可以提高复用性，<code>React.Component</code> 不再支持 <code>Mixins</code>。</p>
+<pre><code>import React from &apos;react&apos;;
+var SomeMixin = {
+  doSomething() {
+  }
+};
+const Contacts = React.createClass({
+  mixins: [SomeMixin],
+  handleClick() {
+    this.doSomething(); // use mixin
+  },
+  render() {
+    return (
+      &lt;div onClick={this.handleClick}&gt;&lt;/div&gt;
+    );
+  }
+});
+export default Contacts;
+</code></pre><p>在 React.Component 官方推荐 <a href="https://leozdgao.me/chushi-hoc/" target="_blank" rel="external">HOC(高阶组件)的形式</a> 来替换，如果一定要使用 mix的话 也可以使用 <a href="https://github.com/brigand/react-mixin" target="_blank" rel="external">react-mixin</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/21/node-n-ubuntu/">
                 ubuntu 下使用n 管理node 版本遇到的问题
               </a>
@@ -326,143 +545,12 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/02/26/mac-env/">
-                mac上常用的工具
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2015-02-26
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/02/26/mac-env/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/26/mac-env/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>我的mac (OS X)上常用的工具。。。</p>
-<h1 id="u5E38_u7528_u8F6F_u4EF6"><a href="#u5E38_u7528_u8F6F_u4EF6" class="headerlink" title="常用软件"></a>常用软件</h1><ul>
-<li>sublime</li>
-<li>webstorm</li>
-<li>ADT/android studio android环境</li>
-<li>git</li>
-<li>source tree git客户端</li>
-<li>charles</li>
-<li>Photoshop</li>
-<li>liteIDE go开发工具</li>
-<li>Appzapper 软件卸载</li>
-<li>phpstorm PHP IDE</li>
-<li>xcode （IOS开发工具 ObjectC、swift）</li>
-<li>iTools</li>
-<li>QQ</li>
-<li>skype</li>
-<li>android transfer android文件传输</li>
-<li>MplayerX 视频播放器</li>
-<li>EasyHtml5video 视频格式转换</li>
-<li>迅雷</li>
-<li>搜狗输入法</li>
-<li>Dash</li>
-<li>Chrome</li>
-<li>Firefox Developer Edition</li>
-<li>office</li>
-<li>为之笔记</li>
-<li>virtual box （win7 虚拟机）</li>
-<li>gliffy Diagram 绘图工具</li>
-<li>izip unarchiver 解压工具 可以解压rar格式</li>
-<li>Mysql/navicat</li>
-<li>dash 查API的工具</li>
-<li>iterm+oh myzsh  终端工具(内置的终端界面不好看,体验也不好)</li>
-<li>vim （内置工具）</li>
-</ul>
-<h1 id="u8BED_u8A00_u73AF_u5883"><a href="#u8BED_u8A00_u73AF_u5883" class="headerlink" title="语言环境"></a>语言环境</h1><ul>
-<li>node/iojs</li>
-<li>go</li>
-<li>dart</li>
-<li>ruby （内置 2.0） mac上的软件管理工具 brew 基于ruby的。</li>
-<li>python （内置 2.7.6）</li>
-<li>java （内置了 open JDK）</li>
-<li>php/Yii （内置的不好用，自己编译，然后单独下载xdebug 并编译，有了xdebug可以在phpstorm下断点调试）</li>
-</ul>
-<h1 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h1><ul>
-<li>cordova/phonegap</li>
-<li>grunt/gulp</li>
-<li>fis</li>
-<li>hexo 博客系统</li>
-</ul>
-<p>其他内置工具  <code>safira</code> <code>Apache</code> <code>邮件客户端</code></p>
-<h2 id="u5E38_u89C1_u7684_u914D_u7F6E__u6587_u4EF6"><a href="#u5E38_u89C1_u7684_u914D_u7F6E__u6587_u4EF6" class="headerlink" title="常见的配置 文件"></a>常见的配置 文件</h2><h4 id="u4E0E_u73AF_u5883_u53D8_u91CF_u76F8_u5173_u7684_u914D_u7F6E_u6587_u4EF6"><a href="#u4E0E_u73AF_u5883_u53D8_u91CF_u76F8_u5173_u7684_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="与环境变量相关的配置文件"></a>与环境变量相关的配置文件</h4><p><code>etc/profile</code> ,<code>/etc/bashrc</code>;<code>~/.bash_profile</code> ;<code>~/.bashrc</code>;<code>/etc/paths</code>; <code>/etc/paths.d</code> <a href="http://apple.stackexchange.com/questions/140507/what-is-the-complete-authoritative-way-in-which-mac-osx-10-9-and-later-builds-i" target="_blank" rel="external">相关链接</a></p>
-<ul>
-<li>软件相关配置目录在 home目录下 隐藏文件 以.开头 比如<code>.adobe</code> <code>.android</code> <code>.cache</code> <code>.cnpmrc</code> <code>.composer</code> <code>.config</code> <code>.cordova</code> <code>.dbshell</code> <code>.eclipse</code> <code>.gem</code> <code>.gradle</code> <code>.npm</code>等等.</li>
-</ul>
-<h4 id="apache__u914D_u7F6E_u6587_u4EF6"><a href="#apache__u914D_u7F6E_u6587_u4EF6" class="headerlink" title="apache 配置文件"></a>apache 配置文件</h4><ul>
-<li>主配置文件 <code>/etc/apache2/httpd.conf</code></li>
-<li><p>虚拟主机配置 <code>/etc/apache2/extra/httpd-vhosts.conf</code>  <a href="https://gist.github.com/kunkun12/1d1787d8c8f758cea4af" target="_blank" rel="external">参考</a></p>
-</li>
-<li><p>node 版本 webServer快速配置 适合前端开发使用，代码变化之后自动刷新页面  <a href="https://gist.github.com/kunkun12/31fb79a11e4cfd521b8e" target="_blank" rel="external">配置文件</a></p>
-</li>
-</ul>
-<ul>
-<li>2015-四月开始使用atom 代码编辑器，感觉比sublime还要爽,不过打开大文件会卡。<br>需要配合一些插件。比如git-plus,autocomplete-plus,color-picker,git-log,language-jade,open-last-project,terminal-panel(shift+enter)</li>
-<li>然而用了 atom 半年之久实在太卡了，最终转回来了sublime3 <a href="https://packagecontrol.io/packages/Theme%20-%20Afterglow" target="_blank" rel="external">换了个好看的主题</a>  需要配合一些插件 比如 less/sass jade jsformat terminal emmet git等</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
           
             <div class="pagination">
-              <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
+              <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
             </div>
           
         </div>
@@ -489,7 +577,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

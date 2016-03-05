@@ -99,6 +99,91 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/29/graceful-degradation-with-progressive-enhancement/">
+                渐进性增强与优雅性降级
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-29
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/29/graceful-degradation-with-progressive-enhancement/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/29/graceful-degradation-with-progressive-enhancement/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>每个专业词语的背后是一种思想，理解并在实践中应用才是必要的。</p>
+</blockquote>
+<p>####优雅降级（graceful degradation）<br>一开始就构建站点的完整功能，然后针对浏览器测试和修复,使用优雅降级方案，Web站点在所有新式浏览器中都能正常工作，如果用户使用的是老式浏览器，则代码会检查以确认它们是否能正常工作。由于IE独特的盒模型布局问题，绝大多数Web设计师和开发者都通过专门的样式表或针对不同版本的IE的hack实践过优雅降级了；<br>使用优雅降级技术时，你必须首先完整的实现了网站，其中包括所有的功能和效果。然后再为那些无法支持所有功能的浏览器增加候选方案，使之在旧式浏览器上以某种形式降级体验却不至于完全失效.</p>
+<p>####渐进增强（progressive enhancement）<br>一开始只构建站点的最少特性，然后不断针对各浏览器追加功能。从被所有浏览器支持的基本功能开始，逐步地添加那些只有新式浏览器才支持的功能。渐进增强是值得所有开发者采用的做法。渐进增强方案并不假定所有用户都支持javascript，而总是提供一种候补方法，确保用户可以访问（主要的）内容。</p>
+<p>使用渐进增强时，无需为了一个已成型的网站在旧式浏览器下正常工作而做逆向工程。首先，只需要为所有的设备和浏览器准备好清晰且语义化的HTML以及完善的内容，然后再以无侵入（unobtrusive）的方式向页面增加无害于基础浏览器的额外样式和功能。当浏览器升级时，它们会自动地呈现出来并发挥作用。</p>
+<p>想让网站在任何环境下看起来都保持一致是不可能的，不管为此付出多少努力，结局依旧会令你失望。与其试图让IE看起来堪比年轻它十岁的浏览器，不如努力改善网站的可访问性，或是进行更多的可用性测试，而不仅仅是让页面看起来更靓一点。</p>
+<p>某些CSS3特性在不支持它的浏览器中简直是无法模拟实现的，但若使用渐进增强，就无需为了能让你的网站适合所有人而放弃这些技术。仅仅因为部分人不愿或不能升级浏览器，却让使用新型浏览器的用户无法享受CSS3所提供的伟大技术，这是毫无道理可言的。</p>
+<p>我们应该先让网站能够正常工作于尽可能旧的浏览器上，然后不断为它在新型浏览器上实现更多的增强和改进。随着时间的推移，当越来越多的人开始升级浏览器而浏览器本身的支持度也不断提升时，就会有越来越多的人体验到这些增强和改进，它持续有效的使网站越来越好，却如需你刻意做什么。</p>
+<p>#####思考</p>
+<p> 其实优雅降级和渐进增强都是页面的加分项，是针对技术的一种形而上的要求。保证尽可能多的用户都能正常使用网站是第一步，在此之上才需要考虑降级的极端情形和现代浏览器的体验增强。其实可以定义一个基准线，在此之上的增强叫做渐进增强，在此之下的兼容叫优雅降级。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/24/css3-selectors/">
                 CSS3 选择器总结
               </a>
@@ -458,114 +543,12 @@ var B = function(callback) {
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/21/http-status/">
-                REST 程序设计之http method 、http status
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-21
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/21/http-status/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/21/http-status/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h4 id="HTTP_method"><a href="#HTTP_method" class="headerlink" title="HTTP method"></a>HTTP method</h4><p>在rest程序设计中对资源都是通过URI来体现的，对资源的操作主要是通过Http请求的方法来实现的。API功能是由http method+ URI共同体现的。举例如下</p>
-<ul>
-<li>GET /tasks - 获取任务列表信息</li>
-<li>GET /tasks/12 -获取指定的任务信息</li>
-<li>POST /tasks - 创建新的任务</li>
-<li>PUT /tasks/12 - 更新指定的任务</li>
-<li>PATCH /tasks/12 - 更新指定任务的部分信息</li>
-<li>DELETE /tasks/12 - 删除指定的任务</li>
-</ul>
-<p>以上中get 、post、put、delete比较常用。主要实现对资源的CURD。</p>
-<h4 id="HTTP_status"><a href="#HTTP_status" class="headerlink" title="HTTP status"></a>HTTP status</h4><p>作为 API 的设计者，正确的将 API 执行结果和失败原因用清晰简洁的方式传达给客户程序是十分关键的一步。 我们确实可以在 HTTP 的相应内容中描述是否成功，如果出错是因为什么， 然而， 这就意味着用户需要进行内容解析，才知道执行结果和错误原因。因此，HTTP 响应代码可以保证客户端在第一时间用最高效的方式获知 API 运行结果，并采取相应动作。 下表列出了比较常用的响应代码。</p>
-<ul>
-<li>200 响应成功。主要响应GET, PUT, PATCH 、DELETE.请求，同时也可以响应资源创建成功无返回结果的post请求</li>
-<li>201 资源成功创建，同时在location header 里面有新资源的 地址</li>
-<li>204 返回请求成功 不反返回内容，即返回结果不包含body，比如delete请求。</li>
-<li>301 重定向 , 请求的网页已被永久移动到新位置。服务器返回此响应时，会自动将请求者转到新位置。</li>
-<li>302 重定向 , 请求的网页临时移动到新位置，但求者应继续使用原有位置来进行以后的请求。302 会自动将请求者转到不同的临时位置。</li>
-<li>304 自从上次请求后，请求的网页未被修改过。服务器返回此响应时，不会返回网页内容。</li>
-<li>400 错误请求</li>
-<li>401 未授权 , 请求要求进行身份验证</li>
-<li>403 已禁止 , 服务器拒绝请求。</li>
-<li>404 未找到 , 服务器找不到请求的网页。</li>
-<li>405 方法禁用 , 禁用请求中所指定的方法。</li>
-<li>410 请求的页面不存在</li>
-<li>415 不支持的媒体类型</li>
-<li>429 请求次数过多</li>
-<li>500 内部服务器错误。</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Http/">
-                #Http
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/5/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/5/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/7/">&raquo;</a>
             </div>
           
         </div>
@@ -592,7 +575,7 @@ var B = function(callback) {
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

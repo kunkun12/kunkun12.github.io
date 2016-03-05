@@ -99,6 +99,160 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/05/media-query/">
+                Media Queries
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-05
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/05/media-query/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/media-query/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>媒体查询在CSS2中就有了，CSS3中得到了进一步增强，简单来说我们可以设置不同类型的媒体条件，并根据对应的条件，给相应符合条件的媒体调用相对应的样式表，说白了就是就是根据设备当前本身的环境(比如屏幕的长宽，设备的种类等）来对元素应用响应的CSS文件，但是所有的CSS 文件总是要下载到本地的。</p>
+<p>####引入方式</p>
+<ul>
+<li><p>link方法引入 </p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../css/print.css&quot; media=&quot;print&quot; /&gt;
+</code></pre></li>
+<li><p>xml方式引入</p>
+<pre><code>&lt;?xml-stylesheet rel=&quot;stylesheet&quot; media=&quot;screen&quot; href=&quot;css/style.css&quot; ？&gt;
+</code></pre></li>
+<li><p>@import方式引入</p>
+<pre><code>@import url(&quot;css/reset.css&quot;) screen;
+</code></pre></li>
+<li><p>@media引入</p>
+<pre><code>@media screen{
+     选择器{
+    属性：属性值；
+     }
+   }
+</code></pre></li>
+</ul>
+<p>####如何定义查询条件<br>媒体类型包括如下几种</p>
+<ul>
+<li>all 所有设备可用</li>
+<li>braille 盲文</li>
+<li>embossed</li>
+<li>handheld</li>
+<li>print 打印</li>
+<li>projection 投影</li>
+<li>screen 显示器</li>
+<li>speech</li>
+<li>tty 电传打字机 </li>
+<li>tv 电视</li>
+</ul>
+<p>####最大宽度Max Width,max-height,max-width</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width:600px)&quot; href=&quot;small.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><p>也可在style 标签或者单独的CSS文件里面:</p>
+<pre><code>@media only screen and (max-device-width: 480px) {
+        div#wrapper {
+            width: 400px;
+        }
+
+        div#header {
+            background-image: url(media-queries-phone.jpg);
+            height: 93px;
+            position: relative;
+        }
+
+        div#header h1 {
+            font-size: 140%;
+        }
+
+        #content {
+            float: none;
+            width: 100%;
+        }
+
+        #navigation {
+            float:none;
+            width: auto;
+        }
+    }
+</code></pre><p>####最小宽度Min Width min-width,min-height</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:900px)&quot; href=&quot;big.css&quot; type=&quot;text/css&quot;  /&gt;
+</code></pre><h4 id="and_not_only_u5173_u952E_u5B57"><a href="#and_not_only_u5173_u952E_u5B57" class="headerlink" title="and not only关键字"></a>and not only关键字</h4><h5 id="u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6"><a href="#u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6" class="headerlink" title="多个Media Queries使用查询取交集"></a>多个Media Queries使用查询取交集</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:600px) and (max-width:900px)&quot; href=&quot;style.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><p>#####not用于排除符合表达式的设备。</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;not print and (max-width: 1200px)&quot; href=&quot;print.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><p>#####only用来定某种特定的媒体类型</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><p>####Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用<br>max-device-width、min-device-width</p>
+<p>####orientation 横屏或者竖屏</p>
+<p>####device-pixel-ratio 设备的宽高比<code>min-device-pixel-ratio</code>，<code>max-device-pixel-ratio</code></p>
+<p>####resolution 分辨率 <code>min-resolution</code>  <code>max-resolution</code>。</p>
+<p>可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下<br>使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。</p>
+<pre><code>/*240px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
+ /*360px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:241px) and (max-device-width:360px)&quot; href=&quot;android360.css&quot; type=&quot;text/css&quot; /&gt;
+ /*480px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:361px) and (max-device-width:480px)&quot; href=&quot;android480.css&quot; type=&quot;text/css&quot; /&gt;。
+</code></pre><p>总结：media query 就是让我们根据屏幕的大小来对HTML元素应用适合当前屏幕的样式，能够在不同尺寸的屏幕，甚至是不同的设备上达到较好的用户体验。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/05/es-5-feature/">
                 ECMAScript 5 学习总结
               </a>
@@ -815,124 +969,12 @@ _.chain(lyrics)
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/02/git-multiple-account-setting/">
-                git账户配置以及多账户配置
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-02
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/02/git-multiple-account-setting/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/02/git-multiple-account-setting/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>在使用git的时候，git与远程服务器是一般通过ssh传输的(也支持ftp，https)，我们在管理远程分支之前 需要在本机上创建ssh-key密钥对，并把其中的公钥添加到github中。</p>
-<p>###单用户情况<br>如果你就会一直在你的计算计算机使用一个远程的Git服务器，并且账号是一个，比较简单，生成key的时候也没有太大注意的地方，直接运行如下的第一步然后按回车就可以了<br>  1、在 gitbash上运行  ssh-keygen -t  rsa  -C  “Github账户邮箱”<br>  2、接下来会提示输入key的名字 默认名字为id_rsa .默认就行了<br>  3、然后会提示输入口令，这里口令与Github中的密码无关，随便输入可以为空。</p>
-<ol>
-<li><p>如果在第二步中的没有重新命名的话，则忽略此步骤，ssh agent默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中<br>ssh-add id_rsa<br>如果出现Could not open a connection to your authentication agent的错误，就试着先用以下命令：</p>
-<p>ssh-agent bash<br>ssh-add id_rsa<br>添加完之后 登陆Github   点击 网页右上侧的 Account Setting 按钮 - 选择 ssh-keys  点击Add SSH Key  ，在title中输入名字，然后将公约即id_rsa.pub添加到ssh-key处。</p>
-</li>
-</ol>
-<p>在git bash的命令行中输入 </p>
-<p>ssh -T git@github.com 如果能正常访问即可</p>
-<pre><code>$ ssh -T git@github.com
-Enter passphrase for key &apos;C:/Users/kunkun/.ssh/github.rsa&apos;:
-Hi kunkun01! You&apos;ve successfully authenticated, but GitHub does not provide shel
-l access.
-</code></pre><p>###多账户配置</p>
-<p> 多账户又分为两种情况  </p>
-<ul>
-<li>针对同一个服务器的同用户（比如 我平时开发开源的小东东，有的是一个账号是公司的账号对外开源项目用的，另外我自己也比较崇尚开源，所以自己也有了Github账号)</li>
-<li><p>针对不同服务器的用户(现在pass平台 部署应用都是通过git来管理的，比如常见的Openshift，Heroku appfog等，在这里我也注册了账号）</p>
-<p>在我们访问git服务器的时候，如果通过ssh的方式话，访问不同的服务器要使用不同的ssh-key。经过在第一步的过程中，在创建ssh-key的默认命名为id_rsa，如果使用不同的账户的，必须得给不同的key设置不同的名字，否则如果继续使用默认名字的话，会把之前的id_rsa覆盖掉。<br>具体操作如下 user2是我的另外一个Github账户<br>####1、新建user2的SSH Key<br>  #新建SSH key：<br> $ cd ~/.ssh     # 切换到C:\Users\Administrator.ssh<br> ssh-keygen -t rsa -C “mywork@email.com”  # 新建工作的SSH key</p>
-<h1 id="u8BBE_u7F6E_u540D_u79F0_u4E3Aid_rsa_work"><a href="#u8BBE_u7F6E_u540D_u79F0_u4E3Aid_rsa_work" class="headerlink" title="设置名称为id_rsa_work"></a>设置名称为id_rsa_work</h1><p> Enter file in which to save the key (/c/Users/Administrator/.ssh/id_rsa): id_rsa_work<br>####2、新密钥添加到SSH agent中<br>因为默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中：</p>
-<p> ssh-add ~/.ssh/id_rsa_work<br>上面提到了，如果出现Could not open a connection to your authentication agent的错误，就试着用以下命令：</p>
-<p> ssh-agent bash<br> ssh-add ~/.ssh/id_rsa_work<br>####3、修改config文件 将账户以及git服务器与对应的密钥关联。在<code>C:\Users\kunkun\.ssh</code>目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下：</p>
-<h1 id="u8BE5_u6587_u4EF6_u7528_u4E8E_u914D_u7F6E_u79C1_u94A5_u5BF9_u5E94_u7684_u670D_u52A1_u5668"><a href="#u8BE5_u6587_u4EF6_u7528_u4E8E_u914D_u7F6E_u79C1_u94A5_u5BF9_u5E94_u7684_u670D_u52A1_u5668" class="headerlink" title="该文件用于配置私钥对应的服务器"></a>该文件用于配置私钥对应的服务器</h1><h1 id="Default_github_user_28first@mail-com_29"><a href="#Default_github_user_28first@mail-com_29" class="headerlink" title="Default github user(first@mail.com)"></a>Default github user(first@mail.com)</h1><p>  Host github.com<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa</p>
-<h1 id="second_user_28second@mail-com_29"><a href="#second_user_28second@mail-com_29" class="headerlink" title="second user(second@mail.com)"></a>second user(second@mail.com)</h1><h1 id="u5EFA_u4E00_u4E2Agithub_u522B_u540D_uFF0C_u65B0_u5EFA_u7684_u5E10_u53F7_u4F7F_u7528_u8FD9_u4E2A_u522B_u540D_u505A_u514B_u9686_u548C_u66F4_u65B0"><a href="#u5EFA_u4E00_u4E2Agithub_u522B_u540D_uFF0C_u65B0_u5EFA_u7684_u5E10_u53F7_u4F7F_u7528_u8FD9_u4E2A_u522B_u540D_u505A_u514B_u9686_u548C_u66F4_u65B0" class="headerlink" title="建一个github别名，新建的帐号使用这个别名做克隆和更新"></a>建一个github别名，新建的帐号使用这个别名做克隆和更新</h1><p>  Host github2<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa_work<br>其规则就是：从上至下读取config的内容，在每个Host下寻找对应的私钥。这里将GitHub SSH仓库地址中的git@github.com替换成新建的Host别名如：github2，那么原地址是：git@github.com:kunkun/Mywork.git，替换后应该是：github2:kunkun/Mywork.git。</p>
-</li>
-</ul>
-<p>####4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。</p>
-<p>####5、测试：</p>
-<pre><code>$ ssh -T git@github.com
-Hi BeginMan! You&apos;ve successfully authenticated, but GitHub does not provide shel
-l access.
-
-$ ssh -T github2
-Hi BeginMan! You&apos;ve successfully authenticated, but GitHub does not provide shel
-l access.
-</code></pre><p>克隆的时候将Github.com替换为对应的别名即可<br>比如我的第二个账户中的一个仓库地址为git@github.com:kunkun12/PiesLayer.git。但是我以上的配置中使用</p>
-<p> git clone git@github2:kunkun12/PiesLayer.git</p>
-<p> 注意：如果你只是通过这篇文章中所述配置了Host，那么你多个账号下面的提交用户会是一个人，所以需要通过命令git config –global –unset user.email删除用户账户设置，在每一个repo下面使用git config –local user.email ‘你的github邮箱@mail.com’ 命令单独设置用户账户信息</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Git/">
-                #Git
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/11/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/13/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/11/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/13/">&raquo;</a>
             </div>
           
         </div>
@@ -959,7 +1001,7 @@ l access.
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">

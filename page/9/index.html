@@ -99,6 +99,104 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/15/using-postgresql-with-django/">
+                在django中使用postgresQL
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-15
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/15/using-postgresql-with-django/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/using-postgresql-with-django/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>最近开始做的东西要用到Django，数据库是postgresQL,需要在Django的setting.py中修改相关数据库的配置文件。事先我已经装好了PostgresQL 9.2.6</p>
+<p>####下载python连接postgresQL数据库的驱动</p>
+<p>安装方式也有多种：根据个人喜好可以使用easy_istall或者pip方式安装</p>
+<ul>
+<li>easy_install psycopg2</li>
+<li>pip install psycopg2</li>
+</ul>
+<p>或者自己下载<a href="http://initd.org/psycopg/" target="_blank" rel="external">http://initd.org/psycopg/</a>解压之后，进入目录运行</p>
+<pre><code>python setup.py install
+</code></pre><p>会自动安装到Python安装目录的site-packages的目录下</p>
+<p>这里我直接在windows安装的exe 下载地址（如果是64位的系统的话也建议下载32位的）<a href="http://www.stickpeople.com/projects/python/win-psycopg/" target="_blank" rel="external">http://www.stickpeople.com/projects/python/win-psycopg/</a> 根据数据库的版本选择合适的进行下载</p>
+<p>####修改配置文件setting.py,找到DATABASES处</p>
+<pre><code>DATABASES = {
+    &apos;default&apos;: {
+        &apos;ENGINE&apos;: &apos;django.db.backends.postgresql_psycopg2&apos;,
+        &apos;NAME&apos;: &apos;mydb&apos;,                      
+        &apos;USER&apos;: &apos;postgres&apos;,
+        &apos;PASSWORD&apos;: &apos;1&apos;,
+        &apos;HOST&apos;: &apos;localhost&apos;,
+        &apos;PORT&apos;: &apos;5432&apos;
+    }
+}
+</code></pre><p>将ENGINE修改为<code>django.db.backends.postgresql_psycopg2</code>,<strong>NAME</strong>为数据库的名字,<strong>USER</strong>为数据库的用户名，<strong>PASSWORD</strong>为数据库用户对应的密码，<strong>HOST</strong>为数据库所在的主机名，<strong>Port</strong>为PostgreSQL的端口号。</p>
+<p>参考资料<a href="https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-DATABASES" target="_blank" rel="external">https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-DATABASES</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Django/">
+                #Django
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/14/cross-domain/">
                 跨域解决方案之JSONP,CORS
               </a>
@@ -424,204 +522,12 @@ navigator.geolocation.clearWatch(watchId);
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/12/javascript-bind-function/">
-                javascript bind function
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-12
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/12/javascript-bind-function/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/12/javascript-bind-function/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>记得半年之前在微博上看到一个问题，有人问如何才能证明自己真正理解了Javascript，有大神回答，最起码要能明白并写出bind 函数。当然这里的Javascript 仅仅是指的ECMASCRIPT本身，并不包含浏览器相关的那些。那么这篇博客这里就以bind开始吧。<br>首先搬出三个概念、</p>
-<ul>
-<li>作用域：表示变量或函数起作用的区域，作用域链-Javascript的作用域链也是按有顺序查询的。在访问变量时，先查看本地作用域是否有此变量，如果没有则依次向上一级作用域查找直到全局作用域。如果全局作用域也没有此变量，那么将会在全局作用域中声明这个变量;</li>
-<li>上下文：又可以理解为上下文对象，表示<strong>当前代码执行时所处的环境</strong>。即是this变量所指代的对象;</li>
-<li>闭包：表示能访问和操作其他本地作用域的变量的表达式（通常是函数）;</li>
-</ul>
-<p>在Javascript中<code>this</code>关键字是非常重要的，我之前也花费了不少时间来理解Javascript中的this是如何工作的。每个函数都有一个this变量，简单来说函数this是一个指针，它指向是不固定的，而是动态的，指向调用这个函数的对象，而这个对象就是上下文。我们都知道，Javascript里面的有作用域的概念，就是变量能够访问到的范围，this则是指向当前作用域的。通过this访问变量的时候会在当前作用域上查找。这篇博文是关于bind函数的，这个也是我们经常用的一个东西。</p>
-<p>###提出问题<br>说起Javascript，很难避免的提到了闭包，每个闭包拥有自己的作用域以及this 变量闭包里面的this 并不是指向原来的对象。例如</p>
-<pre><code>var getUserComments = function(callback) {
-    var numOfCommets = 34;
-    callback({ comments: numOfCommets });
-};
-var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-        });
-    }
-};
-User.print();
-</code></pre><p>这里假设getUserComments 是一个异步的函数，通过一个回调函数来接受处理getUserComments返回的结果，在User对象里面我传入了一个匿名函数-闭包(即刚才说的回调的函数)，执行完毕的结果如下。</p>
-<pre><code>undefined made 34 comments
-</code></pre><p>可以看出这里的在调用print的时候。在刚才的回调函数里面<code>this.fullName</code>取值为undefined，可以看出此时这里面this 不再指向User对象了(其实是指向全局对比如在浏览器环境下的window);但是我期望的返回结果为<br><code>kunkun made 34 comments</code>可以如下解决。</p>
-<pre><code>var that= this;
-getUserComments(function(data) {
-    console.log(that.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-});
-</code></pre><p>在执行print的时候，由于print是由User来调用的因此，print 里面的 this 是指向的User对象的，于是把this 赋值给力that ，所以that 这里保存了User的地址。所以在调用fullname的时候 ，就是User作用域下的fullname。</p>
-<p>但是这种方法感觉有点混乱，同时也要定义像that这样新的变量，如果这样的情况出现多次的话，难免造成迷糊的。那么如何提前给这个函数固定好作用域呢。</p>
-<p>####设置函数的作用域</p>
-<p>这里提供了一种方式来设置函数的作用域：使用apply 或者call函数，这两个方法是在Function.prototype里面定义的，因此任何一个函数都继承了这两个方法，apply和call的第一个参数就是要给方法绑定的对象(即该方法调用时this指向的对象)。下面给定义一个getLength方法来获取fullname的length</p>
-<pre><code>var getLength = function() {
-    console.log(this.fullName.length);
-}
-getLength.apply(User);
-</code></pre><p>结果是这种方式的输出结果是6，说明我的目的是达到了，如果我们直接调用<code>getLength</code>方法呢，<code>getLength()</code>则会返回爆出异常，这种情况下 <code>getLength</code>是在最外层定义的，因此调用的时候this指向的是全局对象，但是全局对象中没有<code>fullName</code>这个属性，因此此时<code>this.fullName</code>为undfined，那么<code>this.fullName.length</code>则相当于执行了undfined.length，这是必然要爆出异常的。</p>
-<p>以上使用apply调用的时候 getLength也自然地调用了，那么如何给getLength指定好上下文，而不让他调用的。等以后调用的时候函数里面的this 则指向我们自己设定的对象。我们不妨把这个功能称之为 bind。</p>
-<p>####原生的Function.prototype.bind</p>
-<p>如上提到的一样apply和call一样，他们都是Function.prototype对象中的方法，这个是ES5里面新增的方法。因此当前主流的浏览器都是支持的包括Chrome, Firefox, Opera，safari 其中IE 要在8以上。</p>
-<p>在此将上面的代码修改如下</p>
-<pre><code>var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-        }.bind(this));
-    }
-};
-User.print();
-</code></pre><p>在上面绑定的时候调用bind(this)的时候， 在print里面的，此时print是由User调用的，因此的this指向User的。bind的第一个参数就是给该匿名函数绑定作用域。同时呢也可以使用该函数为函数绑定预定义的参数</p>
-<pre><code>var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(msg, data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos; + msg);
-        }.bind(this, &apos;coder&apos;));
-    }
-};
-</code></pre><p>注意在调用的时候参数的顺序是在bind绑定的参数在前面。</p>
-<p>####Polyfill-为旧版本的浏览器增加bind函数</p>
-<p>同时也是文章开头的那道题要求的答案。</p>
-<p>这里的解决方案就是首先判断Function.prototype中的是否具有这个bind函数，如果没有的话在这里为Function.prototype增加一个bind属性，具体实现还是通过apply来搞定的，<code>Function.prototype.bind()</code>返回一个函数，在这个函数执行的时候动态地执行要绑定作用域的函数的apply方法</p>
-<pre><code>if (!Function.prototype.bind) {
-  Function.prototype.bind = function (oThis) {
-    if (typeof this !== &quot;function&quot;) {
-      throw new TypeError(&quot;Function.prototype.bind - what is trying to be bound is not callable&quot;);
-    }     
-    var aArgs = Array.prototype.slice.call(arguments, 1), 
-        fToBind = this, 
-        fNOP = function () {},
-        fBound = function () {
-          return fToBind.apply(
-            this instanceof fNOP &amp;&amp; oThis ? this : oThis, 
-            aArgs.concat(Array.prototype.slice.call(arguments))
-          );
-        };     
-    fNOP.prototype = this.prototype;
-    fBound.prototype = new fNOP();         
-    return fBound;
-  };
-}
-</code></pre><p>每个函数在执行的时候有个arguments 对象，这是一个类数组对象，是一个传入的参数列表，通过<code>Array.prototype.slice.call(arguments, 1)</code>来获取参数列表除第一个元素之外的元素列表，返回结果是一个数组。因为bind 函数第一个参数是要绑定的对象，之后的参数是预先为函数绑定的参数，同事呢这个函数在执行的时候也会传入参数，这个参数列表也在arguments里面，于是将这个两个参数列表进行合并。</p>
-<pre><code>aArgs.concat(Array.prototype.slice.call(arguments))
-</code></pre><p>将该数组传入给apply的第二个参数。apply第二个参数是arguments这样类型的，当然也可以是一个数组比如apply(obj,[参数一，参数二，参数三])，而call在这方面的区别就是参数列表是如 call(user,参数一，参数二，参数三)这种形式.apply调用要将参数封装到一个数组里面，这种方式适用用不清楚参数个数的情况下。而call则要求要明确参数的个数。很明显apply更灵活、功能要强一些。</p>
-<p>如果要了解更多信息可以参见<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind</a></p>
-<p>最后自己瞎编了两道题</p>
-<p>#####第一道</p>
-<pre><code>var name=&quot;张三&quot;
-function Person(name){
-this.name=name
-};
-
-Person.prototype.getName=function(){
-console.log(this.name)
-};
-
-var p=new Person(&quot;李四&quot;);
- p.getName();
-
- var m=p.getName;
-
- m();
-</code></pre><p>#####第二道<br>根据文章继续文章中使用Demo</p>
-<pre><code>var getUserComments = function(callback) {
-            var numOfCommets = 34;
-            callback({ comments: numOfCommets });
-        };
-var User = {
-            fullName: &apos;kunkun&apos;,
-            print: function() {
-                getUserComments(function(data) {
-                    console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-                }.bind(this));
-            }
-        };
-var p=    User.print;
-    p()
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/8/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/10/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/8/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/10/">&raquo;</a>
             </div>
           
         </div>
@@ -648,7 +554,7 @@ var p=    User.print;
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
