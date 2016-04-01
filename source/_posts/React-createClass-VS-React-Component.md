@@ -6,10 +6,10 @@ tags:
 
 ### React.createClass
 
-－ creatClass创建的组件赋值为`const`类型的变量，在组件内部实现必要的 `render `函数
+### creatClass创建的组件赋值为`const`类型的变量，在组件内部实现必要的 `render `函数
+
 
         import React from 'react';
-
         const Contacts = React.createClass({
           render() {
             return (

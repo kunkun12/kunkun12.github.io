@@ -8,18 +8,18 @@ tags:
 使用方法 `v-for="item in items"` 不能使用 `v-for="imtes"` 可以使用$index来获取当前项在数组中的索引
 
 
-      <ul id='example-1'>
-      <li v-for='item in items'>
-            $index {{item.message}}
-      </li>
-      <ul>
+        <ul id='example-1'>
+        <li v-for='item in items'>
+              $index { {item.message} }
+        </li>
+        <ul>
 
 或者  给索引取一个别名 如下 v-for  块中的内容可以使用其父作用域中的属性
 
 
         <ul id='example-1'>
         <li v-for='(index,item) in items'>
-              {{index}} {{item.message}}
+                { {index} } { {item.message} }
         </li>
         <ul>
 
@@ -59,6 +59,7 @@ tags:
 
         <!-- 缩写形式 -->
         <input @keyup.13="onEnter">
+        <button v-on:click="dothis" v-on:keyup="dothat"></button>
 
 - v-attr='attr:val' 替换为 v-bind:attr="val" 缩写 :attr="val"
 -  新增 v-else 指令 与 v-if / v-show 成对使用
@@ -81,7 +82,7 @@ tags:
 
 
 
-- v-class and v-style 过时了 推荐使用 `v-bind:class`、`v-bind:style`
+- v-class and v-style 过时了 推荐使用属性绑定使用`v-bind`方式 `v-bind:class`、`v-bind:style`
 
       <!-- 切换class-->
       <div v-bind:class="{ 'class-a': true, 'class-b': false }"></div>
@@ -92,6 +93,8 @@ tags:
       <div v-bind:style="{ fontSize: '14px', color: 'red' }"></div>
       <!--  支持样式的绑定-->
       <div v-bind:style="[ styleObjectA, styleObjectB ]"></div>
+      <a v-bind-href=""></a>
+      <a v-bind-src=""></a>
 
 - v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了[一个插件](https://github.com/vitalets/checklist-model)来完成这个功能
 
@@ -100,6 +103,6 @@ tags:
       <input type="checkbox" value="Mike" v-model="checkedNames">
       被选中的项的value值将会与 checkedNames的数组绑定
 -  过滤器 
-  1、`debounce` 是空闲时间必须大于或等于 一定值的时候，才会执行调用方法。debounce是空闲时间的间隔控制。比如我们做autocomplete，这时需要我们很好的控制输入文字时调用方法时间间隔。一般时第一个输入的字符马上开始调用，根据一定的时间间隔重复调用执行的方法。
+  1、`debounce`是空闲时间的间隔控制,空闲时间必须大于或等于 一定值的时候，才会执行调用方法。。比如我们做autocomplete，这时需要我们很好的控制输入文字时调用方法时间间隔。一般时第一个输入的字符马上开始调用，根据一定的时间间隔重复调用执行的方法。
 
           <input @keyup="onKeyup | debounce 500">
