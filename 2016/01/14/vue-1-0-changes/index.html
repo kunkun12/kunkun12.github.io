@@ -134,13 +134,13 @@
 </ul>
 <pre><code>&lt;ul id=&apos;example-1&apos;&gt;
 &lt;li v-for=&apos;item in items&apos;&gt;
-      $index 
+      $index { {item.message} }
 &lt;/li&gt;
 &lt;ul&gt;
 </code></pre><p>或者  给索引取一个别名 如下 v-for  块中的内容可以使用其父作用域中的属性</p>
 <pre><code>   &lt;ul id=&apos;example-1&apos;&gt;
    &lt;li v-for=&apos;(index,item) in items&apos;&gt;
-          
+           { {index} } { {item.message} }
    &lt;/li&gt;
    &lt;ul&gt;
 
@@ -179,6 +179,7 @@ var example=new Vue({
 
 &lt;!-- 缩写形式 --&gt;
 &lt;input @keyup.13=&quot;onEnter&quot;&gt;
+&lt;button v-on:click=&quot;dothis&quot; v-on:keyup=&quot;dothat&quot;&gt;&lt;/button&gt;
 </code></pre></li>
 <li><p>v-attr=’attr:val’ 替换为 v-bind:attr=”val” 缩写 :attr=”val”</p>
 </li>
@@ -202,7 +203,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 </code></pre></li>
 </ul>
 <ul>
-<li><p>v-class and v-style 过时了 推荐使用 <code>v-bind:class</code>、<code>v-bind:style</code></p>
+<li><p>v-class and v-style 过时了 推荐使用属性绑定使用<code>v-bind</code>方式 <code>v-bind:class</code>、<code>v-bind:style</code></p>
 <pre><code>&lt;!-- 切换class--&gt;
 &lt;div v-bind:class=&quot;{ &apos;class-a&apos;: true, &apos;class-b&apos;: false }&quot;&gt;&lt;/div&gt;
 &lt;!-- 应用样式列表 --&gt;
@@ -212,6 +213,8 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 &lt;div v-bind:style=&quot;{ fontSize: &apos;14px&apos;, color: &apos;red&apos; }&quot;&gt;&lt;/div&gt;
 &lt;!--  支持样式的绑定--&gt;
 &lt;div v-bind:style=&quot;[ styleObjectA, styleObjectB ]&quot;&gt;&lt;/div&gt;
+&lt;a v-bind-href=&quot;&quot;&gt;&lt;/a&gt;
+&lt;a v-bind-src=&quot;&quot;&gt;&lt;/a&gt;
 </code></pre></li>
 <li><p>v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了<a href="https://github.com/vitalets/checklist-model" target="_blank" rel="external">一个插件</a>来完成这个功能</p>
 <pre><code>&lt;input type=&quot;checkbox&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
@@ -219,7 +222,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 &lt;input type=&quot;checkbox&quot; value=&quot;Mike&quot; v-model=&quot;checkedNames&quot;&gt;
 被选中的项的value值将会与 checkedNames的数组绑定
 </code></pre></li>
-<li><p>过滤器<br>1、<code>debounce</code> 是空闲时间必须大于或等于 一定值的时候，才会执行调用方法。debounce是空闲时间的间隔控制。比如我们做autocomplete，这时需要我们很好的控制输入文字时调用方法时间间隔。一般时第一个输入的字符马上开始调用，根据一定的时间间隔重复调用执行的方法。</p>
+<li><p>过滤器<br>1、<code>debounce</code>是空闲时间的间隔控制,空闲时间必须大于或等于 一定值的时候，才会执行调用方法。。比如我们做autocomplete，这时需要我们很好的控制输入文字时调用方法时间间隔。一般时第一个输入的字符马上开始调用，根据一定的时间间隔重复调用执行的方法。</p>
 <pre><code>&lt;input @keyup=&quot;onKeyup | debounce 500&quot;&gt;
 </code></pre></li>
 </ul>

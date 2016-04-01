@@ -134,9 +134,7 @@
 
         
           <p>创建react组件有两种方式，使用用 <code>React.createClass</code> 以及用es6模块化的方式<code>extends React.Component</code> 通过集成 <code>Component</code> 组件类的形式来实现。两者的作用类似，后者是新的语法也是趋势。于是赶紧对比下如何升级到新的语法</p>
-<h3 id="React-createClass"><a href="#React-createClass" class="headerlink" title="React.createClass"></a>React.createClass</h3><p>－ creatClass创建的组件赋值为<code>const</code>类型的变量，在组件内部实现必要的 <code>render</code>函数</p>
-<pre><code>import React from &apos;react&apos;;
-
+<h3 id="React-createClass"><a href="#React-createClass" class="headerlink" title="React.createClass"></a>React.createClass</h3><h3 id="creatClass_u521B_u5EFA_u7684_u7EC4_u4EF6_u8D4B_u503C_u4E3Aconst_u7C7B_u578B_u7684_u53D8_u91CF_uFF0C_u5728_u7EC4_u4EF6_u5185_u90E8_u5B9E_u73B0_u5FC5_u8981_u7684_render_u51FD_u6570"><a href="#creatClass_u521B_u5EFA_u7684_u7EC4_u4EF6_u8D4B_u503C_u4E3Aconst_u7C7B_u578B_u7684_u53D8_u91CF_uFF0C_u5728_u7EC4_u4EF6_u5185_u90E8_u5B9E_u73B0_u5FC5_u8981_u7684_render_u51FD_u6570" class="headerlink" title="creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的 render函数"></a>creatClass创建的组件赋值为<code>const</code>类型的变量，在组件内部实现必要的 <code>render</code>函数</h3><pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   render() {
     return (
@@ -435,13 +433,13 @@ fi
 </ul>
 <pre><code>&lt;ul id=&apos;example-1&apos;&gt;
 &lt;li v-for=&apos;item in items&apos;&gt;
-      $index 
+      $index { {item.message} }
 &lt;/li&gt;
 &lt;ul&gt;
 </code></pre><p>或者  给索引取一个别名 如下 v-for  块中的内容可以使用其父作用域中的属性</p>
 <pre><code>   &lt;ul id=&apos;example-1&apos;&gt;
    &lt;li v-for=&apos;(index,item) in items&apos;&gt;
-          
+           { {index} } { {item.message} }
    &lt;/li&gt;
    &lt;ul&gt;
 
@@ -480,6 +478,7 @@ var example=new Vue({
 
 &lt;!-- 缩写形式 --&gt;
 &lt;input @keyup.13=&quot;onEnter&quot;&gt;
+&lt;button v-on:click=&quot;dothis&quot; v-on:keyup=&quot;dothat&quot;&gt;&lt;/button&gt;
 </code></pre></li>
 <li><p>v-attr=’attr:val’ 替换为 v-bind:attr=”val” 缩写 :attr=”val”</p>
 </li>
@@ -503,7 +502,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 </code></pre></li>
 </ul>
 <ul>
-<li><p>v-class and v-style 过时了 推荐使用 <code>v-bind:class</code>、<code>v-bind:style</code></p>
+<li><p>v-class and v-style 过时了 推荐使用属性绑定使用<code>v-bind</code>方式 <code>v-bind:class</code>、<code>v-bind:style</code></p>
 <pre><code>&lt;!-- 切换class--&gt;
 &lt;div v-bind:class=&quot;{ &apos;class-a&apos;: true, &apos;class-b&apos;: false }&quot;&gt;&lt;/div&gt;
 &lt;!-- 应用样式列表 --&gt;
@@ -513,6 +512,8 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 &lt;div v-bind:style=&quot;{ fontSize: &apos;14px&apos;, color: &apos;red&apos; }&quot;&gt;&lt;/div&gt;
 &lt;!--  支持样式的绑定--&gt;
 &lt;div v-bind:style=&quot;[ styleObjectA, styleObjectB ]&quot;&gt;&lt;/div&gt;
+&lt;a v-bind-href=&quot;&quot;&gt;&lt;/a&gt;
+&lt;a v-bind-src=&quot;&quot;&gt;&lt;/a&gt;
 </code></pre></li>
 <li><p>v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了<a href="https://github.com/vitalets/checklist-model" target="_blank" rel="external">一个插件</a>来完成这个功能</p>
 <pre><code>&lt;input type=&quot;checkbox&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
@@ -520,7 +521,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 &lt;input type=&quot;checkbox&quot; value=&quot;Mike&quot; v-model=&quot;checkedNames&quot;&gt;
 被选中的项的value值将会与 checkedNames的数组绑定
 </code></pre></li>
-<li><p>过滤器<br>1、<code>debounce</code> 是空闲时间必须大于或等于 一定值的时候，才会执行调用方法。debounce是空闲时间的间隔控制。比如我们做autocomplete，这时需要我们很好的控制输入文字时调用方法时间间隔。一般时第一个输入的字符马上开始调用，根据一定的时间间隔重复调用执行的方法。</p>
+<li><p>过滤器<br>1、<code>debounce</code>是空闲时间的间隔控制,空闲时间必须大于或等于 一定值的时候，才会执行调用方法。。比如我们做autocomplete，这时需要我们很好的控制输入文字时调用方法时间间隔。一般时第一个输入的字符马上开始调用，根据一定的时间间隔重复调用执行的方法。</p>
 <pre><code>&lt;input @keyup=&quot;onKeyup | debounce 500&quot;&gt;
 </code></pre></li>
 </ul>
