@@ -99,8 +99,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/10/04/High-Performance-Animations/">
-                高性能动画
+              <a class="post-title-link" href="/2014/02/15/css-bfc/">
+                CSS 定位之BFC
               </a>
             
           
@@ -110,15 +110,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-10-04
+              发表于 2014-02-15
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/10/04/High-Performance-Animations/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/04/High-Performance-Animations/"></span>
+            <a href="/2014/02/15/css-bfc/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/css-bfc/"></span>
             </a>
           </span>
           
@@ -133,125 +133,42 @@
         
 
         
-          <p>现代浏览器在完成以下四种属性的动画时，消耗成本较低： position（位置）， scale（比例缩放）, rotation（旋转） 和 opacity（透明度）。如果你对其他的属性设置动画，你就需要对你的冒险负责。而且你的动画将可能达不到流畅的60fps</p>
-<h3 id="u901A_u8FC7DevTools_u4ECE_u6587_u6863_u5BF9_u8C61_u6A21_u578B_u5230_u50CF_u7D20_u7EA7_u522B_u7684_u89C2_u5BDF"><a href="#u901A_u8FC7DevTools_u4ECE_u6587_u6863_u5BF9_u8C61_u6A21_u578B_u5230_u50CF_u7D20_u7EA7_u522B_u7684_u89C2_u5BDF" class="headerlink" title="通过DevTools从文档对象模型到像素级别的观察"></a>通过DevTools从文档对象模型到像素级别的观察</h3><p>当你用 Chrome DevTools 的 timeline 来查看的话，你可以看到跟一下相似的模式</p>
-<p><img src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekyxoznj95j20mb0dj760.jpg" alt=""></p>
-<p>浏览器处理的过程很简单：计算元素的样式（重新计算样式），生成每个元素的几何形状和位置（布局），绘制图层中的每个像素（初始化绘图并且进行绘图）并且将图层绘制到屏幕上（图层的合成）。</p>
-<p>为了生成流畅的动画，你需要让浏览器尽可能少地工作，而最好的方式就是指改变影响合成的属性——transform 和 opacity。瀑布流越高 ，浏览器为了计算每个像素，就做的越多。</p>
-<h3 id="u5BF9_u5E03_u5C40_u8FDB_u884C_u52A8_u753B"><a href="#u5BF9_u5E03_u5C40_u8FDB_u884C_u52A8_u753B" class="headerlink" title="对布局进行动画"></a>对布局进行动画</h3><p>当你改变一个元素的时候，浏览器可能需要计算布局（位置和大小），这将影响到所有被这项改变影响的元素。如果你改变了一个元素，那么其他元素的几何结构可能会需要重新计算。举个例子，如果你改变 <em><html></html></em>元素的width属性，那么它所有的子元素都将被影响。由于元素的溢出和相互之间的影响，改变可能导致文档树的布局自下而上地被重新计算。</p>
-<p>文档树越大，计算布局所花费的时间就越长。所以你应该尽力避免对那些影响布局的的属性设置动画。</p>
-<p>项目中一些常见的，会引起布局变化的属性CSS属性：</p>
-<blockquote>
-<p>width    height<br>padding    margin<br>display    border-width<br>border    top<br>position    font-size<br>float    text-align<br>overflow-y    font-weight<br>overflow    left<br>font-family    line-height<br>vertical-align    right<br>clear    white-space<br>bottom    min-height</p>
+          <blockquote>
+<p>在 CSS 面试中问 BFC 等概念，就如在 JS 面试中问闭包等概念一样，经常会刷掉一些真正优秀的人。 ——玉伯</p>
 </blockquote>
-<h3 id="u7ED8_u56FE_u5C5E_u6027_u7684_u52A8_u753B"><a href="#u7ED8_u56FE_u5C5E_u6027_u7684_u52A8_u753B" class="headerlink" title="绘图属性的动画"></a>绘图属性的动画</h3><p>对一个元素的改变也可能引起绘图，而在现代浏览器中，主要的绘制工作会在软件光栅化中进行。这取决于元素在你的应用中如何分层。挨着被改变的元素旁边的其他元素也可能需要被重新绘制。</p>
-<p>有很多属性会引起元素的绘制，但以下这些是最常见的属性:</p>
-<blockquote>
-<p>color    border-style<br>visibility    background<br>text-decoration    background-image<br>background-position    background-repeat<br>outline-color    outline<br>outline-style    border-radius<br>outline-width    box-shadow<br>background-size</p>
-</blockquote>
-<p>如果你在元素中对以上的属性设置动画，那么将会引起重绘，并且元素所属的图层将提交给GPU进行处理。对于移动端设备来说，这代价是非常昂贵的，因为它们的CPU的处理能力明显弱于桌面端。这意味着，任务将用更长的时间来完成；并且CPU和GPU之间的带宽是有限的，所以数据的上传需要花费很长的一段时间。</p>
-<h3 id="u5408_u6210_u5C5E_u6027_u7684_u52A8_u753B"><a href="#u5408_u6210_u5C5E_u6027_u7684_u52A8_u753B" class="headerlink" title="合成属性的动画"></a>合成属性的动画</h3><p>有一个CSS属性，你可能认为它会引起重绘，但有时候并不会。就是：opacity. 当GPU在合成元素的纹理结构的时候，会以一个较低的alpha值去处理opacity的改变。它的条件是，元素必须是图层中唯一的一个元素。如果它和其它的元素组合在一起，那么对opacity的改变也会让GPU（错误地）淡化其它的元素。</p>
-<p>在Blink和WebKit内核的浏览器中，对于在CSS的transition或者animation中有opacity的改变的元素，将会为其创建一个图层。但也有很多开发者使用translateZ(0)或者translate3d(0,0,0)来人为地强制性地创建一个图层。 强制创建一个图层可以确保图层被绘制完毕并且可以在动画开始的时候，马上进入就绪状态。</p>
-<p>一个元素的变换，归结为改变它的位置，旋转角度和缩放。通常，位置的改变是使用left和top属性来改变的。问题是，如前面所述，left和top都会引起图层的变化，并且它的代价是昂贵的。更好的解决方案是使用不会引起图层变化的translate属性。</p>
-<h3 id="u547D_u4EE4_u5F0F_u52A8_u753Bvs_u8BF4_u660E_u5F0F_u52A8_u753B"><a href="#u547D_u4EE4_u5F0F_u52A8_u753Bvs_u8BF4_u660E_u5F0F_u52A8_u753B" class="headerlink" title="命令式动画vs说明式动画"></a>命令式动画vs说明式动画</h3><p>开发者常常需要决定它们的动画用JavaScript（命令式）来完成还是用CSS（说明式）来完成。</p>
-<h3 id="u547D_u4EE4_u5F0F_uFF08javascript_uFF09"><a href="#u547D_u4EE4_u5F0F_uFF08javascript_uFF09" class="headerlink" title="命令式（javascript）"></a>命令式（javascript）</h3><p>命令式动画主要的优点同时也是它主要的缺点的是：它在浏览器主进程的JavaScript中运行。主进程已经忙于运行其他的JavaScript，样式的计算，布局还有绘制。所以进程内存在这资源竞争。这实质上增加了掉帧的风险，可能这一帧是你认为最重要的帧。</p>
-<p>JavaScript中的动画可以为你提供更多的控制：开始，暂停，回放，中断和取消等细节。</p>
-<h3 id="u58F0_u660E_u5F0F_uFF08CSS_29"><a href="#u58F0_u660E_u5F0F_uFF08CSS_29" class="headerlink" title="声明式（CSS)"></a>声明式（CSS)</h3><p>作为替代的方案，你可以用CSS来实现你的渐变和动画。最主要的好处就是，浏览器会对动画进行优化。如果有需要，它会创建图层。并且可以在主进程之外完成一些操作。它最主要的缺点就是CSS动画相对于Javascript动画而言，缺乏表现力。并且很难有意义地组织动画，这意味着创造动画会带来较高的复杂度和错误率。</p>
-<p>总结：目前动画 优先使用  opacity 来改变透明度.  transfrom——<em>translate</em> <em>rotate</em> <em>scale</em></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/09/23/css-margin-fold/">
-                css margin折叠
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-09-23
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/09/23/css-margin-fold/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/23/css-margin-fold/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="margin_u6298_u53E0-Collapsing_margin"><a href="#margin_u6298_u53E0-Collapsing_margin" class="headerlink" title="margin折叠-Collapsing margin"></a>margin折叠-Collapsing margin</h3><p>所谓margin折叠(Collapsing margin)，就是我们常说的盒子垂直边距叠加，具体是指在同一个块级格式化上下文（简称BFC）中，毗邻的两个或者多个垂直外边距会发生互相折叠的现象。其中所说的毗邻可以归结为以下两点</p>
+<p>第一次接触BFC是在清除浮动的时候，清除浮动主要有两种法</p>
+<p>它决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。</p>
 <ul>
-<li>两个或者多个外边距没有被非空内容、padding、border或者clear分隔开。 </li>
-<li>两个或者多个外边距所归属的元素都处于普通流中，而非浮动元素或者绝对定位元素。</li>
+<li>利用 clear属性，清除浮动</li>
+<li>使父容器形成BFC<br>于是当时查询了好多资料总结如下：<br>但在进一步说明 BFC 特性之前，首先要介绍另一个在 CSS 的可视化格式模型 (Visual Formatting Model) 中具有非常重要地位的概念——定位方案。定位方案是控制元素的布局，在 CSS 2.1 中，有三种定位方案——普通流 (Normal Flow) 、浮动 (Floats) 和绝对定位 (Absolute Positioning) ，下面分别对这三种布局简略说明一下。</li>
 </ul>
-<h3 id="u5E38_u89C1_u53D1_u751Fmargin_u6298_u53E0_u7684_u60C5_u51B5_u6709_uFF1A"><a href="#u5E38_u89C1_u53D1_u751Fmargin_u6298_u53E0_u7684_u60C5_u51B5_u6709_uFF1A" class="headerlink" title="常见发生margin折叠的情况有："></a>常见发生margin折叠的情况有：</h3><ul>
-<li>一个盒子元素的top margin与第一个子盒子元素的top margin。</li>
-<li>一个盒子元素的bottom margin与最后一个子盒子元素的bottom margin， 但须在该盒子元素的height为auto的情况下 * 一个盒子元素的bottom margin与紧接着的下一个盒子元素的top margin。</li>
-<li>一个盒子元素的top margin与其自身的bottom margin，但须满足没创建 BFC、零min-height、零或者“auto”的height、没有普通流的子盒子元素。</li>
+<p>####普通流(Normal Flow)</p>
+<p>在普通流中，元素按照其在 HTML 中的先后位置至上而下布局，在这个过程中，行内元素水平排列，直到当行被占满然后换行，块级元素则会被渲染为完整的一个新行， 除非另外指定，否则所有元素默认都是普通流定位，也可以说，普通流中元素的位置由该元素在 HTML 文档中的位置决定。</p>
+<h4 id="u6D6E_u52A8__28Floats_29"><a href="#u6D6E_u52A8__28Floats_29" class="headerlink" title="浮动 (Floats)"></a>浮动 (Floats)</h4><p>在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。</p>
+<p>####绝对定位 (Absolute Positioning)</p>
+<p>在绝对定位布局中，元素会整体脱离普通流，因此绝对定位元素不会对其兄弟元素造成影响（如果看了上文的童鞋，会发现这点与浮动元素会影响兄弟元素是不同的），而元素具体的位置由绝对定位的坐标决定。</p>
+<p>BFC 正是属于普通流的，因此它对兄弟元素也不会造成什么影响。</p>
+<p>####BFC的定义<br>在进行盒子元素布局的时候， BFC 提供了一个环境， 在这个环境中按照一定规则进<br>行布局不会影响到其它环境中的布局。比如浮动元素会形成 BFC，浮动元素内部子元素<br>的主要受该浮动元素影响，两个浮动元素之间是互不影响的。<br>也就是说，如果一个元素符合了成为 BFC 的条件，该元素内部元素的布局和定位<br>就和外部元素互不影响(除非内部的盒子建立了新的  BFC)， 是一个隔离了的独立容器。<br>在  CSS3  中，BFC  叫做  Flow Root。</p>
+<p>####BFC到底是什么？<br>当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。</p>
+<p>####怎样才能形成BFC</p>
+<ul>
+<li>float的值不为none。</li>
+<li>overflow的值不为visible。</li>
+<li>display的值为table-cell, table-caption, inline-block中的任何一个。</li>
+<li>position的值不为relative和static。</li>
+<li>css3中flex boxes</li>
 </ul>
-<h3 id="margin_u6298_u53E0_u7684_u540E_u7684_u5916_u8FB9_u8DDD_u8BA1_u7B97_uFF1A"><a href="#margin_u6298_u53E0_u7684_u540E_u7684_u5916_u8FB9_u8DDD_u8BA1_u7B97_uFF1A" class="headerlink" title="margin折叠的后的外边距计算："></a>margin折叠的后的外边距计算：</h3><ul>
-<li>参加折叠的元素指都为正，取其中较大的值; </li>
-<li>参加折叠的元素值都为负，取绝对值较大的，然后负向位移; </li>
-<li>参加折叠的元素有正有负，取出正值中最大的值+负值中绝对值最大的值; </li>
-<li>元素自身的 margin-bottom 和 margin-top 相邻时也会折叠，自身<br>margin-bottom 和 margin-top 相邻，只能是自身内容为空，垂直方向上 border、padding 为 0; </li>
-<li>相邻的 margin 要一起参与计算，不得分步计算，要注意，相邻的元素不一定非<br>要是兄弟节点，父子节点也可以，即使不是兄弟父子节点也可以相邻。而且，在计算时，相邻的 margin 要一起参与计算，不得分步计算。 </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#60;div&#160;style=&#34;margin:50px&#160;0;&#160;background:green;&#160;width:50px;&#34;&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-60px&#160;0;&#34;&#62;&#160;&#10;&#160;&#160;&#160;&#60;div&#160;style=&#34;margin:150px&#160;0;&#34;&#62;A&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-100px&#160;0;background:green;&#160;width:50px;&#34;&#62;&#160;&#10;&#60;div&#160;style=&#34;margin:-120px&#160;0;&#34;&#62;&#160;&#10;&#160;&#160;&#160;&#160;&#60;div&#160;style=&#34;margin:200px&#160;0;&#34;&#62;B&#60;/div&#62;&#160;&#60;/div&#62;&#160;&#60;/div&#62;</span><br></pre></td></tr></table></figure>
-<p>错误的计算方式：分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。  请注意，多个 margin 相邻折叠成一个 margin，计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。  以上例子中，A 和 B 之间的 margin 折叠产生的 margin，是6个相邻 margin 折叠的结果。将其 margin 值分为两组：    正值：50px，150px，200px   负值：-60px，-100px，-120px  根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 200 + (-120) = 80px。</p>
-<p><strong>创建了BFC(块级格式化上下文)的元素，不和内部的子元素发生margin 折叠</strong></p>
+<p>####BFC的作用</p>
+<ol>
+<li>包含浮动元素(清除浮动)<br>BFC 会 根据子元素的情况自 适应 高度 ，这个 特性 是 对父元素 使 用<br>overflow:hidden/auto/scroll、 float:left/right 样式可以闭合浮动的</li>
+<li>不被浮动元素覆盖<br>浮动元素会无视兄弟元素的存在， 覆盖在兄弟元素的上面， 为该兄弟元素创建<br>BFC 后可以阻止这种情况的出现</li>
+</ol>
+<p>BFC 主要有三个特性：</p>
+<p>(1) BFC 会阻止外边距折叠<br>两个相连的 div 在垂直上的外边距会发生叠加，在实际开发中，或许我们有时会不需要这种折叠，这时可以利用 BFC 的其中一个特性——阻止外边距叠加。阻止父子元素的 margin 折叠，仅当两个块级元素毗邻并且在同一个块级格式化上下文时，它们垂直方向之间的外边距才会叠加。也就<br>是说，即便两个块级元素相邻，但当它们不在同一个块级格式化上下文时它们的边<br>距也不会折叠。同时BFC 的元素，不和它的子元素发生外边距折叠。</p>
+<p>(2) BFC 可以包含浮动的元素<br>这也正是上面使用 overflow: hidden 与 overflow: auto 方法闭合浮动的原理，使用 overflow: hidden 或 overflow: auto 触发浮动元素父元素的 BFC 特性，从而可以包含浮动元素，闭合浮动。</p>
+<p>W3C 的原文是“’Auto’ heights for block formatting context roots”，也就是 BFC 会根据子元素的情况自动适应高度，即使其子元素中包括浮动元素。</p>
+<p>但是 IE6-7 并不支持 W3C 的 BFC ，而是使用自产的 hasLayout 。从表现上来说，它跟 BFC 很相似，只是 hasLayout 自身存在很多问题，导致了 IE6-7 中一系列的 bug 。触发 hasLayout 的条件与触发 BFC 有些相似，具体情况 Kayo 会另写文章介绍。这里 Kayo 推荐为元素设置 IE 特有的 CSS 属性 zoom: 1 触发 hasLayout ，zoom 用于设置或检索元素的缩放比例，值为“1”即使用元素的实际尺寸，使用 zoom: 1 既可以触发 hasLayout 又不会对元素造成其他影响，相对来说会更为方便。</p>
+<p>(3) BFC 可以阻止元素被浮动元素覆盖<br>如上面所说，浮动元素的块状兄弟元素会无视浮动元素的位置，尽量占满一整行，这样就会被浮动元素覆盖，为该兄弟元素触发 BFC 后可以阻止这种情况的发生。</p>
 
         
 
@@ -292,8 +209,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/05/06/install-mongo-service-on-windows/">
-                在windows 下安装 MongoDb
+              <a class="post-title-link" href="/2014/02/09/successful-git-branching-model/">
+                一个成功的 Git 分支模型
               </a>
             
           
@@ -303,15 +220,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-05-06
+              发表于 2014-02-09
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/05/06/install-mongo-service-on-windows/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/05/06/install-mongo-service-on-windows/"></span>
+            <a href="/2014/02/09/successful-git-branching-model/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/successful-git-branching-model/"></span>
             </a>
           </span>
           
@@ -326,66 +243,7 @@
         
 
         
-          <blockquote>
-<p>Starting in version 2.2, MongoDB does not support Windows XP</p>
-</blockquote>
-<ul>
-<li>到官网下载<a href="http://www.mongodb.org/downloads" target="_blank" rel="external">MongoDb</a></li>
-<li><p>解压到制定目录。我的机器目录如下</p>
-<pre><code>D:
-  mongodb
-         |mongodb                            
-                |mongod.cfg
-                |README
-                |THIRD-PARTY-NOTICES
-                |bin
-</code></pre></li>
-<li>创建MongoDb的数据存储目录，可以再任意文件夹下创建，这里我在<strong>D:/mongodb</strong>下创建了<strong>D:/mongodb/data/db</strong>目录</li>
-<li><p>启动MongoDb服务，打开命令行模式下 进入MongoDb的bin目录 运行<strong>mongod.exe</strong>命令</p>
-<pre><code>D:\mongodb\mongodb\bin\mongod.exe --dbpath d:\mongodb\data
-</code></pre></li>
-</ul>
-<p>输出的结果如下,表示服务启动成功.然后在浏览器输入localhost:28017会打开一个MongoDb的监控网页</p>
-<pre><code>Tue May 06 08:56:28.645 [initandlisten] MongoDB starting : pid=808 port=27017 db
-path=d:\mongodb\data 64-bit host=DuBaoKun
-Tue May 06 08:56:28.646 [initandlisten] db version v2.4.1
-Tue May 06 08:56:28.646 [initandlisten] git version: 1560959e9ce11a693be8b4d0d16
-0d633eee75110
-********
-Tue May 06 08:56:29.056 [initandlisten] command local.$cmd command: { create: &quot;s
-tartup_log&quot;, size: 10485760, capped: true } ntoreturn:1 keyUpdates:0  reslen:37
-290ms
-Tue May 06 08:56:29.077 [initandlisten] waiting for connections on port 27017
-Tue May 06 08:56:29.077 [websvr] admin web console waiting for connections on po
-rt 28017
-</code></pre><ul>
-<li>连接数据库 保持上述的Mongodb服务处于开启状态 在开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="external">这篇文章</a>继续操作</li>
-</ul>
-<p>###将MongoDb配置为服务</p>
-<blockquote>
-<p>虽然进行了以上的配置，但是之后每次使用Mongodb的时候都要先启动服务，如果配置为windows服务，让其自动启动。</p>
-</blockquote>
-<ul>
-<li>创建日志目录：除了配置数据存储目录外，MongoDb还需要要一个日志存储的目录。在<strong>d:\mongodb</strong>目录下创建log目录(这个目录是任意的)</li>
-<li><p>创建服务配置文件：在<strong>d:\mongodb</strong>目录下创建<strong>mongod.cfg</strong>文件。用记事本打开配置dbpath和logpath</p>
-<pre><code>logpath=D:\mongodb\log\mongo.log
-dbpath=D:\mongodb\data\db
-</code></pre></li>
-<li><p>安装服务。在命令行中运行如下命令</p>
-<pre><code>D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --install
-</code></pre><p>运行之后提示如下</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tue May 06 10:03:12.151 Trying to install Windows service &#39;MongoDB&#39;&#10;Tue May 06 10:03:12.358 Service &#39;MongoDB&#39; (Mongo DB) installed with command line&#10;&#39;D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --service&#39;&#10;Tue May 06 10:03:12.359 Service can be started from the command line with &#39;net s&#10;tart MongoDB&#39;</span><br></pre></td></tr></table></figure>
-</code></pre></li>
-</ul>
-<p>此命令成功之后会安装 Mongo Db的服务。并且开机会自动启动，如果要自己控制启动，在开始栏的搜索框输入services.msc可以到计算机管理服务里找个Mongo Db的服务进行设置.</p>
-<blockquote>
-<p>启动服务 <strong>net start MongoDB</strong></p>
-<p>停止服务 <strong>net stop MongoDB</strong></p>
-<p>删除服务 <strong>“C:\Program Files\MongoDB\bin\mongod.exe” –remove</strong></p>
-</blockquote>
-<ul>
-<li>连接数据库 保持Mongodb服务处于开启状态 开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="external">这篇文章</a>继续操作</li>
-</ul>
+          <p><img src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ee9vinri33j20gz0mnmzt.jpg" alt="一个成功的git分支模型"></p>
 
         
 
@@ -397,8 +255,460 @@ dbpath=D:\mongodb\data\db
         
           <div class="post-tags">
             
-              <a href="/tags/MongoDb/">
-                #MongoDb
+              <a href="/tags/Git/">
+                #Git
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/02/09/javascript-replace/">
+                javascript replace
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-02-09
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/02/09/javascript-replace/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/javascript-replace/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>###简单介绍<br><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
+<p>###字符串替换字符串<br><code>&#39;I am loser!&#39;.replace(&#39;loser&#39;,&#39;hero&#39;)//I am hero!</code></p>
+<p>直接使用字符串能让自己从loser变成hero，但是如果有2个loser就不能一起变成hero了。</p>
+<p><code>&#39;I am loser,You are loser&#39;.replace(&#39;loser&#39;,&#39;hero&#39;);//I am hero,You are loser</code></p>
+<p>正则表达式替换为字符串、并将正则的global属性改为true则可以让所有loser都变为hero</p>
+<p><code>&#39;I am loser,You are loser&#39;.replace(/loser/g,&#39;hero&#39;)//I am hero,You are hero</code></p>
+<p>###有趣的替换字符</p>
+<p>####使用$&amp;字符给匹配字符加大括号<br>        var sStr=’讨论一下正则表达式中的replace的用法’;<br>        sStr.replace(/正则表达式/,’{$&amp;}’);//讨论一下{正则表达式}中的replace的用法</p>
+<p>####使用$<code>和$&#39;字符替换内容,$</code>位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。<br>        ‘abc’.replace(/b/,”$`”);//aac<br>        ‘abc’.replace(/b/,”$’”);//acc</p>
+<p>####使用分组匹配组合新的字符串<br>        ‘nimojs@126.com’.replace(/(.+)(@)(.*)/,”$2$1”)//@nimojs</p>
+<p>####replaceValue参数可以是一个函数<br><code>StringObject.replace(searchValue,replaceValue)</code>中的<strong>replaceValue</strong>可以是一个函数.如果replaceValue是一个函数的话那么，这个函数的arguments会有n+3个参数（n为正则匹配到的次数)</p>
+<pre><code>function logArguments(){    
+console.log(arguments);//[&quot;nimojs@126.com&quot;, &quot;nimojs&quot;, &quot;@&quot;, &quot;126.com&quot;, 0, &quot;nimojs@126.com&quot;] 
+    return &apos;返回值会替换掉匹配到的目标&apos;
+}
+console.log(
+&apos;nimojs@126.com&apos;.replace(/(.+)(@)(.*)/,logArguments)
+)
+</code></pre><p><strong>参数分别为</strong></p>
+<ol>
+<li>匹配到的字符串（此例为nimojs@126.com,推荐修改上面代码的正则来查看匹配到的字符帮助理解)</li>
+<li>如果正则使用了分组匹配就为多个否则无此参数。（此例的参数就分别为”nimojs”, “@”, “126.com”。推荐修改正则为/nimo/查看控制台中返回的arguments值）</li>
+<li>匹配字符串的对应索引位置（此例为0）</li>
+<li>原始字符串</li>
+</ol>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/02/08/python-study-1/">
+                Python 学习笔记(1)
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-02-08
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/02/08/python-study-1/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/08/python-study-1/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>去年买了本Python基础教程，看了一个月，感觉Python 入门也挺easy的，也写了一些简单的代码，最近又买了本《Python入门教程》，感觉这个书不应该买的，就是太基础，书看完了,，将Python一些最基本的东西总结一下吧。将重点内容概括一下 作为读书笔记，好记性不如烂笔头啊。</p>
+<p>####字符串</p>
+<p>字符串有三种方式 </p>
+<pre><code>1. 单引号
+2. 双引号
+3. 三引号
+</code></pre><p>通过+ 完成字符串拼接<br>len (s) 求字符串的长度<br>3*”hello”复制三次字符串。</p>
+<p>列出模块中的所有函数 dir(math)<br>打印文档字符串 print(math.cos.<strong>doc</strong>)</p>
+<p>####类型转换<br>        int(“3”)<br>        str(3)<br>        float(‘3.0’)<br>        float(3)</p>
+<p>变量的引用赋值：让变量指向表达式的值 比如 x=2;x指向2，y=x;y也指向，改变y的值对x无影响，只是改变了y的指向而已</p>
+<p>多种赋值 </p>
+<pre><code>x,y,z=1,2,3  相当于x=1,y=2,z=3;
+</code></pre><p>从 键盘读取字符串 name=input();只能获取到字符串 ，如果要读取整数的话，需要类型转换，int(a)</p>
+<p>将字符串 首字母大写<br>        ‘du bao kun’.capitalize(); //Du bao kun<br>去除收尾的空格<br>        ‘  du  bao  kun   ‘.strip();// du bao kun</p>
+<p>print 在字符串  可以传入多个参数，以分隔符来输出，可以设置sep来自定义分割符号,比如  print(‘du’,’bao’,’kun’,sep=’.’)#du.bao.kun</p>
+<p>ord 获取字符编码 比如 ord(‘a’)#65<br>chr获取对应的字符 chr(97)#’a’</p>
+<p>转义字符  \单斜杠，\’单引号 、\”双引号、\n 回车，\r,换行\t 制表符</p>
+<p>获取字符串的字符 通过  [index]<br>字符串切片  比如<br>        food=’apple pie’;food[0:5] #apple</p>
+<p> 不包括索引5的字符,相当于food[:5]，如果起始索引忽略的话则相当于0，如果最后一个索引忽略，相当于 为字符串长度。</p>
+<p>负数索引， 比如 ‘food[-9,-4]’ #apple</p>
+<p>字符串测试函数:’s.endwith’ ,’s.startwith’,’s.isalnum’只包含字字母或者数字isalpha<br>只包含字母，’isdecimal’只包含十进制的数字的字符<br>‘isdigital’只包含数字，’isidentifier’只包含合法字符，’islower’只包含小写字母，’isnumric’只包含数字，’istitle’大小写符合头衔要求<br>‘isupper’只包含大写字母、’t in s s’包含字符串t<br>cout(t) 字符串中t出现的次数</p>
+<p>搜索函数：find(t) 如果没有找到子串t则返回-1、 rfind(t)、index(t)、rindex(t)没有找到会爆出异常</p>
+<p>要范文索引为i的字符 ，通过 ‘s[i]’或者 ‘s[i:i+1]’</p>
+<p>同时还有改变大小写、剥除函数、拆分函数，替换函数</p>
+<p><strong>format</strong>    函数 一下输出结果均为Jack like rose</p>
+<pre><code>print(&apos;{0} like {1} &apos;.format(&apos;jack&apos;,&apos;rose&apos;))
+print(&apos;{first} like {second} &apos;.format(second=&apos;rose&apos;,first=&apos;jack&apos;))
+</code></pre><p>eval可以解析 表达式的值 比如 ‘eval(‘5+3’)’结果为8<br>布尔逻辑 ：’not  and  or    ==、’<br>短路求值  如果 true or  x ，则表达式x值不再计算。同理如果 false and x，x表达是也不进行计算。<br>流程控制  if /else,if/elif/else</p>
+<pre><code>if x:
+    print(&apos;x&apos;)
+else
+    print(&apos;y&apos;)
+</code></pre><p>条件表达式</p>
+<pre><code>reply=‘yuck’if food ==&apos;lamb&apos; else &apos;yum&apos;
+</code></pre><p>相当于</p>
+<pre><code>if food ==&apos;lamb&apos;
+    reply=&apos;yuck&apos;
+else
+    replay=&apos;yum&apos;
+</code></pre><p>循环<br>        for i in range(10):<br>              print (i)<br>while </p>
+<pre><code>i=0
+while i&lt;10:
+    print(i)
+    i=i+1
+</code></pre><p>python 使用缩进来表示代码块，要在Python中 表示代码块，必须以同样程度缩进代码块的每一行，但Python 允许你编写包含任意数量语句的代码块,但注意冒号</p>
+<p>函数定义 </p>
+<pre><code>def say_hello():
+    print (&apos;hello&apos;)
+</code></pre><p>默认值</p>
+<pre><code>def greet(name,greeting =&apos;hello&apos;):
+    print(name+greeting)
+greet(&apos;kunkun&apos;)
+greet(&apos;kunkun&apos;,&apos;你好&apos;)
+</code></pre><p>输出结果 </p>
+<pre><code>kunkunhello
+kunkun你好
+</code></pre><p>关键字参数</p>
+<pre><code>greet(greeting=&apos;nihao&apos;,name=&apos;kunkun&apos;)
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Python/">
+                #Python
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/02/07/qunit-introduce/">
+                测试驱动开发：QUnit 介绍
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-02-07
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/02/07/qunit-introduce/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/07/qunit-introduce/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>在Javascript项目的开发流程中，测试驱动开发广为流传，测试驱动能够让我们节省编码的时间，本篇文章主要介绍<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>,一个测试驱动的开发框架，来帮助我们发现程序的错误以及bug</p>
+<p>###为什么要使用测试驱动开发<br>首先在最初使用单元测试的时候，这可能是一个繁杂和琐碎的过程，包括单元测试环境的搭建，以及为每一个要测试的函数编写测试代码，都会花费很多的时间，但是要相信单元测试最终会帮主我们来减少在一个项目周期中用来调试代码的时间。同时也会减少半夜接到电话被拉过去修改bug的麻烦，长远来说，这个过程会让你受益更多比如 跨浏览器的测试，使用这种方式能够让你在不同的浏览器中进行测试。总之编码之前，测试先行一个比较好的习惯。</p>
+<p>随着Github等类似的代码分享平台的出现，现在开源的东西也越来越多了，怎么才能证明这些东西的可用性呢，因为开源模块的作者会编写单元测试的代码。当我们clone完这个模块之后 然后跑一边单元测试代码，会让自己开源的模块增强可用性。同时我们在为开源项目贡献代码的时候也建议附上单元测试的程序，以增强自己的代码被接受的可能性。</p>
+<p>用Unit test 来代替调试，同时也能有利于团队合作，当他人看你写的模块的时候，看一下写的单元测试代码就明白该模块的功能了。单元测试能让我们更快地了解每个关键函数的功能。</p>
+<p>话说回来，当项目完成之后 又发现了bug，当我们在修改完一个bug之后，怎样才能说明bug修改好了呢，单元测试这个时候也可以为我们提供帮助，几行单元测试就能证明这个bug被修复了，无需多言。</p>
+<p>###为什么选择<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>?</p>
+<p>原因是这个框架很简单上手，也是单元测试新手的最佳选择，就像Jquery那么easy，对于初学者来说，<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>跟jQuery是也是出自同一人之手。<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>也是用来测试jQuery 本身的单元测试框架， Qunit对于jQuery开发者也是单元测试框架的最佳选择。当然还有更多javascript单元测试框架比如 <a href="http://visionmedia.github.io/mocha/" target="_blank" rel="external">mocha</a>,<a href="http://pivotal.github.io/jasmine/" target="_blank" rel="external">jasmine</a>,断言库<a href="http://chaijs.com/" target="_blank" rel="external">chai</a>,<a href="https://github.com/visionmedia/should.js" target="_blank" rel="external">should.js</a>、<a href="https://github.com/LearnBoost/expect.js" target="_blank" rel="external">Expect</a>、<a href="better-assert">better-assert</a>等</p>
+<p>###开始搭建环境<br>第一步就是先下载<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>的Javascript 和CSS文件。地址如下</p>
+<pre><code>&lt;link rel=“stylesheet&quot; href=&quot;//code.jquery.com/qunit/qunit-1.14.0.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
+&lt;script src=“//code.jquery.com/qunit/qunit-1.14.0.js”&gt;&lt;/script&gt;
+</code></pre><p>新建三个文件test.html、Calculator.js,test.js 我们用来展示单元测试的结果。Calculator.js编写我们要实现功能的程序，出于演示目的这里编写一个计算器的程序.test.js编写单元测试的代码。test.html代码如下</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Unit Test&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;http://code.jquery.com/qunit/qunit-1.14.0.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
+    &lt;script src=&quot;http://code.jquery.com/qunit/qunit-1.14.0.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+             &lt;h1 id=&quot;qunit-header&quot;&gt;QUnit Test Suite&lt;/h1&gt;
+                &lt;h2 id=&quot;qunit-banner&quot;&gt;&lt;/h2&gt;
+                &lt;div id=&quot;qunit-testrunner-toolbar&quot;&gt;&lt;/div&gt;
+                &lt;h2 id=&quot;qunit-userAgent&quot;&gt;&lt;/h2&gt;
+               &lt;ol id=&quot;qunit-tests&quot;&gt;&lt;/ol&gt;
+
+
+               &lt;script type=&quot;text/javascript&quot; src=&apos;./Calculator.js&apos;&gt;&lt;/script&gt;
+               &lt;script type=&quot;text/javascript&quot; src=&apos;./test.js&apos;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;    
+</code></pre><p>其中body里面几个html元素是为了展示测试结果使用的，测试代码执行的时候，Qunit会把测试结果放到这些元素中，结合内置一些CSS 让我们方便地了解哪些测试通过了，哪些没有通过。<br>Calculator.js主要包含两个简单的函数 multiply返回两个数的乘积，isOdd判断一个数是不是奇数。</p>
+<pre><code>function multiply(a,b) {
+  return a*b;
+}
+function isOdd(n) {
+   return Math.abs(n) % 2 == 1;
+}
+</code></pre><p>test.js就是我们要写的测试了。代码如下</p>
+<pre><code>test(&apos;isOdd()&apos;, function() {
+    ok(isOdd(3), &apos;Three is an odd number&apos;);
+    ok(isOdd(2), &apos;Two is not an odd number&apos;);
+});
+
+test(&apos;multiply()&apos;, function() {
+    strictEqual(multiply(2,2), &apos;4&apos;, &apos;2 multiplied by 2 is 4&apos;);
+    equal(multiply(2,3), 6, &apos;3 multiplied by 2 is 6&apos;);
+});
+</code></pre><p> 到此为止就可以运行了，结果是 2个通过，两个失败。</p>
+<p>我们很容易的看出，测试就是调用了一个名字为test的函数，包含两个参数，第一个参数是对测试函数的描述，第二个参数是一个回调函数，里面的ok，strictEqual，equal 分别是对测试例子结果的断言，对于strictEqual，equal来说比如我要测试一个函数，第一个是被测试函数的调用的返回结果，第二个是期待的结果，第三个是对本次测试示例的描述，如果测试结果与自己想要的结果一致，则本次单元测试通过，否则 。。。。。对于ok断言主要是判断被测试的函数返回值是否为真。如果为真则通过。否则。。。。<br>值得要说一下的是，strictEqual 是判断严格相等相当于<code>===</code>比如4===4返回true，4==’4’则返回false，equal是只要可以转为相等的结果则通过相当于<code>==</code>，会对操作数进行类型转换 比如4==’4’ 返回true</p>
+<p>除此之外还有其他的<a href="http://api.qunitjs.com/category/assert/" target="_blank" rel="external">断言函数</a>可用，这里就不介绍了。官网写的灰常清楚了</p>
+<ul>
+<li><code>deepEqual()</code> ：深度相等判断，适用于原生类型，数组，对象 正则表达式，以及日期 函数类型</li>
+<li><code>equal()</code> ：非严格相等，</li>
+<li><code>notDeepEqual</code> ：与<code>deepEqual</code>功能相反</li>
+<li><code>notPropEqual()</code> 严格的比较对象属性，不相等则通过。</li>
+<li><code>notStrictEqual()</code> 严格的比较，不严格相等则返回通过</li>
+<li><code>ok()</code>  第一个参数为true 则通过测试。</li>
+<li><code>propEqual()</code> 使用=== 来比较对象内部的属性，与<code>deepEqual()</code> 不同的是<code>propEqual()</code>可以用来比较两个具有不同原型以及构造函数的对象。</li>
+<li><code>strictEqual()</code> 同时比较值和类型 </li>
+<li><code>throws()</code> 要求抛出异常。</li>
+</ul>
+<p>下载本篇博客的<a href="https://github.com/kunkun12/Qunit-Demo" target="_blank" rel="external">源码</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/01/26/sublime-chinise-language/">
+                sublime 输出对中文的支持
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-01-26
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/01/26/sublime-chinise-language/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/26/sublime-chinise-language/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>今天用sublime 写Python的Demo，当编辑代码完成之后按Ctrl +B，能完成Python的解释，并在控制台输出结果，但是如果输出内容中包含中文的话则会有错误发生，错误如下</p>
+<p><code>[Decode error - output not utf-8]</code></p>
+<p>大概猜出是编码的问题，于是百度了解决方案为，在Sublime插件包里修改 <code>Python.sublime-build</code> 这个文件在<code>C:\Users\kunkun\AppData\Roaming\Sublime Text 2\Packages\Python</code>下面.在最后一行里面添加·<code>&quot;encoding&quot;: &quot;cp936&quot;</code>,原来的文件为：</p>
+<pre><code>{
+    &quot;cmd&quot;: [&quot;python&quot;, &quot;-u&quot;, &quot;$file&quot;],
+    &quot;file_regex&quot;: &quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;,
+    &quot;selector&quot;: &quot;source.python&quot;
+}
+</code></pre><p>修改后的文件</p>
+<pre><code>{
+  &quot;cmd&quot;: [&quot;python&quot;, &quot;-u&quot;, &quot;$file&quot;],
+  &quot;file_regex&quot;: &quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;,
+   &quot;selector&quot;: &quot;source.python&quot;,
+   &quot;encoding&quot;: &quot;cp936&quot;
+}
+</code></pre><p>改完之后则可以正常输出中文了。</p>
+<p>如果nodejs在控制台输出中文乱码的问题</p>
+<p>修改Nodejs.sublime-build文件中的encoding为utf-8</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Sublime/">
+                #Sublime
               </a>
             
           </div>
@@ -420,7 +730,7 @@ dbpath=D:\mongodb\data\db
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
             </div>
           
         </div>
