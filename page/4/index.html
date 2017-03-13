@@ -99,6 +99,258 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/10/html5-canvas/">
+                html5 canvas 2d绘图API 学习总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-10
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/10/html5-canvas/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/10/html5-canvas/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>###基本知识<br>canvas本身提供的属性和方法很少 属性有hegight,width(这个属性与通过CSS设置的是不同的),绘图功能主要是存在通过canvas.getContext()返回的上下文中.有个一个toDataUrl()方法, 可以将canvas的转为一定格式的图片。下面主要介绍，context2d里面的方法。之前学过C语言绘图，貌似方法很类似</p>
+<p>获取绘图上下文</p>
+<pre><code>var context =canvas.getContext(&quot;2d&quot;);
+</code></pre><p>canvas元素绘制图像的时候有两种方法，分别是</p>
+<ul>
+<li>context.fill()//填充</li>
+<li>context.stroke()//绘制边框</li>
+</ul>
+<p>style:在进行图形绘制前，要设置好绘图的样式</p>
+<ul>
+<li>context.fillStyle//填充的样式</li>
+<li>context.strokeStyle//边框样式</li>
+<li>context.lineWidth//图形边框宽度</li>
+</ul>
+<p>颜色的表示方式:</p>
+<ul>
+<li>直接用颜色名称:”red” “green” “blue”</li>
+<li>十六进制颜色值: “#EEEEFF”</li>
+<li>rgb(1-255,1-255,1-255)</li>
+<li>rgba(1-255,1-255,1-255,透明度)<br>默认情况下坐标原点为canvas的左上角，水平向右为X</li>
+</ul>
+<p>#####绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)</p>
+<ul>
+<li><em>x:矩形起点横坐标</em></li>
+<li><em>y:矩形起点纵坐标</em></li>
+<li><em>width:矩形长度</em></li>
+<li><em>height:矩形高度</em></li>
+</ul>
+<p><a href="http://kunkun12.github.io/CanvasDemo/Rect.html" target="_blank" rel="external">查看Demo</a></p>
+<p>#####清除矩形区域 context.clearRect(x,y,width,height)</p>
+<ul>
+<li><em>x:清除矩形起点横坐标</em></li>
+<li><em>y:清除矩形起点纵坐标</em></li>
+<li><em>width:清除矩形长度</em></li>
+<li><em>height:清除矩形高度</em></li>
+</ul>
+<p><a href="http://kunkun12.github.io/CanvasDemo/clearRect.html" target="_blank" rel="external">查看Demo</a></p>
+<p>#####圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)</p>
+<ul>
+<li><em>x:圆心的x坐标</em></li>
+<li><em>y:圆心的y坐标</em></li>
+<li><em>straAngle:开始角度</em></li>
+<li><em>endAngle:结束角度</em></li>
+<li><p><em>anticlockwise:是否逆时针（true）为逆时针，(false)为顺时针</em></p>
+<p><a href="http://kunkun12.com/CanvasDemo/drawline.html">查看demo</a></p>
+</li>
+</ul>
+<p>#####路径  context.beginPath()    context.closePath()</p>
+<ul>
+<li>系统默认在绘制第一个路径的开始点为beginPath</li>
+<li>如果画完前面的路径没有重新指定beginPath，那么画第其他路径的时候会将前面最近指定的beginPath后的全部路径重新绘制</li>
+<li><p>每次调用context.fill（）的时候会自动把当次绘制的路径的开始点和结束点相连，接着填充封闭的部分</p>
+<p><a href="http://kunkun12.github.io/CanvasDemo/closepath.html" target="_blank" rel="external">查看demo</a><br>####绘制线段 context.moveTo(x,y)  context.lineTo(x,y)</p>
+</li>
+<li><p><em>x:x坐标</em></p>
+</li>
+<li><em>y:y坐标</em></li>
+</ul>
+<p>每次画线都从moveTo的点到lineTo的点，<br>如果没有moveTo那么第一次lineTo的效果和moveTo一样，<br>每次lineTo后如果没有moveTo，那么下次lineTo的开始点为前一次lineTo的结束点</p>
+<p><a href="http://kunkun12.github.io/CanvasDemo/drawarc.html" target="_blank" rel="external">查看demo</a></p>
+<p>#####绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y) </p>
+<ul>
+<li><em>cp1x:第一个控制点x坐标</em></li>
+<li><em>cp1y:第一个控制点y坐标</em></li>
+<li><em>cp2y:第二个控制点y坐标</em></li>
+<li><em>x:终点x坐标</em></li>
+<li><em>y:终点y坐标</em></li>
+</ul>
+<p>#####绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)</p>
+<ul>
+<li><em>qcpx:二次样条曲线控制点x坐标</em></li>
+<li><em>qcpy:二次样条曲线控制点y坐标</em></li>
+<li><em>qx:二次样条曲线终点x坐标</em></li>
+<li><em>qy:二次样条曲线终点y坐标</em></li>
+</ul>
+<p><a href="http://kunkun12.github.io/CanvasDemo/bezier.html" target="_blank" rel="external">查看demo</a></p>
+<p>#####线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)</p>
+<ul>
+<li><em>xstart:渐变开始点x坐标</em></li>
+<li><em>ystart:渐变开始点y坐标</em></li>
+<li><em>xEnd:渐变结束点x坐标</em></li>
+<li><em>yEnd:渐变结束点y坐标</em></li>
+<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
+<li><em>color:绘制时要使用的颜色</em></li>
+</ul>
+<p>#####径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)</p>
+<p>#####径向渐变（发散）颜色rg.addColorStop(offset,color)</p>
+<ul>
+<li><em>xStart:发散开始圆心x坐标</em></li>
+<li><em>yStart:发散开始圆心y坐标</em></li>
+<li><em>radiusStart:发散开始圆的半径</em></li>
+<li><em>xEnd:发散结束圆心的x坐标</em></li>
+<li><em>yEnd:发散结束圆心的y坐标</em></li>
+<li><em>radiusEnd:发散结束圆的半径</em></li>
+<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
+<li><em>color:绘制时要使用的颜色</em></li>
+</ul>
+<p><a href="http://kunkun12.github.io/CanvasDemo/Gradient.html" target="_blank" rel="external">渐变Demo</a></p>
+<p>#####图形变换(坐标系变换)</p>
+<p>1、平移context.translate(x,y)</p>
+<ul>
+<li>x:坐标原点向x轴方向平移x</li>
+<li>y:坐标原点向y轴方向平移y</li>
+</ul>
+<p>2、缩放context.scale(x,y)</p>
+<ul>
+<li>x:x坐标轴按x比例缩放</li>
+<li>y:y坐标轴按y比例缩放</li>
+</ul>
+<p>3、旋转context.rotate(angle)</p>
+<ul>
+<li>angle:坐标轴旋转x角度（角度变化模型和画圆的模型一样)</li>
+</ul>
+<p>#####矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)<br> 所谓的矩阵变换其实是context内实现平移，缩放，旋转的一种机制,他的主要原理就是矩阵相乘<br><a href="http://kunkun12.github.io/CanvasDemo/transform.html" target="_blank" rel="external">参见demo</a></p>
+<p>图形组合 context.globalCompositeOperation=type</p>
+<p>图形组合就是两个图形相互叠加了图形的表现形式,是后画的覆盖掉先画的呢，还是相互重叠的部分不显示等等，至于怎么显示就取决于type的值了<br>type：</p>
+<pre><code>source-over（默认值）:在原有图形上绘制新图形
+
+destination-over:在原有图形下绘制新图形
+
+source-in:显示原有图形和新图形的交集，新图形在上，所以颜色为新图形的颜色
+
+destination-in:显示原有图形和新图形的交集，原有图形在上，所以颜色为原有图形的颜色
+
+source-out:只显示新图形非交集部分
+
+destination-out:只显示原有图形非交集部分
+
+source-atop:显示原有图形和交集部分，新图形在上，所以交集部分的颜色为新图形的颜色
+
+destination-atop:显示新图形和交集部分，新图形在下，所以交集部分的颜色为原有图形的颜色
+
+lighter:原有图形和新图形都显示，交集部分做颜色叠加
+
+xor:重叠飞部分不现实
+
+copy:只显示新图形
+</code></pre><p>#####给图形绘制阴影</p>
+<ul>
+<li>context.shadowOffsetX :阴影的横向位移量（默认值为0）</li>
+<li>context.shadowOffsetY :阴影的纵向位移量（默认值为0）</li>
+<li>context.shadowColor :阴影的颜色</li>
+<li>context.shadowBlur :阴影的模糊范围（值越大越模糊）</li>
+</ul>
+<p>#####绘制图像 </p>
+<ul>
+<li><p>绘图：context.drawImage</p>
+</li>
+<li><p>图像平铺：context.createPattern(image,type)</p>
+</li>
+<li><p>图像裁剪：context.clip()</p>
+</li>
+<li><p>像素处理：var imagedata=context.getImageData(sx,sy,sw,sh)</p>
+</li>
+<li><p>设置像素颜色：context.putImageData(imagedata,dx,dy,dirtyX,dirtyY,dirtyWidth,dirtyHeight)</p>
+</li>
+</ul>
+<p>#####绘制文字</p>
+<ul>
+<li>填充文字：context.fillText(text,x,y)  </li>
+<li><p>绘制文字轮廓 context.strokeText(text,x,y) </p>
+</li>
+<li><p>text:要绘制的文字</p>
+</li>
+<li>x:文字起点的x坐标轴</li>
+<li>y:文字起点的y坐标轴</li>
+<li>context.font:设置字体样式</li>
+<li>context.textAlign:水平对齐方式<pre><code>start、end、right、center
+</code></pre></li>
+<li>context.textBaseline:垂直对齐方式：top、hanging、middle、alphabetic、ideographic、bottom</li>
+</ul>
+<p>#####保存和恢复上下文状态，主要包括坐标系，裁剪区域等 </p>
+<ul>
+<li>保存：context.save()</li>
+<li>恢复：context.restore()</li>
+</ul>
+<p>#####保存文件  canvas.toDataURL(MIME)</p>
+<p>在canvas中绘出的图片只是canvas标签而已，并非是真正的图片，是不能右键，另存为的，我们可以利用canvas.toDataURL()这个方法把canvas绘制的图形生成一幅图片，生成图片后，就能对图片进行相应的操作了。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/09/html5-tag/">
                 HTML5 语义化标签
               </a>
@@ -1854,88 +2106,6 @@ perfect for data-intensive real-time applications that run across distributed de
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/20/how-to-design-a-good-api/">
-                如何设计优秀的API
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-20
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/20/how-to-design-a-good-api/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/20/how-to-design-a-good-api/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>谷歌架构师Joshua Bloch最近分享了一份幻灯片，<a href="http://vidcat.org/papers/how-to-design-a-good-api-and-why-it-matters.html#.UxFCN_mSyKM" target="_blank" rel="external">系统的讨论了优秀API的设计原则</a>。他指出：每个API接口应该只专注一件事，并做好：如果它很难命名，那么这或许是个不好的征兆，好的名称可以驱动开发、并且只需拆分与合并模块即可。设计原则包括：</p>
-<ul>
-<li>API应尽可能地简洁：满足需求、对有疑问的地方可以暂时不使用（函数、类、方法、参数等，你可以不添加，但千万不要删除）、概念性的东西比体积重要）；</li>
-<li>实现不要影响API：关注实现细节（不要迷惑用户、不要随便改变实现方式）、意识到具体的实现细节（不要有越权的方法行为，例如不所有的调优参数都是可疑的）；</li>
-<li>不要让实现细节“泄露”到API（例如on-disk和on-the-wire格式等异常情况）；</li>
-<li>最小化可访问：设计人员应尽量把类及成员设为私有，公共类不应该有公共字段（包括异常实例），最大限度地提高信息隐藏，允许模块可以被使用、理解、构建、测试和独立调试；</li>
-<li>命名问题：应该见名知意，避免含糊的缩写、对同一样东西的命名应该有个一致性的前缀（遍及整个平台API）、讲究对称、代码应该易读。</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/API/">
-                #API
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -1968,7 +2138,7 @@ perfect for data-intensive real-time applications that run across distributed de
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
@@ -2024,7 +2194,7 @@ perfect for data-intensive real-time applications that run across distributed de
         <div class="copyright">
   
   &copy; &nbsp; 
-  2016
+  2017
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>

@@ -99,6 +99,103 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/20/oo-3-features/">
+                面向对象编程3大特性 7大原则[转] 
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-20
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/20/oo-3-features/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/oo-3-features/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>原文地址<http: blog.163.com="" wumingli456@126="" blog="" static="" 28896414201211121629525=""></http:></p>
+<p>###面向对象的特性<br>三个基本的特性：封装、继承与多态。</p>
+<p>1、封装<br>面向对象编程核心思想这一就是就是将数据和对数据的操作封装在一起.通过抽象,即从具体的实例中抽取共同的性质形成一般的概念,比如类的概念.</p>
+<p>2、继承<br>继承体现了一种先进的编程模式.子类可以继承父类的属性和功能,即子类继承了父类所具有的数据和数据上的操作,同时又可以增添子类独有的数据和数据上的操作.例如,”人类”继承了”哺乳类”的属性和功能,同时又增添了人类独有的属性和功能.</p>
+<p>3、多态<br> 多态是面向对象编程的又一重要特征.有两种意义的多态（表现为方法的重写(Overriding)和重载(Overloading)）<br> 一种是操作名称的多态,即有多个操作具有相同的名字,但这些操作所接收的消息类型必须不同.所谓操作名称的多态是指可以向操作传递不同消息,以便让对象根据相应的消息来产生一定的行为.</p>
+<p>###七大基本原则<br> 单一职责原则SRP(Single Responsibility Principle)、开放封闭原则OCP(Open－Close Principle) 、替换原则、依赖原则(the Dependency Inversion Principle DIP) (the Liskov Substitution Principle LSP) 、接口分离原则(the Interface Segregation Principle ISP)、“迪米特”法则 、组合/聚合原则 </p>
+<p>1、单一职责原则SRP(Single Responsibility Principle)<br>即一个类只负责一项职责<br>可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>提高类的可读性，提高系统的可维护性；<br>变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
+<p>2、开放封闭原则OCP(Open－Close Principle)<br>一个模块在扩展性方面应该是开放的而在更改性方面应该是封闭的。比如：一个网络模块，原来只服务端功能，而现在要加入客户端功能，<br>那么应当在不用修改服务端功能代码的前提下，就能够增加客户端功能的实现代码，这要求在设计之初，就应当将服务端和客户端分开，公共部分抽象出来。</p>
+<p>3、里氏替换原则(the Liskov Substitution Principle LSP)<br>子类应当可以替换父类并出现在父类能够出现的任何地方。</p>
+<p>4、依赖倒转原则(the Dependency Inversion Principle DIP)<br>具体依赖抽象，上层依赖下层。假设B是较A低的模块，但B需要使用到A的功能，<br>这个时候，B不应当直接使用A中的具体类： 而应当由B定义一抽象接口，并由A来实现这个抽象接口，B只使用这个抽象接口：这样就达到<br>了 依赖倒置的目的，B也解除了对A的依赖，反过来是A依赖于B定义的抽象接口。通过上层模块难以避免依赖下层模块，假如B也直接依赖A的实现，那么就可能造 成循环依赖。一个常见的问题就是编译A模块时需要直接包含到B模块的cpp文件，而编译B时同样要直接包含到A的cpp文件。</p>
+<p>5、接口分离原则(the Interface Segregation Principle ISP)<br>模块间要通过抽象接口隔离开，而不是通过具体的类强耦合起来。即面向接口编程</p>
+<p>6、“迪米特”法则<br>又叫最少知识原则，就是说，一个对象应当对其他对象有尽可能少的了解<br>① 在类的划分上，应该创建有弱耦合的类；<br>② 在类的结构设计上，每一个类都应当尽量降低成员的访问权限；<br>③ 在类的设计上，只要有可能，一个类应当设计成不变类；<br>④ 在对其他类的引用上，一个对象对其它对象的引用应当降到最低；<br>⑤ 尽量降低类的访问权限；<br>⑥ 谨慎使用序列化功能；<br>⑦ 不要暴露类成员，而应该提供相应的访问器(属性)。 </p>
+<p>7、.组合/聚合原则<br>又叫合成复用原则。原则就是在一个新的对象里面通过关联关系（包括组合关系和聚合关系）使用一些已有的对象，使之成为新对象的一部分，新对象通过委派调用已有对象的方法达到复用其已有功能的目的。也就是，要尽量使用类的合成复用，尽量不要使用继承。<br>就是在一个新的对象里面使用一些已有的对象，使之成为新对象的一部分，新的对象通过向这些对象的委派达到复用已有功能的目的。这个原则有一个简短的描述：要尽量使用合成、聚合，尽量不要使用继承。</p>
+<p>1)  新对象存取成分对象的唯一方法是通过成分对象的接口</p>
+<p>2)  这种复用是黑箱复用，因为成分对象的内部细节是新对象所看不到的</p>
+<p>3)  这种复用可以在运行时间内动态进行，新对象可以动态的引用与成分对象类型相同的对象</p>
+<p>4)  合成、聚合可以应用到任何环境中去，而继承只能应用到一些有限环境中去</p>
+<p>5)  导致错误的使用合成、聚合与继承的一个常见原因是错误的把“Has-a”关系当作“Is-a”关系。如果两个类是“Has-a”关系那么应使用合成、聚合，如果是“Is-a”关系那么可使用继承</p>
+<p>在面向对象设计中，可以通过两种基本方法在不同的环境中复用已有的设计和实现，即通过组合/聚合关系或通过继承。</p>
+<p>1)   继承复用：实现简单，易于扩展。破坏系统的封装性，从基类继承而来的实现是静态的，不可能在运行时发生改变，没有足够的灵活性；只能在有限的环境中使用。（“白箱”复用 ）</p>
+<p>2)   组合/聚合复用：耦合度相对较低，选择性地调用成员对象的操作；可以在运行时动态进行。（“黑箱”复用 ）</p>
+<p>组合/聚合可以使系统更加灵活，类与类之间的耦合度降低，一个类的变化对其他类造成的影响相对较少，因此一般首选使用组合/聚合来实现复用；</p>
+<p>其次才考虑继承，在使用继承时，需要严格遵循里氏代换原则，有效使用继承会有助于对问题的理解，降低复杂度，而滥用继承反而会增加系统构建和维护的难度以及系统的复杂度，因此需要慎重使用继承复用。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/object-oriented/">
+                #object oriented
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/20/css-inline/">
                 css inline
               </a>
@@ -1476,258 +1573,6 @@ expires:31 Dec 2008
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/10/html5-canvas/">
-                html5 canvas 2d绘图API 学习总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-10
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/10/html5-canvas/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/10/html5-canvas/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>###基本知识<br>canvas本身提供的属性和方法很少 属性有hegight,width(这个属性与通过CSS设置的是不同的),绘图功能主要是存在通过canvas.getContext()返回的上下文中.有个一个toDataUrl()方法, 可以将canvas的转为一定格式的图片。下面主要介绍，context2d里面的方法。之前学过C语言绘图，貌似方法很类似</p>
-<p>获取绘图上下文</p>
-<pre><code>var context =canvas.getContext(&quot;2d&quot;);
-</code></pre><p>canvas元素绘制图像的时候有两种方法，分别是</p>
-<ul>
-<li>context.fill()//填充</li>
-<li>context.stroke()//绘制边框</li>
-</ul>
-<p>style:在进行图形绘制前，要设置好绘图的样式</p>
-<ul>
-<li>context.fillStyle//填充的样式</li>
-<li>context.strokeStyle//边框样式</li>
-<li>context.lineWidth//图形边框宽度</li>
-</ul>
-<p>颜色的表示方式:</p>
-<ul>
-<li>直接用颜色名称:”red” “green” “blue”</li>
-<li>十六进制颜色值: “#EEEEFF”</li>
-<li>rgb(1-255,1-255,1-255)</li>
-<li>rgba(1-255,1-255,1-255,透明度)<br>默认情况下坐标原点为canvas的左上角，水平向右为X</li>
-</ul>
-<p>#####绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)</p>
-<ul>
-<li><em>x:矩形起点横坐标</em></li>
-<li><em>y:矩形起点纵坐标</em></li>
-<li><em>width:矩形长度</em></li>
-<li><em>height:矩形高度</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/Rect.html" target="_blank" rel="external">查看Demo</a></p>
-<p>#####清除矩形区域 context.clearRect(x,y,width,height)</p>
-<ul>
-<li><em>x:清除矩形起点横坐标</em></li>
-<li><em>y:清除矩形起点纵坐标</em></li>
-<li><em>width:清除矩形长度</em></li>
-<li><em>height:清除矩形高度</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/clearRect.html" target="_blank" rel="external">查看Demo</a></p>
-<p>#####圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)</p>
-<ul>
-<li><em>x:圆心的x坐标</em></li>
-<li><em>y:圆心的y坐标</em></li>
-<li><em>straAngle:开始角度</em></li>
-<li><em>endAngle:结束角度</em></li>
-<li><p><em>anticlockwise:是否逆时针（true）为逆时针，(false)为顺时针</em></p>
-<p><a href="http://kunkun12.com/CanvasDemo/drawline.html">查看demo</a></p>
-</li>
-</ul>
-<p>#####路径  context.beginPath()    context.closePath()</p>
-<ul>
-<li>系统默认在绘制第一个路径的开始点为beginPath</li>
-<li>如果画完前面的路径没有重新指定beginPath，那么画第其他路径的时候会将前面最近指定的beginPath后的全部路径重新绘制</li>
-<li><p>每次调用context.fill（）的时候会自动把当次绘制的路径的开始点和结束点相连，接着填充封闭的部分</p>
-<p><a href="http://kunkun12.github.io/CanvasDemo/closepath.html" target="_blank" rel="external">查看demo</a><br>####绘制线段 context.moveTo(x,y)  context.lineTo(x,y)</p>
-</li>
-<li><p><em>x:x坐标</em></p>
-</li>
-<li><em>y:y坐标</em></li>
-</ul>
-<p>每次画线都从moveTo的点到lineTo的点，<br>如果没有moveTo那么第一次lineTo的效果和moveTo一样，<br>每次lineTo后如果没有moveTo，那么下次lineTo的开始点为前一次lineTo的结束点</p>
-<p><a href="http://kunkun12.github.io/CanvasDemo/drawarc.html" target="_blank" rel="external">查看demo</a></p>
-<p>#####绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y) </p>
-<ul>
-<li><em>cp1x:第一个控制点x坐标</em></li>
-<li><em>cp1y:第一个控制点y坐标</em></li>
-<li><em>cp2y:第二个控制点y坐标</em></li>
-<li><em>x:终点x坐标</em></li>
-<li><em>y:终点y坐标</em></li>
-</ul>
-<p>#####绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)</p>
-<ul>
-<li><em>qcpx:二次样条曲线控制点x坐标</em></li>
-<li><em>qcpy:二次样条曲线控制点y坐标</em></li>
-<li><em>qx:二次样条曲线终点x坐标</em></li>
-<li><em>qy:二次样条曲线终点y坐标</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/bezier.html" target="_blank" rel="external">查看demo</a></p>
-<p>#####线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)</p>
-<ul>
-<li><em>xstart:渐变开始点x坐标</em></li>
-<li><em>ystart:渐变开始点y坐标</em></li>
-<li><em>xEnd:渐变结束点x坐标</em></li>
-<li><em>yEnd:渐变结束点y坐标</em></li>
-<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
-<li><em>color:绘制时要使用的颜色</em></li>
-</ul>
-<p>#####径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)</p>
-<p>#####径向渐变（发散）颜色rg.addColorStop(offset,color)</p>
-<ul>
-<li><em>xStart:发散开始圆心x坐标</em></li>
-<li><em>yStart:发散开始圆心y坐标</em></li>
-<li><em>radiusStart:发散开始圆的半径</em></li>
-<li><em>xEnd:发散结束圆心的x坐标</em></li>
-<li><em>yEnd:发散结束圆心的y坐标</em></li>
-<li><em>radiusEnd:发散结束圆的半径</em></li>
-<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
-<li><em>color:绘制时要使用的颜色</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/Gradient.html" target="_blank" rel="external">渐变Demo</a></p>
-<p>#####图形变换(坐标系变换)</p>
-<p>1、平移context.translate(x,y)</p>
-<ul>
-<li>x:坐标原点向x轴方向平移x</li>
-<li>y:坐标原点向y轴方向平移y</li>
-</ul>
-<p>2、缩放context.scale(x,y)</p>
-<ul>
-<li>x:x坐标轴按x比例缩放</li>
-<li>y:y坐标轴按y比例缩放</li>
-</ul>
-<p>3、旋转context.rotate(angle)</p>
-<ul>
-<li>angle:坐标轴旋转x角度（角度变化模型和画圆的模型一样)</li>
-</ul>
-<p>#####矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)<br> 所谓的矩阵变换其实是context内实现平移，缩放，旋转的一种机制,他的主要原理就是矩阵相乘<br><a href="http://kunkun12.github.io/CanvasDemo/transform.html" target="_blank" rel="external">参见demo</a></p>
-<p>图形组合 context.globalCompositeOperation=type</p>
-<p>图形组合就是两个图形相互叠加了图形的表现形式,是后画的覆盖掉先画的呢，还是相互重叠的部分不显示等等，至于怎么显示就取决于type的值了<br>type：</p>
-<pre><code>source-over（默认值）:在原有图形上绘制新图形
-
-destination-over:在原有图形下绘制新图形
-
-source-in:显示原有图形和新图形的交集，新图形在上，所以颜色为新图形的颜色
-
-destination-in:显示原有图形和新图形的交集，原有图形在上，所以颜色为原有图形的颜色
-
-source-out:只显示新图形非交集部分
-
-destination-out:只显示原有图形非交集部分
-
-source-atop:显示原有图形和交集部分，新图形在上，所以交集部分的颜色为新图形的颜色
-
-destination-atop:显示新图形和交集部分，新图形在下，所以交集部分的颜色为原有图形的颜色
-
-lighter:原有图形和新图形都显示，交集部分做颜色叠加
-
-xor:重叠飞部分不现实
-
-copy:只显示新图形
-</code></pre><p>#####给图形绘制阴影</p>
-<ul>
-<li>context.shadowOffsetX :阴影的横向位移量（默认值为0）</li>
-<li>context.shadowOffsetY :阴影的纵向位移量（默认值为0）</li>
-<li>context.shadowColor :阴影的颜色</li>
-<li>context.shadowBlur :阴影的模糊范围（值越大越模糊）</li>
-</ul>
-<p>#####绘制图像 </p>
-<ul>
-<li><p>绘图：context.drawImage</p>
-</li>
-<li><p>图像平铺：context.createPattern(image,type)</p>
-</li>
-<li><p>图像裁剪：context.clip()</p>
-</li>
-<li><p>像素处理：var imagedata=context.getImageData(sx,sy,sw,sh)</p>
-</li>
-<li><p>设置像素颜色：context.putImageData(imagedata,dx,dy,dirtyX,dirtyY,dirtyWidth,dirtyHeight)</p>
-</li>
-</ul>
-<p>#####绘制文字</p>
-<ul>
-<li>填充文字：context.fillText(text,x,y)  </li>
-<li><p>绘制文字轮廓 context.strokeText(text,x,y) </p>
-</li>
-<li><p>text:要绘制的文字</p>
-</li>
-<li>x:文字起点的x坐标轴</li>
-<li>y:文字起点的y坐标轴</li>
-<li>context.font:设置字体样式</li>
-<li>context.textAlign:水平对齐方式<pre><code>start、end、right、center
-</code></pre></li>
-<li>context.textBaseline:垂直对齐方式：top、hanging、middle、alphabetic、ideographic、bottom</li>
-</ul>
-<p>#####保存和恢复上下文状态，主要包括坐标系，裁剪区域等 </p>
-<ul>
-<li>保存：context.save()</li>
-<li>恢复：context.restore()</li>
-</ul>
-<p>#####保存文件  canvas.toDataURL(MIME)</p>
-<p>在canvas中绘出的图片只是canvas标签而已，并非是真正的图片，是不能右键，另存为的，我们可以利用canvas.toDataURL()这个方法把canvas绘制的图形生成一幅图片，生成图片后，就能对图片进行相应的操作了。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -1760,7 +1605,7 @@ copy:只显示新图形
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
@@ -1816,7 +1661,7 @@ copy:只显示新图形
         <div class="copyright">
   
   &copy; &nbsp; 
-  2016
+  2017
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
