@@ -154,7 +154,7 @@ window.postMessage accepts one argument, data, which will be available on the ev
 <p>以上只是通信api的介绍，如果生产环境中使用的话，还可以对调用形式进一步封装，比如H5中方法调用RN中的分享，并且要求知道分享结果是否成功，可以使用 <code>webviewBridgecallRN(&#39;share&#39;,{title:&#39;微信分享&#39;，content:&quot;分享内容&quot;},callback)</code>这种类似的方式，同时RN中可根据事件的名字进行分模块来实现。</p>
 <h5 id="u5907_u6CE8"><a href="#u5907_u6CE8" class="headerlink" title="备注"></a>备注</h5><ul>
 <li>查阅了react-native的Webview源码变更记录  <code>onMessage/postMessage</code>是从 0.37 版才支持的。android与ios的支持版本同步。</li>
-<li>之前rn webview 通信可以使用 <a href="react-native-webview-bridge">https://github.com/alinz/react-native-webview-bridge</a>,修改了Webview native以及JS的源码，后来该库的核心代码被集成到了 react-native 中 <a href="https://github.com/alinz/react-native-webview-bridge/issues/206" target="_blank" rel="external">https://github.com/alinz/react-native-webview-bridge/issues/206</a></li>
+<li>之前rn webview 通信可以使用 <a href="react-native-webview-bridge">https://github.com/alinz/react-native-webview-bridge</a></li>
 </ul>
 
         
