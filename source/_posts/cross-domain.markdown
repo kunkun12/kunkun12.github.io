@@ -73,7 +73,6 @@ ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安�
 					script.src="http://localhost:3000/add?"+querystring;
 					document.body.appendChild(script);
 				
-
 以上$为自定义的函数,根据ID 获取元素，然后从文本框中读取值。作为服务的参数传入。接下来要定义一个名字为addresult的函数来接受返回结果：
 
 	function addresult (data) {
