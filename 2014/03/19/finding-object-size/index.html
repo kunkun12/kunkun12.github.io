@@ -128,7 +128,7 @@
         
 
         
-          <p>####问题提出 我要获取一个对象包含属性的个数<br>在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下</p>
+          <h4 id="u95EE_u9898_u63D0_u51FA__u6211_u8981_u83B7_u53D6_u4E00_u4E2A_u5BF9_u8C61_u5305_u542B_u5C5E_u6027_u7684_u4E2A_u6570"><a href="#u95EE_u9898_u63D0_u51FA__u6211_u8981_u83B7_u53D6_u4E00_u4E2A_u5BF9_u8C61_u5305_u542B_u5C5E_u6027_u7684_u4E2A_u6570" class="headerlink" title="问题提出 我要获取一个对象包含属性的个数"></a>问题提出 我要获取一个对象包含属性的个数</h4><p>在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下</p>
 <pre><code>var bookAuthors = {
     &quot;Farmer Giles of Ham&quot;: &quot;J.R.R. Tolkien&quot;,
     &quot;Out of the Silent Planet&quot;: &quot;C.S. Lewis&quot;,
@@ -136,7 +136,7 @@
     &quot;Poetic Diction&quot;: &quot;Owen Barfield&quot;
 };
 </code></pre><p>作为分析的一部分，我们像一个API发送图书作者的数据，不幸的是 这个API只能接受一个包含100本左右的图书对象，于是我们需要向一个号的解决方案，在向API发送之前想告诉它一共包含了多少本书。</p>
-<p>####解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的<br>于是最初的设计可能如下</p>
+<h4 id="u89E3_u51B3_u65B9_u6848_uFF0C_u4F7F_u7528for_in__u53D8_u91CF_u6240_u6709_u5C5E_u6027_uFF0ChasOwnProperty_u5224_u65AD_u662F_u4E0D_u662F_u5C5E_u4E8E_u5F53_u524D_u5BF9_u8C61_u672C_u8EAB_u7684"><a href="#u89E3_u51B3_u65B9_u6848_uFF0C_u4F7F_u7528for_in__u53D8_u91CF_u6240_u6709_u5C5E_u6027_uFF0ChasOwnProperty_u5224_u65AD_u662F_u4E0D_u662F_u5C5E_u4E8E_u5F53_u524D_u5BF9_u8C61_u672C_u8EAB_u7684" class="headerlink" title="解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的"></a>解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的</h4><p>于是最初的设计可能如下</p>
 <pre><code>function countProperties (obj) {
     var count = 0;
 
@@ -152,7 +152,7 @@ var bookCount = countProperties(bookAuthors);
 // Outputs: 4
 console.log(bookCount);
 </code></pre><p>之所以使用hasOwnProperty 是因为 for in 不但会对象本身的属性，同时也会遍历继承而来的属性 判断</p>
-<p>####Object.keys<br>当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于</p>
+<h4 id="Object-keys"><a href="#Object-keys" class="headerlink" title="Object.keys"></a>Object.keys</h4><p>当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于</p>
 <pre><code>  for (var property in obj) {
      if (Object.prototype.hasOwnProperty.call(obj, property)) {                      
     }
@@ -163,8 +163,7 @@ console.log(bookCount);
 console.log(bookCount);
 </code></pre><p>错误的使用方式</p>
 <pre><code>var bookCount = bookAuthors.keys().length; //会报错的，自己声明的对象时不具有这个方法的
-</code></pre><p>####其他-Object.getOwnPropertyNames</p>
-<p>同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别</p>
+</code></pre><h4 id="u5176_u4ED6-Object-getOwnPropertyNames"><a href="#u5176_u4ED6-Object-getOwnPropertyNames" class="headerlink" title="其他-Object.getOwnPropertyNames"></a>其他-Object.getOwnPropertyNames</h4><p>同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别</p>
 <p>Object.keys 以及Object.getOwnPropertyNames()用来获取对象中的属性的name，不包括继承来的属性，两者区别是Object.keys 只能获取可遍历的属性的名字的数组。举个例子</p>
 <pre><code> var person = {};
 Object.defineProperties(person, 
@@ -177,7 +176,7 @@ Object.defineProperties(person,
 console.log(Object.keys(person)); //logs [&quot;name&quot;]
 //return array of all properties, including ones that are non-enumerable
 console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
-</code></pre><p>####ployFill 为不支持ES5的浏览器提供支持<br>以下摘自<a href="https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js" target="_blank" rel="external">es5-shim</a></p>
+</code></pre><h4 id="ployFill__u4E3A_u4E0D_u652F_u6301ES5_u7684_u6D4F_u89C8_u5668_u63D0_u4F9B_u652F_u6301"><a href="#ployFill__u4E3A_u4E0D_u652F_u6301ES5_u7684_u6D4F_u89C8_u5668_u63D0_u4F9B_u652F_u6301" class="headerlink" title="ployFill 为不支持ES5的浏览器提供支持"></a>ployFill 为不支持ES5的浏览器提供支持</h4><p>以下摘自<a href="https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js" target="_blank" rel="external">es5-shim</a></p>
 <pre><code>   var hasDontEnumBug = true,
         hasProtoEnumBug = (function () {}).propertyIsEnumerable(&apos;prototype&apos;),
         dontEnums = [
@@ -300,7 +299,7 @@ console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &q
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -341,7 +340,7 @@ console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &q
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u95EE_u9898_u63D0_u51FA__u6211_u8981_u83B7_u53D6_u4E00_u4E2A_u5BF9_u8C61_u5305_u542B_u5C5E_u6027_u7684_u4E2A_u6570"><span class="nav-number">1.</span> <span class="nav-text">问题提出 我要获取一个对象包含属性的个数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u89E3_u51B3_u65B9_u6848_uFF0C_u4F7F_u7528for_in__u53D8_u91CF_u6240_u6709_u5C5E_u6027_uFF0ChasOwnProperty_u5224_u65AD_u662F_u4E0D_u662F_u5C5E_u4E8E_u5F53_u524D_u5BF9_u8C61_u672C_u8EAB_u7684"><span class="nav-number">2.</span> <span class="nav-text">解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Object-keys"><span class="nav-number">3.</span> <span class="nav-text">Object.keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5176_u4ED6-Object-getOwnPropertyNames"><span class="nav-number">4.</span> <span class="nav-text">其他-Object.getOwnPropertyNames</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ployFill__u4E3A_u4E0D_u652F_u6301ES5_u7684_u6D4F_u89C8_u5668_u63D0_u4F9B_u652F_u6301"><span class="nav-number">5.</span> <span class="nav-text">ployFill 为不支持ES5的浏览器提供支持</span></a></li></ol>
       </div>
     
   </div>

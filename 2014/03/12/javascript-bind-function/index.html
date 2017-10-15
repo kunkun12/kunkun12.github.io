@@ -135,7 +135,7 @@
 <li>闭包：表示能访问和操作其他本地作用域的变量的表达式（通常是函数）;</li>
 </ul>
 <p>在Javascript中<code>this</code>关键字是非常重要的，我之前也花费了不少时间来理解Javascript中的this是如何工作的。每个函数都有一个this变量，简单来说函数this是一个指针，它指向是不固定的，而是动态的，指向调用这个函数的对象，而这个对象就是上下文。我们都知道，Javascript里面的有作用域的概念，就是变量能够访问到的范围，this则是指向当前作用域的。通过this访问变量的时候会在当前作用域上查找。这篇博文是关于bind函数的，这个也是我们经常用的一个东西。</p>
-<p>###提出问题<br>说起Javascript，很难避免的提到了闭包，每个闭包拥有自己的作用域以及this 变量闭包里面的this 并不是指向原来的对象。例如</p>
+<h3 id="u63D0_u51FA_u95EE_u9898"><a href="#u63D0_u51FA_u95EE_u9898" class="headerlink" title="提出问题"></a>提出问题</h3><p>说起Javascript，很难避免的提到了闭包，每个闭包拥有自己的作用域以及this 变量闭包里面的this 并不是指向原来的对象。例如</p>
 <pre><code>var getUserComments = function(callback) {
     var numOfCommets = 34;
     callback({ comments: numOfCommets });
@@ -158,16 +158,14 @@ getUserComments(function(data) {
 });
 </code></pre><p>在执行print的时候，由于print是由User来调用的因此，print 里面的 this 是指向的User对象的，于是把this 赋值给力that ，所以that 这里保存了User的地址。所以在调用fullname的时候 ，就是User作用域下的fullname。</p>
 <p>但是这种方法感觉有点混乱，同时也要定义像that这样新的变量，如果这样的情况出现多次的话，难免造成迷糊的。那么如何提前给这个函数固定好作用域呢。</p>
-<p>####设置函数的作用域</p>
-<p>这里提供了一种方式来设置函数的作用域：使用apply 或者call函数，这两个方法是在Function.prototype里面定义的，因此任何一个函数都继承了这两个方法，apply和call的第一个参数就是要给方法绑定的对象(即该方法调用时this指向的对象)。下面给定义一个getLength方法来获取fullname的length</p>
+<h4 id="u8BBE_u7F6E_u51FD_u6570_u7684_u4F5C_u7528_u57DF"><a href="#u8BBE_u7F6E_u51FD_u6570_u7684_u4F5C_u7528_u57DF" class="headerlink" title="设置函数的作用域"></a>设置函数的作用域</h4><p>这里提供了一种方式来设置函数的作用域：使用apply 或者call函数，这两个方法是在Function.prototype里面定义的，因此任何一个函数都继承了这两个方法，apply和call的第一个参数就是要给方法绑定的对象(即该方法调用时this指向的对象)。下面给定义一个getLength方法来获取fullname的length</p>
 <pre><code>var getLength = function() {
     console.log(this.fullName.length);
 }
 getLength.apply(User);
 </code></pre><p>结果是这种方式的输出结果是6，说明我的目的是达到了，如果我们直接调用<code>getLength</code>方法呢，<code>getLength()</code>则会返回爆出异常，这种情况下 <code>getLength</code>是在最外层定义的，因此调用的时候this指向的是全局对象，但是全局对象中没有<code>fullName</code>这个属性，因此此时<code>this.fullName</code>为undfined，那么<code>this.fullName.length</code>则相当于执行了undfined.length，这是必然要爆出异常的。</p>
 <p>以上使用apply调用的时候 getLength也自然地调用了，那么如何给getLength指定好上下文，而不让他调用的。等以后调用的时候函数里面的this 则指向我们自己设定的对象。我们不妨把这个功能称之为 bind。</p>
-<p>####原生的Function.prototype.bind</p>
-<p>如上提到的一样apply和call一样，他们都是Function.prototype对象中的方法，这个是ES5里面新增的方法。因此当前主流的浏览器都是支持的包括Chrome, Firefox, Opera，safari 其中IE 要在8以上。</p>
+<h4 id="u539F_u751F_u7684Function-prototype-bind"><a href="#u539F_u751F_u7684Function-prototype-bind" class="headerlink" title="原生的Function.prototype.bind"></a>原生的Function.prototype.bind</h4><p>如上提到的一样apply和call一样，他们都是Function.prototype对象中的方法，这个是ES5里面新增的方法。因此当前主流的浏览器都是支持的包括Chrome, Firefox, Opera，safari 其中IE 要在8以上。</p>
 <p>在此将上面的代码修改如下</p>
 <pre><code>var User = {
     fullName: &apos;kunkun&apos;,
@@ -188,8 +186,7 @@ User.print();
     }
 };
 </code></pre><p>注意在调用的时候参数的顺序是在bind绑定的参数在前面。</p>
-<p>####Polyfill-为旧版本的浏览器增加bind函数</p>
-<p>同时也是文章开头的那道题要求的答案。</p>
+<h4 id="Polyfill-_u4E3A_u65E7_u7248_u672C_u7684_u6D4F_u89C8_u5668_u589E_u52A0bind_u51FD_u6570"><a href="#Polyfill-_u4E3A_u65E7_u7248_u672C_u7684_u6D4F_u89C8_u5668_u589E_u52A0bind_u51FD_u6570" class="headerlink" title="Polyfill-为旧版本的浏览器增加bind函数"></a>Polyfill-为旧版本的浏览器增加bind函数</h4><p>同时也是文章开头的那道题要求的答案。</p>
 <p>这里的解决方案就是首先判断Function.prototype中的是否具有这个bind函数，如果没有的话在这里为Function.prototype增加一个bind属性，具体实现还是通过apply来搞定的，<code>Function.prototype.bind()</code>返回一个函数，在这个函数执行的时候动态地执行要绑定作用域的函数的apply方法</p>
 <pre><code>if (!Function.prototype.bind) {
   Function.prototype.bind = function (oThis) {
@@ -215,8 +212,7 @@ User.print();
 </code></pre><p>将该数组传入给apply的第二个参数。apply第二个参数是arguments这样类型的，当然也可以是一个数组比如apply(obj,[参数一，参数二，参数三])，而call在这方面的区别就是参数列表是如 call(user,参数一，参数二，参数三)这种形式.apply调用要将参数封装到一个数组里面，这种方式适用用不清楚参数个数的情况下。而call则要求要明确参数的个数。很明显apply更灵活、功能要强一些。</p>
 <p>如果要了解更多信息可以参见<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind</a></p>
 <p>最后自己瞎编了两道题</p>
-<p>#####第一道</p>
-<pre><code>var name=&quot;张三&quot;
+<h5 id="u7B2C_u4E00_u9053"><a href="#u7B2C_u4E00_u9053" class="headerlink" title="第一道"></a>第一道</h5><pre><code>var name=&quot;张三&quot;
 function Person(name){
 this.name=name
 };
@@ -231,7 +227,7 @@ var p=new Person(&quot;李四&quot;);
  var m=p.getName;
 
  m();
-</code></pre><p>#####第二道<br>根据文章继续文章中使用Demo</p>
+</code></pre><h5 id="u7B2C_u4E8C_u9053"><a href="#u7B2C_u4E8C_u9053" class="headerlink" title="第二道"></a>第二道</h5><p>根据文章继续文章中使用Demo</p>
 <pre><code>var getUserComments = function(callback) {
             var numOfCommets = 34;
             callback({ comments: numOfCommets });
@@ -324,7 +320,7 @@ var p=    User.print;
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -365,7 +361,7 @@ var p=    User.print;
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u63D0_u51FA_u95EE_u9898"><span class="nav-number">1.</span> <span class="nav-text">提出问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u8BBE_u7F6E_u51FD_u6570_u7684_u4F5C_u7528_u57DF"><span class="nav-number">1.1.</span> <span class="nav-text">设置函数的作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u539F_u751F_u7684Function-prototype-bind"><span class="nav-number">1.2.</span> <span class="nav-text">原生的Function.prototype.bind</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Polyfill-_u4E3A_u65E7_u7248_u672C_u7684_u6D4F_u89C8_u5668_u589E_u52A0bind_u51FD_u6570"><span class="nav-number">1.3.</span> <span class="nav-text">Polyfill-为旧版本的浏览器增加bind函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#u7B2C_u4E00_u9053"><span class="nav-number">1.3.1.</span> <span class="nav-text">第一道</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#u7B2C_u4E8C_u9053"><span class="nav-number">1.3.2.</span> <span class="nav-text">第二道</span></a></li></ol></li></ol></li></ol>
       </div>
     
   </div>

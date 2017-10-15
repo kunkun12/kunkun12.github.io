@@ -223,8 +223,7 @@
         
 
         
-          <p>##关于dojo中统一数据访问接口</p>
-<p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
+          <h2 id="u5173_u4E8Edojo_u4E2D_u7EDF_u4E00_u6570_u636E_u8BBF_u95EE_u63A5_u53E3"><a href="#u5173_u4E8Edojo_u4E2D_u7EDF_u4E00_u6570_u636E_u8BBF_u95EE_u63A5_u53E3" class="headerlink" title="关于dojo中统一数据访问接口"></a>关于dojo中统一数据访问接口</h2><p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
 <blockquote>
 <p>数据的提供者不用再关心数据如何被展示，以及数据的使用者不用关心数据来自于哪里。通过接口（协议）来实现职责的分离，即使同一个人来完成数据的获取以及展示，也要将数据的获取与展示做到分离，因为这种松散的耦合 也方便系统的维护。</p>
 </blockquote>
@@ -251,8 +250,7 @@
 <p>那么首先区分一下两个名词,旧的数据访问接口是 <code>dojo data store API</code> ，就是上面介绍的那些东西，在dojo目录的 dojo/data 里面，建议以后不要用这里面的东西来存取东西，也就是说 不要再用 <code>dojo/data/ItemFileReadStore</code> <code>dojo/data/ItemFileWriteStore</code>这两个东西了。。。新的数据统一访问接口是     <code>dojo Object Store</code> 。。具体的接口以及实现在源码（文档）目录的 dojo/store里面，请注意区分</p>
 <p>##关于dojo Object store API。 </p>
 <p>翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于<strong>HTML5 object store</strong> API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。</p>
-<p>##dojo对象存储API背后的几个理念</p>
-<ul>
+<h2 id="dojo_u5BF9_u8C61_u5B58_u50A8API_u80CC_u540E_u7684_u51E0_u4E2A_u7406_u5FF5"><a href="#dojo_u5BF9_u8C61_u5B58_u50A8API_u80CC_u540E_u7684_u51E0_u4E2A_u7406_u5FF5" class="headerlink" title="dojo对象存储API背后的几个理念"></a>dojo对象存储API背后的几个理念</h2><ul>
 <li>数据与UI关注点分离，让我们将数据与展现关注点进行分离，并且方便数据与部件之间独立的实现。</li>
 <li>保持简单 可以仅仅地创建一个具有query和get方法的对象来创建一个简单的数据存储对象，如果要提供创建一个新的对象功能，可以增加一个add方法，如果要增加更新对象的功能 只需要增加一个put方法</li>
 <li>基于纯的javascript对象 dojo store api 使用纯的JS对象即{}，使用get返回一个对象或者使用query来返回一个对象的数据，这些对象可以像普通的JS对象一样被操做，比如可以通过点直接访问查询结果对象的属性，或者可以用 <em>for  in</em> 来循环便利对象的属性。如果要保存/更新对象可以将一个更新过的纯JS对象传递给put方法即可。</li>
@@ -279,18 +277,15 @@
 <li><code>data</code>   原始数据的数组</li>
 </ul>
 <p>以上只是API中的方法，dojo也有对应的类对此进行了实现后面会做具体的介绍。此外为了直观些可以看一下直接画的图<br><a href="http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow" target="_blank" rel="external">http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow</a></p>
-<p>###关于返回的对象。</p>
-<p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
-<p>###检测结果集的变化</p>
-<p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
+<h3 id="u5173_u4E8E_u8FD4_u56DE_u7684_u5BF9_u8C61_u3002"><a href="#u5173_u4E8E_u8FD4_u56DE_u7684_u5BF9_u8C61_u3002" class="headerlink" title="关于返回的对象。"></a>关于返回的对象。</h3><p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
+<h3 id="u68C0_u6D4B_u7ED3_u679C_u96C6_u7684_u53D8_u5316"><a href="#u68C0_u6D4B_u7ED3_u679C_u96C6_u7684_u53D8_u5316" class="headerlink" title="检测结果集的变化"></a>检测结果集的变化</h3><p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
 <ul>
 <li><p><code>observe(listener, includeObjectUpdates)</code> 第一个参数是一个监听函数函数签名<code>listener(object, removedFrom, insertedInto);</code>第一个参数为变动的对象可能是增加的新对象，修改或者是删除的对象。removedFrom 为删除对象的索引 如果这个值为-1 说明没有对象被删除，可能是发生了增加或者是修改行为。insertedInto 返回被增加对象在结果集中的索引.</p>
 </li>
 <li><p><code>close</code>  如果查询结果集调用colse 方法 ，停止监听这些变化。</p>
 </li>
 </ul>
-<p>##关于 <code>dojo/store/Memory</code></p>
-<p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
+<h2 id="u5173_u4E8E_dojo/store/Memory"><a href="#u5173_u4E8E_dojo/store/Memory" class="headerlink" title="关于 dojo/store/Memory"></a>关于 <code>dojo/store/Memory</code></h2><p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
 <ul>
 <li><p><code>dojo/store/Memory</code> 一个简单的内存存储， 是dojo/store API的实现类， 这个是创建 dojo store 非常有用的一个类，特别是小型的数据集，可以用内存的对象数组作为数据源。构造好之后就可以对其进行操作了。</p>
 <p>数据源为<em>PM2.5信息的数据</em> 如下格式的数据</p>
@@ -327,8 +322,7 @@
     //注意这里的idProperty，JSON对象的唯一标识 如果不指定默认为&quot;id&quot;字段
 
 });
-</code></pre><p>###查询</p>
-<ul>
+</code></pre><h3 id="u67E5_u8BE2"><a href="#u67E5_u8BE2" class="headerlink" title="查询"></a>查询</h3><ul>
 <li><p><em>get</em>根据对象唯一标识来查询一个，返回一个JS对象，查询‘密云镇’的数据</p>
 <pre><code>var obj1= mystore.get(&apos;密云镇&apos;);//get 跟据唯一标示（idProperty)来查询对象,这里查询 name为 丰台花园的信息
 
@@ -443,8 +437,7 @@ console.log(arraym3[0]===mystore.data[1])//true
 <blockquote>
 <p>注意：原则上说我们调用一下put方法来标识更新对象。<code>store.put(obj)</code> 这样如果通过<code>dojo/store/Observable</code> 包装的话 监听函数才能监听的到.</p>
 </blockquote>
-<p>###删除  </p>
-<p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
+<h3 id="u5220_u9664"><a href="#u5220_u9664" class="headerlink" title="删除"></a>删除</h3><p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
 <pre><code>store.remove(id);
 </code></pre><blockquote>
 <p>其实感觉删除的方法设计不好，删除的参数只能是唯一标识，却不能是根据查询条件来删除。。。也无法达到批量删除的目的。。感觉如果参数为Obj的查询参数类型，以及唯一标识数组类型 就更好了。。</p>
@@ -492,8 +485,7 @@ console.log(arraym3[0]===mystore.data[1])//true
 store.query({ foo: &quot;value1&quot; }, {
   headers: { &quot;X-Custom-Header&quot;: &quot;Bar&quot; } // 仅在本次请求中包含 include X-Custom-Header: Bar instead
 });
-</code></pre><p>####JSONREST与分页查询 </p>
-<p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
+</code></pre><h4 id="JSONREST_u4E0E_u5206_u9875_u67E5_u8BE2"><a href="#JSONREST_u4E0E_u5206_u9875_u67E5_u8BE2" class="headerlink" title="JSONREST与分页查询"></a>JSONREST与分页查询</h4><p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
 <pre><code>query({
     aqi: 40
     }, {
@@ -595,10 +587,8 @@ newobj={
  observablestore.put(newobj); 
 </code></pre><p> 新增加的这个对象满足worsedata的条件（即aqi大于80）所以上面的函数会监听的到变动，worsedata值也会自动做相应的增加。如果 此前aqi为70的话，则上面的监听函数不会被触发，因为虽然对store增加了元素，但是这不会对我们的之前的查询结果造成影响,关于修改的例子这里就不再举例子了。Observe的这种设计是非常合理</p>
 <p>另外 查询结果集还有个 <code>cancel</code>方法来取消监听（dojo store API 上说的是close ，这里有点出入）</p>
-<p>###dojo/store/DataStore </p>
-<p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
-<p>##总结</p>
-<p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
+<h3 id="dojo/store/DataStore"><a href="#dojo/store/DataStore" class="headerlink" title="dojo/store/DataStore"></a>dojo/store/DataStore</h3><p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
 <p>好吧 <code>dojo/data</code>包里面的已经是老掉牙的东西，<em>dojo Object store</em> 目前的 <code>dojo/store</code>包里的东西也正在被换血。。dojo store的未来 是 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a> 既然如此，可是本博文还有什么用呢，这不是在祸害人么。。。我想估计也没多少人能看到这里。。哈哈，能保持耐心看到这里的就直接看dstore 的源码吧。。</p>
 <blockquote>
 <p>The dstore package is a data infrastructure framework, providing the tools for modelling and interacting with data collections and objects. dstore is designed to work with a variety of data storage mediums, and provide a consistent interface for accessing data across different user interface components. </p>
@@ -696,11 +686,9 @@ newobj={
                                         |dstore
 </code></pre><p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
 <p>如果要找dojo中的主题</p>
-<p>##claro.css</p>
-<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css</a></p>
-<p>##tundar主题</p>
-<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css</a></p>
-<p>##soria主题<br><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css</a></p>
+<h2 id="claro-css"><a href="#claro-css" class="headerlink" title="claro.css"></a>claro.css</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css</a></p>
+<h2 id="tundar_u4E3B_u9898"><a href="#tundar_u4E3B_u9898" class="headerlink" title="tundar主题"></a>tundar主题</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css</a></p>
+<h2 id="soria_u4E3B_u9898"><a href="#soria_u4E3B_u9898" class="headerlink" title="soria主题"></a>soria主题</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css" target="_blank" rel="external">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css</a></p>
 <p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
 <p><a href="http://jsbin.com/gogezu/2/edit?html,js,output" target="_blank" rel="external">以创建grid为例的Demo</a></p>
 
@@ -777,8 +765,7 @@ newobj={
         
 
         
-          <p>##关于对象</p>
-<p>虽然JS不是正宗的面向对象语言，但是“对象”这个词却与JS密不可分，好吧，用专业术语来讲JS是 <em>基于对象</em>的语言，或者是<em>基于原型</em>的语言。那么我们先从对象说起。经过艰难险阻，我们只是想要一个功能强大的对象而已。</p>
+          <h2 id="u5173_u4E8E_u5BF9_u8C61"><a href="#u5173_u4E8E_u5BF9_u8C61" class="headerlink" title="关于对象"></a>关于对象</h2><p>虽然JS不是正宗的面向对象语言，但是“对象”这个词却与JS密不可分，好吧，用专业术语来讲JS是 <em>基于对象</em>的语言，或者是<em>基于原型</em>的语言。那么我们先从对象说起。经过艰难险阻，我们只是想要一个功能强大的对象而已。</p>
 <p>首先说一下空对象，在JS中可以使用以下两种方式定义“空”对象-其实null才是空对象</p>
 <pre><code>var person={};
 </code></pre><p>或者</p>
@@ -793,16 +780,14 @@ var myarray1=[];
 }
 </code></pre><p>能够动态地给对象增删属性也是动态语言的好处。</p>
 <p>通过 var person={},我们有了一个干净的对象，如此的干净，纯洁，然而是真的如此吗.然而他天生拥有了一些方法 比如 <code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>，<code>constructor</code>等方法。这些对象来自于哪里呢，是的 来自于他的原型。看来纯洁只是表面而已。</p>
-<p>###关于原型，原型链。</p>
-<p>每个对象都会有个原型（原型对象），自动拥有他的原型的方法，如果想获得一个person对象的原型对象，可以通过<code>Object.getPrototypeOf(person）</code>来获得，还可以通过<code>person.__proto__</code>。原型是对象的隐藏属性,当我们要访问一个对象的属性时候，会首先从对象自身查找,如果对象自身没有这个属性会到他的原型对象<code>__proto__</code>中去找，如果原型对象中还有没有的话的，则会继续到该对象的原型对象的原型对象上去找（原型对象本身也是个对象，所以它自身也会有<code>__proto__</code>属性。。。这样就形成了原型链。。null是原型的链的终点，如果最终没有找到的话则返回undfined。规定undefined没有任何可以访问的属性。如果要访问null的属性则会报错了，比如</p>
+<h3 id="u5173_u4E8E_u539F_u578B_uFF0C_u539F_u578B_u94FE_u3002"><a href="#u5173_u4E8E_u539F_u578B_uFF0C_u539F_u578B_u94FE_u3002" class="headerlink" title="关于原型，原型链。"></a>关于原型，原型链。</h3><p>每个对象都会有个原型（原型对象），自动拥有他的原型的方法，如果想获得一个person对象的原型对象，可以通过<code>Object.getPrototypeOf(person）</code>来获得，还可以通过<code>person.__proto__</code>。原型是对象的隐藏属性,当我们要访问一个对象的属性时候，会首先从对象自身查找,如果对象自身没有这个属性会到他的原型对象<code>__proto__</code>中去找，如果原型对象中还有没有的话的，则会继续到该对象的原型对象的原型对象上去找（原型对象本身也是个对象，所以它自身也会有<code>__proto__</code>属性。。。这样就形成了原型链。。null是原型的链的终点，如果最终没有找到的话则返回undfined。规定undefined没有任何可以访问的属性。如果要访问null的属性则会报错了，比如</p>
 <pre><code>var person={age:12};
 console.log(person.age); //12
 console.log(person.Adress);//undfined 访问到原型链的终点也没有找到这个属性返回 
 console.log(person.Adress.school);//抛出异常TypeError: Cannot read property &apos;school&apos; of undefined 
 </code></pre><p>上面那个错误提示，是我们在调试中经常遇到的比较经典的错误了，遇到这个问题，我们首先第一反应school的上一级的对象没有得到正确的赋值。的确，person没有这个属性的。</p>
 <p>原型链的本质：<code>__proto__.__proto__.__proto__.....</code>直到原型链的终点null。</p>
-<p>##关于函数对象。</p>
-<p>在JS中每个函数都是一个对象，可以像其他普通对象一样,添加属性和方法等，即函数对象。每个函数都继承了<code>Object.prototype</code>的方法.就像上面提到的<code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>,<code>constructor</code>。既然说函数也是对象那么他是有谁构造出来的呢，答案是<code>Function</code>。每个function都是<code>Function</code>的一个实例。或者说每个function都有这同一个构造函数即<code>Function</code>。</p>
+<h2 id="u5173_u4E8E_u51FD_u6570_u5BF9_u8C61_u3002"><a href="#u5173_u4E8E_u51FD_u6570_u5BF9_u8C61_u3002" class="headerlink" title="关于函数对象。"></a>关于函数对象。</h2><p>在JS中每个函数都是一个对象，可以像其他普通对象一样,添加属性和方法等，即函数对象。每个函数都继承了<code>Object.prototype</code>的方法.就像上面提到的<code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>,<code>constructor</code>。既然说函数也是对象那么他是有谁构造出来的呢，答案是<code>Function</code>。每个function都是<code>Function</code>的一个实例。或者说每个function都有这同一个构造函数即<code>Function</code>。</p>
 <p>构造器</p>
 <pre><code> new Function ([arg1[, arg2[, ...argN]],] functionBody)
 
@@ -813,8 +798,7 @@ function add(x,y){
 </code></pre><p>其本质与下面一致 </p>
 <pre><code>var add1=new Function(&apos;x&apos;,&apos;y&apos;,&apos;return x+y&apos;);
 </code></pre><p>实际上我们很少使用new Function 来构造一个函数实例，使用Function构造器生成的Function对象是在函数创建时被解析的。这比你使用函数声明(function)并在你的代码中调用低效，因为使用函数语句声明的function是跟其他语句一起解析的。</p>
-<p>##关于构造函数，new</p>
-<p>在学习其他的面向对象语言的时候，我们会定义一个class，然后new一个对象，我们都知道Javascript中的函数同时也可以作为构造函数，也可以通过new生成一个基于这个构造函数的实例，比如<code>Object</code>，<code>Array</code>，<code>Date</code>，<code>RegExp</code>,<code>Error</code>等这些都是ES标准中内置的构造函数。刚才前面的<code>var person=new Object</code>其实是调用的构造函数，例如为了模拟一个类，会这样写</p>
+<h2 id="u5173_u4E8E_u6784_u9020_u51FD_u6570_uFF0Cnew"><a href="#u5173_u4E8E_u6784_u9020_u51FD_u6570_uFF0Cnew" class="headerlink" title="关于构造函数，new"></a>关于构造函数，new</h2><p>在学习其他的面向对象语言的时候，我们会定义一个class，然后new一个对象，我们都知道Javascript中的函数同时也可以作为构造函数，也可以通过new生成一个基于这个构造函数的实例，比如<code>Object</code>，<code>Array</code>，<code>Date</code>，<code>RegExp</code>,<code>Error</code>等这些都是ES标准中内置的构造函数。刚才前面的<code>var person=new Object</code>其实是调用的构造函数，例如为了模拟一个类，会这样写</p>
 <pre><code>function Person(name){
     this.name = name;
 }
@@ -887,8 +871,7 @@ bob.sayHi()
 // &apos;Hi, I am Bob&apos;
 bob.run();//报错。。。为什么报错了呢。。。因为。。run是Person这个函数对象的属性，其实例是不具有的
 Person.run();
-</code></pre><p>##关于prototype 继承</p>
-<p>通过子类继承父类，子类可以拥有父类中的属性和方法，在JAVA中我们可以通过如下的方式实现继承</p>
+</code></pre><h2 id="u5173_u4E8Eprototype__u7EE7_u627F"><a href="#u5173_u4E8Eprototype__u7EE7_u627F" class="headerlink" title="关于prototype 继承"></a>关于prototype 继承</h2><p>通过子类继承父类，子类可以拥有父类中的属性和方法，在JAVA中我们可以通过如下的方式实现继承</p>
 <pre><code>public class Mammal{
     public void breathe(){
 
@@ -972,8 +955,7 @@ var  lisi=new Person(&quot;李四&quot;);
     zhangsan.run();//张三run 
     lisi.run();//李四run 
     lisi.eat();//报错.....
-</code></pre><p>###给构造函数添加方法</p>
-<p>给一个构造函数添加方法有两种形式</p>
+</code></pre><h3 id="u7ED9_u6784_u9020_u51FD_u6570_u6DFB_u52A0_u65B9_u6CD5"><a href="#u7ED9_u6784_u9020_u51FD_u6570_u6DFB_u52A0_u65B9_u6CD5" class="headerlink" title="给构造函数添加方法"></a>给构造函数添加方法</h3><p>给一个构造函数添加方法有两种形式</p>
 <pre><code>function Person(name){
     this.name = name
     this.sayHello = function(){
@@ -988,8 +970,7 @@ Person.prototype.sayHello = function(){
     return &apos;Hello,my name is &apos; + this.name
 }
 </code></pre><p>对于第一种方式 每次new一个Person，都会创建一个新的sayHello函数，对于第二个版本，sayHello函数只会创建一次，所有Person实例会共享同一个原型Person.prototype，使用这种方式相对节省内存。那么为什么不把name在挂在原型上，刚才已经说明原因了，name是可以设置的属性，设置之后会增加到对象的实例上，无论如何都不会节省内存。如果放到原型上反而会多浪费一些内存。推荐定义构造函数的时候我们把方法放在原型上，把函数直接放在构造函数内部。</p>
-<p>###关于this,apply,call</p>
-<p>正如我们所知道的，函数如果附加到对象上就变成了方法，并且函数里面的this指向这个对象,真的如此么？还是看之前的例子</p>
+<h3 id="u5173_u4E8Ethis_2Capply_2Ccall"><a href="#u5173_u4E8Ethis_2Capply_2Ccall" class="headerlink" title="关于this,apply,call"></a>关于this,apply,call</h3><p>正如我们所知道的，函数如果附加到对象上就变成了方法，并且函数里面的this指向这个对象,真的如此么？还是看之前的例子</p>
 <pre><code>function Person(name){
     this.name = name
 }
@@ -1428,8 +1409,7 @@ rt 28017
 </code></pre><ul>
 <li>连接数据库 保持上述的Mongodb服务处于开启状态 在开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="external">这篇文章</a>继续操作</li>
 </ul>
-<p>###将MongoDb配置为服务</p>
-<blockquote>
+<h3 id="u5C06MongoDb_u914D_u7F6E_u4E3A_u670D_u52A1"><a href="#u5C06MongoDb_u914D_u7F6E_u4E3A_u670D_u52A1" class="headerlink" title="将MongoDb配置为服务"></a>将MongoDb配置为服务</h3><blockquote>
 <p>虽然进行了以上的配置，但是之后每次使用Mongodb的时候都要先启动服务，如果配置为windows服务，让其自动启动。</p>
 </blockquote>
 <ul>
@@ -1530,14 +1510,13 @@ dbpath=D:\mongodb\data\db
           <blockquote>
 <p>每个专业词语的背后是一种思想，理解并在实践中应用才是必要的。</p>
 </blockquote>
-<p>####优雅降级（graceful degradation）<br>一开始就构建站点的完整功能，然后针对浏览器测试和修复,使用优雅降级方案，Web站点在所有新式浏览器中都能正常工作，如果用户使用的是老式浏览器，则代码会检查以确认它们是否能正常工作。由于IE独特的盒模型布局问题，绝大多数Web设计师和开发者都通过专门的样式表或针对不同版本的IE的hack实践过优雅降级了；<br>使用优雅降级技术时，你必须首先完整的实现了网站，其中包括所有的功能和效果。然后再为那些无法支持所有功能的浏览器增加候选方案，使之在旧式浏览器上以某种形式降级体验却不至于完全失效.</p>
-<p>####渐进增强（progressive enhancement）<br>一开始只构建站点的最少特性，然后不断针对各浏览器追加功能。从被所有浏览器支持的基本功能开始，逐步地添加那些只有新式浏览器才支持的功能。渐进增强是值得所有开发者采用的做法。渐进增强方案并不假定所有用户都支持javascript，而总是提供一种候补方法，确保用户可以访问（主要的）内容。</p>
+<h4 id="u4F18_u96C5_u964D_u7EA7_uFF08graceful_degradation_uFF09"><a href="#u4F18_u96C5_u964D_u7EA7_uFF08graceful_degradation_uFF09" class="headerlink" title="优雅降级（graceful degradation）"></a>优雅降级（graceful degradation）</h4><p>一开始就构建站点的完整功能，然后针对浏览器测试和修复,使用优雅降级方案，Web站点在所有新式浏览器中都能正常工作，如果用户使用的是老式浏览器，则代码会检查以确认它们是否能正常工作。由于IE独特的盒模型布局问题，绝大多数Web设计师和开发者都通过专门的样式表或针对不同版本的IE的hack实践过优雅降级了；<br>使用优雅降级技术时，你必须首先完整的实现了网站，其中包括所有的功能和效果。然后再为那些无法支持所有功能的浏览器增加候选方案，使之在旧式浏览器上以某种形式降级体验却不至于完全失效.</p>
+<h4 id="u6E10_u8FDB_u589E_u5F3A_uFF08progressive_enhancement_uFF09"><a href="#u6E10_u8FDB_u589E_u5F3A_uFF08progressive_enhancement_uFF09" class="headerlink" title="渐进增强（progressive enhancement）"></a>渐进增强（progressive enhancement）</h4><p>一开始只构建站点的最少特性，然后不断针对各浏览器追加功能。从被所有浏览器支持的基本功能开始，逐步地添加那些只有新式浏览器才支持的功能。渐进增强是值得所有开发者采用的做法。渐进增强方案并不假定所有用户都支持javascript，而总是提供一种候补方法，确保用户可以访问（主要的）内容。</p>
 <p>使用渐进增强时，无需为了一个已成型的网站在旧式浏览器下正常工作而做逆向工程。首先，只需要为所有的设备和浏览器准备好清晰且语义化的HTML以及完善的内容，然后再以无侵入（unobtrusive）的方式向页面增加无害于基础浏览器的额外样式和功能。当浏览器升级时，它们会自动地呈现出来并发挥作用。</p>
 <p>想让网站在任何环境下看起来都保持一致是不可能的，不管为此付出多少努力，结局依旧会令你失望。与其试图让IE看起来堪比年轻它十岁的浏览器，不如努力改善网站的可访问性，或是进行更多的可用性测试，而不仅仅是让页面看起来更靓一点。</p>
 <p>某些CSS3特性在不支持它的浏览器中简直是无法模拟实现的，但若使用渐进增强，就无需为了能让你的网站适合所有人而放弃这些技术。仅仅因为部分人不愿或不能升级浏览器，却让使用新型浏览器的用户无法享受CSS3所提供的伟大技术，这是毫无道理可言的。</p>
 <p>我们应该先让网站能够正常工作于尽可能旧的浏览器上，然后不断为它在新型浏览器上实现更多的增强和改进。随着时间的推移，当越来越多的人开始升级浏览器而浏览器本身的支持度也不断提升时，就会有越来越多的人体验到这些增强和改进，它持续有效的使网站越来越好，却如需你刻意做什么。</p>
-<p>#####思考</p>
-<p> 其实优雅降级和渐进增强都是页面的加分项，是针对技术的一种形而上的要求。保证尽可能多的用户都能正常使用网站是第一步，在此之上才需要考虑降级的极端情形和现代浏览器的体验增强。其实可以定义一个基准线，在此之上的增强叫做渐进增强，在此之下的兼容叫优雅降级。</p>
+<h5 id="u601D_u8003"><a href="#u601D_u8003" class="headerlink" title="思考"></a>思考</h5><p> 其实优雅降级和渐进增强都是页面的加分项，是针对技术的一种形而上的要求。保证尽可能多的用户都能正常使用网站是第一步，在此之上才需要考虑降级的极端情形和现代浏览器的体验增强。其实可以定义一个基准线，在此之上的增强叫做渐进增强，在此之下的兼容叫优雅降级。</p>
 
         
 
@@ -1615,8 +1594,7 @@ dbpath=D:\mongodb\data\db
           <blockquote>
 <p>在学习新技术的同时不要忘记复习一下那些最基础的东西</p>
 </blockquote>
-<p>####基本选择器</p>
-<ul>
+<h4 id="u57FA_u672C_u9009_u62E9_u5668"><a href="#u57FA_u672C_u9009_u62E9_u5668" class="headerlink" title="基本选择器"></a>基本选择器</h4><ul>
 <li>通配符选择器(*) 通配符选择器是用来选择所有元素，，也可以选择某个元素下的所有元素</li>
 <li>元素选择器 根据tag名字来选择 比如 p body div 等等</li>
 <li>类选择器 .className</li>
@@ -1636,8 +1614,7 @@ dbpath=D:\mongodb\data\db
 </blockquote>
 </li>
 </ul>
-<p>####属性选择器</p>
-<ul>
+<h4 id="u5C5E_u6027_u9009_u62E9_u5668"><a href="#u5C5E_u6027_u9009_u62E9_u5668" class="headerlink" title="属性选择器"></a>属性选择器</h4><ul>
 <li>E[attr]：只使用属性名，而不论这个属性值是什么，你就可以使用这个属性选择器</li>
 <li>E[attr=”value”]：指定属性名，并指定了该属性的属性值为value；</li>
 <li>E[attr~=”value”]：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的“~”不能不写;属性选择器中有波浪（〜）时属性值有value时就相匹配，没有波浪（〜）时属性值要完全是value时才匹配。</li>
@@ -1646,9 +1623,7 @@ dbpath=D:\mongodb\data\db
 <li>E[attr*=”value”]：而且属值中包含了value；</li>
 <li>E[attr|=”value”]：属性值是value或者以“value-”开头的值</li>
 </ul>
-<p>####伪类选择器</p>
-<p>#####动态伪类</p>
-<ul>
+<h4 id="u4F2A_u7C7B_u9009_u62E9_u5668"><a href="#u4F2A_u7C7B_u9009_u62E9_u5668" class="headerlink" title="伪类选择器"></a>伪类选择器</h4><h5 id="u52A8_u6001_u4F2A_u7C7B"><a href="#u52A8_u6001_u4F2A_u7C7B" class="headerlink" title="动态伪类"></a>动态伪类</h5><ul>
 <li>:hover用于当用户把鼠标移动到元素上面时的效果；</li>
 <li>:active用于用户点击元素那一下的效果（正发生在点的那一下，松开鼠标左键此动作也就完成了）</li>
 <li><p>:focus用于元素成为焦点，这个经常用在表单元素上。<br>#####UI元素状态伪类</p>
@@ -1656,8 +1631,8 @@ dbpath=D:\mongodb\data\db
 <li><p>:enabled 表单元素可用（比如”type=”text”有enable和disabled两种状态，前者为可写状态后者为不可状态）</p>
 </li>
 <li>:disabled    </li>
-<li><p>:checked 表单元素选中适用于radio checked<br>#####CSS3的:nth选择器</p>
-</li>
+<li><p>:checked 表单元素选中适用于radio checked</p>
+<h5 id="CSS3_u7684_3Anth_u9009_u62E9_u5668"><a href="#CSS3_u7684_3Anth_u9009_u62E9_u5668" class="headerlink" title="CSS3的:nth选择器"></a>CSS3的:nth选择器</h5></li>
 <li><p>:fist-child选择某个元素的第一个子元素；</p>
 </li>
 <li>:last-child选择某个元素的最后一个子元素；</li>
@@ -1683,10 +1658,9 @@ dbpath=D:\mongodb\data\db
 <li>:only-of-type选择一个元素是它的上级元素的唯一一个相同类型的子元素；</li>
 <li>:empty是用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格.</li>
 </ul>
-<p>#####否定选择器（:not）selctorA:not(slectorB)</p>
-<blockquote>
+<h5 id="u5426_u5B9A_u9009_u62E9_u5668_uFF08_3Anot_uFF09selctorA_3Anot_28slectorB_29"><a href="#u5426_u5B9A_u9009_u62E9_u5668_uFF08_3Anot_uFF09selctorA_3Anot_28slectorB_29" class="headerlink" title="否定选择器（:not）selctorA:not(slectorB)"></a>否定选择器（:not）selctorA:not(slectorB)</h5><blockquote>
 <p>用来过滤元素，比如要选择除了type为button之外的任何input可以使用 input:not([type=”button”])<br>使用</p>
-<p>#####伪元素<br>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
+<h5 id="u4F2A_u5143_u7D20"><a href="#u4F2A_u5143_u7D20" class="headerlink" title="伪元素"></a>伪元素</h5><p>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
 </blockquote>
 <ul>
 <li>::first-line选择元素内容的第一行</li>
@@ -1973,7 +1947,7 @@ var B = function(callback) {
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">

@@ -128,13 +128,11 @@
         
 
         
-          <p>###安装环境</p>
-<p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
+          <h3 id="u5B89_u88C5_u73AF_u5883"><a href="#u5B89_u88C5_u73AF_u5883" class="headerlink" title="安装环境"></a>安装环境</h3><p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="external">下载</a><br>2 安装 express </p>
 <pre><code>npm install express -g
 </code></pre><p>3 创建express 项目</p>
 <pre><code>express myapp
-</code></pre><p>###API设计</p>
-<p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
+</code></pre><h3 id="API_u8BBE_u8BA1"><a href="#API_u8BBE_u8BA1" class="headerlink" title="API设计"></a>API设计</h3><p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
 <ul>
 <li>GET /tasks/ 返回计划任务列表</li>
 <li>GET /tasks/:id  根据指定的任务id 返回计划任务的信息</li>
@@ -147,8 +145,7 @@
 <li>访问get请求之外的api ，如果执行成功返回http 状态符为200</li>
 <li>如果访问不存的计划信息 则返回http 状态符为 404</li>
 </ul>
-<p>###实现</p>
-<p>####数据<br>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
+<h3 id="u5B9E_u73B0"><a href="#u5B9E_u73B0" class="headerlink" title="实现"></a>实现</h3><h4 id="u6570_u636E"><a href="#u6570_u636E" class="headerlink" title="数据"></a>数据</h4><p>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
 <pre><code>function TaskRepository() {}
 /**
  * Find a task by id
@@ -179,18 +176,15 @@ TaskRepository.prototype.save = function (task) {}
  * Param: id the of the task to remove
  */
 TaskRepository.prototype.remove = function (id) {}
-</code></pre><p>####创建express server</p>
-<pre><code>var express = require(&apos;express&apos;);
+</code></pre><h4 id="u521B_u5EFAexpress_server"><a href="#u521B_u5EFAexpress_server" class="headerlink" title="创建express server"></a>创建express server</h4><pre><code>var express = require(&apos;express&apos;);
 var app = express();
 app.configure(function() {
     app.use(express.bodyParser()); // used to parse JSON object given in the request body
 });
-</code></pre><p>####获取计划的列表 get</p>
-<pre><code>app.get(&apos;/tasks&apos;, function (request, response) {
+</code></pre><h4 id="u83B7_u53D6_u8BA1_u5212_u7684_u5217_u8868_get"><a href="#u83B7_u53D6_u8BA1_u5212_u7684_u5217_u8868_get" class="headerlink" title="获取计划的列表 get"></a>获取计划的列表 get</h4><pre><code>app.get(&apos;/tasks&apos;, function (request, response) {
     response.json({tasks: taskRepository.findAll()});
 });
-</code></pre><p>####根据指定的id获取一个计划的信息 get</p>
-<pre><code>app.get(&apos;/tasks/:id&apos;, function (request, response) {
+</code></pre><h4 id="u6839_u636E_u6307_u5B9A_u7684id_u83B7_u53D6_u4E00_u4E2A_u8BA1_u5212_u7684_u4FE1_u606F_get"><a href="#u6839_u636E_u6307_u5B9A_u7684id_u83B7_u53D6_u4E00_u4E2A_u8BA1_u5212_u7684_u4FE1_u606F_get" class="headerlink" title="根据指定的id获取一个计划的信息 get"></a>根据指定的id获取一个计划的信息 get</h4><pre><code>app.get(&apos;/tasks/:id&apos;, function (request, response) {
     var taskId = request.params.id;
     try {
         response.json(taskRepository.find(taskId));
@@ -198,8 +192,7 @@ app.configure(function() {
         response.send(404);
     }
 });
-</code></pre><p>####创建一个新的计划 post</p>
-<pre><code>app.post(&apos;/tasks&apos;, function (request, response) {
+</code></pre><h4 id="u521B_u5EFA_u4E00_u4E2A_u65B0_u7684_u8BA1_u5212_post"><a href="#u521B_u5EFA_u4E00_u4E2A_u65B0_u7684_u8BA1_u5212_post" class="headerlink" title="创建一个新的计划 post"></a>创建一个新的计划 post</h4><pre><code>app.post(&apos;/tasks&apos;, function (request, response) {
     var task = request.body;
     taskRepository.save({
         title: task.title || &apos;Default title&apos;,
@@ -209,8 +202,7 @@ app.configure(function() {
     });
     response.send(200);
 });
-</code></pre><p>####更新计划信息 put</p>
-<pre><code>app.put(&apos;/tasks/:id&apos;, function (request, response) {
+</code></pre><h4 id="u66F4_u65B0_u8BA1_u5212_u4FE1_u606F_put"><a href="#u66F4_u65B0_u8BA1_u5212_u4FE1_u606F_put" class="headerlink" title="更新计划信息 put"></a>更新计划信息 put</h4><pre><code>app.put(&apos;/tasks/:id&apos;, function (request, response) {
     var task = request.body;
     var taskId = request.params.id;
     try {
@@ -227,8 +219,7 @@ app.configure(function() {
         response.send(404);
     }
 });
-</code></pre><p>####删除计划delete</p>
-<pre><code>app.delete(&apos;/tasks/:id&apos;, function (request, response) {
+</code></pre><h4 id="u5220_u9664_u8BA1_u5212delete"><a href="#u5220_u9664_u8BA1_u5212delete" class="headerlink" title="删除计划delete"></a>删除计划delete</h4><pre><code>app.delete(&apos;/tasks/:id&apos;, function (request, response) {
     try {
         taskRepository.remove(request.params.id);
         response.send(200);
@@ -236,10 +227,8 @@ app.configure(function() {
         response.send(404);
     }
 });
-</code></pre><p>####启动express server</p>
-<pre><code>app.listen(8080)
-</code></pre><p>###测试 这里使用 curl 执行http请求访问rest api</p>
-<p>首先启动程序</p>
+</code></pre><h4 id="u542F_u52A8express_server"><a href="#u542F_u52A8express_server" class="headerlink" title="启动express server"></a>启动express server</h4><pre><code>app.listen(8080)
+</code></pre><h3 id="u6D4B_u8BD5__u8FD9_u91CC_u4F7F_u7528_curl__u6267_u884Chttp_u8BF7_u6C42_u8BBF_u95EErest_api"><a href="#u6D4B_u8BD5__u8FD9_u91CC_u4F7F_u7528_curl__u6267_u884Chttp_u8BF7_u6C42_u8BBF_u95EErest_api" class="headerlink" title="测试 这里使用 curl 执行http请求访问rest api"></a>测试 这里使用 curl 执行http请求访问rest api</h3><p>首先启动程序</p>
 <pre><code>node rest_api.js
 </code></pre><p>最初的情况下访问计划列表应该空的</p>
 <pre><code>$ curl -i http://localhost:8080/tasks/
@@ -253,8 +242,7 @@ Connection: keep-alive
 {
   &quot;tasks&quot;: []
 }
-</code></pre><p>####创建计划</p>
-<pre><code>$ curl -i -X POST http://localhost:8080/tasks --data &apos;{}&apos; -H &quot;Content-Type: application/json&quot;
+</code></pre><h4 id="u521B_u5EFA_u8BA1_u5212"><a href="#u521B_u5EFA_u8BA1_u5212" class="headerlink" title="创建计划"></a>创建计划</h4><pre><code>$ curl -i -X POST http://localhost:8080/tasks --data &apos;{}&apos; -H &quot;Content-Type: application/json&quot;
 HTTP/1.1 200 OK
 X-Powered-By: Express
 Content-Type: text/plain
@@ -263,8 +251,7 @@ Date: Sun, 10 Feb 2013 12:39:13 GMT
 Connection: keep-alive
 
 OK
-</code></pre><p>####更新计划</p>
-<pre><code>$ curl -i -X PUT http://localhost:8080/tasks/1 --data &apos;{&quot;description&quot;:&quot;blabla&quot;}&apos; -H &quot;Content-Type: application/json&quot;
+</code></pre><h4 id="u66F4_u65B0_u8BA1_u5212"><a href="#u66F4_u65B0_u8BA1_u5212" class="headerlink" title="更新计划"></a>更新计划</h4><pre><code>$ curl -i -X PUT http://localhost:8080/tasks/1 --data &apos;{&quot;description&quot;:&quot;blabla&quot;}&apos; -H &quot;Content-Type: application/json&quot;
 HTTP/1.1 200 OK
 X-Powered-By: Express
 Content-Type: text/plain
@@ -272,8 +259,7 @@ Content-Length: 2
 Date: Sun, 10 Feb 2013 12:42:39 GMT
 Connection: keep-alive
 OK
-</code></pre><p>####删除计划</p>
-<pre><code>$ curl -i -X DELETE http://localhost:8080/tasks/1
+</code></pre><h4 id="u5220_u9664_u8BA1_u5212"><a href="#u5220_u9664_u8BA1_u5212" class="headerlink" title="删除计划"></a>删除计划</h4><pre><code>$ curl -i -X DELETE http://localhost:8080/tasks/1
 HTTP/1.1 200 OK
 X-Powered-By: Express
 Content-Type: text/plain
@@ -361,7 +347,7 @@ OK
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -402,7 +388,7 @@ OK
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B89_u88C5_u73AF_u5883"><span class="nav-number">1.</span> <span class="nav-text">安装环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API_u8BBE_u8BA1"><span class="nav-number">2.</span> <span class="nav-text">API设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5B9E_u73B0"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u6570_u636E"><span class="nav-number">3.1.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u521B_u5EFAexpress_server"><span class="nav-number">3.2.</span> <span class="nav-text">创建express server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u83B7_u53D6_u8BA1_u5212_u7684_u5217_u8868_get"><span class="nav-number">3.3.</span> <span class="nav-text">获取计划的列表 get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6839_u636E_u6307_u5B9A_u7684id_u83B7_u53D6_u4E00_u4E2A_u8BA1_u5212_u7684_u4FE1_u606F_get"><span class="nav-number">3.4.</span> <span class="nav-text">根据指定的id获取一个计划的信息 get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u521B_u5EFA_u4E00_u4E2A_u65B0_u7684_u8BA1_u5212_post"><span class="nav-number">3.5.</span> <span class="nav-text">创建一个新的计划 post</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u66F4_u65B0_u8BA1_u5212_u4FE1_u606F_put"><span class="nav-number">3.6.</span> <span class="nav-text">更新计划信息 put</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5220_u9664_u8BA1_u5212delete"><span class="nav-number">3.7.</span> <span class="nav-text">删除计划delete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u542F_u52A8express_server"><span class="nav-number">3.8.</span> <span class="nav-text">启动express server</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u6D4B_u8BD5__u8FD9_u91CC_u4F7F_u7528_curl__u6267_u884Chttp_u8BF7_u6C42_u8BBF_u95EErest_api"><span class="nav-number">4.</span> <span class="nav-text">测试 这里使用 curl 执行http请求访问rest api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u521B_u5EFA_u8BA1_u5212"><span class="nav-number">4.1.</span> <span class="nav-text">创建计划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u66F4_u65B0_u8BA1_u5212"><span class="nav-number">4.2.</span> <span class="nav-text">更新计划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5220_u9664_u8BA1_u5212"><span class="nav-number">4.3.</span> <span class="nav-text">删除计划</span></a></li></ol></li></ol>
       </div>
     
   </div>

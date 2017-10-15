@@ -129,8 +129,7 @@
 
         
           <p>最近开始做的东西要用到Django，数据库是postgresQL,需要在Django的setting.py中修改相关数据库的配置文件。事先我已经装好了PostgresQL 9.2.6</p>
-<p>####下载python连接postgresQL数据库的驱动</p>
-<p>安装方式也有多种：根据个人喜好可以使用easy_istall或者pip方式安装</p>
+<h4 id="u4E0B_u8F7Dpython_u8FDE_u63A5postgresQL_u6570_u636E_u5E93_u7684_u9A71_u52A8"><a href="#u4E0B_u8F7Dpython_u8FDE_u63A5postgresQL_u6570_u636E_u5E93_u7684_u9A71_u52A8" class="headerlink" title="下载python连接postgresQL数据库的驱动"></a>下载python连接postgresQL数据库的驱动</h4><p>安装方式也有多种：根据个人喜好可以使用easy_istall或者pip方式安装</p>
 <ul>
 <li>easy_install psycopg2</li>
 <li>pip install psycopg2</li>
@@ -139,8 +138,7 @@
 <pre><code>python setup.py install
 </code></pre><p>会自动安装到Python安装目录的site-packages的目录下</p>
 <p>这里我直接在windows安装的exe 下载地址（如果是64位的系统的话也建议下载32位的）<a href="http://www.stickpeople.com/projects/python/win-psycopg/" target="_blank" rel="external">http://www.stickpeople.com/projects/python/win-psycopg/</a> 根据数据库的版本选择合适的进行下载</p>
-<p>####修改配置文件setting.py,找到DATABASES处</p>
-<pre><code>DATABASES = {
+<h4 id="u4FEE_u6539_u914D_u7F6E_u6587_u4EF6setting-py_2C_u627E_u5230DATABASES_u5904"><a href="#u4FEE_u6539_u914D_u7F6E_u6587_u4EF6setting-py_2C_u627E_u5230DATABASES_u5904" class="headerlink" title="修改配置文件setting.py,找到DATABASES处"></a>修改配置文件setting.py,找到DATABASES处</h4><pre><code>DATABASES = {
     &apos;default&apos;: {
         &apos;ENGINE&apos;: &apos;django.db.backends.postgresql_psycopg2&apos;,
         &apos;NAME&apos;: &apos;mydb&apos;,                      
@@ -230,7 +228,7 @@
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -271,7 +269,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u4E0B_u8F7Dpython_u8FDE_u63A5postgresQL_u6570_u636E_u5E93_u7684_u9A71_u52A8"><span class="nav-number">1.</span> <span class="nav-text">下载python连接postgresQL数据库的驱动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4FEE_u6539_u914D_u7F6E_u6587_u4EF6setting-py_2C_u627E_u5230DATABASES_u5904"><span class="nav-number">2.</span> <span class="nav-text">修改配置文件setting.py,找到DATABASES处</span></a></li></ol>
       </div>
     
   </div>

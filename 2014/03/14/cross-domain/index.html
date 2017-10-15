@@ -128,11 +128,10 @@
         
 
         
-          <p>####何为跨域</p>
-<p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
+          <h4 id="u4F55_u4E3A_u8DE8_u57DF"><a href="#u4F55_u4E3A_u8DE8_u57DF" class="headerlink" title="何为跨域"></a>何为跨域</h4><p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
 <ul>
 <li><a href="http://www.baidu.com:6080" target="_blank" rel="external">http://www.baidu.com:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 端口号不同</li>
-<li><a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 与<a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 协议不同</li>
+<li><a href="http://www.baidu.com:6080" target="_blank" rel="external">http://www.baidu.com:6080</a> 与<a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 协议不同</li>
 <li><a href="http://www.QQ:6080" target="_blank" rel="external">http://www.QQ:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a>  hostname不同。</li>
 </ul>
 <p>如上的各种组合还有好多情况，那么我们如何才能绕过浏览器的跨域限制 正常地访问服务呢。</p>
@@ -145,7 +144,7 @@
 &lt;allow-access-from domain=&quot;www.example3.com&quot; to-ports=&quot;*&quot; /&gt; 
 &lt;/cross-domain-policy&gt; 
 </code></pre><p>关于Flash 的跨域情况 在这里不说解释,本文重点介绍Javascript的情况。</p>
-<p>####JSONP<br>虽然浏览器默认禁止了跨域访问，但并不禁止在页面中引用其他域的JS文件，并可以自由执行引入的JS文件中的function（包括操作cookie、Dom等等）。根据这一点，可以方便地通过创建script节点的方法来实现完全跨域的通信。这种方式叫JSONP解决方案。</p>
+<h4 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h4><p>虽然浏览器默认禁止了跨域访问，但并不禁止在页面中引用其他域的JS文件，并可以自由执行引入的JS文件中的function（包括操作cookie、Dom等等）。根据这一点，可以方便地通过创建script节点的方法来实现完全跨域的通信。这种方式叫JSONP解决方案。</p>
 <p>利用动态的script来请求服务，服务端返回函数的调用的形式，比如callback(“hello world”);前端如果实现已经定义好了一个callback 的函数既可以获得helloworld;下面开始具体实现。</p>
 <p>服务端使用NodeJS+express实现。新建express项目，app.js如下</p>
 <pre><code>var express = require(&apos;express&apos;);
@@ -189,8 +188,7 @@ http.createServer(app).listen(app.get(&apos;port1&apos;), function(){
     $(&quot;result&quot;).innerHTML=a;
 }
 </code></pre><p>启动程序输入 <code>http://localhost:3002/crossdomain.html</code>，这里是在3002上的页面调用的是3000端口上的服务。视为跨域，运行之后在文本框中输入两个值我们发现实现了跨域调用。<br>以上是实现了一个JSONP的精简版。当然还有些问题要考虑，比如回调函数名字的问题也可以作为参数来传入。第二个问题就是要在服务执行完毕或者请求失败之后 删除动态创建的script标签。</p>
-<p>####CORS </p>
-<p>随着HTML5标准的 不断完善，也推出了一种新的跨域解决方案Cross-Origin Resource Sharing (CORS)，现在已经是W3C指定的标准。允许 XMLHttpRequest 进行跨域调用，支持CORS的浏览器有</p>
+<h4 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h4><p>随着HTML5标准的 不断完善，也推出了一种新的跨域解决方案Cross-Origin Resource Sharing (CORS)，现在已经是W3C指定的标准。允许 XMLHttpRequest 进行跨域调用，支持CORS的浏览器有</p>
 <ul>
 <li>Chrome 3+</li>
 <li>Firefox 3.5+</li>
@@ -232,7 +230,7 @@ app.get(&quot;/multiply&quot;,function(req,res){
         $(&quot;result&quot;).innerHTML=&quot;这两个数的乘积为&quot;+data;
     }
 xhr.send();　　
-</code></pre><p>####其他的跨域解决方案。还有比如window.name,iframe，img标签等方式<br>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
+</code></pre><h4 id="u5176_u4ED6_u7684_u8DE8_u57DF_u89E3_u51B3_u65B9_u6848_u3002_u8FD8_u6709_u6BD4_u5982window-name_2Ciframe_uFF0Cimg_u6807_u7B7E_u7B49_u65B9_u5F0F"><a href="#u5176_u4ED6_u7684_u8DE8_u57DF_u89E3_u51B3_u65B9_u6848_u3002_u8FD8_u6709_u6BD4_u5982window-name_2Ciframe_uFF0Cimg_u6807_u7B7E_u7B49_u65B9_u5F0F" class="headerlink" title="其他的跨域解决方案。还有比如window.name,iframe，img标签等方式"></a>其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</h4><p>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
 <p>本博文的用到的<a href="https://github.com/kunkun12/cross-domain" target="_blank" rel="external">Demo的源码</a></p>
 
         
@@ -312,7 +310,7 @@ xhr.send();　　
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -353,7 +351,7 @@ xhr.send();　　
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u4F55_u4E3A_u8DE8_u57DF"><span class="nav-number">1.</span> <span class="nav-text">何为跨域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONP"><span class="nav-number">2.</span> <span class="nav-text">JSONP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CORS"><span class="nav-number">3.</span> <span class="nav-text">CORS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5176_u4ED6_u7684_u8DE8_u57DF_u89E3_u51B3_u65B9_u6848_u3002_u8FD8_u6709_u6BD4_u5982window-name_2Ciframe_uFF0Cimg_u6807_u7B7E_u7B49_u65B9_u5F0F"><span class="nav-number">4.</span> <span class="nav-text">其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</span></a></li></ol>
       </div>
     
   </div>

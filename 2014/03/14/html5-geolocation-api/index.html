@@ -128,8 +128,7 @@
         
 
         
-          <p>###地理位置API介绍</p>
-<p>地理位置API能够神奇地定位出你正待在世界的什么地方，并且在你允许的情况下，将你的位置信息分享给你信任的人，关于内部的定位原理，主要通过三种手段：</p>
+          <h3 id="u5730_u7406_u4F4D_u7F6EAPI_u4ECB_u7ECD"><a href="#u5730_u7406_u4F4D_u7F6EAPI_u4ECB_u7ECD" class="headerlink" title="地理位置API介绍"></a>地理位置API介绍</h3><p>地理位置API能够神奇地定位出你正待在世界的什么地方，并且在你允许的情况下，将你的位置信息分享给你信任的人，关于内部的定位原理，主要通过三种手段：</p>
 <ol>
 <li>IP地址</li>
 <li>GPS定位</li>
@@ -137,10 +136,8 @@
 <li>GSM基站网络</li>
 <li>用户定义的地址位置。</li>
 </ol>
-<p>###地理位置获取流程：</p>
-<p>1、用户打开需要获取地理位置的web应用。<br>2、应用向浏览器请求地理位置，浏览器弹出询问窗口询问用户是否共享地理位置。<br>3、假设用户允许，浏览器从设别查询相关信息。<br>4、浏览器将相关信息发送到一个信任的位置服务器，服务器返回具体的地理位置。</p>
-<p>###监测浏览器支持情况</p>
-<p>如果浏览器支持地理位置API话，在全局的 navigator对象上回有一个名字为geolocation的属性，反之，navigator 对象上该属性为undefined 。于是可以编写如下函数</p>
+<h3 id="u5730_u7406_u4F4D_u7F6E_u83B7_u53D6_u6D41_u7A0B_uFF1A"><a href="#u5730_u7406_u4F4D_u7F6E_u83B7_u53D6_u6D41_u7A0B_uFF1A" class="headerlink" title="地理位置获取流程："></a>地理位置获取流程：</h3><p>1、用户打开需要获取地理位置的web应用。<br>2、应用向浏览器请求地理位置，浏览器弹出询问窗口询问用户是否共享地理位置。<br>3、假设用户允许，浏览器从设别查询相关信息。<br>4、浏览器将相关信息发送到一个信任的位置服务器，服务器返回具体的地理位置。</p>
+<h3 id="u76D1_u6D4B_u6D4F_u89C8_u5668_u652F_u6301_u60C5_u51B5"><a href="#u76D1_u6D4B_u6D4F_u89C8_u5668_u652F_u6301_u60C5_u51B5" class="headerlink" title="监测浏览器支持情况"></a>监测浏览器支持情况</h3><p>如果浏览器支持地理位置API话，在全局的 navigator对象上回有一个名字为geolocation的属性，反之，navigator 对象上该属性为undefined 。于是可以编写如下函数</p>
 <pre><code>function suport_geolocation(){
     return !!navigator.geolocation
 }
@@ -151,8 +148,7 @@
 else{
 
 }
-</code></pre><p>###navigator对象中的方法，</p>
-<p>####getCurrentPosition函数<br>这个函数是通过navigator.geolocation对象来调用的，所以在脚本中需要先取得此对象。这个函数接受一个必选参数和两个可选参数。</p>
+</code></pre><h3 id="navigator_u5BF9_u8C61_u4E2D_u7684_u65B9_u6CD5_uFF0C"><a href="#navigator_u5BF9_u8C61_u4E2D_u7684_u65B9_u6CD5_uFF0C" class="headerlink" title="navigator对象中的方法，"></a>navigator对象中的方法，</h3><h4 id="getCurrentPosition_u51FD_u6570"><a href="#getCurrentPosition_u51FD_u6570" class="headerlink" title="getCurrentPosition函数"></a>getCurrentPosition函数</h4><p>这个函数是通过navigator.geolocation对象来调用的，所以在脚本中需要先取得此对象。这个函数接受一个必选参数和两个可选参数。</p>
 <pre><code>void getCurrentPosition(
 
         in PositionCallback successCallBack,
@@ -204,8 +200,7 @@ else{
 <li>timeout:可选值，单位为ms，告诉浏览器计算当前位置所允许的最长时间。默认值为Infinity，即为无穷大或无限制。</li>
 <li>maximumAge:这个值表示浏览器重新计算位置的时间间隔。它也是一个以ms为单位的值，默认为零，这意味着浏览器每次请求时必须立即重新计算位置。</li>
 </ul>
-<p>###watchPosition函数</p>
-<pre><code>navigator.geolocation.watchPosition(updateLocation,handleLocationError);
+<h3 id="watchPosition_u51FD_u6570"><a href="#watchPosition_u51FD_u6570" class="headerlink" title="watchPosition函数"></a>watchPosition函数</h3><pre><code>navigator.geolocation.watchPosition(updateLocation,handleLocationError);
 </code></pre><p>监听位置的变化，如果位置发生变化则调用updateLocation函数，如果程序不再需要接收用户的位置信息，则可以调用<code>navigator.geolocation.clearWatch(watchId)</code>,例子如下</p>
 <pre><code>var watchId = navigator.geolocation.watchPosition(updateLocation, handleeLocationError);
 navigator.geolocation.clearWatch(watchId);
@@ -288,7 +283,7 @@ navigator.geolocation.clearWatch(watchId);
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -329,7 +324,7 @@ navigator.geolocation.clearWatch(watchId);
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5730_u7406_u4F4D_u7F6EAPI_u4ECB_u7ECD"><span class="nav-number">1.</span> <span class="nav-text">地理位置API介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5730_u7406_u4F4D_u7F6E_u83B7_u53D6_u6D41_u7A0B_uFF1A"><span class="nav-number">2.</span> <span class="nav-text">地理位置获取流程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u76D1_u6D4B_u6D4F_u89C8_u5668_u652F_u6301_u60C5_u51B5"><span class="nav-number">3.</span> <span class="nav-text">监测浏览器支持情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#navigator_u5BF9_u8C61_u4E2D_u7684_u65B9_u6CD5_uFF0C"><span class="nav-number">4.</span> <span class="nav-text">navigator对象中的方法，</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#getCurrentPosition_u51FD_u6570"><span class="nav-number">4.1.</span> <span class="nav-text">getCurrentPosition函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#watchPosition_u51FD_u6570"><span class="nav-number">5.</span> <span class="nav-text">watchPosition函数</span></a></li></ol>
       </div>
     
   </div>

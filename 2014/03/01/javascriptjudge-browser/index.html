@@ -128,7 +128,7 @@
         
 
         
-          <p>###浏览器类型判断<br>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
+          <h3 id="u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD"><a href="#u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
 <p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
 <pre><code> var Sys = {}; 
 var ua = navigator.userAgent.toLowerCase(); 
@@ -257,7 +257,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -298,7 +298,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><span class="nav-number">1.</span> <span class="nav-text">Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD"><span class="nav-number">1.</span> <span class="nav-text">浏览器类型判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><span class="nav-number">2.</span> <span class="nav-text">Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。</span></a></li></ol>
       </div>
     
   </div>

@@ -128,14 +128,13 @@
         
 
         
-          <p>###meta的作用<br>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
+          <h3 id="meta_u7684_u4F5C_u7528"><a href="#meta_u7684_u4F5C_u7528" class="headerlink" title="meta的作用"></a>meta的作用</h3><p>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
 <ul>
 <li><meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。</li>
 <li><meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。</li>
 </ul>
 <p>每个meta标签必须具有content属性，定义与 http-equiv 或 name 属性相关的元信息。</p>
-<p>###可选属性</p>
-<p>####http-equiv 属性<br>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
+<h3 id="u53EF_u9009_u5C5E_u6027"><a href="#u53EF_u9009_u5C5E_u6027" class="headerlink" title="可选属性"></a>可选属性</h3><h4 id="http-equiv__u5C5E_u6027"><a href="#http-equiv__u5C5E_u6027" class="headerlink" title="http-equiv 属性"></a>http-equiv 属性</h4><p>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
 <pre><code>&lt;meta http-equiv=&quot;charset&quot; content=&quot;iso-8859-1&quot;&gt;
 &lt;meta http-equiv=&quot;expires&quot; content=&quot;31 Dec 2008&quot;&gt;
 </code></pre><p>这样发送到浏览器的头部就应该包含：</p>
@@ -144,13 +143,11 @@ charset:iso-8859-1
 expires:31 Dec 2008
 </code></pre><p>5秒刷新一次页面</p>
 <pre><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot; /&gt;
-</code></pre><p>####content 属性</p>
-<ul>
+</code></pre><h4 id="content__u5C5E_u6027"><a href="#content__u5C5E_u6027" class="headerlink" title="content 属性"></a>content 属性</h4><ul>
 <li>content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。</li>
 <li>content 属性始终要和 name 属性或 http-equiv 属性一起使用。</li>
 </ul>
-<p>####name 属性</p>
-<p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
+<h4 id="name__u5C5E_u6027"><a href="#name__u5C5E_u6027" class="headerlink" title="name 属性"></a>name 属性</h4><p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
 <pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;HTML,ASP,PHP,SQL&quot;&gt;
 &lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词； 
 &lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容； 
@@ -247,7 +244,7 @@ expires:31 Dec 2008
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -288,7 +285,7 @@ expires:31 Dec 2008
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#meta_u7684_u4F5C_u7528"><span class="nav-number">1.</span> <span class="nav-text">meta的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u53EF_u9009_u5C5E_u6027"><span class="nav-number">2.</span> <span class="nav-text">可选属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#http-equiv__u5C5E_u6027"><span class="nav-number">2.1.</span> <span class="nav-text">http-equiv 属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#content__u5C5E_u6027"><span class="nav-number">2.2.</span> <span class="nav-text">content 属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#name__u5C5E_u6027"><span class="nav-number">2.3.</span> <span class="nav-text">name 属性</span></a></li></ol></li></ol>
       </div>
     
   </div>

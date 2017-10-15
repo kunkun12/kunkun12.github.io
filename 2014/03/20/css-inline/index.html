@@ -129,8 +129,7 @@
 
         
           <p>今天使用要为元素设置水平居中的时候发现 <code>margin:0 auto</code> 不起作用，查资料发现原来我给div设置了的是<code>disply:inline-block</code>属性,这种情况下 <code>margin:0 auto</code> 是无效的，于是通过给父元素div 设置了 <code>text-aglin:center</code>得以解决.然后搜集了一些资料，加深一下对inline 属性的了解。</p>
-<p>###测试结果 </p>
-<ol>
+<h3 id="u6D4B_u8BD5_u7ED3_u679C"><a href="#u6D4B_u8BD5_u7ED3_u679C" class="headerlink" title="测试结果"></a>测试结果</h3><ol>
 <li>inline元素, 有效的: <code>background</code>, <code>margin-left</code>, <code>margin-right</code>, <code>padding</code>, <code>border</code></li>
 <li>inline元素, 无效的: <code>width</code>, <code>height</code>, <code>margin-top</code>, <code>margin-bottom</code> (个别除外)</li>
 <li>因width, height无效, 因此下列属性也无效: <code>text-align</code>, <code>text-indent</code>, <code>min|max-width|height</code>, <code>overflow</code> </li>
@@ -139,14 +138,13 @@
 <li><code>float</code>,<code>position</code>及与之相关<code>top</code>,<code>left</code>, 不考虑, 已经不是inline了 </li>
 <li><code>img</code>, <code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 设置inline与inline-block, 效果是一样的, 没有变化, 都等同于设置了inline-block </li>
 </ol>
-<p>####思考: </p>
-<ol>
+<h4 id="u601D_u8003_3A"><a href="#u601D_u8003_3A" class="headerlink" title="思考:"></a>思考:</h4><ol>
 <li>inline元素的宽高是不能定义, 即宽高度是由inline元素inline内容的元素决定的,(ie6,ie7下高度会受inline-block元素的影响) </li>
 <li>即宽高完全是自适应而得出的, 因此也不存在overflow的问题, <code>min|max-width|height</code>也没有影响 </li>
 <li>margin四个属性, <code>left|right</code> 与 <code>top|bottom</code>有不同的待遇 </li>
 <li><code>margin-top</code>, <code>margin-bottom</code>, 可以用line-height模拟, 但有很大不同, 与<code>inline-block</code>也不兼容,  另 <code>margin:0 auto</code> 的居中效果, 也没有作用 </li>
 </ol>
-<p>####最后:<br>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
+<h4 id="u6700_u540E_3A"><a href="#u6700_u540E_3A" class="headerlink" title="最后:"></a>最后:</h4><p>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
 <ul>
 <li><code>b</code>, <code>big</code>, <code>i</code>, <code>small</code>, <code>tt</code></li>
 <li><code>abbr</code>, <code>acronym</code>, <code>cite</code>, <code>code</code>, <code>dfn</code>, <code>em</code>, <code>kbd</code>, <code>strong</code>, <code>samp</code>, <code>var</code></li>
@@ -231,7 +229,7 @@
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -272,7 +270,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6D4B_u8BD5_u7ED3_u679C"><span class="nav-number">1.</span> <span class="nav-text">测试结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u601D_u8003_3A"><span class="nav-number">1.1.</span> <span class="nav-text">思考:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6700_u540E_3A"><span class="nav-number">1.2.</span> <span class="nav-text">最后:</span></a></li></ol></li></ol>
       </div>
     
   </div>

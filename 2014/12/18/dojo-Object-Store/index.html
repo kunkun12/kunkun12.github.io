@@ -128,8 +128,7 @@
         
 
         
-          <p>##关于dojo中统一数据访问接口</p>
-<p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
+          <h2 id="u5173_u4E8Edojo_u4E2D_u7EDF_u4E00_u6570_u636E_u8BBF_u95EE_u63A5_u53E3"><a href="#u5173_u4E8Edojo_u4E2D_u7EDF_u4E00_u6570_u636E_u8BBF_u95EE_u63A5_u53E3" class="headerlink" title="关于dojo中统一数据访问接口"></a>关于dojo中统一数据访问接口</h2><p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
 <blockquote>
 <p>数据的提供者不用再关心数据如何被展示，以及数据的使用者不用关心数据来自于哪里。通过接口（协议）来实现职责的分离，即使同一个人来完成数据的获取以及展示，也要将数据的获取与展示做到分离，因为这种松散的耦合 也方便系统的维护。</p>
 </blockquote>
@@ -156,8 +155,7 @@
 <p>那么首先区分一下两个名词,旧的数据访问接口是 <code>dojo data store API</code> ，就是上面介绍的那些东西，在dojo目录的 dojo/data 里面，建议以后不要用这里面的东西来存取东西，也就是说 不要再用 <code>dojo/data/ItemFileReadStore</code> <code>dojo/data/ItemFileWriteStore</code>这两个东西了。。。新的数据统一访问接口是     <code>dojo Object Store</code> 。。具体的接口以及实现在源码（文档）目录的 dojo/store里面，请注意区分</p>
 <p>##关于dojo Object store API。 </p>
 <p>翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于<strong>HTML5 object store</strong> API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。</p>
-<p>##dojo对象存储API背后的几个理念</p>
-<ul>
+<h2 id="dojo_u5BF9_u8C61_u5B58_u50A8API_u80CC_u540E_u7684_u51E0_u4E2A_u7406_u5FF5"><a href="#dojo_u5BF9_u8C61_u5B58_u50A8API_u80CC_u540E_u7684_u51E0_u4E2A_u7406_u5FF5" class="headerlink" title="dojo对象存储API背后的几个理念"></a>dojo对象存储API背后的几个理念</h2><ul>
 <li>数据与UI关注点分离，让我们将数据与展现关注点进行分离，并且方便数据与部件之间独立的实现。</li>
 <li>保持简单 可以仅仅地创建一个具有query和get方法的对象来创建一个简单的数据存储对象，如果要提供创建一个新的对象功能，可以增加一个add方法，如果要增加更新对象的功能 只需要增加一个put方法</li>
 <li>基于纯的javascript对象 dojo store api 使用纯的JS对象即{}，使用get返回一个对象或者使用query来返回一个对象的数据，这些对象可以像普通的JS对象一样被操做，比如可以通过点直接访问查询结果对象的属性，或者可以用 <em>for  in</em> 来循环便利对象的属性。如果要保存/更新对象可以将一个更新过的纯JS对象传递给put方法即可。</li>
@@ -184,18 +182,15 @@
 <li><code>data</code>   原始数据的数组</li>
 </ul>
 <p>以上只是API中的方法，dojo也有对应的类对此进行了实现后面会做具体的介绍。此外为了直观些可以看一下直接画的图<br><a href="http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow" target="_blank" rel="external">http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow</a></p>
-<p>###关于返回的对象。</p>
-<p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
-<p>###检测结果集的变化</p>
-<p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
+<h3 id="u5173_u4E8E_u8FD4_u56DE_u7684_u5BF9_u8C61_u3002"><a href="#u5173_u4E8E_u8FD4_u56DE_u7684_u5BF9_u8C61_u3002" class="headerlink" title="关于返回的对象。"></a>关于返回的对象。</h3><p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
+<h3 id="u68C0_u6D4B_u7ED3_u679C_u96C6_u7684_u53D8_u5316"><a href="#u68C0_u6D4B_u7ED3_u679C_u96C6_u7684_u53D8_u5316" class="headerlink" title="检测结果集的变化"></a>检测结果集的变化</h3><p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
 <ul>
 <li><p><code>observe(listener, includeObjectUpdates)</code> 第一个参数是一个监听函数函数签名<code>listener(object, removedFrom, insertedInto);</code>第一个参数为变动的对象可能是增加的新对象，修改或者是删除的对象。removedFrom 为删除对象的索引 如果这个值为-1 说明没有对象被删除，可能是发生了增加或者是修改行为。insertedInto 返回被增加对象在结果集中的索引.</p>
 </li>
 <li><p><code>close</code>  如果查询结果集调用colse 方法 ，停止监听这些变化。</p>
 </li>
 </ul>
-<p>##关于 <code>dojo/store/Memory</code></p>
-<p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
+<h2 id="u5173_u4E8E_dojo/store/Memory"><a href="#u5173_u4E8E_dojo/store/Memory" class="headerlink" title="关于 dojo/store/Memory"></a>关于 <code>dojo/store/Memory</code></h2><p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
 <ul>
 <li><p><code>dojo/store/Memory</code> 一个简单的内存存储， 是dojo/store API的实现类， 这个是创建 dojo store 非常有用的一个类，特别是小型的数据集，可以用内存的对象数组作为数据源。构造好之后就可以对其进行操作了。</p>
 <p>数据源为<em>PM2.5信息的数据</em> 如下格式的数据</p>
@@ -232,8 +227,7 @@
     //注意这里的idProperty，JSON对象的唯一标识 如果不指定默认为&quot;id&quot;字段
 
 });
-</code></pre><p>###查询</p>
-<ul>
+</code></pre><h3 id="u67E5_u8BE2"><a href="#u67E5_u8BE2" class="headerlink" title="查询"></a>查询</h3><ul>
 <li><p><em>get</em>根据对象唯一标识来查询一个，返回一个JS对象，查询‘密云镇’的数据</p>
 <pre><code>var obj1= mystore.get(&apos;密云镇&apos;);//get 跟据唯一标示（idProperty)来查询对象,这里查询 name为 丰台花园的信息
 
@@ -348,8 +342,7 @@ console.log(arraym3[0]===mystore.data[1])//true
 <blockquote>
 <p>注意：原则上说我们调用一下put方法来标识更新对象。<code>store.put(obj)</code> 这样如果通过<code>dojo/store/Observable</code> 包装的话 监听函数才能监听的到.</p>
 </blockquote>
-<p>###删除  </p>
-<p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
+<h3 id="u5220_u9664"><a href="#u5220_u9664" class="headerlink" title="删除"></a>删除</h3><p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
 <pre><code>store.remove(id);
 </code></pre><blockquote>
 <p>其实感觉删除的方法设计不好，删除的参数只能是唯一标识，却不能是根据查询条件来删除。。。也无法达到批量删除的目的。。感觉如果参数为Obj的查询参数类型，以及唯一标识数组类型 就更好了。。</p>
@@ -397,8 +390,7 @@ console.log(arraym3[0]===mystore.data[1])//true
 store.query({ foo: &quot;value1&quot; }, {
   headers: { &quot;X-Custom-Header&quot;: &quot;Bar&quot; } // 仅在本次请求中包含 include X-Custom-Header: Bar instead
 });
-</code></pre><p>####JSONREST与分页查询 </p>
-<p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
+</code></pre><h4 id="JSONREST_u4E0E_u5206_u9875_u67E5_u8BE2"><a href="#JSONREST_u4E0E_u5206_u9875_u67E5_u8BE2" class="headerlink" title="JSONREST与分页查询"></a>JSONREST与分页查询</h4><p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
 <pre><code>query({
     aqi: 40
     }, {
@@ -500,10 +492,8 @@ newobj={
  observablestore.put(newobj); 
 </code></pre><p> 新增加的这个对象满足worsedata的条件（即aqi大于80）所以上面的函数会监听的到变动，worsedata值也会自动做相应的增加。如果 此前aqi为70的话，则上面的监听函数不会被触发，因为虽然对store增加了元素，但是这不会对我们的之前的查询结果造成影响,关于修改的例子这里就不再举例子了。Observe的这种设计是非常合理</p>
 <p>另外 查询结果集还有个 <code>cancel</code>方法来取消监听（dojo store API 上说的是close ，这里有点出入）</p>
-<p>###dojo/store/DataStore </p>
-<p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
-<p>##总结</p>
-<p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
+<h3 id="dojo/store/DataStore"><a href="#dojo/store/DataStore" class="headerlink" title="dojo/store/DataStore"></a>dojo/store/DataStore</h3><p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
 <p>好吧 <code>dojo/data</code>包里面的已经是老掉牙的东西，<em>dojo Object store</em> 目前的 <code>dojo/store</code>包里的东西也正在被换血。。dojo store的未来 是 <a href="https://github.com/SitePen/dstore" target="_blank" rel="external">dstore</a> 既然如此，可是本博文还有什么用呢，这不是在祸害人么。。。我想估计也没多少人能看到这里。。哈哈，能保持耐心看到这里的就直接看dstore 的源码吧。。</p>
 <blockquote>
 <p>The dstore package is a data infrastructure framework, providing the tools for modelling and interacting with data collections and objects. dstore is designed to work with a variety of data storage mediums, and provide a consistent interface for accessing data across different user interface components. </p>
@@ -589,7 +579,7 @@ newobj={
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -630,7 +620,7 @@ newobj={
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5173_u4E8Edojo_Object_API_u4E2D_u7684_u65B9_u6CD5_u4EE5_u53CA_u5C5E_u6027_u3002"><span class="nav-number">1.</span> <span class="nav-text">关于dojo Object API中的方法以及属性。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4FEE_u6539_u5BF9_u8C61_u7684_u5C5E_u6027_u5F88_u7B80_u5355"><span class="nav-number">2.</span> <span class="nav-text">修改对象的属性很简单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/JsonRest"><span class="nav-number">3.</span> <span class="nav-text">dojo/store/JsonRest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5C06_u5F02_u6B65_u548C_u540C_u6B65_u8FDB_u884C_u7EDF_u4E00_u5904_u7406"><span class="nav-number">4.</span> <span class="nav-text">将异步和同步进行统一处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5305_u88C5_u5668wrappers_u3002"><span class="nav-number"></span> <span class="nav-text">包装器wrappers。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/Cache"><span class="nav-number">1.</span> <span class="nav-text">dojo/store/Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u201Cdojo/store/Observable_u201D"><span class="nav-number">2.</span> <span class="nav-text">“dojo/store/Observable”</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u5173_u4E8Edojo_u4E2D_u7EDF_u4E00_u6570_u636E_u8BBF_u95EE_u63A5_u53E3"><span class="nav-number">1.</span> <span class="nav-text">关于dojo中统一数据访问接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dojo_u5BF9_u8C61_u5B58_u50A8API_u80CC_u540E_u7684_u51E0_u4E2A_u7406_u5FF5"><span class="nav-number">2.</span> <span class="nav-text">dojo对象存储API背后的几个理念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u5173_u4E8Edojo_Object_API_u4E2D_u7684_u65B9_u6CD5_u4EE5_u53CA_u5C5E_u6027_u3002"><span class="nav-number">2.1.</span> <span class="nav-text">关于dojo Object API中的方法以及属性。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5173_u4E8E_u8FD4_u56DE_u7684_u5BF9_u8C61_u3002"><span class="nav-number">2.2.</span> <span class="nav-text">关于返回的对象。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u68C0_u6D4B_u7ED3_u679C_u96C6_u7684_u53D8_u5316"><span class="nav-number">2.3.</span> <span class="nav-text">检测结果集的变化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5173_u4E8E_dojo/store/Memory"><span class="nav-number">3.</span> <span class="nav-text">关于 dojo/store/Memory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u67E5_u8BE2"><span class="nav-number">3.1.</span> <span class="nav-text">查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4FEE_u6539_u5BF9_u8C61_u7684_u5C5E_u6027_u5F88_u7B80_u5355"><span class="nav-number">3.2.</span> <span class="nav-text">修改对象的属性很简单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5220_u9664"><span class="nav-number">3.3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/JsonRest"><span class="nav-number">3.4.</span> <span class="nav-text">dojo/store/JsonRest</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONREST_u4E0E_u5206_u9875_u67E5_u8BE2"><span class="nav-number">3.4.1.</span> <span class="nav-text">JSONREST与分页查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5C06_u5F02_u6B65_u548C_u540C_u6B65_u8FDB_u884C_u7EDF_u4E00_u5904_u7406"><span class="nav-number">3.5.</span> <span class="nav-text">将异步和同步进行统一处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5305_u88C5_u5668wrappers_u3002"><span class="nav-number">4.</span> <span class="nav-text">包装器wrappers。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/Cache"><span class="nav-number">4.1.</span> <span class="nav-text">dojo/store/Cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u201Cdojo/store/Observable_u201D"><span class="nav-number">4.2.</span> <span class="nav-text">“dojo/store/Observable”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dojo/store/DataStore"><span class="nav-number">4.3.</span> <span class="nav-text">dojo/store/DataStore</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u603B_u7ED3"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol>
       </div>
     
   </div>

@@ -132,8 +132,7 @@
 <p>“视口”是我们人眼看到的页面,只是实际显示文档内容的一部分：他不包括浏览器的外壳，(如菜单，工具条，标签页等),另一个是文档坐标，他的原点是页面的左上角，不随着页面的滚动发生变化，而视口坐标系的原点位置相对浏览器窗体是不发生变化的，当页面中没有滚动条时候，视口坐标系原点与文档坐标系原点重合的。然后如果存在滚动条的话。向下滚动页面，则某一元素的文档坐标是不发生变化的，视口的Y坐标变小。同理向右滚动的话，元素相对时候X坐标变小。</p>
 <p>文档坐标比视口坐标更加基础，并且不随着用户滚动页面而发生变化，当使用CSS指定元素位置是使用了文档坐标吗，但是客户端编程中视口坐标是非常常见的，简单的查询元素在显示页面中位置方法是返回视口坐标系的位置。</p>
 <p>为了再坐标系之前进行互相转换，我们需要判定浏览器窗口滚动条的位置，windows对象的pageXOffset和pageYOffset，属性在所有浏览器中提供了这些值除了IE8 以及更低版本的浏览器，不过可以使用scrollleft和scrollTop属性来获取滚动条的位置，正常情况下使用document.documentElemt来获得，在怪异模式下使用document.body对象来获得。下面封装了一个获取浏览器中滚动条位置的方法，并且兼容所有的浏览器</p>
-<p>###获得浏览中滚动条的位置</p>
-<pre><code>function getScrollOffset(w){
+<h3 id="u83B7_u5F97_u6D4F_u89C8_u4E2D_u6EDA_u52A8_u6761_u7684_u4F4D_u7F6E"><a href="#u83B7_u5F97_u6D4F_u89C8_u4E2D_u6EDA_u52A8_u6761_u7684_u4F4D_u7F6E" class="headerlink" title="获得浏览中滚动条的位置"></a>获得浏览中滚动条的位置</h3><pre><code>function getScrollOffset(w){
             w=w||window;
             if(w.pageXOffset)return {
                 x:w.pageXOffset,
@@ -149,8 +148,7 @@
             y:d.body.scrollTop
         }
 };
-</code></pre><p>###查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</p>
-<pre><code>function getViewportSize(w){
+</code></pre><h3 id="u67E5_u8BE2_u7A97_u53E3_u89C6_u53E3_u7684_u5C3A_u5BF8_uFF0C_u786E_u5B9A_u5F53_u524D_u6587_u6863_u4E2D_u54EA_u4E9B_u90E8_u5206_u662F_u53EF_u89C1_u7684_u3002"><a href="#u67E5_u8BE2_u7A97_u53E3_u89C6_u53E3_u7684_u5C3A_u5BF8_uFF0C_u786E_u5B9A_u5F53_u524D_u6587_u6863_u4E2D_u54EA_u4E9B_u90E8_u5206_u662F_u53EF_u89C1_u7684_u3002" class="headerlink" title="查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。"></a>查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</h3><pre><code>function getViewportSize(w){
     w=w||window;
     //ie8+
     if(w.innerWidth !=null)return{w:w.innerWidth ,h:w.innerHeight}
@@ -169,7 +167,7 @@
     }
 
 }
-</code></pre><p>###查询元素的尺寸<br>判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。</p>
+</code></pre><h3 id="u67E5_u8BE2_u5143_u7D20_u7684_u5C3A_u5BF8"><a href="#u67E5_u8BE2_u5143_u7D20_u7684_u5C3A_u5BF8" class="headerlink" title="查询元素的尺寸"></a>查询元素的尺寸</h3><p>判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。</p>
 <pre><code>var box=e.getBoundingClientRect();
 var offsets=getScrollOffset();
 var x=box.left;
@@ -291,7 +289,7 @@ var y=box.top;
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">18</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -332,7 +330,7 @@ var y=box.top;
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u83B7_u5F97_u6D4F_u89C8_u4E2D_u6EDA_u52A8_u6761_u7684_u4F4D_u7F6E"><span class="nav-number">1.</span> <span class="nav-text">获得浏览中滚动条的位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u67E5_u8BE2_u7A97_u53E3_u89C6_u53E3_u7684_u5C3A_u5BF8_uFF0C_u786E_u5B9A_u5F53_u524D_u6587_u6863_u4E2D_u54EA_u4E9B_u90E8_u5206_u662F_u53EF_u89C1_u7684_u3002"><span class="nav-number">2.</span> <span class="nav-text">查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u67E5_u8BE2_u5143_u7D20_u7684_u5C3A_u5BF8"><span class="nav-number">3.</span> <span class="nav-text">查询元素的尺寸</span></a></li></ol>
       </div>
     
   </div>
