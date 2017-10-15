@@ -6,12 +6,12 @@ comments: true
 categories: 跨域
 tag: 跨域
 ---
-####何为跨域
+#### 何为跨域
 
 ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况
 
 - http://www.baidu.com:6080 与http://www.baidu.com 端口号不同
-- https://www.baidu.com:6080 与https://www.baidu.com:6080 协议不同
+- http://www.baidu.com:6080 与https://www.baidu.com:6080 协议不同
 - http://www.QQ:6080 与http://www.baidu.com  hostname不同。
 
 如上的各种组合还有好多情况，那么我们如何才能绕过浏览器的跨域限制 正常地访问服务呢。
@@ -28,7 +28,7 @@ ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安�
 
 关于Flash 的跨域情况 在这里不说解释,本文重点介绍Javascript的情况。
 
-####JSONP
+#### JSONP
 虽然浏览器默认禁止了跨域访问，但并不禁止在页面中引用其他域的JS文件，并可以自由执行引入的JS文件中的function（包括操作cookie、Dom等等）。根据这一点，可以方便地通过创建script节点的方法来实现完全跨域的通信。这种方式叫JSONP解决方案。
 
 利用动态的script来请求服务，服务端返回函数的调用的形式，比如callback("hello world");前端如果实现已经定义好了一个callback 的函数既可以获得helloworld;下面开始具体实现。
@@ -83,7 +83,7 @@ ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安�
 启动程序输入 `http://localhost:3002/crossdomain.html`，这里是在3002上的页面调用的是3000端口上的服务。视为跨域，运行之后在文本框中输入两个值我们发现实现了跨域调用。
 以上是实现了一个JSONP的精简版。当然还有些问题要考虑，比如回调函数名字的问题也可以作为参数来传入。第二个问题就是要在服务执行完毕或者请求失败之后 删除动态创建的script标签。
 
-####CORS 
+#### CORS 
 
 随着HTML5标准的 不断完善，也推出了一种新的跨域解决方案Cross-Origin Resource Sharing (CORS)，现在已经是W3C指定的标准。允许 XMLHttpRequest 进行跨域调用，支持CORS的浏览器有
 
@@ -136,7 +136,7 @@ ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安�
 			}
 		xhr.send();　　
 
-####其他的跨域解决方案。还有比如window.name,iframe，img标签等方式
+#### 其他的跨域解决方案。还有比如window.name,iframe，img标签等方式
 当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。
 
 本博文的用到的[Demo的源码](https://github.com/kunkun12/cross-domain)

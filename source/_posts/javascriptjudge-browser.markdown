@@ -7,7 +7,7 @@ categories: javascript
 tag: JavaScript
 ---
 
-###浏览器类型判断
+### 浏览器类型判断
 有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下
 	appCodeName	--	浏览器代码名的字符串表示
 	appName	--	官方浏览器名的字符串表示

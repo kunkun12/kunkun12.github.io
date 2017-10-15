@@ -8,7 +8,7 @@ tag: Django
 ---
 最近开始做的东西要用到Django，数据库是postgresQL,需要在Django的setting.py中修改相关数据库的配置文件。事先我已经装好了PostgresQL 9.2.6
 
-####下载python连接postgresQL数据库的驱动
+#### 下载python连接postgresQL数据库的驱动
 
 安装方式也有多种：根据个人喜好可以使用easy_istall或者pip方式安装
 
@@ -23,7 +23,7 @@ tag: Django
 
 这里我直接在windows安装的exe 下载地址（如果是64位的系统的话也建议下载32位的）<http://www.stickpeople.com/projects/python/win-psycopg/> 根据数据库的版本选择合适的进行下载
 
-####修改配置文件setting.py,找到DATABASES处
+#### 修改配置文件setting.py,找到DATABASES处
 
 		DATABASES = {
 		    'default': {

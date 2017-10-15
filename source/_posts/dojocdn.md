@@ -29,15 +29,15 @@ dojo的最新版本 1.10.2
 
 如果要找dojo中的主题
 
-##claro.css
+## claro.css
 
 <http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css>
 
-##tundar主题
+## tundar主题
 
 <http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css>
 
-##soria主题
+## soria主题
 http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css
 
 可以通过`dgrid/*`,`put-selector/*`,`xstyle!xxx.html`,`dstore/*`引用对应的插件，无需额外的配置

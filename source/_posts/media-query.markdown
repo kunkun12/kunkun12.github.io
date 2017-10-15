@@ -9,7 +9,7 @@ tag: CSS
 ---
 媒体查询在CSS2中就有了，CSS3中得到了进一步增强，简单来说我们可以设置不同类型的媒体条件，并根据对应的条件，给相应符合条件的媒体调用相对应的样式表，说白了就是就是根据设备当前本身的环境(比如屏幕的长宽，设备的种类等）来对元素应用响应的CSS文件，但是所有的CSS 文件总是要下载到本地的。
 
-####引入方式
+#### 引入方式
 
 - link方法引入 
 
@@ -31,7 +31,7 @@ tag: CSS
 		     }
 		   }
 
-####如何定义查询条件
+#### 如何定义查询条件
 媒体类型包括如下几种
 
 - all 所有设备可用
@@ -45,7 +45,7 @@ tag: CSS
 - tty 电传打字机 
 - tv 电视
 
-####最大宽度Max Width,max-height,max-width
+#### 最大宽度Max Width,max-height,max-width
 
 		<link rel="stylesheet" media="screen and (max-width:600px)" href="small.css" type="text/css" />
 
@@ -77,7 +77,7 @@ tag: CSS
 					}
 				}
 
-####最小宽度Min Width min-width,min-height
+#### 最小宽度Min Width min-width,min-height
 
   	 	<link rel="stylesheet" media="screen and (min-width:900px)" href="big.css" type="text/css"  />
 
@@ -86,23 +86,23 @@ tag: CSS
 ##### 多个Media Queries使用查询取交集
  		<link rel="stylesheet" media="screen and (min-width:600px) and (max-width:900px)" href="style.css" type="text/css" />
 
-#####not用于排除符合表达式的设备。
+##### not用于排除符合表达式的设备。
 
 		<link rel="stylesheet" media="not print and (max-width: 1200px)" href="print.css" type="text/css" />
 
-#####only用来定某种特定的媒体类型
+##### only用来定某种特定的媒体类型
 
 		 <link rel="stylesheet" media="only screen and (max-device-width:240px)" href="android240.css" type="text/css" />
 
-####Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用
+#### Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用
 max-device-width、min-device-width
 
 
-####orientation 横屏或者竖屏
+#### orientation 横屏或者竖屏
 
-####device-pixel-ratio 设备的宽高比`min-device-pixel-ratio`，`max-device-pixel-ratio`
+#### device-pixel-ratio 设备的宽高比`min-device-pixel-ratio`，`max-device-pixel-ratio`
 
-####resolution 分辨率 `min-resolution`  `max-resolution`。
+#### resolution 分辨率 `min-resolution`  `max-resolution`。
 
 可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下
 使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。

@@ -3,7 +3,7 @@ date: 2014-11-05 20:08:50
 tags: JavaScript
 ---
 
-##关于对象
+## 关于对象
 
 虽然JS不是正宗的面向对象语言，但是“对象”这个词却与JS密不可分，好吧，用专业术语来讲JS是 *基于对象*的语言，或者是*基于原型*的语言。那么我们先从对象说起。经过艰难险阻，我们只是想要一个功能强大的对象而已。
 
@@ -32,7 +32,7 @@ tags: JavaScript
 
 通过 var person={},我们有了一个干净的对象，如此的干净，纯洁，然而是真的如此吗.然而他天生拥有了一些方法 比如 `toString`，`valueOf`，`isPrototypeOf`,`hasOwnProperty`，`constructor`等方法。这些对象来自于哪里呢，是的 来自于他的原型。看来纯洁只是表面而已。
 
-###关于原型，原型链。
+### 关于原型，原型链。
 
 每个对象都会有个原型（原型对象），自动拥有他的原型的方法，如果想获得一个person对象的原型对象，可以通过`Object.getPrototypeOf(person）`来获得，还可以通过`person.__proto__`。原型是对象的隐藏属性,当我们要访问一个对象的属性时候，会首先从对象自身查找,如果对象自身没有这个属性会到他的原型对象`__proto__`中去找，如果原型对象中还有没有的话的，则会继续到该对象的原型对象的原型对象上去找（原型对象本身也是个对象，所以它自身也会有`__proto__`属性。。。这样就形成了原型链。。null是原型的链的终点，如果最终没有找到的话则返回undfined。规定undefined没有任何可以访问的属性。如果要访问null的属性则会报错了，比如
 
@@ -45,7 +45,7 @@ tags: JavaScript
 
 原型链的本质：`__proto__.__proto__.__proto__.....`直到原型链的终点null。
 
-##关于函数对象。
+## 关于函数对象。
 
 在JS中每个函数都是一个对象，可以像其他普通对象一样,添加属性和方法等，即函数对象。每个函数都继承了`Object.prototype`的方法.就像上面提到的`toString`，`valueOf`，`isPrototypeOf`,`hasOwnProperty`,`constructor`。既然说函数也是对象那么他是有谁构造出来的呢，答案是`Function`。每个function都是`Function`的一个实例。或者说每个function都有这同一个构造函数即`Function`。
 
@@ -64,7 +64,7 @@ tags: JavaScript
 
 实际上我们很少使用new Function 来构造一个函数实例，使用Function构造器生成的Function对象是在函数创建时被解析的。这比你使用函数声明(function)并在你的代码中调用低效，因为使用函数语句声明的function是跟其他语句一起解析的。
 
-##关于构造函数，new
+## 关于构造函数，new
 
 在学习其他的面向对象语言的时候，我们会定义一个class，然后new一个对象，我们都知道Javascript中的函数同时也可以作为构造函数，也可以通过new生成一个基于这个构造函数的实例，比如`Object`，`Array`，`Date`，`RegExp`,`Error`等这些都是ES标准中内置的构造函数。刚才前面的`var person=new Object`其实是调用的构造函数，例如为了模拟一个类，会这样写
 
@@ -167,7 +167,7 @@ tags: JavaScript
 		Person.run();
 
 
-##关于prototype 继承
+## 关于prototype 继承
 
 通过子类继承父类，子类可以拥有父类中的属性和方法，在JAVA中我们可以通过如下的方式实现继承
 
@@ -275,7 +275,7 @@ tags: JavaScript
 		lisi.run();//李四run 
 		lisi.eat();//报错.....
 
-###给构造函数添加方法
+### 给构造函数添加方法
 
 给一个构造函数添加方法有两种形式
 
@@ -297,7 +297,7 @@ tags: JavaScript
 
 对于第一种方式 每次new一个Person，都会创建一个新的sayHello函数，对于第二个版本，sayHello函数只会创建一次，所有Person实例会共享同一个原型Person.prototype，使用这种方式相对节省内存。那么为什么不把name在挂在原型上，刚才已经说明原因了，name是可以设置的属性，设置之后会增加到对象的实例上，无论如何都不会节省内存。如果放到原型上反而会多浪费一些内存。推荐定义构造函数的时候我们把方法放在原型上，把函数直接放在构造函数内部。
 
-###关于this,apply,call
+### 关于this,apply,call
 
 正如我们所知道的，函数如果附加到对象上就变成了方法，并且函数里面的this指向这个对象,真的如此么？还是看之前的例子
 

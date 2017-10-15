@@ -15,7 +15,7 @@ tag: JavaScript
 
 在Javascript中`this`关键字是非常重要的，我之前也花费了不少时间来理解Javascript中的this是如何工作的。每个函数都有一个this变量，简单来说函数this是一个指针，它指向是不固定的，而是动态的，指向调用这个函数的对象，而这个对象就是上下文。我们都知道，Javascript里面的有作用域的概念，就是变量能够访问到的范围，this则是指向当前作用域的。通过this访问变量的时候会在当前作用域上查找。这篇博文是关于bind函数的，这个也是我们经常用的一个东西。
 
-###提出问题
+### 提出问题
 说起Javascript，很难避免的提到了闭包，每个闭包拥有自己的作用域以及this 变量闭包里面的this 并不是指向原来的对象。例如
 
 		var getUserComments = function(callback) {
@@ -48,7 +48,7 @@ tag: JavaScript
 
 但是这种方法感觉有点混乱，同时也要定义像that这样新的变量，如果这样的情况出现多次的话，难免造成迷糊的。那么如何提前给这个函数固定好作用域呢。
 
-####设置函数的作用域
+#### 设置函数的作用域
 
 这里提供了一种方式来设置函数的作用域：使用apply 或者call函数，这两个方法是在Function.prototype里面定义的，因此任何一个函数都继承了这两个方法，apply和call的第一个参数就是要给方法绑定的对象(即该方法调用时this指向的对象)。下面给定义一个getLength方法来获取fullname的length
 
@@ -61,7 +61,7 @@ tag: JavaScript
 
 以上使用apply调用的时候 getLength也自然地调用了，那么如何给getLength指定好上下文，而不让他调用的。等以后调用的时候函数里面的this 则指向我们自己设定的对象。我们不妨把这个功能称之为 bind。
 
-####原生的Function.prototype.bind
+#### 原生的Function.prototype.bind
 
 如上提到的一样apply和call一样，他们都是Function.prototype对象中的方法，这个是ES5里面新增的方法。因此当前主流的浏览器都是支持的包括Chrome, Firefox, Opera，safari 其中IE 要在8以上。
 
@@ -90,7 +90,7 @@ tag: JavaScript
 
 注意在调用的时候参数的顺序是在bind绑定的参数在前面。
 
-####Polyfill-为旧版本的浏览器增加bind函数
+#### Polyfill-为旧版本的浏览器增加bind函数
 
 同时也是文章开头的那道题要求的答案。
 
@@ -126,7 +126,7 @@ tag: JavaScript
 
 最后自己瞎编了两道题
 
-#####第一道
+##### 第一道
 
 		var name="张三"
 		function Person(name){
@@ -145,7 +145,7 @@ tag: JavaScript
 		 m();
 
 
-#####第二道
+##### 第二道
 根据文章继续文章中使用Demo
 
 		var getUserComments = function(callback) {

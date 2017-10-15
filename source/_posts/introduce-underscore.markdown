@@ -7,14 +7,14 @@ categories: underscore
 tag: JavaScript
 ---
 
-###underscore介绍
+### underscore介绍
 [underscore](https://github.com/jashkenas/underscore/)是一个很小很强大的函数库，帮助程序猿不用扩展内置的JS对象即可实现一系列常用的功能。对于“如果我面前是一个空白的HTML 页面，我想想立刻开发出网页，我需要做什么”这样的问题，underscore给出了答案。
 
 underscore 提供了80多个 工具函数，来提供了常见的功能。比如`map` ,`select`,`invoke`,以及更专业的助手	函数绑定，javascript模板，深度相等测试。如果当今流行的浏览器中如果已经存内置方法，他会优先调用浏览器原生的方法比如ES5中新增的`forEach`，`map`，`reduce`，`filter`，`every`，`some`, `indexOf` 等。
 
 underscore的函数主要包含了**Collections**,**Arrays**,**Functions**,**Object**,**Utility**,**Chaining** 等6块内容。对开发者来说是个很强的轮子。
 
-###underscore如何使用
+### underscore如何使用
 相关文档
 
 [帮助文档](http://underscorejs.org/)
@@ -37,7 +37,7 @@ underscore的函数主要包含了**Collections**,**Arrays**,**Functions**,**Obj
 - Component component install jashkenas/underscore
 
 
-###使用Demo
+### 使用Demo
 
 之前使用过Jquery的时候我们学会了用$,使用underscore也同样的容易，只需要一个下划线_即可，
 比如
@@ -48,7 +48,7 @@ underscore的函数主要包含了**Collections**,**Arrays**,**Functions**,**Obj
 	=> alerts each number value in turn...
 
 看到函数名字基本上就能猜到功能了，为了方便全面了解功能，这里仅列出函数的名字，仅对不熟悉的做一下解释，个别函数值列出了源码，其实看源码能学到更多。
-####Collections(数组，对象以及类数组可以调用的方法)
+#### Collections(数组，对象以及类数组可以调用的方法)
 
 - `each`
 - `map`

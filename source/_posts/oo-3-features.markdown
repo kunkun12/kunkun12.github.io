@@ -9,7 +9,7 @@ tag: object oriented
 ---
 
 原文地址<http://blog.163.com/wumingli456@126/blog/static/28896414201211121629525 >
-###面向对象的特性
+### 面向对象的特性
 三个基本的特性：封装、继承与多态。
 
 1、封装
@@ -22,7 +22,7 @@ tag: object oriented
  多态是面向对象编程的又一重要特征.有两种意义的多态（表现为方法的重写(Overriding)和重载(Overloading)） 
  一种是操作名称的多态,即有多个操作具有相同的名字,但这些操作所接收的消息类型必须不同.所谓操作名称的多态是指可以向操作传递不同消息,以便让对象根据相应的消息来产生一定的行为.
 
-###七大基本原则 
+### 七大基本原则 
  单一职责原则SRP(Single Responsibility Principle)、开放封闭原则OCP(Open－Close Principle) 、替换原则、依赖原则(the Dependency Inversion Principle DIP) (the Liskov Substitution Principle LSP) 、接口分离原则(the Interface Segregation Principle ISP)、“迪米特”法则 、组合/聚合原则 
 
 1、单一职责原则SRP(Single Responsibility Principle)

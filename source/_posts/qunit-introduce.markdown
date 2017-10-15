@@ -8,7 +8,7 @@ categories: QUnit
 ---
 在Javascript项目的开发流程中，测试驱动开发广为流传，测试驱动能够让我们节省编码的时间，本篇文章主要介绍[Qunit](http://qunitjs.com/),一个测试驱动的开发框架，来帮助我们发现程序的错误以及bug
 
-###为什么要使用测试驱动开发
+### 为什么要使用测试驱动开发
 首先在最初使用单元测试的时候，这可能是一个繁杂和琐碎的过程，包括单元测试环境的搭建，以及为每一个要测试的函数编写测试代码，都会花费很多的时间，但是要相信单元测试最终会帮主我们来减少在一个项目周期中用来调试代码的时间。同时也会减少半夜接到电话被拉过去修改bug的麻烦，长远来说，这个过程会让你受益更多比如 跨浏览器的测试，使用这种方式能够让你在不同的浏览器中进行测试。总之编码之前，测试先行一个比较好的习惯。
 
 随着Github等类似的代码分享平台的出现，现在开源的东西也越来越多了，怎么才能证明这些东西的可用性呢，因为开源模块的作者会编写单元测试的代码。当我们clone完这个模块之后 然后跑一边单元测试代码，会让自己开源的模块增强可用性。同时我们在为开源项目贡献代码的时候也建议附上单元测试的程序，以增强自己的代码被接受的可能性。
@@ -17,11 +17,11 @@ categories: QUnit
 
 话说回来，当项目完成之后 又发现了bug，当我们在修改完一个bug之后，怎样才能说明bug修改好了呢，单元测试这个时候也可以为我们提供帮助，几行单元测试就能证明这个bug被修复了，无需多言。
 
-###为什么选择[Qunit](http://qunitjs.com/)?
+### 为什么选择[Qunit](http://qunitjs.com/)?
 
 原因是这个框架很简单上手，也是单元测试新手的最佳选择，就像Jquery那么easy，对于初学者来说，[Qunit](http://qunitjs.com/)跟jQuery是也是出自同一人之手。[Qunit](http://qunitjs.com/)也是用来测试jQuery 本身的单元测试框架， Qunit对于jQuery开发者也是单元测试框架的最佳选择。当然还有更多javascript单元测试框架比如 [mocha](http://visionmedia.github.io/mocha/),[jasmine](http://pivotal.github.io/jasmine/),断言库[chai](http://chaijs.com/),[should.js](https://github.com/visionmedia/should.js)、[Expect](https://github.com/LearnBoost/expect.js)、[better-assert](better-assert)等
 
-###开始搭建环境
+### 开始搭建环境
 第一步就是先下载[Qunit](http://qunitjs.com/)的Javascript 和CSS文件。地址如下
 
 		<link rel=“stylesheet" href="//code.jquery.com/qunit/qunit-1.14.0.css" type="text/css" media="screen">

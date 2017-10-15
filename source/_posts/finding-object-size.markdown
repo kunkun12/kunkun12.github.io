@@ -7,7 +7,7 @@ categories: JavaScript
 tag: JavaScript
 ---
 
-####问题提出 我要获取一个对象包含属性的个数
+#### 问题提出 我要获取一个对象包含属性的个数
 在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下
 
 		var bookAuthors = {
@@ -18,7 +18,7 @@ tag: JavaScript
 		};
 
 作为分析的一部分，我们像一个API发送图书作者的数据，不幸的是 这个API只能接受一个包含100本左右的图书对象，于是我们需要向一个号的解决方案，在向API发送之前想告诉它一共包含了多少本书。
-####解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的
+#### 解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的
 于是最初的设计可能如下
 
 		function countProperties (obj) {
@@ -38,7 +38,7 @@ tag: JavaScript
 
 之所以使用hasOwnProperty 是因为 for in 不但会对象本身的属性，同时也会遍历继承而来的属性 判断
 
-####Object.keys
+#### Object.keys
 当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于
 
 	  	for (var property in obj) {
@@ -57,7 +57,7 @@ tag: JavaScript
 		var bookCount = bookAuthors.keys().length; //会报错的，自己声明的对象时不具有这个方法的
 
 
-####其他-Object.getOwnPropertyNames
+#### 其他-Object.getOwnPropertyNames
 
 同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别
 
@@ -75,7 +75,7 @@ Object.keys 以及Object.getOwnPropertyNames()用来获取对象中的属性的n
 	    //return array of all properties, including ones that are non-enumerable
 	    console.log(Object.getOwnPropertyNames(person)); //returns ["name", "age"]
 
-####ployFill 为不支持ES5的浏览器提供支持 
+#### ployFill 为不支持ES5的浏览器提供支持 
 以下摘自[es5-shim](https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js)
 
 		   var hasDontEnumBug = true,

@@ -8,7 +8,7 @@ tag: Git
 ---
 在使用git的时候，git与远程服务器是一般通过ssh传输的(也支持ftp，https)，我们在管理远程分支之前 需要在本机上创建ssh-key密钥对，并把其中的公钥添加到github中。
 
-###单用户情况
+### 单用户情况
 如果你就会一直在你的计算计算机使用一个远程的Git服务器，并且账号是一个，比较简单，生成key的时候也没有太大注意的地方，直接运行如下的第一步然后按回车就可以了
   1、在 gitbash上运行  ssh-keygen -t  rsa  -C  "Github账户邮箱"
   2、接下来会提示输入key的名字 默认名字为id_rsa .默认就行了
@@ -30,7 +30,7 @@ ssh -T git@github.com 如果能正常访问即可
 	Hi kunkun01! You've successfully authenticated, but GitHub does not provide shel
 	l access.
 
-###多账户配置
+### 多账户配置
 
  多账户又分为两种情况  
 
@@ -39,7 +39,7 @@ ssh -T git@github.com 如果能正常访问即可
 
  在我们访问git服务器的时候，如果通过ssh的方式话，访问不同的服务器要使用不同的ssh-key。经过在第一步的过程中，在创建ssh-key的默认命名为id_rsa，如果使用不同的账户的，必须得给不同的key设置不同的名字，否则如果继续使用默认名字的话，会把之前的id_rsa覆盖掉。
  具体操作如下 user2是我的另外一个Github账户
-####1、新建user2的SSH Key
+#### 1、新建user2的SSH Key
 	 #新建SSH key：
 	$ cd ~/.ssh     # 切换到C:\Users\Administrator\.ssh
 	ssh-keygen -t rsa -C "mywork@email.com"  # 新建工作的SSH key
@@ -53,7 +53,7 @@ ssh -T git@github.com 如果能正常访问即可
 
 	ssh-agent bash
 	ssh-add ~/.ssh/id_rsa_work
-####3、修改config文件 将账户以及git服务器与对应的密钥关联。在`C:\Users\kunkun\.ssh`目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下：
+#### 3、修改config文件 将账户以及git服务器与对应的密钥关联。在`C:\Users\kunkun\.ssh`目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下：
 
 	# 该文件用于配置私钥对应的服务器
 	# Default github user(first@mail.com)
@@ -70,9 +70,9 @@ ssh -T git@github.com 如果能正常访问即可
 	 IdentityFile C:/Users/Administrator/.ssh/id_rsa_work
 其规则就是：从上至下读取config的内容，在每个Host下寻找对应的私钥。这里将GitHub SSH仓库地址中的git@github.com替换成新建的Host别名如：github2，那么原地址是：git@github.com:kunkun/Mywork.git，替换后应该是：github2:kunkun/Mywork.git。
 
-####4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。
+#### 4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。
 
-####5、测试：
+#### 5、测试：
 	
 	$ ssh -T git@github.com
 	Hi BeginMan! You've successfully authenticated, but GitHub does not provide shel

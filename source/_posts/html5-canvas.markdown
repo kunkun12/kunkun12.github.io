@@ -7,7 +7,7 @@ categories: html5 canvas
 tag: Html
 ---
 
-###基本知识
+### 基本知识
 canvas本身提供的属性和方法很少 属性有hegight,width(这个属性与通过CSS设置的是不同的),绘图功能主要是存在通过canvas.getContext()返回的上下文中.有个一个toDataUrl()方法, 可以将canvas的转为一定格式的图片。下面主要介绍，context2d里面的方法。之前学过C语言绘图，貌似方法很类似
 
 获取绘图上下文
@@ -33,7 +33,7 @@ style:在进行图形绘制前，要设置好绘图的样式
 - rgba(1-255,1-255,1-255,透明度)
 默认情况下坐标原点为canvas的左上角，水平向右为X
 
-#####绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)
+##### 绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)
 - *x:矩形起点横坐标*
 - *y:矩形起点纵坐标*
 - *width:矩形长度*
@@ -41,7 +41,7 @@ style:在进行图形绘制前，要设置好绘图的样式
 
 [查看Demo](http://kunkun12.github.io/CanvasDemo/Rect.html)
 
-#####清除矩形区域 context.clearRect(x,y,width,height)
+##### 清除矩形区域 context.clearRect(x,y,width,height)
 
 - *x:清除矩形起点横坐标*
 - *y:清除矩形起点纵坐标*
@@ -50,7 +50,7 @@ style:在进行图形绘制前，要设置好绘图的样式
 
 [查看Demo](http://kunkun12.github.io/CanvasDemo/clearRect.html)
 
-#####圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)
+##### 圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)
 
 - *x:圆心的x坐标*
 - *y:圆心的y坐标*
@@ -60,14 +60,14 @@ style:在进行图形绘制前，要设置好绘图的样式
 
  [查看demo](http://kunkun12.com/CanvasDemo/drawline.html)
 
-#####路径  context.beginPath()    context.closePath()
+##### 路径  context.beginPath()    context.closePath()
 
 - 系统默认在绘制第一个路径的开始点为beginPath
 - 如果画完前面的路径没有重新指定beginPath，那么画第其他路径的时候会将前面最近指定的beginPath后的全部路径重新绘制
 - 每次调用context.fill（）的时候会自动把当次绘制的路径的开始点和结束点相连，接着填充封闭的部分
 
  [查看demo](http://kunkun12.github.io/CanvasDemo/closepath.html)
-####绘制线段 context.moveTo(x,y)  context.lineTo(x,y)
+#### 绘制线段 context.moveTo(x,y)  context.lineTo(x,y)
 
 - *x:x坐标*
 - *y:y坐标*
@@ -78,7 +78,7 @@ style:在进行图形绘制前，要设置好绘图的样式
 
 [查看demo](http://kunkun12.github.io/CanvasDemo/drawarc.html)
 
-#####绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y) 
+##### 绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y) 
 
 - *cp1x:第一个控制点x坐标*
 - *cp1y:第一个控制点y坐标*
@@ -86,7 +86,7 @@ style:在进行图形绘制前，要设置好绘图的样式
 - *x:终点x坐标*
 - *y:终点y坐标*
 
-#####绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)
+##### 绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)
 
 - *qcpx:二次样条曲线控制点x坐标*
 - *qcpy:二次样条曲线控制点y坐标*
@@ -95,7 +95,7 @@ style:在进行图形绘制前，要设置好绘图的样式
 
 [查看demo](http://kunkun12.github.io/CanvasDemo/bezier.html)
 
-#####线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)
+##### 线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)
 
 - *xstart:渐变开始点x坐标*
 - *ystart:渐变开始点y坐标*
@@ -104,8 +104,8 @@ style:在进行图形绘制前，要设置好绘图的样式
 - *offset:设定的颜色离渐变结束点的偏移量(0~1)*
 - *color:绘制时要使用的颜色*
 
-#####径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)
-#####径向渐变（发散）颜色rg.addColorStop(offset,color)
+##### 径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)
+##### 径向渐变（发散）颜色rg.addColorStop(offset,color)
 
 - *xStart:发散开始圆心x坐标*
 - *yStart:发散开始圆心y坐标*
@@ -118,7 +118,7 @@ style:在进行图形绘制前，要设置好绘图的样式
 
 [渐变Demo](http://kunkun12.github.io/CanvasDemo/Gradient.html)
 
-#####图形变换(坐标系变换)
+##### 图形变换(坐标系变换)
 
 1、平移context.translate(x,y)
 
@@ -134,7 +134,7 @@ style:在进行图形绘制前，要设置好绘图的样式
 
 -  angle:坐标轴旋转x角度（角度变化模型和画圆的模型一样)
 
-#####矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)
+##### 矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)
  所谓的矩阵变换其实是context内实现平移，缩放，旋转的一种机制,他的主要原理就是矩阵相乘
 [参见demo](http://kunkun12.github.io/CanvasDemo/transform.html)
 
@@ -165,14 +165,14 @@ type：
 
         copy:只显示新图形
 
-#####给图形绘制阴影
+##### 给图形绘制阴影
 
 - context.shadowOffsetX :阴影的横向位移量（默认值为0）
 - context.shadowOffsetY :阴影的纵向位移量（默认值为0）
 - context.shadowColor :阴影的颜色
 - context.shadowBlur :阴影的模糊范围（值越大越模糊）
 
-#####绘制图像 
+##### 绘制图像 
 
 - 绘图：context.drawImage
 
@@ -184,7 +184,7 @@ type：
 
 - 设置像素颜色：context.putImageData(imagedata,dx,dy,dirtyX,dirtyY,dirtyWidth,dirtyHeight)
 
-#####绘制文字
+##### 绘制文字
 
 - 填充文字：context.fillText(text,x,y)  
 - 绘制文字轮廓 context.strokeText(text,x,y) 
@@ -197,11 +197,11 @@ type：
 		start、end、right、center
 - context.textBaseline:垂直对齐方式：top、hanging、middle、alphabetic、ideographic、bottom
 
-#####保存和恢复上下文状态，主要包括坐标系，裁剪区域等 
+##### 保存和恢复上下文状态，主要包括坐标系，裁剪区域等 
 
 - 保存：context.save()
 - 恢复：context.restore()
 
-#####保存文件  canvas.toDataURL(MIME)
+##### 保存文件  canvas.toDataURL(MIME)
 
 在canvas中绘出的图片只是canvas标签而已，并非是真正的图片，是不能右键，另存为的，我们可以利用canvas.toDataURL()这个方法把canvas绘制的图形生成一幅图片，生成图片后，就能对图片进行相应的操作了。

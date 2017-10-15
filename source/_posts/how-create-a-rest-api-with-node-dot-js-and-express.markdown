@@ -7,7 +7,7 @@ categories: node express rest
 tag: Node
 ---
 
-###安装环境
+### 安装环境
 
 1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处[下载](http://nodejs.org/)
 2 安装 express 
@@ -18,7 +18,7 @@ tag: Node
 
 	express myapp
 
-###API设计
+### API设计
 
 这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。
 
@@ -33,9 +33,9 @@ tag: Node
 - 访问get请求之外的api ，如果执行成功返回http 状态符为200
 - 如果访问不存的计划信息 则返回http 状态符为 404
 
-###实现
+### 实现
 
-####数据
+#### 数据
 这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：
 
 		function TaskRepository() {}
@@ -69,7 +69,7 @@ tag: Node
 		 */
 		TaskRepository.prototype.remove = function (id) {}
 
-####创建express server
+#### 创建express server
 
 		var express = require('express');
 		var app = express();
@@ -77,13 +77,13 @@ tag: Node
 		    app.use(express.bodyParser()); // used to parse JSON object given in the request body
 		});
 
-####获取计划的列表 get
+#### 获取计划的列表 get
 
 		app.get('/tasks', function (request, response) {
 		    response.json({tasks: taskRepository.findAll()});
 		});
 
-####根据指定的id获取一个计划的信息 get
+#### 根据指定的id获取一个计划的信息 get
 
 		app.get('/tasks/:id', function (request, response) {
 		    var taskId = request.params.id;
@@ -94,7 +94,7 @@ tag: Node
 		    }
 		});
 
-####创建一个新的计划 post
+#### 创建一个新的计划 post
 
 		app.post('/tasks', function (request, response) {
 		    var task = request.body;
@@ -107,7 +107,7 @@ tag: Node
 		    response.send(200);
 		});
 
-####更新计划信息 put
+#### 更新计划信息 put
 
 		app.put('/tasks/:id', function (request, response) {
 		    var task = request.body;
@@ -127,7 +127,7 @@ tag: Node
 		    }
 		});
 
-####删除计划delete
+#### 删除计划delete
 
 		app.delete('/tasks/:id', function (request, response) {
 		    try {
@@ -138,11 +138,11 @@ tag: Node
 		    }
 		});
 
-####启动express server
+#### 启动express server
 
 		app.listen(8080)
 
-###测试 这里使用 curl 执行http请求访问rest api
+### 测试 这里使用 curl 执行http请求访问rest api
 
 首先启动程序
 
@@ -161,7 +161,7 @@ tag: Node
 		{
 		  "tasks": []
 		}
-####创建计划
+#### 创建计划
 
 		$ curl -i -X POST http://localhost:8080/tasks --data '{}' -H "Content-Type: application/json"
 		HTTP/1.1 200 OK
@@ -172,7 +172,7 @@ tag: Node
 		Connection: keep-alive
 		 
 		OK
-####更新计划
+#### 更新计划
 
 		$ curl -i -X PUT http://localhost:8080/tasks/1 --data '{"description":"blabla"}' -H "Content-Type: application/json"
 		HTTP/1.1 200 OK
@@ -183,7 +183,7 @@ tag: Node
 		Connection: keep-alive
 		OK
 
-####删除计划
+#### 删除计划
 
 		$ curl -i -X DELETE http://localhost:8080/tasks/1
 		HTTP/1.1 200 OK

@@ -14,7 +14,7 @@ tag: Html
 
 为了再坐标系之前进行互相转换，我们需要判定浏览器窗口滚动条的位置，windows对象的pageXOffset和pageYOffset，属性在所有浏览器中提供了这些值除了IE8 以及更低版本的浏览器，不过可以使用scrollleft和scrollTop属性来获取滚动条的位置，正常情况下使用document.documentElemt来获得，在怪异模式下使用document.body对象来获得。下面封装了一个获取浏览器中滚动条位置的方法，并且兼容所有的浏览器
 
-###获得浏览中滚动条的位置
+### 获得浏览中滚动条的位置
 
 		function getScrollOffset(w){
 					w=w||window;
@@ -33,7 +33,7 @@ tag: Html
 				}
 		};
 
-###查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。
+### 查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。
 
 		function getViewportSize(w){
 			w=w||window;
@@ -55,7 +55,7 @@ tag: Html
 
 		}
 
-###查询元素的尺寸
+### 查询元素的尺寸
 判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。
 
 		var box=e.getBoundingClientRect();

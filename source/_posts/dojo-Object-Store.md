@@ -4,7 +4,7 @@ tags: Dojo
 ---
 
 
-##关于dojo中统一数据访问接口
+## 关于dojo中统一数据访问接口
 
 数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。
 
@@ -41,7 +41,7 @@ tags: Dojo
 
 翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于**HTML5 object store** API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。
 
-##dojo对象存储API背后的几个理念
+## dojo对象存储API背后的几个理念
 
 - 数据与UI关注点分离，让我们将数据与展现关注点进行分离，并且方便数据与部件之间独立的实现。
 - 保持简单 可以仅仅地创建一个具有query和get方法的对象来创建一个简单的数据存储对象，如果要提供创建一个新的对象功能，可以增加一个add方法，如果要增加更新对象的功能 只需要增加一个put方法
@@ -74,12 +74,12 @@ tags: Dojo
 以上只是API中的方法，dojo也有对应的类对此进行了实现后面会做具体的介绍。此外为了直观些可以看一下直接画的图
 <http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow>
 
-###关于返回的对象。
+### 关于返回的对象。
 
 `dojo/store`通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。
 
 
-###检测结果集的变化
+### 检测结果集的变化
 
 这个属于对`dojo store API`的增强。如果一个store 被`dojo/store/Observable`进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成
 
@@ -89,7 +89,7 @@ tags: Dojo
 
 
 
-##关于 `dojo/store/Memory`
+## 关于 `dojo/store/Memory`
 
  说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有`dojo/store/Memory` `dojo/store/JsonRest`.以`dojo/store/DataStore`
 
@@ -132,7 +132,7 @@ tags: Dojo
 
 		});
 
-###查询
+### 查询
 
 - *get*根据对象唯一标识来查询一个，返回一个JS对象，查询‘密云镇’的数据
 
@@ -265,7 +265,7 @@ tags: Dojo
 > 注意：原则上说我们调用一下put方法来标识更新对象。`store.put(obj)` 这样如果通过`dojo/store/Observable` 包装的话 监听函数才能监听的到.
 
 
-###删除  
+### 删除  
 
 调用 store 的remove方法就行了 参数是 对象的唯一标识
 
@@ -324,7 +324,7 @@ tags: Dojo
 		  headers: { "X-Custom-Header": "Bar" } // 仅在本次请求中包含 include X-Custom-Header: Bar instead
 		});
 
-####JSONREST与分页查询 
+#### JSONREST与分页查询 
 
  上面的查询中`query(query,options)`;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加*Range*字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的*header   `X-Range` *
  比如 
@@ -467,12 +467,12 @@ tags: Dojo
 
 另外 查询结果集还有个 `cancel`方法来取消监听（dojo store API 上说的是close ，这里有点出入）
 
-###dojo/store/DataStore 
+### dojo/store/DataStore 
 
 为了兼容之前的`dojo/data API` 将`dojo/data store`的转为*Dojo Object store* ，dojo官方推出了`dojo/store/DataStore`,同时在dojo/data里面也增加了一个*dojo/data/ObjectStore*，将*dojo Object store* 转为*dojo data store*，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。
 
 
-##总结
+## 总结
 
 *dojo Object store* 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而`dojo/store/Memory `和`dojo/store/JsonRest` 是两种不同场景的实现。通过`dojo/store/Cache` 以及`dojo/store/Observable`来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 [dstore](https://github.com/SitePen/dstore)作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。
 

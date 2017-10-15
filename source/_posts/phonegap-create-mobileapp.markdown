@@ -7,7 +7,7 @@ categories: PhoneGap
 tag: PhoneGap
 ---
 前段时间学习了Phonegap开发，本篇作为记录，希望对初道者有帮助,本篇主要介绍Phonegap以及环境的搭建。下篇结合Angluar 开发小Demo
-###Phonegap介绍
+### Phonegap介绍
 Phonegap 作为一个开源的框架来帮助开发者使用Javascript/HTML5/CSS 开发跨平台的移动应用。他可以根据指定的移动平台打包为对应的包，支持的平台种类如下。
 
 - iOS
@@ -41,7 +41,7 @@ Phonegap 本质上是在本地原生应用程序中包裹了一个Webview 来支
 
 在之前版本的Phonegap中 包括了一些预编译的插件。随着Phonegap 3的到来，一个新的插件架构取代了原来的插件访问。同时有一个注册中心来创建兼容Phonegap 3的插件
 
-####HTML/CSS /Javascript 移动开发基础。
+#### HTML/CSS /Javascript 移动开发基础。
 Phonegap本身提供的大部分功能是提供了一些非可视化的功能组件，比如访问文件系统，网络能力，地理定位，等等。Phonegap本身并没有提供构建图形界面的能力，对于此，我们必须使用HTML、CSS来构建，为了更方便地开发中应用，因此推荐结合JS 框架来进行组织程序的开发。这些框架包括
 
 - jQuery Mobile
@@ -61,9 +61,9 @@ Cordova还提供了一组统一的JavaScript类库，以及为这些类库所用
 - [Phonega 官网](http://phonegap.com/)
 - [cordova 官网](http://cordova.apache.org/)
 
-####Phonegap 开发环境搭建。
+#### Phonegap 开发环境搭建。
 这里我要基于Phonegap开发能够运行在android上的程序。
-####建环境的基本准备:
+#### 建环境的基本准备:
 1. java JDK、配置Java环境变量
 2. 下载[android ADT Bundle](https://developer.android.com/sdk/index.html?hl=sk)(里面是一个继承了安卓开发环境的Eclipse)，下载之后将android SDK下的tools的目录添加到环境变量中，启动下载包里面的eclipse 创建AVD
 3. Ant 打包工具(windows 下载推荐下载 [winant](https://code.google.com/p/winant/))
@@ -77,7 +77,7 @@ Cordova还提供了一组统一的JavaScript类库，以及为这些类库所用
 		npm install -g phonegap
 cordova和phonegap这两个命令是通用的。`npm install -g phonegap` 是3.0之后的新出的一种安装方式，这里我使用是phonegap。
 
-####创建Helloword
+#### 创建Helloword
 在命令行下运行
 
 		phonegap create my-app

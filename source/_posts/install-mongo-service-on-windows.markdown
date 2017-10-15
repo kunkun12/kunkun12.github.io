@@ -44,7 +44,7 @@ tag: MongoDb
 - 连接数据库 保持上述的Mongodb服务处于开启状态 在开启一个控制台，运行**D:\mongodb\mongodb\bin\mongo.exe**命令,则会连接成功了。可以按照[这篇文章](http://docs.mongodb.org/manual/tutorial/getting-started/)继续操作
 
 
-###将MongoDb配置为服务
+### 将MongoDb配置为服务
 
 >虽然进行了以上的配置，但是之后每次使用Mongodb的时候都要先启动服务，如果配置为windows服务，让其自动启动。
 

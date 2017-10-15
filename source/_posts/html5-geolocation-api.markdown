@@ -6,7 +6,7 @@ comments: true
 categories: html5
 tag: Html
 ---
-###地理位置API介绍
+### 地理位置API介绍
 
 地理位置API能够神奇地定位出你正待在世界的什么地方，并且在你允许的情况下，将你的位置信息分享给你信任的人，关于内部的定位原理，主要通过三种手段：
 
@@ -16,14 +16,14 @@ tag: Html
 4. GSM基站网络
 5. 用户定义的地址位置。
 
-###地理位置获取流程：
+### 地理位置获取流程：
 
 1、用户打开需要获取地理位置的web应用。
 2、应用向浏览器请求地理位置，浏览器弹出询问窗口询问用户是否共享地理位置。
 3、假设用户允许，浏览器从设别查询相关信息。
 4、浏览器将相关信息发送到一个信任的位置服务器，服务器返回具体的地理位置。
 
-###监测浏览器支持情况
+### 监测浏览器支持情况
 
 如果浏览器支持地理位置API话，在全局的 navigator对象上回有一个名字为geolocation的属性，反之，navigator 对象上该属性为undefined 。于是可以编写如下函数
 
@@ -40,9 +40,9 @@ tag: Html
 			
 		}
 
-###navigator对象中的方法，
+### navigator对象中的方法，
 
-####getCurrentPosition函数
+#### getCurrentPosition函数
 这个函数是通过navigator.geolocation对象来调用的，所以在脚本中需要先取得此对象。这个函数接受一个必选参数和两个可选参数。
 
 		void getCurrentPosition(
@@ -102,7 +102,7 @@ options：可选的地理定位请求特性
 - timeout:可选值，单位为ms，告诉浏览器计算当前位置所允许的最长时间。默认值为Infinity，即为无穷大或无限制。
 - maximumAge:这个值表示浏览器重新计算位置的时间间隔。它也是一个以ms为单位的值，默认为零，这意味着浏览器每次请求时必须立即重新计算位置。
 
-###watchPosition函数
+### watchPosition函数
 
 		navigator.geolocation.watchPosition(updateLocation,handleLocationError);
 

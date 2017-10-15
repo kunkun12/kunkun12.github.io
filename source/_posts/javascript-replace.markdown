@@ -6,7 +6,7 @@ comments: true
 categories:	javascript replace
 tag: JavaScript
 ---
-###简单介绍
+### 简单介绍
 `StringObject.replace(searchValue,replaceValue)`
 StringObject:字符串
 searchValue：字符串或正则表达式
