@@ -99,6 +99,108 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/21/http-status/">
+                REST 程序设计之http method 、http status
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-21
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/21/http-status/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/21/http-status/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h4 id="HTTP_method"><a href="#HTTP_method" class="headerlink" title="HTTP method"></a>HTTP method</h4><p>在rest程序设计中对资源都是通过URI来体现的，对资源的操作主要是通过Http请求的方法来实现的。API功能是由http method+ URI共同体现的。举例如下</p>
+<ul>
+<li>GET /tasks - 获取任务列表信息</li>
+<li>GET /tasks/12 -获取指定的任务信息</li>
+<li>POST /tasks - 创建新的任务</li>
+<li>PUT /tasks/12 - 更新指定的任务</li>
+<li>PATCH /tasks/12 - 更新指定任务的部分信息</li>
+<li>DELETE /tasks/12 - 删除指定的任务</li>
+</ul>
+<p>以上中get 、post、put、delete比较常用。主要实现对资源的CURD。</p>
+<h4 id="HTTP_status"><a href="#HTTP_status" class="headerlink" title="HTTP status"></a>HTTP status</h4><p>作为 API 的设计者，正确的将 API 执行结果和失败原因用清晰简洁的方式传达给客户程序是十分关键的一步。 我们确实可以在 HTTP 的相应内容中描述是否成功，如果出错是因为什么， 然而， 这就意味着用户需要进行内容解析，才知道执行结果和错误原因。因此，HTTP 响应代码可以保证客户端在第一时间用最高效的方式获知 API 运行结果，并采取相应动作。 下表列出了比较常用的响应代码。</p>
+<ul>
+<li>200 响应成功。主要响应GET, PUT, PATCH 、DELETE.请求，同时也可以响应资源创建成功无返回结果的post请求</li>
+<li>201 资源成功创建，同时在location header 里面有新资源的 地址</li>
+<li>204 返回请求成功 不反返回内容，即返回结果不包含body，比如delete请求。</li>
+<li>301 重定向 , 请求的网页已被永久移动到新位置。服务器返回此响应时，会自动将请求者转到新位置。</li>
+<li>302 重定向 , 请求的网页临时移动到新位置，但求者应继续使用原有位置来进行以后的请求。302 会自动将请求者转到不同的临时位置。</li>
+<li>304 自从上次请求后，请求的网页未被修改过。服务器返回此响应时，不会返回网页内容。</li>
+<li>400 错误请求</li>
+<li>401 未授权 , 请求要求进行身份验证</li>
+<li>403 已禁止 , 服务器拒绝请求。</li>
+<li>404 未找到 , 服务器找不到请求的网页。</li>
+<li>405 方法禁用 , 禁用请求中所指定的方法。</li>
+<li>410 请求的页面不存在</li>
+<li>415 不支持的媒体类型</li>
+<li>429 请求次数过多</li>
+<li>500 内部服务器错误。</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Http/">
+                #Http
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/20/oo-3-features/">
                 面向对象编程3大特性 7大原则[转] 
               </a>
@@ -1458,121 +1560,6 @@ var p=    User.print;
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/11/html-5-meta-tag/">
-                html 5 meta tag
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-11
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/11/html-5-meta-tag/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/html-5-meta-tag/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>###meta的作用<br>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
-<ul>
-<li><meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。</li>
-<li><meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。</li>
-</ul>
-<p>每个meta标签必须具有content属性，定义与 http-equiv 或 name 属性相关的元信息。</p>
-<p>###可选属性</p>
-<p>####http-equiv 属性<br>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
-<pre><code>&lt;meta http-equiv=&quot;charset&quot; content=&quot;iso-8859-1&quot;&gt;
-&lt;meta http-equiv=&quot;expires&quot; content=&quot;31 Dec 2008&quot;&gt;
-</code></pre><p>这样发送到浏览器的头部就应该包含：</p>
-<pre><code>content-type: text/html
-charset:iso-8859-1
-expires:31 Dec 2008
-</code></pre><p>5秒刷新一次页面</p>
-<pre><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot; /&gt;
-</code></pre><p>####content 属性</p>
-<ul>
-<li>content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。</li>
-<li>content 属性始终要和 name 属性或 http-equiv 属性一起使用。</li>
-</ul>
-<p>####name 属性</p>
-<p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
-<pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;HTML,ASP,PHP,SQL&quot;&gt;
-&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词； 
-&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容； 
-&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者； 
-&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt; 
-</code></pre><p>其中的属性说明如下： </p>
-<ul>
-<li>设定为all：文件将被检索，且页面上的链接可以被查询； </li>
-<li>设定为none：文件将不被检索，且页面上的链接不可以被查询； </li>
-<li>设定为index：文件将被检索； </li>
-<li>设定为follow：页面上的链接可以被查询； </li>
-<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询； </li>
-<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。 </li>
-</ul>
-<p>另外一点需要注意的是在HTML4中定义页面的字符集需要，放在content-type对应的content里面</p>
-<pre><code>&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=ISO-8859-1&quot;&gt;
-</code></pre><p>HTML5中新增了 charset属性 ，使用更简单</p>
-<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -1605,11 +1592,11 @@ expires:31 Dec 2008
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-count">19</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">

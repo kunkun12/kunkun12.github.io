@@ -99,6 +99,96 @@
           
           
             
+              <a class="post-title-link" href="/2014/12/30/ngEter/">
+                angularJS 实现ngEnter
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-12-30
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/12/30/ngEter/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/30/ngEter/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>Ng中有一些内置的指令，来响应我们的操作事件，比如ng-click,ng-change ng-select等等，但是我发现众多指令中缺少一个 当键盘按下的指令，比如 按回车的指令，比如我在一个搜索框中输入关键字之后按回车键，然后自动进行关键字来搜索，虽然ng中没有自带这个指令，但是我们很容易的定义一个这样的指令。下面就是一个ng-enter指令来完成这样的操作，使用的时候与ng-click这等方法类似，传递一个函数即可。当绑定该指令的元素处于焦点状态的时候，按下回车键就会触发 ng-enter的函数。</p>
+<pre><code>app.directive(&apos;ngEnter&apos;, function () {
+    return function (scope, element, attrs) {
+        element.bind(&quot;keydown keypress&quot;, function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
+</code></pre><p>关于 <code>keydown</code>,<code>keypress</code>可以参阅<a href="http://www.cnblogs.com/silence516/archive/2013/01/25/2876611.html" target="_blank" rel="external">http://www.cnblogs.com/silence516/archive/2013/01/25/2876611.html</a></p>
+<p>使用方式 <code>&lt;input ng-enter=&#39;myfunction()&#39;/&gt;</code></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/AngularJS/">
+                #AngularJS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/12/18/dojo-Object-Store/">
                 dojo统一的数据访问接口——dojo Oject store API
               </a>
@@ -1847,108 +1937,6 @@ var B = function(callback) {
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/21/http-status/">
-                REST 程序设计之http method 、http status
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-21
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/21/http-status/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/21/http-status/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h4 id="HTTP_method"><a href="#HTTP_method" class="headerlink" title="HTTP method"></a>HTTP method</h4><p>在rest程序设计中对资源都是通过URI来体现的，对资源的操作主要是通过Http请求的方法来实现的。API功能是由http method+ URI共同体现的。举例如下</p>
-<ul>
-<li>GET /tasks - 获取任务列表信息</li>
-<li>GET /tasks/12 -获取指定的任务信息</li>
-<li>POST /tasks - 创建新的任务</li>
-<li>PUT /tasks/12 - 更新指定的任务</li>
-<li>PATCH /tasks/12 - 更新指定任务的部分信息</li>
-<li>DELETE /tasks/12 - 删除指定的任务</li>
-</ul>
-<p>以上中get 、post、put、delete比较常用。主要实现对资源的CURD。</p>
-<h4 id="HTTP_status"><a href="#HTTP_status" class="headerlink" title="HTTP status"></a>HTTP status</h4><p>作为 API 的设计者，正确的将 API 执行结果和失败原因用清晰简洁的方式传达给客户程序是十分关键的一步。 我们确实可以在 HTTP 的相应内容中描述是否成功，如果出错是因为什么， 然而， 这就意味着用户需要进行内容解析，才知道执行结果和错误原因。因此，HTTP 响应代码可以保证客户端在第一时间用最高效的方式获知 API 运行结果，并采取相应动作。 下表列出了比较常用的响应代码。</p>
-<ul>
-<li>200 响应成功。主要响应GET, PUT, PATCH 、DELETE.请求，同时也可以响应资源创建成功无返回结果的post请求</li>
-<li>201 资源成功创建，同时在location header 里面有新资源的 地址</li>
-<li>204 返回请求成功 不反返回内容，即返回结果不包含body，比如delete请求。</li>
-<li>301 重定向 , 请求的网页已被永久移动到新位置。服务器返回此响应时，会自动将请求者转到新位置。</li>
-<li>302 重定向 , 请求的网页临时移动到新位置，但求者应继续使用原有位置来进行以后的请求。302 会自动将请求者转到不同的临时位置。</li>
-<li>304 自从上次请求后，请求的网页未被修改过。服务器返回此响应时，不会返回网页内容。</li>
-<li>400 错误请求</li>
-<li>401 未授权 , 请求要求进行身份验证</li>
-<li>403 已禁止 , 服务器拒绝请求。</li>
-<li>404 未找到 , 服务器找不到请求的网页。</li>
-<li>405 方法禁用 , 禁用请求中所指定的方法。</li>
-<li>410 请求的页面不存在</li>
-<li>415 不支持的媒体类型</li>
-<li>429 请求次数过多</li>
-<li>500 内部服务器错误。</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Http/">
-                #Http
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -1981,11 +1969,11 @@ var B = function(callback) {
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-count">19</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">

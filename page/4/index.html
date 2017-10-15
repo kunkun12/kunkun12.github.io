@@ -99,6 +99,121 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/11/html-5-meta-tag/">
+                html 5 meta tag
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-11
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/11/html-5-meta-tag/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/html-5-meta-tag/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>###meta的作用<br>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
+<ul>
+<li><meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。</li>
+<li><meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。</li>
+</ul>
+<p>每个meta标签必须具有content属性，定义与 http-equiv 或 name 属性相关的元信息。</p>
+<p>###可选属性</p>
+<p>####http-equiv 属性<br>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
+<pre><code>&lt;meta http-equiv=&quot;charset&quot; content=&quot;iso-8859-1&quot;&gt;
+&lt;meta http-equiv=&quot;expires&quot; content=&quot;31 Dec 2008&quot;&gt;
+</code></pre><p>这样发送到浏览器的头部就应该包含：</p>
+<pre><code>content-type: text/html
+charset:iso-8859-1
+expires:31 Dec 2008
+</code></pre><p>5秒刷新一次页面</p>
+<pre><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot; /&gt;
+</code></pre><p>####content 属性</p>
+<ul>
+<li>content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。</li>
+<li>content 属性始终要和 name 属性或 http-equiv 属性一起使用。</li>
+</ul>
+<p>####name 属性</p>
+<p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
+<pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;HTML,ASP,PHP,SQL&quot;&gt;
+&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词； 
+&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容； 
+&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者； 
+&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt; 
+</code></pre><p>其中的属性说明如下： </p>
+<ul>
+<li>设定为all：文件将被检索，且页面上的链接可以被查询； </li>
+<li>设定为none：文件将不被检索，且页面上的链接不可以被查询； </li>
+<li>设定为index：文件将被检索； </li>
+<li>设定为follow：页面上的链接可以被查询； </li>
+<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询； </li>
+<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。 </li>
+</ul>
+<p>另外一点需要注意的是在HTML4中定义页面的字符集需要，放在content-type对应的content里面</p>
+<pre><code>&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=ISO-8859-1&quot;&gt;
+</code></pre><p>HTML5中新增了 charset属性 ，使用更简单</p>
+<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/10/html5-canvas/">
                 html5 canvas 2d绘图API 学习总结
               </a>
@@ -2009,103 +2124,6 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/01/what-is-node/">
-                Node.JS 究竟是什么?
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-01
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/01/what-is-node/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/what-is-node/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>###Node旨在解决服务器能够处理的并发连接的最大数量的问题。<br>  Node官网首页有一句话就是对Node是什么以及node解决什么问题做出了介绍，原文如下</p>
-<pre><code>Node.js is a platform built on Chrome&apos;s JavaScript runtime for easily building fast, 
-scalable network applications. Node.js uses an event-driven, 
-non-blocking I/O model that makes it lightweight and efficient,
-perfect for data-intensive real-time applications that run across distributed devices.
-</code></pre><p> 大概意思是说Node是基于Chrome的javascript的引擎，旨在提供一种简单的构建可伸缩网络程序的方法，node特点是基于事件驱动，非阻塞I/O，同时还有一个特点没有直接提到就是单线程。</p>
-<p>在 Java™ 和 PHP 这类语言中，每个连接都会生成一个新线程，每个新线程可能需要 2 MB 的配套内存。在一个拥有 8 GB RAM 的系统上，理论上最大的并发连接数量是 4,000 个用户。随着您的客户群的增长，如果希望您的 Web 应用程序支持更多用户，那么，您必须添加更多服务器。当然，这会增加服务器成本、流量成本和人工成本等成本。除这些成本上升外，还有一个潜在技术问题，即用户可能针对每个请求使用不同的服务器，因此，任何共享资源都必须在所有服务器之间共享。鉴于上述所有原因，整个 Web 应用<br>Node 解决这个问题的方法是：更改连接到服务器的方式。每个连接发射一个在 Node 引擎的进程中运行的事件，而不是为每个连接生成一个新的 OS 线程（并为其分配一些配套内存）。Node 声称它绝不会死锁，因为它根本不允许使用锁，它不会直接阻塞 I/O 调用。Node 还宣称，运行它的服务器能支持数万个并发连接。</p>
-<p>###为什么选择是Javascript 语言</p>
-<ul>
-<li>V8 JavaScript 引擎是 Google 用于其 Chrome 浏览器的底层 JavaScript 引擎。很少有人考虑 JavaScript 在客户机上实际做了些什么？实际上，JavaScript 引擎负责解释并执行代码。Google 使用 V8 创建了一个用 C++ 编写的超快解释器，该解释器拥有另一个独特特征；可以下载该引擎并将其嵌入任何 应用程序。</li>
-<li>JavaScript 是一种很棒的事件驱动编程语言，因为它允许使用匿名函数和闭包，更重要的是，任何写过代码的人都熟悉它的语法。事件发生时调用的回调函数可以在捕获事件处进行编写。这样可以使代码容易编写和维护，没有复杂的面向对象框架，没有接口，没有过度设计的可能性。只需监听事件，编写一个回调函数，其他事情都可以交给系统处理！<br>由于V8正好可以满足上述提到Node几个特点，以及Javascript独特优势，以及Javascript的大量用户，所以NodeJS就这样地产生了。</li>
-</ul>
-<p>###Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算</p>
-<ul>
-<li>RESTful API</li>
-<li>新浪微博、twiter这样高并发的应用</li>
-<li>编写网络小工具。</li>
-<li>聊天程序</li>
-<li>游戏后台</li>
-<li>股票等实时信息展示网站。</li>
-</ul>
-<p>同时Node有数万的计的第三方模块，Node 的一个特性是 Node Package Module，这是一个内置功能，用于安装和管理 Node 模块。它自动处理依赖项，因此您可以确定：您想要安装的任何模块都将正确安装并包含必要的依赖项。它还支持将您自己的模块发布到 Node 社区，假如您选择加入社区并编写自己的模块的话。您可以将 NPM 视为一种允许轻松扩展 Node 功能的方法，不必担心这会破坏您的 Node 安装。同样，如果您选择深入学习 Node，那么 NPM 将是您的 Node 解决方案的一个重要组成部分。</p>
-<p>优秀的设计+众多开发者的支持，应该是Node平台火起来的原因吧。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Node/">
-                #Node
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -2138,11 +2156,11 @@ perfect for data-intensive real-time applications that run across distributed de
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-count">19</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
