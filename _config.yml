@@ -79,5 +79,5 @@ social:
   zhihu: http://www.zhihu.com/people/du-bao-kun-61
 deploy:
   type: git
-  repo: git@github.com:kunkun12/kunkun12.github.io.git	
+  repo: git@kkgithub:kunkun12/kunkun12.github.io.git	
   branch: master
