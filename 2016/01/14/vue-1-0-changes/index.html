@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2016/01/14/vue-1-0-changes/#comments" >
+            <a href="/2016/01/14/vue-1-0-changes/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/14/vue-1-0-changes/"></span>
             </a>
           </span>
@@ -128,7 +128,7 @@
         
 
         
-          <p>目前工作中还在使用 0.12.x版本，突然发现 1.0在使用上有不小的变化，于是参考 官方的更新日志<a href="https://github.com/vuejs/vue/releases/tag/1.0.0" target="_blank" rel="external">https://github.com/vuejs/vue/releases/tag/1.0.0</a>总结如下</p>
+          <p>目前工作中还在使用 0.12.x版本，突然发现 1.0在使用上有不小的变化，于是参考 官方的更新日志<a href="https://github.com/vuejs/vue/releases/tag/1.0.0" target="_blank" rel="noopener">https://github.com/vuejs/vue/releases/tag/1.0.0</a>总结如下</p>
 <ul>
 <li>v-repeat  替换为 v-for<br>使用方法 <code>v-for=&quot;item in items&quot;</code> 不能使用 <code>v-for=&quot;imtes&quot;</code> 可以使用$index来获取当前项在数组中的索引</li>
 </ul>
@@ -192,7 +192,7 @@ this.$els.msg.textContent // -&gt; &quot;hello&quot;
 this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 </code></pre></li>
 <li>v-pre 跳过VUE的处理 比如使用 直接显示 <code></code> 这样的形式</li>
-<li>v-component指令过时了，建议使用is<code>&lt;component :is=&quot;componentId&quot;&gt;&lt;/component&gt;</code> 更多关于 组件的内容参考  <a href="http://vuejs.org/guide/components.html" target="_blank" rel="external">http://vuejs.org/guide/components.html</a></li>
+<li>v-component指令过时了，建议使用is<code>&lt;component :is=&quot;componentId&quot;&gt;&lt;/component&gt;</code> 更多关于 组件的内容参考  <a href="http://vuejs.org/guide/components.html" target="_blank" rel="noopener">http://vuejs.org/guide/components.html</a></li>
 <li><p>props 的传递变更为</p>
 <pre><code>&lt;!-- 单向绑定 --&gt;
 &lt;child :msg=&apos;parentMsg&apos;&gt;&lt;/child&gt;  
@@ -216,7 +216,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 &lt;a v-bind-href=&quot;&quot;&gt;&lt;/a&gt;
 &lt;a v-bind-src=&quot;&quot;&gt;&lt;/a&gt;
 </code></pre></li>
-<li><p>v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了<a href="https://github.com/vitalets/checklist-model" target="_blank" rel="external">一个插件</a>来完成这个功能</p>
+<li><p>v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了<a href="https://github.com/vitalets/checklist-model" target="_blank" rel="noopener">一个插件</a>来完成这个功能</p>
 <pre><code>&lt;input type=&quot;checkbox&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
 &lt;input type=&quot;checkbox&quot; value=&quot;John&quot; v-model=&quot;checkedNames&quot;&gt;
 &lt;input type=&quot;checkbox&quot; value=&quot;Mike&quot; v-model=&quot;checkedNames&quot;&gt;
@@ -248,8 +248,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2016/01/14/vue-1-0-changes/"
-             data-title="vue 1.0 的主要变化" data-url="http://kunkun12.com/2016/01/14/vue-1-0-changes/">
+        <div class="ds-thread" data-thread-key="2016/01/14/vue-1-0-changes/" data-title="vue 1.0 的主要变化" data-url="http://kunkun12.com/2016/01/14/vue-1-0-changes/">
         </div>
 
       
@@ -286,7 +285,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>

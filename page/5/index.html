@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -51,7 +51,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -59,7 +59,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -67,7 +67,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -117,7 +117,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/01/javascriptjudge-browser/#comments" >
+            <a href="/2014/03/01/javascriptjudge-browser/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/javascriptjudge-browser/"></span>
             </a>
           </span>
@@ -133,7 +133,7 @@
         
 
         
-          <h3 id="u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD"><a href="#u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
+          <h3 id="浏览器类型判断"><a href="#浏览器类型判断" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
 <p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
 <pre><code> var Sys = {}; 
 var ua = navigator.userAgent.toLowerCase(); 
@@ -149,8 +149,8 @@ if (Sys.firefox) document.write(&apos;Firefox: &apos; + Sys.firefox);
 if (Sys.chrome) document.write(&apos;Chrome: &apos; + Sys.chrome); 
 if (Sys.opera) document.write(&apos;Opera: &apos; + Sys.opera); 
 if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
-</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>实现。</p>
-<h3 id="Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><a href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
+</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>实现。</p>
+<h3 id="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"><a href="#Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
 <pre><code>if (Modernizr.borderradius) {
       //do something
    }
@@ -158,7 +158,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
    if (Modernizr.csstransforms) {
       //
    }
-</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="external">shim/polyfill</a>脚本来达到支持的目的.</p>
+</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="noopener">shim/polyfill</a>脚本来达到支持的目的.</p>
 <p>可以使用Modernizr的load()函数来动态加载脚本，该函数的test属性是表明要测试是否支持的新特性，如果测试成功支持的话，就加载yep属性设置的脚本，如果不支持就加载nope属性设置的脚本，不管是否支持，both属性里设置的脚本都会加载的。例子代码如下：</p>
 <pre><code>Modernizr.load({
     test: Modernizr.canvas,
@@ -183,7 +183,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
         load: &apos;needs-jQuery.js&apos;
     }
 ]);
-</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="external">Detecting HTML5/CSS3 Features using Modernizr</a></p>
+</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="noopener">Detecting HTML5/CSS3 Features using Modernizr</a></p>
 
         
 
@@ -242,7 +242,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/01/what-is-node/#comments" >
+            <a href="/2014/03/01/what-is-node/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/what-is-node/"></span>
             </a>
           </span>
@@ -258,18 +258,18 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
         
 
         
-          <h3 id="Node_u65E8_u5728_u89E3_u51B3_u670D_u52A1_u5668_u80FD_u591F_u5904_u7406_u7684_u5E76_u53D1_u8FDE_u63A5_u7684_u6700_u5927_u6570_u91CF_u7684_u95EE_u9898_u3002"><a href="#Node_u65E8_u5728_u89E3_u51B3_u670D_u52A1_u5668_u80FD_u591F_u5904_u7406_u7684_u5E76_u53D1_u8FDE_u63A5_u7684_u6700_u5927_u6570_u91CF_u7684_u95EE_u9898_u3002" class="headerlink" title="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"></a>Node旨在解决服务器能够处理的并发连接的最大数量的问题。</h3><p>  Node官网首页有一句话就是对Node是什么以及node解决什么问题做出了介绍，原文如下</p>
+          <h3 id="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"><a href="#Node旨在解决服务器能够处理的并发连接的最大数量的问题。" class="headerlink" title="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"></a>Node旨在解决服务器能够处理的并发连接的最大数量的问题。</h3><p>  Node官网首页有一句话就是对Node是什么以及node解决什么问题做出了介绍，原文如下</p>
 <pre><code>Node.js is a platform built on Chrome&apos;s JavaScript runtime for easily building fast, 
 scalable network applications. Node.js uses an event-driven, 
 non-blocking I/O model that makes it lightweight and efficient,
 perfect for data-intensive real-time applications that run across distributed devices.
 </code></pre><p> 大概意思是说Node是基于Chrome的javascript的引擎，旨在提供一种简单的构建可伸缩网络程序的方法，node特点是基于事件驱动，非阻塞I/O，同时还有一个特点没有直接提到就是单线程。</p>
 <p>在 Java™ 和 PHP 这类语言中，每个连接都会生成一个新线程，每个新线程可能需要 2 MB 的配套内存。在一个拥有 8 GB RAM 的系统上，理论上最大的并发连接数量是 4,000 个用户。随着您的客户群的增长，如果希望您的 Web 应用程序支持更多用户，那么，您必须添加更多服务器。当然，这会增加服务器成本、流量成本和人工成本等成本。除这些成本上升外，还有一个潜在技术问题，即用户可能针对每个请求使用不同的服务器，因此，任何共享资源都必须在所有服务器之间共享。鉴于上述所有原因，整个 Web 应用<br>Node 解决这个问题的方法是：更改连接到服务器的方式。每个连接发射一个在 Node 引擎的进程中运行的事件，而不是为每个连接生成一个新的 OS 线程（并为其分配一些配套内存）。Node 声称它绝不会死锁，因为它根本不允许使用锁，它不会直接阻塞 I/O 调用。Node 还宣称，运行它的服务器能支持数万个并发连接。</p>
-<h3 id="u4E3A_u4EC0_u4E48_u9009_u62E9_u662FJavascript__u8BED_u8A00"><a href="#u4E3A_u4EC0_u4E48_u9009_u62E9_u662FJavascript__u8BED_u8A00" class="headerlink" title="为什么选择是Javascript 语言"></a>为什么选择是Javascript 语言</h3><ul>
+<h3 id="为什么选择是Javascript-语言"><a href="#为什么选择是Javascript-语言" class="headerlink" title="为什么选择是Javascript 语言"></a>为什么选择是Javascript 语言</h3><ul>
 <li>V8 JavaScript 引擎是 Google 用于其 Chrome 浏览器的底层 JavaScript 引擎。很少有人考虑 JavaScript 在客户机上实际做了些什么？实际上，JavaScript 引擎负责解释并执行代码。Google 使用 V8 创建了一个用 C++ 编写的超快解释器，该解释器拥有另一个独特特征；可以下载该引擎并将其嵌入任何 应用程序。</li>
 <li>JavaScript 是一种很棒的事件驱动编程语言，因为它允许使用匿名函数和闭包，更重要的是，任何写过代码的人都熟悉它的语法。事件发生时调用的回调函数可以在捕获事件处进行编写。这样可以使代码容易编写和维护，没有复杂的面向对象框架，没有接口，没有过度设计的可能性。只需监听事件，编写一个回调函数，其他事情都可以交给系统处理！<br>由于V8正好可以满足上述提到Node几个特点，以及Javascript独特优势，以及Javascript的大量用户，所以NodeJS就这样地产生了。</li>
 </ul>
-<h3 id="Node_u9002_u5408_u505A_u4EC0_u4E48_u5DE5_u4F5C_u3002_u5B9E_u65F6__u9AD8_u5E76_u53D1I/O_uFF0C_u5F31_u5BC6_u96C6_u903B_u8F91_u8BA1_u7B97"><a href="#Node_u9002_u5408_u505A_u4EC0_u4E48_u5DE5_u4F5C_u3002_u5B9E_u65F6__u9AD8_u5E76_u53D1I/O_uFF0C_u5F31_u5BC6_u96C6_u903B_u8F91_u8BA1_u7B97" class="headerlink" title="Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算"></a>Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算</h3><ul>
+<h3 id="Node适合做什么工作。实时-高并发I-O，弱密集逻辑计算"><a href="#Node适合做什么工作。实时-高并发I-O，弱密集逻辑计算" class="headerlink" title="Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算"></a>Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算</h3><ul>
 <li>RESTful API</li>
 <li>新浪微博、twiter这样高并发的应用</li>
 <li>编写网络小工具。</li>
@@ -337,7 +337,7 @@ perfect for data-intensive real-time applications that run across distributed de
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/20/how-to-design-a-good-api/#comments" >
+            <a href="/2014/02/20/how-to-design-a-good-api/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/20/how-to-design-a-good-api/"></span>
             </a>
           </span>
@@ -353,7 +353,7 @@ perfect for data-intensive real-time applications that run across distributed de
         
 
         
-          <p>谷歌架构师Joshua Bloch最近分享了一份幻灯片，<a href="http://vidcat.org/papers/how-to-design-a-good-api-and-why-it-matters.html#.UxFCN_mSyKM" target="_blank" rel="external">系统的讨论了优秀API的设计原则</a>。他指出：每个API接口应该只专注一件事，并做好：如果它很难命名，那么这或许是个不好的征兆，好的名称可以驱动开发、并且只需拆分与合并模块即可。设计原则包括：</p>
+          <p>谷歌架构师Joshua Bloch最近分享了一份幻灯片，<a href="http://vidcat.org/papers/how-to-design-a-good-api-and-why-it-matters.html#.UxFCN_mSyKM" target="_blank" rel="noopener">系统的讨论了优秀API的设计原则</a>。他指出：每个API接口应该只专注一件事，并做好：如果它很难命名，那么这或许是个不好的征兆，好的名称可以驱动开发、并且只需拆分与合并模块即可。设计原则包括：</p>
 <ul>
 <li>API应尽可能地简洁：满足需求、对有疑问的地方可以暂时不使用（函数、类、方法、参数等，你可以不添加，但千万不要删除）、概念性的东西比体积重要）；</li>
 <li>实现不要影响API：关注实现细节（不要迷惑用户、不要随便改变实现方式）、意识到具体的实现细节（不要有越权的方法行为，例如不所有的调优参数都是可疑的）；</li>
@@ -419,7 +419,7 @@ perfect for data-intensive real-time applications that run across distributed de
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/15/css-bfc/#comments" >
+            <a href="/2014/02/15/css-bfc/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/css-bfc/"></span>
             </a>
           </span>
@@ -446,7 +446,7 @@ perfect for data-intensive real-time applications that run across distributed de
 </ul>
 <p>####普通流(Normal Flow)</p>
 <p>在普通流中，元素按照其在 HTML 中的先后位置至上而下布局，在这个过程中，行内元素水平排列，直到当行被占满然后换行，块级元素则会被渲染为完整的一个新行， 除非另外指定，否则所有元素默认都是普通流定位，也可以说，普通流中元素的位置由该元素在 HTML 文档中的位置决定。</p>
-<h4 id="u6D6E_u52A8__28Floats_29"><a href="#u6D6E_u52A8__28Floats_29" class="headerlink" title="浮动 (Floats)"></a>浮动 (Floats)</h4><p>在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。</p>
+<h4 id="浮动-Floats"><a href="#浮动-Floats" class="headerlink" title="浮动 (Floats)"></a>浮动 (Floats)</h4><p>在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。</p>
 <p>####绝对定位 (Absolute Positioning)</p>
 <p>在绝对定位布局中，元素会整体脱离普通流，因此绝对定位元素不会对其兄弟元素造成影响（如果看了上文的童鞋，会发现这点与浮动元素会影响兄弟元素是不同的），而元素具体的位置由绝对定位的坐标决定。</p>
 <p>BFC 正是属于普通流的，因此它对兄弟元素也不会造成什么影响。</p>
@@ -529,7 +529,7 @@ perfect for data-intensive real-time applications that run across distributed de
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/09/successful-git-branching-model/#comments" >
+            <a href="/2014/02/09/successful-git-branching-model/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/successful-git-branching-model/"></span>
             </a>
           </span>
@@ -604,7 +604,7 @@ perfect for data-intensive real-time applications that run across distributed de
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/09/javascript-replace/#comments" >
+            <a href="/2014/02/09/javascript-replace/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/javascript-replace/"></span>
             </a>
           </span>
@@ -620,7 +620,7 @@ perfect for data-intensive real-time applications that run across distributed de
         
 
         
-          <h3 id="u7B80_u5355_u4ECB_u7ECD"><a href="#u7B80_u5355_u4ECB_u7ECD" class="headerlink" title="简单介绍"></a>简单介绍</h3><p><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
+          <h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
 <p>###字符串替换字符串<br><code>&#39;I am loser!&#39;.replace(&#39;loser&#39;,&#39;hero&#39;)//I am hero!</code></p>
 <p>直接使用字符串能让自己从loser变成hero，但是如果有2个loser就不能一起变成hero了。</p>
 <p><code>&#39;I am loser,You are loser&#39;.replace(&#39;loser&#39;,&#39;hero&#39;);//I am hero,You are loser</code></p>
@@ -629,7 +629,7 @@ perfect for data-intensive real-time applications that run across distributed de
 <p>###有趣的替换字符</p>
 <p>####使用$&amp;字符给匹配字符加大括号<br>        var sStr=’讨论一下正则表达式中的replace的用法’;<br>        sStr.replace(/正则表达式/,’{$&amp;}’);//讨论一下{正则表达式}中的replace的用法</p>
 <p>####使用$<code>和$&#39;字符替换内容,$</code>位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。<br>        ‘abc’.replace(/b/,”$`”);//aac<br>        ‘abc’.replace(/b/,”$’”);//acc</p>
-<p>####使用分组匹配组合新的字符串<br>        ‘nimojs@126.com’.replace(/(.+)(@)(.*)/,”$2$1”)//@nimojs</p>
+<p>####使用分组匹配组合新的字符串<br>        <a href="mailto:&#39;nimojs@126.com" target="_blank" rel="noopener">&#39;nimojs@126.com</a>‘.replace(/(.+)(@)(.*)/,”$2$1”)//@nimojs</p>
 <p>####replaceValue参数可以是一个函数<br><code>StringObject.replace(searchValue,replaceValue)</code>中的<strong>replaceValue</strong>可以是一个函数.如果replaceValue是一个函数的话那么，这个函数的arguments会有n+3个参数（n为正则匹配到的次数)</p>
 <pre><code>function logArguments(){    
 console.log(arguments);//[&quot;nimojs@126.com&quot;, &quot;nimojs&quot;, &quot;@&quot;, &quot;126.com&quot;, 0, &quot;nimojs@126.com&quot;] 
@@ -640,7 +640,7 @@ console.log(
 )
 </code></pre><p><strong>参数分别为</strong></p>
 <ol>
-<li>匹配到的字符串（此例为nimojs@126.com,推荐修改上面代码的正则来查看匹配到的字符帮助理解)</li>
+<li>匹配到的字符串（此例为<a href="mailto:nimojs@126.com" target="_blank" rel="noopener">nimojs@126.com</a>,推荐修改上面代码的正则来查看匹配到的字符帮助理解)</li>
 <li>如果正则使用了分组匹配就为多个否则无此参数。（此例的参数就分别为”nimojs”, “@”, “126.com”。推荐修改正则为/nimo/查看控制台中返回的arguments值）</li>
 <li>匹配字符串的对应索引位置（此例为0）</li>
 <li>原始字符串</li>
@@ -703,7 +703,7 @@ console.log(
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/08/python-study-1/#comments" >
+            <a href="/2014/02/08/python-study-1/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/08/python-study-1/"></span>
             </a>
           </span>
@@ -720,13 +720,13 @@ console.log(
 
         
           <p>去年买了本Python基础教程，看了一个月，感觉Python 入门也挺easy的，也写了一些简单的代码，最近又买了本《Python入门教程》，感觉这个书不应该买的，就是太基础，书看完了,，将Python一些最基本的东西总结一下吧。将重点内容概括一下 作为读书笔记，好记性不如烂笔头啊。</p>
-<h4 id="u5B57_u7B26_u4E32"><a href="#u5B57_u7B26_u4E32" class="headerlink" title="字符串"></a>字符串</h4><p>字符串有三种方式 </p>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>字符串有三种方式 </p>
 <pre><code>1. 单引号
 2. 双引号
 3. 三引号
 </code></pre><p>通过+ 完成字符串拼接<br>len (s) 求字符串的长度<br>3*”hello”复制三次字符串。</p>
 <p>列出模块中的所有函数 dir(math)<br>打印文档字符串 print(math.cos.<strong>doc</strong>)</p>
-<h4 id="u7C7B_u578B_u8F6C_u6362"><a href="#u7C7B_u578B_u8F6C_u6362" class="headerlink" title="类型转换"></a>类型转换</h4><pre><code>int(&quot;3&quot;)
+<h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><pre><code>int(&quot;3&quot;)
 str(3)
 float(&apos;3.0&apos;)
 float(3)
@@ -837,7 +837,7 @@ kunkun你好
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/07/qunit-introduce/#comments" >
+            <a href="/2014/02/07/qunit-introduce/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/07/qunit-introduce/"></span>
             </a>
           </span>
@@ -853,13 +853,13 @@ kunkun你好
         
 
         
-          <p>在Javascript项目的开发流程中，测试驱动开发广为流传，测试驱动能够让我们节省编码的时间，本篇文章主要介绍<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>,一个测试驱动的开发框架，来帮助我们发现程序的错误以及bug</p>
-<h3 id="u4E3A_u4EC0_u4E48_u8981_u4F7F_u7528_u6D4B_u8BD5_u9A71_u52A8_u5F00_u53D1"><a href="#u4E3A_u4EC0_u4E48_u8981_u4F7F_u7528_u6D4B_u8BD5_u9A71_u52A8_u5F00_u53D1" class="headerlink" title="为什么要使用测试驱动开发"></a>为什么要使用测试驱动开发</h3><p>首先在最初使用单元测试的时候，这可能是一个繁杂和琐碎的过程，包括单元测试环境的搭建，以及为每一个要测试的函数编写测试代码，都会花费很多的时间，但是要相信单元测试最终会帮主我们来减少在一个项目周期中用来调试代码的时间。同时也会减少半夜接到电话被拉过去修改bug的麻烦，长远来说，这个过程会让你受益更多比如 跨浏览器的测试，使用这种方式能够让你在不同的浏览器中进行测试。总之编码之前，测试先行一个比较好的习惯。</p>
+          <p>在Javascript项目的开发流程中，测试驱动开发广为流传，测试驱动能够让我们节省编码的时间，本篇文章主要介绍<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>,一个测试驱动的开发框架，来帮助我们发现程序的错误以及bug</p>
+<h3 id="为什么要使用测试驱动开发"><a href="#为什么要使用测试驱动开发" class="headerlink" title="为什么要使用测试驱动开发"></a>为什么要使用测试驱动开发</h3><p>首先在最初使用单元测试的时候，这可能是一个繁杂和琐碎的过程，包括单元测试环境的搭建，以及为每一个要测试的函数编写测试代码，都会花费很多的时间，但是要相信单元测试最终会帮主我们来减少在一个项目周期中用来调试代码的时间。同时也会减少半夜接到电话被拉过去修改bug的麻烦，长远来说，这个过程会让你受益更多比如 跨浏览器的测试，使用这种方式能够让你在不同的浏览器中进行测试。总之编码之前，测试先行一个比较好的习惯。</p>
 <p>随着Github等类似的代码分享平台的出现，现在开源的东西也越来越多了，怎么才能证明这些东西的可用性呢，因为开源模块的作者会编写单元测试的代码。当我们clone完这个模块之后 然后跑一边单元测试代码，会让自己开源的模块增强可用性。同时我们在为开源项目贡献代码的时候也建议附上单元测试的程序，以增强自己的代码被接受的可能性。</p>
 <p>用Unit test 来代替调试，同时也能有利于团队合作，当他人看你写的模块的时候，看一下写的单元测试代码就明白该模块的功能了。单元测试能让我们更快地了解每个关键函数的功能。</p>
 <p>话说回来，当项目完成之后 又发现了bug，当我们在修改完一个bug之后，怎样才能说明bug修改好了呢，单元测试这个时候也可以为我们提供帮助，几行单元测试就能证明这个bug被修复了，无需多言。</p>
-<h3 id="u4E3A_u4EC0_u4E48_u9009_u62E9Qunit_3F"><a href="#u4E3A_u4EC0_u4E48_u9009_u62E9Qunit_3F" class="headerlink" title="为什么选择Qunit?"></a>为什么选择<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>?</h3><p>原因是这个框架很简单上手，也是单元测试新手的最佳选择，就像Jquery那么easy，对于初学者来说，<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>跟jQuery是也是出自同一人之手。<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>也是用来测试jQuery 本身的单元测试框架， Qunit对于jQuery开发者也是单元测试框架的最佳选择。当然还有更多javascript单元测试框架比如 <a href="http://visionmedia.github.io/mocha/" target="_blank" rel="external">mocha</a>,<a href="http://pivotal.github.io/jasmine/" target="_blank" rel="external">jasmine</a>,断言库<a href="http://chaijs.com/" target="_blank" rel="external">chai</a>,<a href="https://github.com/visionmedia/should.js" target="_blank" rel="external">should.js</a>、<a href="https://github.com/LearnBoost/expect.js" target="_blank" rel="external">Expect</a>、<a href="better-assert">better-assert</a>等</p>
-<h3 id="u5F00_u59CB_u642D_u5EFA_u73AF_u5883"><a href="#u5F00_u59CB_u642D_u5EFA_u73AF_u5883" class="headerlink" title="开始搭建环境"></a>开始搭建环境</h3><p>第一步就是先下载<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>的Javascript 和CSS文件。地址如下</p>
+<h3 id="为什么选择Qunit"><a href="#为什么选择Qunit" class="headerlink" title="为什么选择Qunit?"></a>为什么选择<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>?</h3><p>原因是这个框架很简单上手，也是单元测试新手的最佳选择，就像Jquery那么easy，对于初学者来说，<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>跟jQuery是也是出自同一人之手。<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>也是用来测试jQuery 本身的单元测试框架， Qunit对于jQuery开发者也是单元测试框架的最佳选择。当然还有更多javascript单元测试框架比如 <a href="http://visionmedia.github.io/mocha/" target="_blank" rel="noopener">mocha</a>,<a href="http://pivotal.github.io/jasmine/" target="_blank" rel="noopener">jasmine</a>,断言库<a href="http://chaijs.com/" target="_blank" rel="noopener">chai</a>,<a href="https://github.com/visionmedia/should.js" target="_blank" rel="noopener">should.js</a>、<a href="https://github.com/LearnBoost/expect.js" target="_blank" rel="noopener">Expect</a>、<a href="better-assert">better-assert</a>等</p>
+<h3 id="开始搭建环境"><a href="#开始搭建环境" class="headerlink" title="开始搭建环境"></a>开始搭建环境</h3><p>第一步就是先下载<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>的Javascript 和CSS文件。地址如下</p>
 <pre><code>&lt;link rel=“stylesheet&quot; href=&quot;//code.jquery.com/qunit/qunit-1.14.0.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
 &lt;script src=“//code.jquery.com/qunit/qunit-1.14.0.js”&gt;&lt;/script&gt;
 </code></pre><p>新建三个文件test.html、Calculator.js,test.js 我们用来展示单元测试的结果。Calculator.js编写我们要实现功能的程序，出于演示目的这里编写一个计算器的程序.test.js编写单元测试的代码。test.html代码如下</p>
@@ -902,7 +902,7 @@ test(&apos;multiply()&apos;, function() {
 });
 </code></pre><p> 到此为止就可以运行了，结果是 2个通过，两个失败。</p>
 <p>我们很容易的看出，测试就是调用了一个名字为test的函数，包含两个参数，第一个参数是对测试函数的描述，第二个参数是一个回调函数，里面的ok，strictEqual，equal 分别是对测试例子结果的断言，对于strictEqual，equal来说比如我要测试一个函数，第一个是被测试函数的调用的返回结果，第二个是期待的结果，第三个是对本次测试示例的描述，如果测试结果与自己想要的结果一致，则本次单元测试通过，否则 。。。。。对于ok断言主要是判断被测试的函数返回值是否为真。如果为真则通过。否则。。。。<br>值得要说一下的是，strictEqual 是判断严格相等相当于<code>===</code>比如4===4返回true，4==’4’则返回false，equal是只要可以转为相等的结果则通过相当于<code>==</code>，会对操作数进行类型转换 比如4==’4’ 返回true</p>
-<p>除此之外还有其他的<a href="http://api.qunitjs.com/category/assert/" target="_blank" rel="external">断言函数</a>可用，这里就不介绍了。官网写的灰常清楚了</p>
+<p>除此之外还有其他的<a href="http://api.qunitjs.com/category/assert/" target="_blank" rel="noopener">断言函数</a>可用，这里就不介绍了。官网写的灰常清楚了</p>
 <ul>
 <li><code>deepEqual()</code> ：深度相等判断，适用于原生类型，数组，对象 正则表达式，以及日期 函数类型</li>
 <li><code>equal()</code> ：非严格相等，</li>
@@ -914,7 +914,7 @@ test(&apos;multiply()&apos;, function() {
 <li><code>strictEqual()</code> 同时比较值和类型 </li>
 <li><code>throws()</code> 要求抛出异常。</li>
 </ul>
-<p>下载本篇博客的<a href="https://github.com/kunkun12/Qunit-Demo" target="_blank" rel="external">源码</a></p>
+<p>下载本篇博客的<a href="https://github.com/kunkun12/Qunit-Demo" target="_blank" rel="noopener">源码</a></p>
 
         
 
@@ -965,7 +965,7 @@ test(&apos;multiply()&apos;, function() {
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/01/26/sublime-chinise-language/#comments" >
+            <a href="/2014/01/26/sublime-chinise-language/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/26/sublime-chinise-language/"></span>
             </a>
           </span>
@@ -1054,7 +1054,7 @@ test(&apos;multiply()&apos;, function() {
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>

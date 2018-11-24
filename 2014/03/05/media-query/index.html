@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/05/media-query/#comments" >
+            <a href="/2014/03/05/media-query/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/media-query/"></span>
             </a>
           </span>
@@ -129,7 +129,7 @@
 
         
           <p>媒体查询在CSS2中就有了，CSS3中得到了进一步增强，简单来说我们可以设置不同类型的媒体条件，并根据对应的条件，给相应符合条件的媒体调用相对应的样式表，说白了就是就是根据设备当前本身的环境(比如屏幕的长宽，设备的种类等）来对元素应用响应的CSS文件，但是所有的CSS 文件总是要下载到本地的。</p>
-<h4 id="u5F15_u5165_u65B9_u5F0F"><a href="#u5F15_u5165_u65B9_u5F0F" class="headerlink" title="引入方式"></a>引入方式</h4><ul>
+<h4 id="引入方式"><a href="#引入方式" class="headerlink" title="引入方式"></a>引入方式</h4><ul>
 <li><p>link方法引入 </p>
 <pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../css/print.css&quot; media=&quot;print&quot; /&gt;
 </code></pre></li>
@@ -147,7 +147,7 @@
    }
 </code></pre></li>
 </ul>
-<h4 id="u5982_u4F55_u5B9A_u4E49_u67E5_u8BE2_u6761_u4EF6"><a href="#u5982_u4F55_u5B9A_u4E49_u67E5_u8BE2_u6761_u4EF6" class="headerlink" title="如何定义查询条件"></a>如何定义查询条件</h4><p>媒体类型包括如下几种</p>
+<h4 id="如何定义查询条件"><a href="#如何定义查询条件" class="headerlink" title="如何定义查询条件"></a>如何定义查询条件</h4><p>媒体类型包括如下几种</p>
 <ul>
 <li>all 所有设备可用</li>
 <li>braille 盲文</li>
@@ -160,7 +160,7 @@
 <li>tty 电传打字机 </li>
 <li>tv 电视</li>
 </ul>
-<h4 id="u6700_u5927_u5BBD_u5EA6Max_Width_2Cmax-height_2Cmax-width"><a href="#u6700_u5927_u5BBD_u5EA6Max_Width_2Cmax-height_2Cmax-width" class="headerlink" title="最大宽度Max Width,max-height,max-width"></a>最大宽度Max Width,max-height,max-width</h4><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width:600px)&quot; href=&quot;small.css&quot; type=&quot;text/css&quot; /&gt;
+<h4 id="最大宽度Max-Width-max-height-max-width"><a href="#最大宽度Max-Width-max-height-max-width" class="headerlink" title="最大宽度Max Width,max-height,max-width"></a>最大宽度Max Width,max-height,max-width</h4><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width:600px)&quot; href=&quot;small.css&quot; type=&quot;text/css&quot; /&gt;
 </code></pre><p>也可在style 标签或者单独的CSS文件里面:</p>
 <pre><code>@media only screen and (max-device-width: 480px) {
         div#wrapper {
@@ -187,12 +187,12 @@
             width: auto;
         }
     }
-</code></pre><h4 id="u6700_u5C0F_u5BBD_u5EA6Min_Width_min-width_2Cmin-height"><a href="#u6700_u5C0F_u5BBD_u5EA6Min_Width_min-width_2Cmin-height" class="headerlink" title="最小宽度Min Width min-width,min-height"></a>最小宽度Min Width min-width,min-height</h4><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:900px)&quot; href=&quot;big.css&quot; type=&quot;text/css&quot;  /&gt;
-</code></pre><h4 id="and_not_only_u5173_u952E_u5B57"><a href="#and_not_only_u5173_u952E_u5B57" class="headerlink" title="and not only关键字"></a>and not only关键字</h4><h5 id="u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6"><a href="#u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6" class="headerlink" title="多个Media Queries使用查询取交集"></a>多个Media Queries使用查询取交集</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:600px) and (max-width:900px)&quot; href=&quot;style.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><h5 id="not_u7528_u4E8E_u6392_u9664_u7B26_u5408_u8868_u8FBE_u5F0F_u7684_u8BBE_u5907_u3002"><a href="#not_u7528_u4E8E_u6392_u9664_u7B26_u5408_u8868_u8FBE_u5F0F_u7684_u8BBE_u5907_u3002" class="headerlink" title="not用于排除符合表达式的设备。"></a>not用于排除符合表达式的设备。</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;not print and (max-width: 1200px)&quot; href=&quot;print.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><h5 id="only_u7528_u6765_u5B9A_u67D0_u79CD_u7279_u5B9A_u7684_u5A92_u4F53_u7C7B_u578B"><a href="#only_u7528_u6765_u5B9A_u67D0_u79CD_u7279_u5B9A_u7684_u5A92_u4F53_u7C7B_u578B" class="headerlink" title="only用来定某种特定的媒体类型"></a>only用来定某种特定的媒体类型</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><h4 id="Device_Width_u8BBE_u5907_u5C4F_u5E55_u7684_u8F93_u51FA_u5BBD_u5EA6_u3001_u5373_u662F_u8BBE_u5907_u7684_u5B9E_u9645_u5206_u8FA8_u7387_uFF0C_u4E5F_u5C31_u662F_u6307_u53EF_u89C6_u9762_u79EF_u5206_u8FA8_u7387_u3001_u53EF_u4EE5_u4F7F_u7528"><a href="#Device_Width_u8BBE_u5907_u5C4F_u5E55_u7684_u8F93_u51FA_u5BBD_u5EA6_u3001_u5373_u662F_u8BBE_u5907_u7684_u5B9E_u9645_u5206_u8FA8_u7387_uFF0C_u4E5F_u5C31_u662F_u6307_u53EF_u89C6_u9762_u79EF_u5206_u8FA8_u7387_u3001_u53EF_u4EE5_u4F7F_u7528" class="headerlink" title="Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"></a>Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用</h4><p>max-device-width、min-device-width</p>
-<h4 id="orientation__u6A2A_u5C4F_u6216_u8005_u7AD6_u5C4F"><a href="#orientation__u6A2A_u5C4F_u6216_u8005_u7AD6_u5C4F" class="headerlink" title="orientation 横屏或者竖屏"></a>orientation 横屏或者竖屏</h4><h4 id="device-pixel-ratio__u8BBE_u5907_u7684_u5BBD_u9AD8_u6BD4min-device-pixel-ratio_uFF0Cmax-device-pixel-ratio"><a href="#device-pixel-ratio__u8BBE_u5907_u7684_u5BBD_u9AD8_u6BD4min-device-pixel-ratio_uFF0Cmax-device-pixel-ratio" class="headerlink" title="device-pixel-ratio 设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"></a>device-pixel-ratio 设备的宽高比<code>min-device-pixel-ratio</code>，<code>max-device-pixel-ratio</code></h4><h4 id="resolution__u5206_u8FA8_u7387_min-resolution_max-resolution_u3002"><a href="#resolution__u5206_u8FA8_u7387_min-resolution_max-resolution_u3002" class="headerlink" title="resolution 分辨率 min-resolution  max-resolution。"></a>resolution 分辨率 <code>min-resolution</code>  <code>max-resolution</code>。</h4><p>可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下<br>使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。</p>
+</code></pre><h4 id="最小宽度Min-Width-min-width-min-height"><a href="#最小宽度Min-Width-min-width-min-height" class="headerlink" title="最小宽度Min Width min-width,min-height"></a>最小宽度Min Width min-width,min-height</h4><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:900px)&quot; href=&quot;big.css&quot; type=&quot;text/css&quot;  /&gt;
+</code></pre><h4 id="and-not-only关键字"><a href="#and-not-only关键字" class="headerlink" title="and not only关键字"></a>and not only关键字</h4><h5 id="多个Media-Queries使用查询取交集"><a href="#多个Media-Queries使用查询取交集" class="headerlink" title="多个Media Queries使用查询取交集"></a>多个Media Queries使用查询取交集</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:600px) and (max-width:900px)&quot; href=&quot;style.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><h5 id="not用于排除符合表达式的设备。"><a href="#not用于排除符合表达式的设备。" class="headerlink" title="not用于排除符合表达式的设备。"></a>not用于排除符合表达式的设备。</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;not print and (max-width: 1200px)&quot; href=&quot;print.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><h5 id="only用来定某种特定的媒体类型"><a href="#only用来定某种特定的媒体类型" class="headerlink" title="only用来定某种特定的媒体类型"></a>only用来定某种特定的媒体类型</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><h4 id="Device-Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"><a href="#Device-Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用" class="headerlink" title="Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"></a>Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用</h4><p>max-device-width、min-device-width</p>
+<h4 id="orientation-横屏或者竖屏"><a href="#orientation-横屏或者竖屏" class="headerlink" title="orientation 横屏或者竖屏"></a>orientation 横屏或者竖屏</h4><h4 id="device-pixel-ratio-设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"><a href="#device-pixel-ratio-设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio" class="headerlink" title="device-pixel-ratio 设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"></a>device-pixel-ratio 设备的宽高比<code>min-device-pixel-ratio</code>，<code>max-device-pixel-ratio</code></h4><h4 id="resolution-分辨率-min-resolution-max-resolution。"><a href="#resolution-分辨率-min-resolution-max-resolution。" class="headerlink" title="resolution 分辨率 min-resolution  max-resolution。"></a>resolution 分辨率 <code>min-resolution</code>  <code>max-resolution</code>。</h4><p>可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下<br>使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。</p>
 <pre><code>/*240px的宽度*/
  &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
  /*360px的宽度*/
@@ -230,8 +230,7 @@
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2014/03/05/media-query/"
-             data-title="Media Queries" data-url="http://kunkun12.com/2014/03/05/media-query/">
+        <div class="ds-thread" data-thread-key="2014/03/05/media-query/" data-title="Media Queries" data-url="http://kunkun12.com/2014/03/05/media-query/">
         </div>
 
       
@@ -268,7 +267,7 @@
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -319,7 +318,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u5F15_u5165_u65B9_u5F0F"><span class="nav-number">1.</span> <span class="nav-text">引入方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5982_u4F55_u5B9A_u4E49_u67E5_u8BE2_u6761_u4EF6"><span class="nav-number">2.</span> <span class="nav-text">如何定义查询条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6700_u5927_u5BBD_u5EA6Max_Width_2Cmax-height_2Cmax-width"><span class="nav-number">3.</span> <span class="nav-text">最大宽度Max Width,max-height,max-width</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6700_u5C0F_u5BBD_u5EA6Min_Width_min-width_2Cmin-height"><span class="nav-number">4.</span> <span class="nav-text">最小宽度Min Width min-width,min-height</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#and_not_only_u5173_u952E_u5B57"><span class="nav-number">5.</span> <span class="nav-text">and not only关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#u591A_u4E2AMedia_Queries_u4F7F_u7528_u67E5_u8BE2_u53D6_u4EA4_u96C6"><span class="nav-number">5.1.</span> <span class="nav-text">多个Media Queries使用查询取交集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#not_u7528_u4E8E_u6392_u9664_u7B26_u5408_u8868_u8FBE_u5F0F_u7684_u8BBE_u5907_u3002"><span class="nav-number">5.2.</span> <span class="nav-text">not用于排除符合表达式的设备。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#only_u7528_u6765_u5B9A_u67D0_u79CD_u7279_u5B9A_u7684_u5A92_u4F53_u7C7B_u578B"><span class="nav-number">5.3.</span> <span class="nav-text">only用来定某种特定的媒体类型</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Device_Width_u8BBE_u5907_u5C4F_u5E55_u7684_u8F93_u51FA_u5BBD_u5EA6_u3001_u5373_u662F_u8BBE_u5907_u7684_u5B9E_u9645_u5206_u8FA8_u7387_uFF0C_u4E5F_u5C31_u662F_u6307_u53EF_u89C6_u9762_u79EF_u5206_u8FA8_u7387_u3001_u53EF_u4EE5_u4F7F_u7528"><span class="nav-number">6.</span> <span class="nav-text">Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orientation__u6A2A_u5C4F_u6216_u8005_u7AD6_u5C4F"><span class="nav-number">7.</span> <span class="nav-text">orientation 横屏或者竖屏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#device-pixel-ratio__u8BBE_u5907_u7684_u5BBD_u9AD8_u6BD4min-device-pixel-ratio_uFF0Cmax-device-pixel-ratio"><span class="nav-number">8.</span> <span class="nav-text">device-pixel-ratio 设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resolution__u5206_u8FA8_u7387_min-resolution_max-resolution_u3002"><span class="nav-number">9.</span> <span class="nav-text">resolution 分辨率 min-resolution  max-resolution。</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#引入方式"><span class="nav-number">1.</span> <span class="nav-text">引入方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何定义查询条件"><span class="nav-number">2.</span> <span class="nav-text">如何定义查询条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大宽度Max-Width-max-height-max-width"><span class="nav-number">3.</span> <span class="nav-text">最大宽度Max Width,max-height,max-width</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最小宽度Min-Width-min-width-min-height"><span class="nav-number">4.</span> <span class="nav-text">最小宽度Min Width min-width,min-height</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#and-not-only关键字"><span class="nav-number">5.</span> <span class="nav-text">and not only关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#多个Media-Queries使用查询取交集"><span class="nav-number">5.1.</span> <span class="nav-text">多个Media Queries使用查询取交集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#not用于排除符合表达式的设备。"><span class="nav-number">5.2.</span> <span class="nav-text">not用于排除符合表达式的设备。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#only用来定某种特定的媒体类型"><span class="nav-number">5.3.</span> <span class="nav-text">only用来定某种特定的媒体类型</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Device-Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"><span class="nav-number">6.</span> <span class="nav-text">Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orientation-横屏或者竖屏"><span class="nav-number">7.</span> <span class="nav-text">orientation 横屏或者竖屏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#device-pixel-ratio-设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"><span class="nav-number">8.</span> <span class="nav-text">device-pixel-ratio 设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resolution-分辨率-min-resolution-max-resolution。"><span class="nav-number">9.</span> <span class="nav-text">resolution 分辨率 min-resolution  max-resolution。</span></a></li></ol>
       </div>
     
   </div>

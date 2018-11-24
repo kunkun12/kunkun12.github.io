@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/01/javascriptjudge-browser/#comments" >
+            <a href="/2014/03/01/javascriptjudge-browser/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/javascriptjudge-browser/"></span>
             </a>
           </span>
@@ -128,7 +128,7 @@
         
 
         
-          <h3 id="u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD"><a href="#u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
+          <h3 id="浏览器类型判断"><a href="#浏览器类型判断" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
 <p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
 <pre><code> var Sys = {}; 
 var ua = navigator.userAgent.toLowerCase(); 
@@ -144,8 +144,8 @@ if (Sys.firefox) document.write(&apos;Firefox: &apos; + Sys.firefox);
 if (Sys.chrome) document.write(&apos;Chrome: &apos; + Sys.chrome); 
 if (Sys.opera) document.write(&apos;Opera: &apos; + Sys.opera); 
 if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
-</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>实现。</p>
-<h3 id="Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><a href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
+</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>实现。</p>
+<h3 id="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"><a href="#Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
 <pre><code>if (Modernizr.borderradius) {
       //do something
    }
@@ -153,7 +153,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
    if (Modernizr.csstransforms) {
       //
    }
-</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="external">shim/polyfill</a>脚本来达到支持的目的.</p>
+</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="noopener">shim/polyfill</a>脚本来达到支持的目的.</p>
 <p>可以使用Modernizr的load()函数来动态加载脚本，该函数的test属性是表明要测试是否支持的新特性，如果测试成功支持的话，就加载yep属性设置的脚本，如果不支持就加载nope属性设置的脚本，不管是否支持，both属性里设置的脚本都会加载的。例子代码如下：</p>
 <pre><code>Modernizr.load({
     test: Modernizr.canvas,
@@ -178,7 +178,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
         load: &apos;needs-jQuery.js&apos;
     }
 ]);
-</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="external">Detecting HTML5/CSS3 Features using Modernizr</a></p>
+</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="noopener">Detecting HTML5/CSS3 Features using Modernizr</a></p>
 
         
 
@@ -209,8 +209,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2014/03/01/javascriptjudge-browser/"
-             data-title="判断浏览器特性" data-url="http://kunkun12.com/2014/03/01/javascriptjudge-browser/">
+        <div class="ds-thread" data-thread-key="2014/03/01/javascriptjudge-browser/" data-title="判断浏览器特性" data-url="http://kunkun12.com/2014/03/01/javascriptjudge-browser/">
         </div>
 
       
@@ -247,7 +246,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -298,7 +297,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD"><span class="nav-number">1.</span> <span class="nav-text">浏览器类型判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><span class="nav-number">2.</span> <span class="nav-text">Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器类型判断"><span class="nav-number">1.</span> <span class="nav-text">浏览器类型判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"><span class="nav-number">2.</span> <span class="nav-text">Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。</span></a></li></ol>
       </div>
     
   </div>

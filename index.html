@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -51,7 +51,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -59,7 +59,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -67,7 +67,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -117,7 +117,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2018/11/24/webcompiler-babel/#comments" >
+            <a href="/2018/11/24/webcompiler-babel/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2018/11/24/webcompiler-babel/"></span>
             </a>
           </span>
@@ -133,12 +133,11 @@
         
 
         
-          <h1 id="u524D_u7AEF_u7F16_u8BD1_u6280_u672F_uFF1ABabel"><a href="#u524D_u7AEF_u7F16_u8BD1_u6280_u672F_uFF1ABabel" class="headerlink" title="前端编译技术：Babel"></a>前端编译技术：Babel</h1><p><a href="http://kunkun12.com/blog/ppt/#/">技术分享PPT</a></p>
-<h3 id="compiler_or_transpiler_3F"><a href="#compiler_or_transpiler_3F" class="headerlink" title="compiler or transpiler?"></a>compiler or transpiler?</h3><p>(本文叙述的内容所涉及到的相关特性以Babel V7为准)</p>
-<p>Babel :原名6to5 2014.9发布第一个版本, 2015.2更名为babel，由团队来为维护，Babel取名灵感来自于<a href="https://en.wikipedia.org/wiki/List_of_races_and_species_in_The_Hitchhiker%27s_Guide_to_the_Galaxy#Babel_fish" target="_blank" rel="external">BabelFish</a> 是一种虚拟出来的鱼,可以翻译任何物种的语言，Babel也不负盛名，成了目前最知名的JavaScript语法“编译器”、一种源码转译源码到编译器(source-to-source)。官方说是<a href="https://zh.wikipedia.org/wiki/%E7%B7%A8%E8%AD%AF%E5%99%A8" target="_blank" rel="external">compiler</a>、也有人称之为transpiler(转译器)，stackoverflow也有人提问<a href="https://stackoverflow.com/questions/43968748/is-babel-a-compiler-or-transpiler" target="_blank" rel="external">Is Babel a compiler or transpiler?</a>。总结一下大致意思，编译器是将一种语言转为另一种相对低级一些的语言（比如 Java到字节码。C到二进制)。 转移器是将一种语言转为另一种同等级别的代码(比如JavaScript to python),那么ES6 到 ES5 算同一个level的转换吗？？自行理解吧。<br>对我们来说Babel是JavaScript语法转换工具或是翻译工具,因此不必太纠结compiler还是transpiler 。除了能够转换标准ES以及草案之外，它还支持JSX、typescript、flow。 另外babel方便灵活的插件扩展机制，众多的开发者也相继开发出许多babel插件，让babel不再只是作为一个工具 更是一个平台。</p>
-<h3 id="Babel_u7684_u7EC4_u6210"><a href="#Babel_u7684_u7EC4_u6210" class="headerlink" title="Babel的组成"></a>Babel的组成</h3><p> Babel是一个组合套装，拆分为几十个包，均在<code>@babel</code>命名空间下</p>
-<h4 id="u6838_u5FC3_u90E8_u4EF6"><a href="#u6838_u5FC3_u90E8_u4EF6" class="headerlink" title="核心部件"></a>核心部件</h4><ul>
-<li>@babel/parser (原名Babylon) 基于 <a href="https://github.com/acornjs/acorn" target="_blank" rel="external">acorn</a> and <a href="https://github.com/RReverser/acorn-jsx" target="_blank" rel="external">acorn-jsx</a>。用于语法解析</li>
+          <h1 id="前端编译技术：Babel"><a href="#前端编译技术：Babel" class="headerlink" title="前端编译技术：Babel"></a>前端编译技术：Babel</h1><p><a href="http://kunkun12.com/blog/ppt/#/">技术分享PPT</a><br>(本文叙述的内容所涉及到的相关特性以Babel V7为准)</p>
+<h3 id="Compiler-or-Transpiler"><a href="#Compiler-or-Transpiler" class="headerlink" title="Compiler or Transpiler?"></a>Compiler or Transpiler?</h3><p>Babel :原名6to5 2014.9发布第一个版本, 2015.2更名为babel,前期由Sebastian McKenzie 研发，目前由团队来为维护，核心开发者里面还有是TC39的成员，Babel取名灵感来自于<a href="https://en.wikipedia.org/wiki/List_of_races_and_species_in_The_Hitchhiker%27s_Guide_to_the_Galaxy#Babel_fish" target="_blank" rel="noopener">BabelFish</a> 是一种虚拟出来的鱼,可以翻译任何物种的语言，Babel也不负盛名，成了目前最知名的JavaScript语法“编译器”、一种源码转译源码到编译器(source-to-source)。官方说是<a href="https://zh.wikipedia.org/wiki/%E7%B7%A8%E8%AD%AF%E5%99%A8" target="_blank" rel="noopener">compiler</a>、也有人称之为transpiler(转译器)，stackoverflow也有人提问<a href="https://stackoverflow.com/questions/43968748/is-babel-a-compiler-or-transpiler" target="_blank" rel="noopener">Is Babel a compiler or transpiler?</a>。总结一下大致意思，编译器是将一种语言转为另一种相对低级一些的语言（比如 Java到字节码。C到二进制)。 转移器是将一种语言转为另一种同等级别的代码(比如JavaScript to python),那么ES6 到 ES5 算同一个level的转换吗？？自行理解吧。<br>对我们来说Babel是JavaScript语法转换工具或是翻译工具,因此不必太纠结compiler还是transpiler 。除了能够转换标准ES以及草案之外，它还支持JSX、typescript、flow。 另外babel方便灵活的插件扩展机制，众多的开发者也相继开发出许多babel插件，让babel不再只是作为一个工具 更是一个平台。</p>
+<h3 id="Babel的组成"><a href="#Babel的组成" class="headerlink" title="Babel的组成"></a>Babel的组成</h3><p> Babel是一个组合套装，拆分为几十个包，均在<code>@babel</code>命名空间下</p>
+<h4 id="核心部件"><a href="#核心部件" class="headerlink" title="核心部件"></a>核心部件</h4><ul>
+<li>@babel/parser (原名Babylon) 基于 <a href="https://github.com/acornjs/acorn" target="_blank" rel="noopener">acorn</a> and <a href="https://github.com/RReverser/acorn-jsx" target="_blank" rel="noopener">acorn-jsx</a>。用于语法解析</li>
 <li>@babel/traverse 遍历AST、调用Plugin转换代码</li>
 <li>@babel/generator  将转换后的AST生成代码</li>
 <li>@babel/core  转换流程控制器，整合 parser、traverse plugin generator 完成语法转换。</li>
@@ -146,20 +145,20 @@
 </ul>
 <p>babel的编译流程如下：</p>
 <ol>
-<li>Parse 词法分析得到 Tokens，把JS代码解析为 <a href="https://zh.wikipedia.org/wiki/%E6%8A%BD%E8%B1%A1%E8%AA%9E%E6%B3%95%E6%A8%B9" target="_blank" rel="external">抽象语法树（AST)</a></li>
+<li>Parse 词法分析得到 Tokens，把JS代码解析为 <a href="https://zh.wikipedia.org/wiki/%E6%8A%BD%E8%B1%A1%E8%AA%9E%E6%B3%95%E6%A8%B9" target="_blank" rel="noopener">抽象语法树（AST)</a></li>
 <li>Transform 遍历语法树，通过Babel-plugin操作 AST，改变语法树。</li>
 <li>Generate Code 新的语法树生成代码。</li>
 </ol>
 <p>总结 ：输入字符串 -&gt; @babel/parser parser -&gt; AST -&gt; traverse -&gt;@babe/plugin–xxxx-&gt; AST -&gt; @babel/generator -&gt; 输出字符串</p>
-<h4 id="u8F85_u52A9_u5305"><a href="#u8F85_u52A9_u5305" class="headerlink" title="辅助包"></a>辅助包</h4><ul>
+<h4 id="辅助包"><a href="#辅助包" class="headerlink" title="辅助包"></a>辅助包</h4><ul>
 <li><code>@babel/types</code> 、<code>@babel/template</code> 、<code>@babel/helpers</code>、<code>@</code>babel/code-frames`  方便操作语法树、提供的工具类，写插件的时候会用到</li>
-<li><code>@babel/polyfill</code>。ES标准中包括两部分: 新增的语法+新增的API。 Babel编译流程只提供了语法的转换(比如const、let、async、await、箭头函数等）， babel/polyfill是ES标准新增的原生对象以及API的模拟实现（比如<code>Promise</code>、<code>Map</code>、<code>Set</code>、<code>Object.assign</code>、<code>Array.from</code>、<code>Object.assig</code>等），其实<code>@babel/polyfill</code>上仅仅是<code>core-j</code>s和<code>regenerator-runtime</code>两个包的<a href="https://github.com/babel/babel/blob/master/packages/babel-polyfill/src/index.js" target="_blank" rel="external">简单封装</a>，之前版本中我们都是在文件的收口处手动的引入<code>babel polyfill</code>。整个PolyFill文件较大、没必要全部导入、也没必要手动导入、在babel V7之后推荐新的使用方法。通过配置 env选项的时候添加 <code>&quot;useBuiltIns&quot;:&quot;usage&quot;</code>,会自动分析代码根据需求来按需针对性的导入polyfill。另外polyfill是全局导入的，像<code>Array.prototype.includes</code>还会修改原生函数的原型。polyfill只包含了超过<code>stage4</code>以上的规范。如果要使用更低级草案标准的API 需要自己手动去引入<a href="https://github.com/zloirock/core-js" target="_blank" rel="external">core-js</a>里面的函数。举个例子 .babelrc配置文件如下<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [[<span class="string">"@babel/env"</span>, &#123;</span><br><span class="line">        <span class="string">"useBuiltIns"</span>: <span class="string">"usage"</span></span><br><span class="line">    &#125;]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><code>@babel/polyfill</code>。ES标准中包括两部分: 新增的语法+新增的API。 Babel编译流程只提供了语法的转换(比如const、let、async、await、箭头函数等）， babel/polyfill是ES标准新增的原生对象以及API的模拟实现（比如<code>Promise</code>、<code>Map</code>、<code>Set</code>、<code>Object.assign</code>、<code>Array.from</code>、<code>Object.assig</code>等），其实<code>@babel/polyfill</code>上仅仅是<code>core-j</code>s和<code>regenerator-runtime</code>两个包的<a href="https://github.com/babel/babel/blob/master/packages/babel-polyfill/src/index.js" target="_blank" rel="noopener">简单封装</a>，之前版本中我们都是在文件的收口处手动的引入<code>babel polyfill</code>。整个PolyFill文件较大、没必要全部导入、也没必要手动导入、在babel V7之后推荐新的使用方法。通过配置 env选项的时候添加 <code>&quot;useBuiltIns&quot;:&quot;usage&quot;</code>,会自动分析代码根据需求来按需针对性的导入polyfill。另外polyfill是全局导入的，像<code>Array.prototype.includes</code>还会修改原生函数的原型。polyfill只包含了超过<code>stage4</code>以上的规范。如果要使用更低级草案标准的API 需要自己手动去引入<a href="https://github.com/zloirock/core-js" target="_blank" rel="noopener">core-js</a>里面的函数。举个例子 .babelrc配置文件如下<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [[<span class="string">"@babel/env"</span>, &#123;</span><br><span class="line">        <span class="string">"useBuiltIns"</span>: <span class="string">"usage"</span></span><br><span class="line">    &#125;]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>源码<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'   foo  '</span>;</span><br><span class="line">str.trimLeft();</span><br><span class="line">str.padStart(<span class="number">10</span>);</span><br></pre></td></tr></table></figure></p>
 <p>babel 编译输出结果<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">"core-js/modules/es7.string.pad-start"</span>);</span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'   foo  '</span>;</span><br><span class="line">str.trimLeft();</span><br><span class="line">str.padStart(<span class="number">10</span>);</span><br></pre></td></tr></table></figure></p>
-<p><code>String.prototype.padStart</code> 是 ES(7) 正式版的规范，因此会自动引入pad-start的polyfill、而 <a href="https://github.com/tc39/proposal-string-left-right-trim" target="_blank" rel="external"><code>trimLeft</code></a>截止目前还在 <code>Stage 3</code>。需要自己手动引入<code>core-js(-pure)/features/string/trim-left</code>。</p>
-<p>这里提一下，对于每一项新特性，要最终纳入ECMAScript规范中，TC39(指定ES标准的组织)拟定了一个处理过程，称为<a href="https://tc39.github.io/process-document/" target="_blank" rel="external">TC39 process</a>、其中共包含5个阶段:</p>
+<p><code>String.prototype.padStart</code> 是 ES(7) 正式版的规范，因此会自动引入pad-start的polyfill、而 <a href="https://github.com/tc39/proposal-string-left-right-trim" target="_blank" rel="noopener"><code>trimLeft</code></a>截止目前还在 <code>Stage 3</code>。需要自己手动引入<code>core-js(-pure)/features/string/trim-left</code>。</p>
+<p>这里提一下，对于每一项新特性，要最终纳入ECMAScript规范中，TC39(指定ES标准的组织)拟定了一个处理过程，称为<a href="https://tc39.github.io/process-document/" target="_blank" rel="noopener">TC39 process</a>、其中共包含5个阶段:</p>
 <pre><code>stage-0: (稻草人)只是一个想法
 stage-1: (提案)初步尝试
 stage-2: (草稿)初步规范
@@ -167,21 +166,21 @@ stage-3: (候选)完成规范和浏览器初步实现
 stage-4: (定稿)代发版
 </code></pre><p>既然说到polyfill了 还得说一个函数 :<code>regeneratorruntime</code>, 这个函数也被算在了babel-polyfill里面了，它不是ES规范新增的API，只是babel在做async/await 语法转换的时候，转换后的结果代码调用到了这个函数，转换结果并没有提供这个函数的定义，所以要让代码能够正常运行，必须要引入<code>regeneratorruntime</code>这个函数，如果配置babel的时候 env里面设置 <code>&quot;useBuiltIns&quot;: &quot;usage&quot;</code>属性，业务里面如果用到async/await 会自动引入regeneratorruntime这个polyfill</p>
 <ul>
-<li>@babel/runtime：功能类似babel-polyfill，提供了一些帮助函数(regeneratorruntime、_classCallCheck 等一些转换后的代码 里面用到的一些函数)以及非实例方法（Array.from,Object.assign、Promise、Map等)的shim，一般用于library或plugin中，最大好处减少工具代码重复引用、且不会污染全局作用域，配合<a href="https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-runtime" target="_blank" rel="external">babel/plugin-transform-runtime</a>插件使用 更多信息可以参考<a href="https://segmentfault.com/q/1010000005596587" target="_blank" rel="external">babel-polyfill 和 runtime的区别</a></li>
+<li>@babel/runtime：功能类似babel-polyfill，提供了一些帮助函数(regeneratorruntime、_classCallCheck 等一些转换后的代码 里面用到的一些函数)以及非实例方法（Array.from,Object.assign、Promise、Map等)的shim，一般用于library或plugin中，最大好处减少工具代码重复引用、且不会污染全局作用域，配合<a href="https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-runtime" target="_blank" rel="noopener">babel/plugin-transform-runtime</a>插件使用 更多信息可以参考<a href="https://segmentfault.com/q/1010000005596587" target="_blank" rel="noopener">babel-polyfill 和 runtime的区别</a></li>
 </ul>
-<h4 id="u5176_u4ED6_u5DE5_u5177"><a href="#u5176_u4ED6_u5DE5_u5177" class="headerlink" title="其他工具"></a>其他工具</h4><ul>
+<h4 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h4><ul>
 <li>@babel/cli babel命令行工具</li>
 <li>@babel/node nodeJS环境下使用babel的功能，由于性能问题不得在生产环境下使用</li>
 <li>@babel/register 通过绑定node.js的require来自动转译require引用的js代码文件</li>
-<li><a href="https://babeljs.io/repl" target="_blank" rel="external">REPL</a> 在线体验工具</li>
+<li><a href="https://babeljs.io/repl" target="_blank" rel="noopener">REPL</a> 在线体验工具</li>
 </ul>
-<h3 id="Babel_Plugin"><a href="#Babel_Plugin" class="headerlink" title="Babel Plugin"></a>Babel Plugin</h3><p>上面已经介绍过babel语法转换流程主要包含三个步骤：词法分析语法分析生成AST-&gt;Plugin操作AST-&gt;生成代码</p>
-<p>那么什么是AST？AST 即抽象语法树 它是源代码语法结构的一种抽象表示(类似浏览器页面用抽象为DOM树来表示)、方便对编程语言进行语法分析、语法检查、代码风格检查、语法转换、代 码优化等，UglifyJS、ESLint、JSDoc、Babel等常用的工具，这背后的就是对AST的应用，另外像目前的mpvue、taro 也都用到AST转换的思想。babel通过语法分析，把代码解析为<a href="https://github.com/babel/babel/blob/master/packages/babel-parser/ast/spec.md" target="_blank" rel="external">AST</a>,这是基于<a href="https://github.com/estree/estree" target="_blank" rel="external">ESTree</a>稍微改造的结构（EStree可以认为是一些权威大佬联合制定的标准）。JavaScript代码的语法树可以通过<a href="https://astexplorer.net" target="_blank" rel="external">astexplorer</a>中查看。可以把AST类比DOM Tree，那么Babel相当于操作AST的jQuery</p>
-<p>Babel语法转换的本质是:将源代码解析为AST后、对AST进行遍历（先序深度优先遍历），并对节点进行操作（增、删、改，最后将AST生成代码的过程，这个操作过程采用的是Visitors 模式对节点进行访问，每一个visitor在babel里面有babel-plugin承担。babel-core负责解析语法，每一个语法的转换需要一个单独的plugin来变更AST，转换后的AST生成代码也由babel自动完成。babel官方包内置了一些<a href="https://babeljs.io/docs/en/plugins/" target="_blank" rel="external">丰富的plugin</a>来完成语法的转译(比如最新的ES标准/草案、JSX、typescript、flow),一个插件只完成一个特定的功能，启用该功能需要在babel的配置文件里面添加即可，为了方便分享，也方便集中配置，把插件的列表封装为preset，preset即是一堆插件的组合合。babel的插件启用需要单独配置，支持多种配置方式 使用 <code>babel.config.js</code> <code>.babelrc</code> <code>.babelrc.js</code> 或者package.json中添加 babel的属性.<a href="https://babeljs.io/docs/en/config-files" target="_blank" rel="external">官方也有详细的介绍</a>。</p>
-<h3 id="Plugin_u914D_u7F6E"><a href="#Plugin_u914D_u7F6E" class="headerlink" title="Plugin配置"></a>Plugin配置</h3><p>（<a href="https://babeljs.io/docs/en/config-files" target="_blank" rel="external">官网写的很清楚</a>，感觉没必要多写）简单提一下，Preset是plugin组合，翻译过来叫”预设”，官网的提供的一些预设（env、flow、react、typescript）我们也能很容易的创造自己的预设，比如create-react-app ，react-native都是自定义了preset，preset可以有预设和plugin组成。自定义预设也跟配置 babel.config.js类似。另外babel在执行的时候<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = () =&gt; (&#123;</span><br><span class="line">    presets: [</span><br><span class="line">        <span class="built_in">require</span>(<span class="string">"@babel/preset-env"</span>),</span><br><span class="line">    ],</span><br><span class="line">    plugins: [</span><br><span class="line">        [<span class="built_in">require</span>(<span class="string">"@babel/plugin-proposal-class-properties"</span>), &#123; loose: <span class="literal">true</span> &#125;],</span><br><span class="line">        <span class="built_in">require</span>(<span class="string">"@babel/plugin-proposal-object-rest-spread"</span>),</span><br><span class="line">    ],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>babel7之后推荐使用<a href="https://babeljs.io/docs/en/babel-preset-env" target="_blank" rel="external">@babel/preset-env</a>来转换正式版ES语法，目前preset-env===ES3+ES5+ES2015+ES2016+ES2017，还有三个比较常用的preset（ typescript flow react）,之前的stage0~stage3四个preset 在Babel 7中已经被干掉了。对于目前处于草案的语法需要手动添加相关plugin。具体到特定的语法是否为草案还是正式标准可以去<a href="https://babeljs.io/docs/en/plugins" target="_blank" rel="external">babel的插件列表</a>看一下，不要被这么多插件吓到，其实也没多少，不必熟知，尽量都要清楚每个插件的作用。另外babel-preset-env 还支持根据指定代码的环境对语法的支持程度，来过滤语法转换，用来表示来支持到什么程度，比如<a href="https://github.com/browserslist/browserslist" target="_blank" rel="external">浏览器版本</a>，Node版本，通过这样等减少一些不必要的转换，降低冗余代码</p>
+<h3 id="Babel-Plugin"><a href="#Babel-Plugin" class="headerlink" title="Babel Plugin"></a>Babel Plugin</h3><p>上面已经介绍过babel语法转换流程主要包含三个步骤：词法分析语法分析生成AST-&gt;Plugin操作AST-&gt;生成代码</p>
+<p>那么什么是AST？AST 即抽象语法树 它是源代码语法结构的一种抽象表示(类似浏览器页面用抽象为DOM树来表示)、方便对编程语言进行语法分析、语法检查、代码风格检查、语法转换、代 码优化等，UglifyJS、ESLint、JSDoc、Babel等常用的工具，这背后的就是对AST的应用，另外像目前的mpvue、taro 也都用到AST转换的思想。babel通过语法分析，把代码解析为<a href="https://github.com/babel/babel/blob/master/packages/babel-parser/ast/spec.md" target="_blank" rel="noopener">AST</a>,这是基于<a href="https://github.com/estree/estree" target="_blank" rel="noopener">ESTree</a>稍微改造的结构（EStree可以认为是一些权威大佬联合制定的标准）。JavaScript代码的语法树可以通过<a href="https://astexplorer.net" target="_blank" rel="noopener">astexplorer</a>中查看。可以把AST类比DOM Tree，那么Babel相当于操作AST的jQuery</p>
+<p>Babel语法转换的本质是:将源代码解析为AST后、对AST进行遍历（先序深度优先遍历），并对节点进行操作（增、删、改，最后将AST生成代码的过程，这个操作过程采用的是Visitors 模式对节点进行访问，每一个visitor在babel里面有babel-plugin承担。babel-core负责解析语法，每一个语法的转换需要一个单独的plugin来变更AST，转换后的AST生成代码也由babel自动完成。babel官方包内置了一些<a href="https://babeljs.io/docs/en/plugins/" target="_blank" rel="noopener">丰富的plugin</a>来完成语法的转译(比如最新的ES标准/草案、JSX、typescript、flow),一个插件只完成一个特定的功能，启用该功能需要在babel的配置文件里面添加即可，为了方便分享，也方便集中配置，把插件的列表封装为preset，preset即是一堆插件的组合合。babel的插件启用需要单独配置，支持多种配置方式 使用 <code>babel.config.js</code> <code>.babelrc</code> <code>.babelrc.js</code> 或者package.json中添加 babel的属性.<a href="https://babeljs.io/docs/en/config-files" target="_blank" rel="noopener">官方也有详细的介绍</a>。</p>
+<h3 id="Plugin配置"><a href="#Plugin配置" class="headerlink" title="Plugin配置"></a>Plugin配置</h3><p>（<a href="https://babeljs.io/docs/en/config-files" target="_blank" rel="noopener">官网写的很清楚</a>，感觉没必要多写）简单提一下，Preset是plugin组合，翻译过来叫”预设”，官网的提供的一些预设（env、flow、react、typescript）我们也能很容易的创造自己的预设，比如create-react-app ，react-native都是自定义了preset，preset可以有预设和plugin组成。自定义预设也跟配置 babel.config.js类似。另外babel在执行的时候<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">()</span> =&gt;</span> (&#123;</span><br><span class="line">    presets: [</span><br><span class="line">        <span class="built_in">require</span>(<span class="string">"@babel/preset-env"</span>),</span><br><span class="line">    ],</span><br><span class="line">    plugins: [</span><br><span class="line">        [<span class="built_in">require</span>(<span class="string">"@babel/plugin-proposal-class-properties"</span>), &#123; <span class="attr">loose</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">        <span class="built_in">require</span>(<span class="string">"@babel/plugin-proposal-object-rest-spread"</span>),</span><br><span class="line">    ],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>babel7之后推荐使用<a href="https://babeljs.io/docs/en/babel-preset-env" target="_blank" rel="noopener">@babel/preset-env</a>来转换正式版ES语法，目前preset-env===ES3+ES5+ES2015+ES2016+ES2017，还有三个比较常用的preset（ typescript flow react）,之前的stage0~stage3四个preset 在Babel 7中已经被干掉了。对于目前处于草案的语法需要手动添加相关plugin。具体到特定的语法是否为草案还是正式标准可以去<a href="https://babeljs.io/docs/en/plugins" target="_blank" rel="noopener">babel的插件列表</a>看一下，不要被这么多插件吓到，其实也没多少，不必熟知，尽量都要清楚每个插件的作用。另外babel-preset-env 还支持根据指定代码的环境对语法的支持程度，来过滤语法转换，用来表示来支持到什么程度，比如<a href="https://github.com/browserslist/browserslist" target="_blank" rel="noopener">浏览器版本</a>，Node版本，通过这样等减少一些不必要的转换，降低冗余代码</p>
 <p>关于plugin和preset执行顺序，Babel遍历到每个AST节点的时候，按规则来执行plugin和preset。执行规则就是 :先执顺序行完所有Plugin，再逆序执行Preset。这个配置的时候可能注意。有时候出错的话，可能跟这个执行顺序有关。仔细想一下，那么多节点，都要被每个插件轮流执行一遍。这个对性能影响也是很大的。所以尽量用具体的babel plugin来配置，干掉stage的preset从一方面避免了这个问题。如果不配置插件任何插件及preset、babel对代码不会做做任何转换 将会输出最初的代码。关于具体的配置，简单介绍下对async/await以及decorators配置方式。</p>
-<h4 id="u5173_u4E8E_async/await"><a href="#u5173_u4E8E_async/await" class="headerlink" title="关于 async/await"></a>关于 async/await</h4><ul>
+<h4 id="关于-async-await"><a href="#关于-async-await" class="headerlink" title="关于 async/await"></a>关于 async/await</h4><ul>
 <li>async/await 在ES7的正式版发布了，目前属于ES的正式标准，理论上来说配置下env即可以使用了，但是上面也有提到 babel的plugin只做语法转换，env可以将async/await语法转换为旧式的语法。但是转换后的的代码里面使用了Promise 和 regeneratorRuntime 这两个API。</li>
 </ul>
 <p>如果配置为 </p>
@@ -196,60 +195,60 @@ npm install --svae-dev @babel/plugin-transform-runtime
 </code></pre><p>修改babel的配置<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [[<span class="string">"@babel/env"</span>]],</span><br><span class="line">    <span class="string">"plugins"</span>: [</span><br><span class="line">    [<span class="string">"@babel/plugin-transform-runtime"</span>, &#123;</span><br><span class="line">        <span class="string">"corejs"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"helpers"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"regenerator"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"useESModules"</span>: <span class="literal">false</span></span><br><span class="line">    &#125;]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>运行babel之后编译的代码为<br><img src="https://raw.githubusercontent.com/kunkun12/blog/master/imgs/2.jpg" alt=""><br>，可以看到 _regenerator(即regeneratorRuntime)以局部变量的形式被引入了，非上面的全局作用域。另外 <code>asyncToGenerator</code>也作为一个工具函数被提取至<code>@babel/runtime</code>,通过导入包，以局部变量的形式在代码里面呈现。另外由于编译后的代码在执行的时候用到了 <code>@babel/runtime</code> 包里面的代码，因此安装依赖的包的时候，根据原则将安装到dependencies里面（–save) 。那么还有个问题，asyncToGenerator用了Promise，对于不支持Promise的浏览器依然会报错。解决方案就是 将corejs属性设置为2，意思是从 <code>@babel/runtime-corejs2</code>中去加载polyfill，这个里面asyncToGenerator里面包含了必要的依赖 比如<code>Promise</code> .需要先需要安装 runtime-corejs2: <code>npm install @babel/runtime-corejs2 --save</code>。设置完毕之后，重新编译代码结果(自行与上图对比前三行代码)<br><img src="https://raw.githubusercontent.com/kunkun12/blog/master/imgs/4.jpg" alt=""></p>
 <p>查阅了一下 <code>@babel/runtime-corejs2/helpers/asyncToGenerator</code>模块 第一行也确实引入了promise，部分内容如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> _Promise = <span class="built_in">require</span>(<span class="string">"../core-js/promise"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncGeneratorStep</span>(<span class="params">gen, resolve, reject, _next, _throw, key, arg</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> info = gen[key](arg);</span><br><span class="line">    <span class="keyword">var</span> value = info.value;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    reject(error);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (info.done) &#123;</span><br><span class="line">    resolve(value);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    _Promise.resolve(value).then(_next, _throw);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="u5173_u4E8E_decrotors__u8BED_u6CD5_u652F_u6301"><a href="#u5173_u4E8E_decrotors__u8BED_u6CD5_u652F_u6301" class="headerlink" title="关于 decrotors 语法支持"></a>关于 decrotors 语法支持</h4><p>“Decorators”从好三年前就开始炒的特性，这个特性在<code>Typescript</code> 、 <code>angular</code>、 <code>mobx</code>中广为使用，然而经过多年的努力，<code>Decorators</code>的是目前仍然处于<code>Stage2</code>，babel官方从babel 5 就有支持 <code>Decorators</code>的plugin，因为草案不稳定的原因，在babel6中从内置插件中移除了对“装饰器”语法转换的支持，之前我们都是使用 “民间”的第三方插件(babel-plugin-transform-decorators-legacy)来转换装饰器语法，babel7中把这个插件纳入了babel的内置插件列表中,名字也改为 <a href="https://babeljs.io/docs/en/babel-plugin-proposal-decorators" target="_blank" rel="external"><code>@babel/plugin-proposal-decorators</code> </a>。配置起来比较简单</p>
+<h4 id="关于-decrotors-语法支持"><a href="#关于-decrotors-语法支持" class="headerlink" title="关于 decrotors 语法支持"></a>关于 decrotors 语法支持</h4><p>“Decorators”从好三年前就开始炒的特性，这个特性在<code>Typescript</code> 、 <code>angular</code>、 <code>mobx</code>中广为使用，然而经过多年的努力，<code>Decorators</code>的是目前仍然处于<code>Stage2</code>，babel官方从babel 5 就有支持 <code>Decorators</code>的plugin，因为草案不稳定的原因，在babel6中从内置插件中移除了对“装饰器”语法转换的支持，之前我们都是使用 “民间”的第三方插件(babel-plugin-transform-decorators-legacy)来转换装饰器语法，babel7中把这个插件纳入了babel的内置插件列表中,名字也改为 <a href="https://babeljs.io/docs/en/babel-plugin-proposal-decorators" target="_blank" rel="noopener"><code>@babel/plugin-proposal-decorators</code> </a>。配置起来比较简单</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [[<span class="string">"@babel/env"</span>]],</span><br><span class="line">    <span class="string">"plugins"</span>: [[<span class="string">"@babel/plugin-proposal-decorators"</span>, &#123;</span><br><span class="line">        <span class="string">"legacy"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="u4E00_u4E9B_u7B2C_u4E09_u65B9Babel_Plugin"><a href="#u4E00_u4E9B_u7B2C_u4E09_u65B9Babel_Plugin" class="headerlink" title="一些第三方Babel Plugin"></a>一些第三方Babel Plugin</h3><p>官方提供的plugin 一般是用来对目前成型的标准或者草案进行通用的转换，那么我们是否可以根据自己的需求，来定制自己的转换规则？受益于babel提供的插件扩展机制，我们可以完成对语法树进行操作，从而对代码的转换，只需要关注语法的transform这个关键的步骤，自定义Visitor，利用babel提供的API可以方便的操作语法树的节点，其他的工作比如语法树解析，遍历算法、代码生成等由 Babel帮我们自动完成这些步骤。如果对编写babel插件有兴趣，可以去参考<a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md" target="_blank" rel="external">babel插件手册</a>。（这篇文章写很详细，熟悉之后写插件没啥问题了， 如果第一次看，不用害怕，细心的看下去，多看一遍，可能一些陌生的词汇有些唬人， 利用Babel API操作AST ，相当于使用jQuery来操作DOM树）。一定要善于利用AST的神器<a href="https://astexplorer.net" target="_blank" rel="external">astexplorer</a> 或者 <a href="http://esprima.org/demo/parse.html" target="_blank" rel="external">http://esprima.org/demo/parse.html</a> 或者 使用<a href="https://resources.jointjs.com/demos/rappid/apps/Ast/index.html" target="_blank" rel="external">JAVASCRIPT AST VISUALIZER</a>可视化查看语法树结构</p>
+<h3 id="一些第三方Babel-Plugin"><a href="#一些第三方Babel-Plugin" class="headerlink" title="一些第三方Babel Plugin"></a>一些第三方Babel Plugin</h3><p>官方提供的plugin 一般是用来对目前成型的标准或者草案进行通用的转换，那么我们是否可以根据自己的需求，来定制自己的转换规则？受益于babel提供的插件扩展机制，我们可以完成对语法树进行操作，从而对代码的转换，只需要关注语法的transform这个关键的步骤，自定义Visitor，利用babel提供的API可以方便的操作语法树的节点，其他的工作比如语法树解析，遍历算法、代码生成等由 Babel帮我们自动完成这些步骤。如果对编写babel插件有兴趣，可以去参考<a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md" target="_blank" rel="noopener">babel插件手册</a>。（这篇文章写很详细，熟悉之后写插件没啥问题了， 如果第一次看，不用害怕，细心的看下去，多看一遍，可能一些陌生的词汇有些唬人， 利用Babel API操作AST ，相当于使用jQuery来操作DOM树）。一定要善于利用AST的神器<a href="https://astexplorer.net" target="_blank" rel="noopener">astexplorer</a> 或者 <a href="http://esprima.org/demo/parse.html" target="_blank" rel="noopener">http://esprima.org/demo/parse.html</a> 或者 使用<a href="https://resources.jointjs.com/demos/rappid/apps/Ast/index.html" target="_blank" rel="noopener">JAVASCRIPT AST VISUALIZER</a>可视化查看语法树结构</p>
 <p>社区中有一些为了满足特定需求的plugin，对实际项目开发中很有用处，这里举例介绍两个，我们通过读这些插件的源码也能有助于我们掌握babel的插件开发</p>
 <ul>
-<li><a href="https://www.npmjs.com/package/babel-plugin-import" target="_blank" rel="external">babel-plugin-import</a> 在import阶段进行转换，只导入需要的文件，将导入整个库的代码转为只导入单个的组件文件、避免导入整个库。适用于 antd, antd-mobile, lodash, material-ui</li>
-<li><a href="https://www.npmjs.com/package/babel-plugin-preval" target="_blank" rel="external">babel-plugin-preval</a> 在nodeJS环境下执行代码返回函数执行的结果。</li>
-<li><a href="https://www.npmjs.com/package/babel-plugin-codegen" target="_blank" rel="external">babel-plugin-codegen</a> 在nodeJS环境下执行代码，返回的结果字符串，作为JavaScript语句表达式插入到代码中 比如楼上功能更强</li>
+<li><a href="https://www.npmjs.com/package/babel-plugin-import" target="_blank" rel="noopener">babel-plugin-import</a> 在import阶段进行转换，只导入需要的文件，将导入整个库的代码转为只导入单个的组件文件、避免导入整个库。适用于 antd, antd-mobile, lodash, material-ui</li>
+<li><a href="https://www.npmjs.com/package/babel-plugin-preval" target="_blank" rel="noopener">babel-plugin-preval</a> 在nodeJS环境下执行代码返回函数执行的结果。</li>
+<li><a href="https://www.npmjs.com/package/babel-plugin-codegen" target="_blank" rel="noopener">babel-plugin-codegen</a> 在nodeJS环境下执行代码，返回的结果字符串，作为JavaScript语句表达式插入到代码中 比如楼上功能更强</li>
 <li>babel-plugin-transform-remove-console 功能如其名</li>
 </ul>
-<h3 id="Babel_macros"><a href="#Babel_macros" class="headerlink" title="Babel macros"></a>Babel macros</h3><p>关于Babel插件的使用也有一些小问题:</p>
+<h3 id="Babel-macros"><a href="#Babel-macros" class="headerlink" title="Babel macros"></a>Babel macros</h3><p>关于Babel插件的使用也有一些小问题:</p>
 <ul>
 <li>在看一个项目的代码的时候，无法确定代码是否要经由一个插件转换，对于新人阅读代码 容易造成迷惑</li>
 <li>启用一个插件 必须修改babel的配置文件或者webpack的配置</li>
 <li>遍历节点的时候，执行多个插件 可能会造成冲突，带来困扰</li>
 </ul>
-<p>这个时候就有一种需求：不改变Babel配置的情况下，在应用的代码里面动态为特定的代码应用指定的语法转换，babel macros就是满足为了这个需求，babel macros 的想法的来源于<a href="https://github.com/facebook/create-react-app/issues/2730" target="_blank" rel="external">create-react-app的一个issue</a>，目前macros已经在create-react-app中使用了，(create-react-app不推荐用户自行修改配置文件)。宏的功能与babel plugin功能上差不多，babel plugin的引入需要在babel的配置文件中添加配置，只是宏是让我们可以对手动指定的代码进行语法转换的。babel 有许多plugin，也有许多的macro可用，不同的宏功能不同。macro的出现让我们在代码中手动的使用babel的转换功能。</p>
-<p>如果是使用macros 需要先安装babel-plugin-macros，启用macros的能力 <code>npm install --save-dev babel-plugin-macros</code> 。babel-plugin-macros 不是一个具体的macro，只是给macro提供了一个运行的平台，不具有转换特定代码的功能，第一次使用宏的时候，需要在babel配置文件<code>plugins</code>里面添加<code>macros</code>、之后使用具体的宏不需要再改babel的配置。这里可以查看具体可用的<a href="https://github.com/kentcdodds/babel-plugin-macros/blob/master/other/docs/macros.md" target="_blank" rel="external">macros</a> 根据需求安装对应的macros 在代码里面使用即可。说了这些还是不直观，下面以<code>penv.macro</code>介绍下具体如何使用宏。</p>
+<p>这个时候就有一种需求：不改变Babel配置的情况下，在应用的代码里面动态为特定的代码应用指定的语法转换，babel macros就是满足为了这个需求，babel macros 的想法的来源于<a href="https://github.com/facebook/create-react-app/issues/2730" target="_blank" rel="noopener">create-react-app的一个issue</a>，目前macros已经在create-react-app中使用了，(create-react-app不推荐用户自行修改配置文件)。宏的功能与babel plugin功能上差不多，babel plugin的引入需要在babel的配置文件中添加配置，只是宏是让我们可以对手动指定的代码进行语法转换的。babel 有许多plugin，也有许多的macro可用，不同的宏功能不同。macro的出现让我们在代码中手动的使用babel的转换功能。</p>
+<p>如果是使用macros 需要先安装babel-plugin-macros，启用macros的能力 <code>npm install --save-dev babel-plugin-macros</code> 。babel-plugin-macros 不是一个具体的macro，只是给macro提供了一个运行的平台，不具有转换特定代码的功能，第一次使用宏的时候，需要在babel配置文件<code>plugins</code>里面添加<code>macros</code>、之后使用具体的宏不需要再改babel的配置。这里可以查看具体可用的<a href="https://github.com/kentcdodds/babel-plugin-macros/blob/master/other/docs/macros.md" target="_blank" rel="noopener">macros</a> 根据需求安装对应的macros 在代码里面使用即可。说了这些还是不直观，下面以<code>penv.macro</code>介绍下具体如何使用宏。</p>
 <p>penv.macro 用来在一个代码文件中统一管理你的环境变量, 并且只保留与当前环境变量匹配的值。与当前环境无关的代码被移除，确保不会将与指定环境不相干的代码发布到对应的环境上.</p>
 <ol>
 <li><code>npm install --save-dev babel-plugin-macros</code> 修改babel配置文件在plugins中 添加 macros （使用宏功能必须有这一步，提供一个运行宏的环境）</li>
-<li><code>npm install penv.macro --save-dev</code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> env <span class="keyword">from</span> <span class="string">'penv.macro'</span></span><br><span class="line"></span><br><span class="line">const BASE_URL = env(&#123;</span><br><span class="line">  development: <span class="string">'https://development.example.com'</span>,</span><br><span class="line">  staging: <span class="string">'https://staging.example.com'</span>,</span><br><span class="line">  production: (() =&gt; <span class="string">'https://production.example.com'</span>)(),</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<li><code>npm install penv.macro --save-dev</code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> env <span class="keyword">from</span> <span class="string">'penv.macro'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> BASE_URL = env(&#123;</span><br><span class="line">  development: <span class="string">'https://development.example.com'</span>,</span><br><span class="line">  staging: <span class="string">'https://staging.example.com'</span>,</span><br><span class="line">  production: <span class="function">(<span class="params">(</span>) =&gt;</span> <span class="string">'https://production.example.com'</span>)(),</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>假设编译的时候 env 为 process.env.NODE_ENV，编译后的结果为，功能上与webpack中的DefinePlugin功能类似，然而使用起来要感觉舒服很多。统一管理，不依赖webpack，方便就近维护</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> BASE_URL = (() =&gt; <span class="string">'https://production.example.com'</span>)()</span><br></pre></td></tr></table></figure>
-<p>宏为我们提供了解决问题的另一种思路,所有的宏都以/macro为后缀，在代码中显式导入宏，在需要的地方调用具体的宏，也能方便对功能的理解，心里也清楚这行代码要被Babel macro来转换（若使用插件，语法被转换了，可能不清楚是什么原因造成的)，增加新的宏也不需要修改babel的配置，同时也能避免插件顺序配置问题导致的冲突。这里有一些可用的<a href="https://github.com/jgierer12/awesome-babel-macros" target="_blank" rel="external">宏列表</a> 另外把插件转换为宏也很容易，比如 上面介绍的 preval、和codegen插件就有对应的 preval.macro 和 codegen.macro。也有人<a href="https://medium.freecodecamp.org/using-babel-macros-with-react-native-8615aaf5b7df" target="_blank" rel="external">基于codegen.macro来实现国际化方案</a>。另外更好的国际化方案可以使用 <a href="https://lingui.js.org/ref/macro.html" target="_blank" rel="external">@lingui/macro</a></p>
-<h3 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h3><p>写了这些 希望能对babel有一些了解，Babel不止可以用来做标准的语法转换，还可以帮助我们通过使用编译手段来解决工程化的一些问题，Babel API给我们提供了方便操作语法树的工具，让定制需求变的简单。本文更多的是介绍一些思路以及学习方向，很多东西要写，受限于笔墨，没有写太多，里面涉及到的知识点，都可以深入来研究，另外文章中涉及链接文章都有很好的指导意义。</p>
-<h3 id="One_More_things__u5173_u4E8Ebabel_u4F5C_u8005_u7684_u516B_u5366"><a href="#One_More_things__u5173_u4E8Ebabel_u4F5C_u8005_u7684_u516B_u5366" class="headerlink" title="One More things 关于babel作者的八卦"></a>One More things 关于babel作者的八卦</h3><p>6to5 的作者 Sebastian McKenzie是个澳大利亚人，8岁的时候发布的自己第一个网站，2014年17岁的在高中的时候开始玩github 然后第一次commit 就是 6to5，在项目上很上心，bug反馈几分钟之后就能被修复，因为一直盯着电脑，没有别的事情做。。。不喜欢上学，成绩不好，没有上大学，高中结束后，想找个nodeJS 初级工程师的工作，简历上也附上自己项目的代码，然而也多次碰壁，投简历的公司对他做的事情也不感兴趣。。辛苦之下好不容易在11月在悉尼份找到一份工作，没谈薪资就把offer接了。干了三个月去伦敦CloudFlare。2015年去了美国加入了CloudFlare 可以开心的写node了。。。2015.2月 年6to5 改名为Babel。<a href="https://reactjs.org/blog/2015/06/12/deprecating-jstransform-and-react-tools.html" target="_blank" rel="external">2015-6月 facebook 宣布 React and React Native的构建系统基于Babel替换自家的JSTransform</a> ，同年七月18岁的 Sebastian 加入facebook，截止目前还在。</p>
-<h4 id="u5B66_u4E60_u8D44_u6599__u8FD9_u4E9B_u597D_u597D_u770B_u5B8C_u5C31_u6210babel_u9AD8_u624B_u4E86"><a href="#u5B66_u4E60_u8D44_u6599__u8FD9_u4E9B_u597D_u597D_u770B_u5B8C_u5C31_u6210babel_u9AD8_u624B_u4E86" class="headerlink" title="学习资料 这些好好看完就成babel高手了"></a>学习资料 这些好好看完就成babel高手了</h4><ul>
-<li><a href="https://babeljs.io/docs/en/" target="_blank" rel="external">babel官网</a>、 <a href="https://babeljs.io/blog/" target="_blank" rel="external">以及相关博客</a></li>
-<li><a href="https://xiaoiver.github.io/coding/2018/05/12/Babel-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91.html" target="_blank" rel="external">Babel 插件开发</a></li>
-<li><a href="http://www.alloyteam.com/2017/04/analysis-of-babel-babel-overview/" target="_blank" rel="external">http://www.alloyteam.com/2017/04/analysis-of-babel-babel-overview/</a></li>
-<li><a href="https://github.com/kentcdodds/babel-plugin-macros" target="_blank" rel="external">babel-plugin-macros</a></li>
-<li><a href="https://babeljs.io/blog/2017/09/11/zero-config-with-babel-macros" target="_blank" rel="external">zero-config-with-babel-macros</a></li>
-<li><a href="https://blog.kentcdodds.com/how-writing-custom-babel-and-eslint-plugins-can-increase-your-productivity-and-improve-user-fd6dd8076e26" target="_blank" rel="external">How writing custom Babel &amp; ESLint plugins can increase productivity &amp; improve user experience</a></li>
-<li><a href="https://github.com/kentcdodds/babel-plugin-macros/tree/master/other/docs" target="_blank" rel="external">https://github.com/kentcdodds/babel-plugin-macros/tree/master/other/docs</a></li>
-<li><a href="https://scotch.io/tutorials/javascript-transpilers-what-they-are-why-we-need-them#toc-using-transpilers" target="_blank" rel="external">JavaScript Transpilers: What They Are &amp; Why We Need Them</a></li>
-<li><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md" target="_blank" rel="external">Babel 用户手册</a></li>
-<li><a href="https://juejin.im/entry/5ad41747518825558002b2a7" target="_blank" rel="external">penv.macro - 使环境变量的设置更加简单</a></li>
-<li><a href="https://medium.freecodecamp.org/using-babel-macros-with-react-native-8615aaf5b7df" target="_blank" rel="external">How to use Babel macros with React Native</a></li>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> BASE_URL = <span class="function">(<span class="params">(</span>) =&gt;</span> <span class="string">'https://production.example.com'</span>)()</span><br></pre></td></tr></table></figure>
+<p>宏为我们提供了解决问题的另一种思路,所有的宏都以/macro为后缀，在代码中显式导入宏，在需要的地方调用具体的宏，也能方便对功能的理解，心里也清楚这行代码要被Babel macro来转换（若使用插件，语法被转换了，可能不清楚是什么原因造成的)，增加新的宏也不需要修改babel的配置，同时也能避免插件顺序配置问题导致的冲突。这里有一些可用的<a href="https://github.com/jgierer12/awesome-babel-macros" target="_blank" rel="noopener">宏列表</a> 另外把插件转换为宏也很容易，比如 上面介绍的 preval、和codegen插件就有对应的 preval.macro 和 codegen.macro。也有人<a href="https://medium.freecodecamp.org/using-babel-macros-with-react-native-8615aaf5b7df" target="_blank" rel="noopener">基于codegen.macro来实现国际化方案</a>。另外更好的国际化方案可以使用 <a href="https://lingui.js.org/ref/macro.html" target="_blank" rel="noopener">@lingui/macro</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>写了这些 希望能对babel有一些了解，Babel不止可以用来做标准的语法转换，还可以帮助我们通过使用编译手段来解决工程化的一些问题，Babel API给我们提供了方便操作语法树的工具，让定制需求变的简单。本文更多的是介绍一些思路以及学习方向，很多东西要写，受限于笔墨，没有写太多，里面涉及到的知识点，都可以深入来研究，另外文章中涉及链接文章都有很好的指导意义。</p>
+<h3 id="One-More-things-关于babel作者的八卦"><a href="#One-More-things-关于babel作者的八卦" class="headerlink" title="One More things 关于babel作者的八卦"></a>One More things 关于babel作者的八卦</h3><p>6to5 的作者 Sebastian McKenzie是个澳大利亚人，8岁的时候发布的自己第一个网站，2014年17岁的在高中的时候开始玩github 然后第一次commit 就是 6to5，在项目上很上心，bug反馈几分钟之后就能被修复，因为一直盯着电脑，没有别的事情做。。。不喜欢上学，成绩不好，没有上大学，高中结束后，想找个nodeJS 初级工程师的工作，简历上也附上自己项目的代码，然而也多次碰壁，投简历的公司对他做的事情也不感兴趣。。辛苦之下好不容易在11月在悉尼份找到一份工作，没谈薪资就把offer接了。干了三个月去伦敦CloudFlare。2015年去了美国加入了CloudFlare 可以开心的写node了。。。2015.2月 年6to5 改名为Babel。<a href="https://reactjs.org/blog/2015/06/12/deprecating-jstransform-and-react-tools.html" target="_blank" rel="noopener">2015-6月 facebook 宣布 React and React Native的构建系统基于Babel替换自家的JSTransform</a> ，同年七月18岁的 Sebastian 加入facebook，截止目前还在。</p>
+<h4 id="学习资料-这些好好看完就成babel高手了"><a href="#学习资料-这些好好看完就成babel高手了" class="headerlink" title="学习资料 这些好好看完就成babel高手了"></a>学习资料 这些好好看完就成babel高手了</h4><ul>
+<li><a href="https://babeljs.io/docs/en/" target="_blank" rel="noopener">babel官网</a>、 <a href="https://babeljs.io/blog/" target="_blank" rel="noopener">以及相关博客</a></li>
+<li><a href="https://xiaoiver.github.io/coding/2018/05/12/Babel-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91.html" target="_blank" rel="noopener">Babel 插件开发</a></li>
+<li><a href="http://www.alloyteam.com/2017/04/analysis-of-babel-babel-overview/" target="_blank" rel="noopener">http://www.alloyteam.com/2017/04/analysis-of-babel-babel-overview/</a></li>
+<li><a href="https://github.com/kentcdodds/babel-plugin-macros" target="_blank" rel="noopener">babel-plugin-macros</a></li>
+<li><a href="https://babeljs.io/blog/2017/09/11/zero-config-with-babel-macros" target="_blank" rel="noopener">zero-config-with-babel-macros</a></li>
+<li><a href="https://blog.kentcdodds.com/how-writing-custom-babel-and-eslint-plugins-can-increase-your-productivity-and-improve-user-fd6dd8076e26" target="_blank" rel="noopener">How writing custom Babel &amp; ESLint plugins can increase productivity &amp; improve user experience</a></li>
+<li><a href="https://github.com/kentcdodds/babel-plugin-macros/tree/master/other/docs" target="_blank" rel="noopener">https://github.com/kentcdodds/babel-plugin-macros/tree/master/other/docs</a></li>
+<li><a href="https://scotch.io/tutorials/javascript-transpilers-what-they-are-why-we-need-them#toc-using-transpilers" target="_blank" rel="noopener">JavaScript Transpilers: What They Are &amp; Why We Need Them</a></li>
+<li><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md" target="_blank" rel="noopener">Babel 用户手册</a></li>
+<li><a href="https://juejin.im/entry/5ad41747518825558002b2a7" target="_blank" rel="noopener">penv.macro - 使环境变量的设置更加简单</a></li>
+<li><a href="https://medium.freecodecamp.org/using-babel-macros-with-react-native-8615aaf5b7df" target="_blank" rel="noopener">How to use Babel macros with React Native</a></li>
 <li><a href="astexplorer.net">astexplorer.net</a></li>
-<li><a href="http://slides.com/kentcdodds/a-beginners-guide-to-asts" target="_blank" rel="external">Writing custom Babel and ESLint plugins</a></li>
-<li><a href="https://www.youtube.com/watch?v=d0pOgY8__JM&amp;feature=youtu.be" target="_blank" rel="external">Christoph Pojer: Evolving Complex Systems Incrementally | JSConf EU 2015</a></li>
-<li><a href="https://vramana.github.io/blog/2015/12/21/codemod-tutorial/" target="_blank" rel="external">Ramana Venkata: How to write a codemod</a></li>
-<li><a href="https://www.youtube.com/watch?v=8uOXIM4giH8" target="_blank" rel="external">Jamund Ferguson: Harnessing The Power of Abstract Syntax Trees</a></li>
-<li><a href="https://www.youtube.com/watch?v=Tar4WgAfMr4" target="_blank" rel="external">James Kyle: How to Build a Compiler</a></li>
-<li><a href="https://eslint.org/docs/developer-guide/working-with-plugins" target="_blank" rel="external">ESLint: Working with Plugins</a></li>
-<li><a href="https://github.com/estree/estree" target="_blank" rel="external">ESTree “spec”</a></li>
-<li><a href="https://www.henryzoo.com/babel-plugin-slides/assets/player/KeynoteDHTMLPlayer.html" target="_blank" rel="external">“How Writing a Babel Plugin is like jQuery”</a></li>
-<li><a href="https://babeljs.io/docs/en/babel-types" target="_blank" rel="external">Babel Types Documentation</a></li>
-<li><a href="http://slides.com/kentcdodds/macros#/" target="_blank" rel="external">All about macros</a></li>
-<li><a href="https://dev.to/stereobooster/how-to-write-simple-babel-macro-1al1" target="_blank" rel="external">How to write simple babel macro</a></li>
-<li>Babel作者自述<a href="https://medium.com/@sebmck/2015-in-review-51ac7035e272" target="_blank" rel="external">2015 in review</a></li>
+<li><a href="http://slides.com/kentcdodds/a-beginners-guide-to-asts" target="_blank" rel="noopener">Writing custom Babel and ESLint plugins</a></li>
+<li><a href="https://www.youtube.com/watch?v=d0pOgY8__JM&amp;feature=youtu.be" target="_blank" rel="noopener">Christoph Pojer: Evolving Complex Systems Incrementally | JSConf EU 2015</a></li>
+<li><a href="https://vramana.github.io/blog/2015/12/21/codemod-tutorial/" target="_blank" rel="noopener">Ramana Venkata: How to write a codemod</a></li>
+<li><a href="https://www.youtube.com/watch?v=8uOXIM4giH8" target="_blank" rel="noopener">Jamund Ferguson: Harnessing The Power of Abstract Syntax Trees</a></li>
+<li><a href="https://www.youtube.com/watch?v=Tar4WgAfMr4" target="_blank" rel="noopener">James Kyle: How to Build a Compiler</a></li>
+<li><a href="https://eslint.org/docs/developer-guide/working-with-plugins" target="_blank" rel="noopener">ESLint: Working with Plugins</a></li>
+<li><a href="https://github.com/estree/estree" target="_blank" rel="noopener">ESTree “spec”</a></li>
+<li><a href="https://www.henryzoo.com/babel-plugin-slides/assets/player/KeynoteDHTMLPlayer.html" target="_blank" rel="noopener">“How Writing a Babel Plugin is like jQuery”</a></li>
+<li><a href="https://babeljs.io/docs/en/babel-types" target="_blank" rel="noopener">Babel Types Documentation</a></li>
+<li><a href="http://slides.com/kentcdodds/macros#/" target="_blank" rel="noopener">All about macros</a></li>
+<li><a href="https://dev.to/stereobooster/how-to-write-simple-babel-macro-1al1" target="_blank" rel="noopener">How to write simple babel macro</a></li>
+<li>Babel作者自述<a href="https://medium.com/@sebmck/2015-in-review-51ac7035e272" target="_blank" rel="noopener">2015 in review</a></li>
 </ul>
 
         
@@ -301,7 +300,7 @@ npm install --svae-dev @babel/plugin-transform-runtime
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2017/10/15/nightwatch/#comments" >
+            <a href="/2017/10/15/nightwatch/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/15/nightwatch/"></span>
             </a>
           </span>
@@ -317,13 +316,13 @@ npm install --svae-dev @babel/plugin-transform-runtime
         
 
         
-          <h3 id="Nightwath__u4ECB_u7ECD"><a href="#Nightwath__u4ECB_u7ECD" class="headerlink" title="Nightwath 介绍"></a>Nightwath 介绍</h3><p>说起end to end 测试,可以理解为模拟用户的行为观察页面、点击页面是否与预期的结果相符，一般常用的是Selenium，，它提供了API用于自动化的测试，Selenium使用的是一套标准的 W3C 的 Web Driver API （一套用于自动化测试的协议、该协议已经成了事实的标准 ），而Nightwatch(官网地址 <a href="http://nightwatchjs.org" target="_blank" rel="external">http://nightwatchjs.org</a>) 也是在这套协议基础之上提供的一套NodeJS的API，特点是语法简洁、使用方便，支持各种浏览器。官方文档写的非常详细，这里做一下简单的介绍。下面是官方给出的工作原理图,猫头鹰就是表示nightwatch，客户端浏览器通过Web Driver协议与 Selenium交互，Selenium与nightwatch相互通信来完成整个过程，nightwatch会往浏览器中注入代码，来操作Dom，然后通过websocket完成与测试服务端的通信来展示测试任务的结果。</p>
+          <h3 id="Nightwath-介绍"><a href="#Nightwath-介绍" class="headerlink" title="Nightwath 介绍"></a>Nightwath 介绍</h3><p>说起end to end 测试,可以理解为模拟用户的行为观察页面、点击页面是否与预期的结果相符，一般常用的是Selenium，，它提供了API用于自动化的测试，Selenium使用的是一套标准的 W3C 的 Web Driver API （一套用于自动化测试的协议、该协议已经成了事实的标准 ），而Nightwatch(官网地址 <a href="http://nightwatchjs.org" target="_blank" rel="noopener">http://nightwatchjs.org</a>) 也是在这套协议基础之上提供的一套NodeJS的API，特点是语法简洁、使用方便，支持各种浏览器。官方文档写的非常详细，这里做一下简单的介绍。下面是官方给出的工作原理图,猫头鹰就是表示nightwatch，客户端浏览器通过Web Driver协议与 Selenium交互，Selenium与nightwatch相互通信来完成整个过程，nightwatch会往浏览器中注入代码，来操作Dom，然后通过websocket完成与测试服务端的通信来展示测试任务的结果。</p>
 <p><img src="http://nightwatchjs.org/img/operation.png" alt=""></p>
-<h3 id="u73AF_u5883_u642D_u5EFA"><a href="#u73AF_u5883_u642D_u5EFA" class="headerlink" title="环境搭建"></a>环境搭建</h3><h4 id="u5B89_u88C5_Nightwatch__u3002_u4F7F_u7528npm_u5168_u5C40_u5B89_u88C5_u6216_u8005_u672C_u5730_u5B89_u88C5_u90FD_u884C"><a href="#u5B89_u88C5_Nightwatch__u3002_u4F7F_u7528npm_u5168_u5C40_u5B89_u88C5_u6216_u8005_u672C_u5730_u5B89_u88C5_u90FD_u884C" class="headerlink" title="安装 Nightwatch 。使用npm全局安装或者本地安装都行"></a>安装 Nightwatch 。使用npm全局安装或者本地安装都行</h4><pre><code>npm install -g nigthwatch
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><h4 id="安装-Nightwatch-。使用npm全局安装或者本地安装都行"><a href="#安装-Nightwatch-。使用npm全局安装或者本地安装都行" class="headerlink" title="安装 Nightwatch 。使用npm全局安装或者本地安装都行"></a>安装 Nightwatch 。使用npm全局安装或者本地安装都行</h4><pre><code>npm install -g nigthwatch
 </code></pre><p>或者<br>    <code>npm install nightwatch</code></p>
-<h4 id="Selenium_Server"><a href="#Selenium_Server" class="headerlink" title="Selenium Server"></a>Selenium Server</h4><p>这里需要调用Selenium Server 提供的API，需要去下载Selenium Server的jar包(<a href="http://selenium-release.storage.googleapis.com/index.html" target="_blank" rel="external">http://selenium-release.storage.googleapis.com/index.html</a>), 下载最新的<code>selenium-server-standalone-{VERSION}.jar</code>即可,当然需要本机有Java环境  Java version要在7以上。</p>
-<h3 id="u6D4F_u89C8_u5668_u9A71_u52A8_u4E0B_u8F7D"><a href="#u6D4F_u89C8_u5668_u9A71_u52A8_u4E0B_u8F7D" class="headerlink" title="浏览器驱动下载"></a>浏览器驱动下载</h3><p>Selenium 支持不同的浏览器，对于制定的浏览器需要下载特定的 驱动，这里以chrome为例 下载地址 （<a href="https://sites.google.com/a/chromium.org/chromedriver/downloads)。" target="_blank" rel="external">https://sites.google.com/a/chromium.org/chromedriver/downloads)。</a><br>这里为了方便把下载的Selenium Server 以及 chromedriver 统一放到项目的 bin目录下 随项目一起提交了。</p>
-<h4 id="u914D_u7F6E_u4EE5_u53CA_u8FD0_u884C_u6D4B_u8BD5_u7528_u4F8B"><a href="#u914D_u7F6E_u4EE5_u53CA_u8FD0_u884C_u6D4B_u8BD5_u7528_u4F8B" class="headerlink" title="配置以及运行测试用例"></a>配置以及运行测试用例</h4><p>新建一个配置文件内容如下</p>
+<h4 id="Selenium-Server"><a href="#Selenium-Server" class="headerlink" title="Selenium Server"></a>Selenium Server</h4><p>这里需要调用Selenium Server 提供的API，需要去下载Selenium Server的jar包(<a href="http://selenium-release.storage.googleapis.com/index.html)" target="_blank" rel="noopener">http://selenium-release.storage.googleapis.com/index.html)</a>, 下载最新的<code>selenium-server-standalone-{VERSION}.jar</code>即可,当然需要本机有Java环境  Java version要在7以上。</p>
+<h3 id="浏览器驱动下载"><a href="#浏览器驱动下载" class="headerlink" title="浏览器驱动下载"></a>浏览器驱动下载</h3><p>Selenium 支持不同的浏览器，对于制定的浏览器需要下载特定的 驱动，这里以chrome为例 下载地址 （<a href="https://sites.google.com/a/chromium.org/chromedriver/downloads)。" target="_blank" rel="noopener">https://sites.google.com/a/chromium.org/chromedriver/downloads)。</a><br>这里为了方便把下载的Selenium Server 以及 chromedriver 统一放到项目的 bin目录下 随项目一起提交了。</p>
+<h4 id="配置以及运行测试用例"><a href="#配置以及运行测试用例" class="headerlink" title="配置以及运行测试用例"></a>配置以及运行测试用例</h4><p>新建一个配置文件内容如下</p>
 <pre><code>{
   &quot;src_folders&quot;: [
     &quot;e2e&quot;
@@ -365,7 +364,7 @@ npm install --svae-dev @babel/plugin-transform-runtime
     }
   }
 }
-</code></pre><p><a href="http://nightwatchjs.org/gettingstarted/" target="_blank" rel="external">http://nightwatchjs.org/gettingstarted/</a> 官网上有配置文件的具体介绍，不在详细叙述，需要是设置selenium 以及 浏览器驱动的路径，这里用的是相对目录<br>新建 <code>nightwatch.conf.js</code>文件里面放入</p>
+</code></pre><p><a href="http://nightwatchjs.org/gettingstarted/" target="_blank" rel="noopener">http://nightwatchjs.org/gettingstarted/</a> 官网上有配置文件的具体介绍，不在详细叙述，需要是设置selenium 以及 浏览器驱动的路径，这里用的是相对目录<br>新建 <code>nightwatch.conf.js</code>文件里面放入</p>
 <pre><code>module.exports = (function(settings) {
   settings.test_workers = false;
   return settings;
@@ -393,7 +392,7 @@ npm install --svae-dev @babel/plugin-transform-runtime
 ├── nightwatch.json
 ├── package.json
 </code></pre><p>环境搭建好了，接下来就是编写测试用例，官方有详细的开发者指导，以及API文档。另外Nightwatch 也可以进行单元测试、与mocha 、chai等知名的工具结合使用。</p>
-<h4 id="u8E29_u5751"><a href="#u8E29_u5751" class="headerlink" title="踩坑"></a>踩坑</h4><ul>
+<h4 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h4><ul>
 <li>英文的文档弄懂 nightwatch、Selenium Server、浏览器驱动 三者之前的关系，以及运行原理</li>
 <li>在chrome测试模拟点击的时候确保 被点击的dom是可见的，否则会报错。</li>
 <li>一些nightwatch 没有提供的模拟器操作，比如将某个dom scroll into View，需要使用 execute 方法 自己注入js代码来完成。</li>
@@ -448,7 +447,7 @@ npm install --svae-dev @babel/plugin-transform-runtime
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2017/03/14/react-native-webview-communicate/#comments" >
+            <a href="/2017/03/14/react-native-webview-communicate/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/14/react-native-webview-communicate/"></span>
             </a>
           </span>
@@ -464,26 +463,26 @@ npm install --svae-dev @babel/plugin-transform-runtime
         
 
         
-          <p>react native 在官网的文档中，并没有详细介绍<a href="http://facebook.github.io/react-native/docs/webview.html#onmessage" target="_blank" rel="external">http://facebook.github.io/react-native/docs/webview.html#onmessage</a>如何实现RN与WebView中JavaScript的通信。 关于 onMessage的描述如下，</p>
+          <p>react native 在官网的文档中，并没有详细介绍<a href="http://facebook.github.io/react-native/docs/webview.html#onmessage" target="_blank" rel="noopener">http://facebook.github.io/react-native/docs/webview.html#onmessage</a>如何实现RN与WebView中JavaScript的通信。 关于 onMessage的描述如下，</p>
 <pre><code>onMessage?: function 
 A function that is invoked when the webview calls window.postMessage. Setting this property will inject a postMessage global into your webview, but will still call pre-existing values of postMessage.
 window.postMessage accepts one argument, data, which will be available on the event object, event.nativeEvent.data. data must be a string.
-</code></pre><p>从上只能看出，RN可以接受来自于webview的消息，然而并无法得知如何从RN往Webview内部发送消息，读源码的时候，发现了 RN的webview组件中除了<code>onMessage</code> 还有个<code>posMessage</code>方法，由此可以推出能搞定RN与Webview内H5的双向通信<a href="https://github.com/facebook/react-native/blob/0150bc76eb8d2baa84ba040aead8131228c1185e/Libraries/Components/WebView/WebView.ios.js#L506" target="_blank" rel="external">https://github.com/facebook/react-native/blob/0150bc76eb8d2baa84ba040aead8131228c1185e/Libraries/Components/WebView/WebView.ios.js#L506</a></p>
+</code></pre><p>从上只能看出，RN可以接受来自于webview的消息，然而并无法得知如何从RN往Webview内部发送消息，读源码的时候，发现了 RN的webview组件中除了<code>onMessage</code> 还有个<code>posMessage</code>方法，由此可以推出能搞定RN与Webview内H5的双向通信<a href="https://github.com/facebook/react-native/blob/0150bc76eb8d2baa84ba040aead8131228c1185e/Libraries/Components/WebView/WebView.ios.js#L506" target="_blank" rel="noopener">https://github.com/facebook/react-native/blob/0150bc76eb8d2baa84ba040aead8131228c1185e/Libraries/Components/WebView/WebView.ios.js#L506</a></p>
 <ul>
 <li>在RN中 <code>onMessage</code>负责接收Weview的消息 <code>postMessage</code> 负责发送消息给Webview</li>
 <li>通过监听<code>message</code>事件来接收RN的消息，通过<code>window.postMessage</code>在Webview中向RN中发送消息 </li>
 </ul>
 <p>于是写代码验证下。在html中放置两个输入框A、B,点击按钮把A、B的值发送给RN端，返会两个数的和并展示</p>
-<h4 id="H5_u7684_u4EE3_u7801"><a href="#H5_u7684_u4EE3_u7801" class="headerlink" title="H5的代码"></a>H5的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  &#60;div style=&#34;padding-top:50px;&#34;&#62;&#10;      &#60;input id=&#39;A&#39; /&#62; &#10;      &#60;input id=&#39;B&#39; /&#62;&#10;  &#60;/div&#62;&#10;&#60;Button id=&#39;cacl&#39;&#62;&#35745;&#31639;&#60;/Button&#62; &#60;span&#62;AB&#30456;&#21152;&#20026;&#60;/span&#62;&#60;span id=&#39;sum&#39;&#62;&#60;/span&#62;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> var bt= document.getElementById(&#39;cacl&#39;);&#10; bt.addEventListener(&#39;click&#39;,function()&#123;&#10;   var valA = document.getElementById(&#39;A&#39;).value;&#10;   var valB = document.getElementById(&#39;B&#39;).value;&#10;   window.postMessage(JSON.stringify(&#123;&#10;         type:&#39;add&#39;,&#10;         data:&#123;&#10;           A:valA,&#10;           B:valB&#10;         &#125;&#10;       &#125;))&#10; &#125;);&#10;document.addEventListener(&#39;message&#39;,function(e)&#123;&#10;   document.getElementById(&#39;sum&#39;).innerText = JSON.parse(e.data).result;&#10;&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="RN__u4E2D_u7684_u4EE3_u7801"><a href="#RN__u4E2D_u7684_u4EE3_u7801" class="headerlink" title="RN 中的代码"></a>RN 中的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> export default class RNWebbViewMessage extends Component &#123;&#10;  constructor(props)&#123;&#10;    super(props);&#10;      this.onMessage = this.onMessage.bind(this);&#10;  &#125;&#10;   onMessage(e)&#123;&#10;      var event =e.nativeEvent;&#10;      var data=JSON.parse(event.data);&#10;      if(data.type ===&#39;add&#39;)&#123;&#10;        let  args= data.data;&#10;        let a = Number(args.A);&#10;        let b = Number(args.B);&#10;        this.refs.webviewRef.postMessage(JSON.stringify(&#123;&#10;            result:a+b&#10;         &#125;))&#10;      &#125;&#10;    &#125;&#10;  render() &#123;&#10;    return (&#10;      &#60;View style=&#123;&#123;flex:1&#125;&#125;&#62;&#10;          &#60;WebView ref=&#123;&#39;webviewRef&#39;&#125; automaticallyAdjustContentInsets=&#123;false&#125; onMessage=&#123;this.onMessage&#125; javaScriptEnabled=&#123;true&#125; source=&#123;&#123;uri:&#39;http://localhost/work/study/rnwebviewmessage/index.html?ss&#39;&#125;&#125; /&#62; &#10;      &#60;/View&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="H5的代码"><a href="#H5的代码" class="headerlink" title="H5的代码"></a>H5的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  &lt;div style=&quot;padding-top:50px;&quot;&gt;</span><br><span class="line">      &lt;input id=&apos;A&apos; /&gt; </span><br><span class="line">      &lt;input id=&apos;B&apos; /&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;Button id=&apos;cacl&apos;&gt;计算&lt;/Button&gt; &lt;span&gt;AB相加为&lt;/span&gt;&lt;span id=&apos;sum&apos;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> var bt= document.getElementById(&apos;cacl&apos;);</span><br><span class="line"> bt.addEventListener(&apos;click&apos;,function()&#123;</span><br><span class="line">   var valA = document.getElementById(&apos;A&apos;).value;</span><br><span class="line">   var valB = document.getElementById(&apos;B&apos;).value;</span><br><span class="line">   window.postMessage(JSON.stringify(&#123;</span><br><span class="line">         type:&apos;add&apos;,</span><br><span class="line">         data:&#123;</span><br><span class="line">           A:valA,</span><br><span class="line">           B:valB</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;))</span><br><span class="line"> &#125;);</span><br><span class="line">document.addEventListener(&apos;message&apos;,function(e)&#123;</span><br><span class="line">   document.getElementById(&apos;sum&apos;).innerText = JSON.parse(e.data).result;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="RN-中的代码"><a href="#RN-中的代码" class="headerlink" title="RN 中的代码"></a>RN 中的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"> export default class RNWebbViewMessage extends Component &#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    super(props);</span><br><span class="line">      this.onMessage = this.onMessage.bind(this);</span><br><span class="line">  &#125;</span><br><span class="line">   onMessage(e)&#123;</span><br><span class="line">      var event =e.nativeEvent;</span><br><span class="line">      var data=JSON.parse(event.data);</span><br><span class="line">      if(data.type ===&apos;add&apos;)&#123;</span><br><span class="line">        let  args= data.data;</span><br><span class="line">        let a = Number(args.A);</span><br><span class="line">        let b = Number(args.B);</span><br><span class="line">        this.refs.webviewRef.postMessage(JSON.stringify(&#123;</span><br><span class="line">            result:a+b</span><br><span class="line">         &#125;))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;View style=&#123;&#123;flex:1&#125;&#125;&gt;</span><br><span class="line">          &lt;WebView ref=&#123;&apos;webviewRef&apos;&#125; automaticallyAdjustContentInsets=&#123;false&#125; onMessage=&#123;this.onMessage&#125; javaScriptEnabled=&#123;true&#125; source=&#123;&#123;uri:&apos;http://localhost/work/study/rnwebviewmessage/index.html?ss&apos;&#125;&#125; /&gt; </span><br><span class="line">      &lt;/View&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>经过验证结论是成立的。</p>
 <ul>
 <li>webview网页可以使用<code>window.postMessage</code> 发送消息， <code>document.addEventListener(&#39;message&#39;,callback)</code>来监听消息</li>
 <li>RN 中onMessage 通过 参数中nativeEvent.data获得webview传递过来的字符串。然后把结果通过webview实例的postMessage方法发送到H5中</li>
 </ul>
 <p>以上只是通信api的介绍，如果生产环境中使用的话，还可以对调用形式进一步封装，比如H5中方法调用RN中的分享，并且要求知道分享结果是否成功，可以使用 <code>webviewBridgecallRN(&#39;share&#39;,{title:&#39;微信分享&#39;，content:&quot;分享内容&quot;},callback)</code>这种类似的方式，同时RN中可根据事件的名字进行分模块来实现。</p>
-<h5 id="u5907_u6CE8"><a href="#u5907_u6CE8" class="headerlink" title="备注"></a>备注</h5><ul>
+<h5 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h5><ul>
 <li>查阅了react-native的Webview源码变更记录  <code>onMessage/postMessage</code>是从 0.37 版才支持的。android与ios的支持版本同步。</li>
 <li>之前rn webview 通信可以使用 <a href="react-native-webview-bridge">https://github.com/alinz/react-native-webview-bridge</a></li>
 </ul>
@@ -537,7 +536,7 @@ window.postMessage accepts one argument, data, which will be available on the ev
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2016/03/05/React-createClass-VS-React-Component/#comments" >
+            <a href="/2016/03/05/React-createClass-VS-React-Component/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/05/React-createClass-VS-React-Component/"></span>
             </a>
           </span>
@@ -554,7 +553,7 @@ window.postMessage accepts one argument, data, which will be available on the ev
 
         
           <p>创建react组件有两种方式，使用用 <code>React.createClass</code> 以及用es6模块化的方式<code>extends React.Component</code> 通过集成 <code>Component</code> 组件类的形式来实现。两者的作用类似，后者是新的语法也是趋势。于是赶紧对比下如何升级到新的语法</p>
-<h3 id="React-createClass"><a href="#React-createClass" class="headerlink" title="React.createClass"></a>React.createClass</h3><h3 id="creatClass_u521B_u5EFA_u7684_u7EC4_u4EF6_u8D4B_u503C_u4E3Aconst_u7C7B_u578B_u7684_u53D8_u91CF_uFF0C_u5728_u7EC4_u4EF6_u5185_u90E8_u5B9E_u73B0_u5FC5_u8981_u7684_render_u51FD_u6570"><a href="#creatClass_u521B_u5EFA_u7684_u7EC4_u4EF6_u8D4B_u503C_u4E3Aconst_u7C7B_u578B_u7684_u53D8_u91CF_uFF0C_u5728_u7EC4_u4EF6_u5185_u90E8_u5B9E_u73B0_u5FC5_u8981_u7684_render_u51FD_u6570" class="headerlink" title="creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的 render函数"></a>creatClass创建的组件赋值为<code>const</code>类型的变量，在组件内部实现必要的 <code>render</code>函数</h3><pre><code>import React from &apos;react&apos;;
+<h3 id="React-createClass"><a href="#React-createClass" class="headerlink" title="React.createClass"></a>React.createClass</h3><h3 id="creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的-render函数"><a href="#creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的-render函数" class="headerlink" title="creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的 render函数"></a>creatClass创建的组件赋值为<code>const</code>类型的变量，在组件内部实现必要的 <code>render</code>函数</h3><pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   render() {
     return (
@@ -576,7 +575,7 @@ class Contacts extends React.Component {
   }
 }
 export default Contacts;
-</code></pre><h2 id="propTypes_and_getDefaultProps"><a href="#propTypes_and_getDefaultProps" class="headerlink" title="propTypes and getDefaultProps"></a>propTypes and getDefaultProps</h2><h3 id="React-createClass-1"><a href="#React-createClass-1" class="headerlink" title="React.createClass"></a>React.createClass</h3><pre><code>import React from &apos;react&apos;;
+</code></pre><h2 id="propTypes-and-getDefaultProps"><a href="#propTypes-and-getDefaultProps" class="headerlink" title="propTypes and getDefaultProps"></a>propTypes and getDefaultProps</h2><h3 id="React-createClass-1"><a href="#React-createClass-1" class="headerlink" title="React.createClass"></a>React.createClass</h3><pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   propTypes: {
 
@@ -610,7 +609,7 @@ Contacts.propTypes = {
 Contacts.defaultProps = {
 };
 export default Contacts;
-</code></pre><h2 id="u72B6_u6001_u5B9A_u4E49_State"><a href="#u72B6_u6001_u5B9A_u4E49_State" class="headerlink" title="状态定义 State"></a>状态定义 State</h2><pre><code>import React from &apos;react&apos;;
+</code></pre><h2 id="状态定义-State"><a href="#状态定义-State" class="headerlink" title="状态定义 State"></a>状态定义 State</h2><pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   getInitialState () {
     return {
@@ -639,7 +638,7 @@ class Contacts extends React.Component {
   }
 }
 export default Contacts;
-</code></pre><h3 id="this_u7684_u542B_u4E49_u4E0D_u540C"><a href="#this_u7684_u542B_u4E49_u4E0D_u540C" class="headerlink" title="this的含义不同"></a>this的含义不同</h3><p>在 <code>React.createClass</code>中，给组件绑定事件的函数中的 <code>this</code> 指向当前的组件 ，在 <code>React.Component</code> 中事件函数中的 <code>this</code> 默认指向为空</p>
+</code></pre><h3 id="this的含义不同"><a href="#this的含义不同" class="headerlink" title="this的含义不同"></a>this的含义不同</h3><p>在 <code>React.createClass</code>中，给组件绑定事件的函数中的 <code>this</code> 指向当前的组件 ，在 <code>React.Component</code> 中事件函数中的 <code>this</code> 默认指向为空</p>
 <pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   handleClick() {
@@ -703,7 +702,7 @@ const Contacts = React.createClass({
   }
 });
 export default Contacts;
-</code></pre><p>在 React.Component 官方推荐 <a href="https://leozdgao.me/chushi-hoc/" target="_blank" rel="external">HOC(高阶组件)的形式</a> 来替换，如果一定要使用 mix的话 也可以使用 <a href="https://github.com/brigand/react-mixin" target="_blank" rel="external">react-mixin</a></p>
+</code></pre><p>在 React.Component 官方推荐 <a href="https://leozdgao.me/chushi-hoc/" target="_blank" rel="noopener">HOC(高阶组件)的形式</a> 来替换，如果一定要使用 mix的话 也可以使用 <a href="https://github.com/brigand/react-mixin" target="_blank" rel="noopener">react-mixin</a></p>
 
         
 
@@ -754,7 +753,7 @@ export default Contacts;
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2016/01/21/node-n-ubuntu/#comments" >
+            <a href="/2016/01/21/node-n-ubuntu/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/21/node-n-ubuntu/"></span>
             </a>
           </span>
@@ -770,7 +769,7 @@ export default Contacts;
         
 
         
-          <p>ubuntu 中使用n 来管理node，首先根据github<a href="https://github.com/tj/n" target="_blank" rel="external">https://github.com/tj/n</a>上面的提示进行安装 </p>
+          <p>ubuntu 中使用n 来管理node，首先根据github<a href="https://github.com/tj/n" target="_blank" rel="noopener">https://github.com/tj/n</a>上面的提示进行安装 </p>
 <p>在非 root 用户的话 ，运行node提示找不到命令（root下可以，然而使用 Linux是不鼓励在root 下操作的)<br>可以确认环境变量没有生效，可是装n之后会自动把<br><code>export N_PREFIX=&quot;$HOME/n&quot;; [[ :$PATH: == *&quot;:$N_PREFIX/bin:&quot;* ]] || PATH+=&quot;:$N_PREFIX/bin&quot;</code><br>添加到.bashrc下了。来自动设置了相关的环境变量。<br>于是 运行下 <code>source ~/.bashrc</code> 就可以了 环境变量生效了.可以正常运行弄的，然而 重新打开一个终端以后 又失效了。</p>
 <p>在登录的时候会系统自动执行<code>~/.profile</code> ,在<code>~/.profile</code> 有</p>
 <pre><code># if running bash
@@ -831,7 +830,7 @@ fi
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2016/01/14/vue-1-0-changes/#comments" >
+            <a href="/2016/01/14/vue-1-0-changes/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/14/vue-1-0-changes/"></span>
             </a>
           </span>
@@ -847,7 +846,7 @@ fi
         
 
         
-          <p>目前工作中还在使用 0.12.x版本，突然发现 1.0在使用上有不小的变化，于是参考 官方的更新日志<a href="https://github.com/vuejs/vue/releases/tag/1.0.0" target="_blank" rel="external">https://github.com/vuejs/vue/releases/tag/1.0.0</a>总结如下</p>
+          <p>目前工作中还在使用 0.12.x版本，突然发现 1.0在使用上有不小的变化，于是参考 官方的更新日志<a href="https://github.com/vuejs/vue/releases/tag/1.0.0" target="_blank" rel="noopener">https://github.com/vuejs/vue/releases/tag/1.0.0</a>总结如下</p>
 <ul>
 <li>v-repeat  替换为 v-for<br>使用方法 <code>v-for=&quot;item in items&quot;</code> 不能使用 <code>v-for=&quot;imtes&quot;</code> 可以使用$index来获取当前项在数组中的索引</li>
 </ul>
@@ -911,7 +910,7 @@ this.$els.msg.textContent // -&gt; &quot;hello&quot;
 this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 </code></pre></li>
 <li>v-pre 跳过VUE的处理 比如使用 直接显示 <code></code> 这样的形式</li>
-<li>v-component指令过时了，建议使用is<code>&lt;component :is=&quot;componentId&quot;&gt;&lt;/component&gt;</code> 更多关于 组件的内容参考  <a href="http://vuejs.org/guide/components.html" target="_blank" rel="external">http://vuejs.org/guide/components.html</a></li>
+<li>v-component指令过时了，建议使用is<code>&lt;component :is=&quot;componentId&quot;&gt;&lt;/component&gt;</code> 更多关于 组件的内容参考  <a href="http://vuejs.org/guide/components.html" target="_blank" rel="noopener">http://vuejs.org/guide/components.html</a></li>
 <li><p>props 的传递变更为</p>
 <pre><code>&lt;!-- 单向绑定 --&gt;
 &lt;child :msg=&apos;parentMsg&apos;&gt;&lt;/child&gt;  
@@ -935,7 +934,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 &lt;a v-bind-href=&quot;&quot;&gt;&lt;/a&gt;
 &lt;a v-bind-src=&quot;&quot;&gt;&lt;/a&gt;
 </code></pre></li>
-<li><p>v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了<a href="https://github.com/vitalets/checklist-model" target="_blank" rel="external">一个插件</a>来完成这个功能</p>
+<li><p>v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了<a href="https://github.com/vitalets/checklist-model" target="_blank" rel="noopener">一个插件</a>来完成这个功能</p>
 <pre><code>&lt;input type=&quot;checkbox&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
 &lt;input type=&quot;checkbox&quot; value=&quot;John&quot; v-model=&quot;checkedNames&quot;&gt;
 &lt;input type=&quot;checkbox&quot; value=&quot;Mike&quot; v-model=&quot;checkedNames&quot;&gt;
@@ -995,7 +994,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/02/26/mac-env/#comments" >
+            <a href="/2015/02/26/mac-env/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/26/mac-env/"></span>
             </a>
           </span>
@@ -1012,7 +1011,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 
         
           <p>我的mac (OS X)上常用的工具。。。</p>
-<h1 id="u5E38_u7528_u8F6F_u4EF6"><a href="#u5E38_u7528_u8F6F_u4EF6" class="headerlink" title="常用软件"></a>常用软件</h1><ul>
+<h1 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h1><ul>
 <li>sublime</li>
 <li>webstorm</li>
 <li>ADT/android studio android环境</li>
@@ -1045,7 +1044,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 <li>iterm+oh myzsh  终端工具(内置的终端界面不好看,体验也不好)</li>
 <li>vim （内置工具）</li>
 </ul>
-<h1 id="u8BED_u8A00_u73AF_u5883"><a href="#u8BED_u8A00_u73AF_u5883" class="headerlink" title="语言环境"></a>语言环境</h1><ul>
+<h1 id="语言环境"><a href="#语言环境" class="headerlink" title="语言环境"></a>语言环境</h1><ul>
 <li>node/iojs</li>
 <li>go</li>
 <li>dart</li>
@@ -1054,27 +1053,27 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 <li>java （内置了 open JDK）</li>
 <li>php/Yii （内置的不好用，自己编译，然后单独下载xdebug 并编译，有了xdebug可以在phpstorm下断点调试）</li>
 </ul>
-<h1 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h1><ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
 <li>cordova/phonegap</li>
 <li>grunt/gulp</li>
 <li>fis</li>
 <li>hexo 博客系统</li>
 </ul>
 <p>其他内置工具  <code>safira</code> <code>Apache</code> <code>邮件客户端</code></p>
-<h2 id="u5E38_u89C1_u7684_u914D_u7F6E__u6587_u4EF6"><a href="#u5E38_u89C1_u7684_u914D_u7F6E__u6587_u4EF6" class="headerlink" title="常见的配置 文件"></a>常见的配置 文件</h2><h4 id="u4E0E_u73AF_u5883_u53D8_u91CF_u76F8_u5173_u7684_u914D_u7F6E_u6587_u4EF6"><a href="#u4E0E_u73AF_u5883_u53D8_u91CF_u76F8_u5173_u7684_u914D_u7F6E_u6587_u4EF6" class="headerlink" title="与环境变量相关的配置文件"></a>与环境变量相关的配置文件</h4><p><code>etc/profile</code> ,<code>/etc/bashrc</code>;<code>~/.bash_profile</code> ;<code>~/.bashrc</code>;<code>/etc/paths</code>; <code>/etc/paths.d</code> <a href="http://apple.stackexchange.com/questions/140507/what-is-the-complete-authoritative-way-in-which-mac-osx-10-9-and-later-builds-i" target="_blank" rel="external">相关链接</a></p>
+<h2 id="常见的配置-文件"><a href="#常见的配置-文件" class="headerlink" title="常见的配置 文件"></a>常见的配置 文件</h2><h4 id="与环境变量相关的配置文件"><a href="#与环境变量相关的配置文件" class="headerlink" title="与环境变量相关的配置文件"></a>与环境变量相关的配置文件</h4><p><code>etc/profile</code> ,<code>/etc/bashrc</code>;<code>~/.bash_profile</code> ;<code>~/.bashrc</code>;<code>/etc/paths</code>; <code>/etc/paths.d</code> <a href="http://apple.stackexchange.com/questions/140507/what-is-the-complete-authoritative-way-in-which-mac-osx-10-9-and-later-builds-i" target="_blank" rel="noopener">相关链接</a></p>
 <ul>
 <li>软件相关配置目录在 home目录下 隐藏文件 以.开头 比如<code>.adobe</code> <code>.android</code> <code>.cache</code> <code>.cnpmrc</code> <code>.composer</code> <code>.config</code> <code>.cordova</code> <code>.dbshell</code> <code>.eclipse</code> <code>.gem</code> <code>.gradle</code> <code>.npm</code>等等.</li>
 </ul>
-<h4 id="apache__u914D_u7F6E_u6587_u4EF6"><a href="#apache__u914D_u7F6E_u6587_u4EF6" class="headerlink" title="apache 配置文件"></a>apache 配置文件</h4><ul>
+<h4 id="apache-配置文件"><a href="#apache-配置文件" class="headerlink" title="apache 配置文件"></a>apache 配置文件</h4><ul>
 <li>主配置文件 <code>/etc/apache2/httpd.conf</code></li>
-<li><p>虚拟主机配置 <code>/etc/apache2/extra/httpd-vhosts.conf</code>  <a href="https://gist.github.com/kunkun12/1d1787d8c8f758cea4af" target="_blank" rel="external">参考</a></p>
+<li><p>虚拟主机配置 <code>/etc/apache2/extra/httpd-vhosts.conf</code>  <a href="https://gist.github.com/kunkun12/1d1787d8c8f758cea4af" target="_blank" rel="noopener">参考</a></p>
 </li>
-<li><p>node 版本 webServer快速配置 适合前端开发使用，代码变化之后自动刷新页面  <a href="https://gist.github.com/kunkun12/31fb79a11e4cfd521b8e" target="_blank" rel="external">配置文件</a></p>
+<li><p>node 版本 webServer快速配置 适合前端开发使用，代码变化之后自动刷新页面  <a href="https://gist.github.com/kunkun12/31fb79a11e4cfd521b8e" target="_blank" rel="noopener">配置文件</a></p>
 </li>
 </ul>
 <ul>
 <li>2015-四月开始使用atom 代码编辑器，感觉比sublime还要爽,不过打开大文件会卡。<br>需要配合一些插件。比如git-plus,autocomplete-plus,color-picker,git-log,language-jade,open-last-project,terminal-panel(shift+enter)</li>
-<li>然而用了 atom 半年之久实在太卡了，最终转回来了sublime3 <a href="https://packagecontrol.io/packages/Theme%20-%20Afterglow" target="_blank" rel="external">换了个好看的主题</a>  需要配合一些插件 比如 less/sass jade jsformat terminal emmet git等</li>
+<li>然而用了 atom 半年之久实在太卡了，最终转回来了sublime3 <a href="https://packagecontrol.io/packages/Theme%20-%20Afterglow" target="_blank" rel="noopener">换了个好看的主题</a>  需要配合一些插件 比如 less/sass jade jsformat terminal emmet git等</li>
 </ul>
 
         
@@ -1126,7 +1125,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/01/16/ES6-Featues/#comments" >
+            <a href="/2015/01/16/ES6-Featues/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/16/ES6-Featues/"></span>
             </a>
           </span>
@@ -1200,7 +1199,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/01/14/ng-directive-callfunction-pass-argument/#comments" >
+            <a href="/2015/01/14/ng-directive-callfunction-pass-argument/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/14/ng-directive-callfunction-pass-argument/"></span>
             </a>
           </span>
@@ -1216,7 +1215,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
         
 
         
-          <h3 id="u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09"><a href="#u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09" class="headerlink" title="指令调用控制器中的方式（给指令的事件绑定执行函数）"></a>指令调用控制器中的方式（给指令的事件绑定执行函数）</h3><p>angluarJS中，如果指令内部的事件触发，这个时候需要调用外部controller中的方法，可以在指令的隔离作用域中使用<code>&amp;</code>将controller中的方法传递到指令中，供指令调用，需要注意的事，如果传递参数的话（比如自定义的ngChange事件触发，会把当前的选择项作为参数传递到控制器中）这个时候在声明指令时候,需要填写方法调用的函数表达式，并且如果包含函数的话，需要在调用改方法的时候指明参数，该参数名字与在指令中调用中传递的参数JSON的key一致（指令中必须传递JSON的形式来调用）</p>
+          <h3 id="指令调用控制器中的方式（给指令的事件绑定执行函数）"><a href="#指令调用控制器中的方式（给指令的事件绑定执行函数）" class="headerlink" title="指令调用控制器中的方式（给指令的事件绑定执行函数）"></a>指令调用控制器中的方式（给指令的事件绑定执行函数）</h3><p>angluarJS中，如果指令内部的事件触发，这个时候需要调用外部controller中的方法，可以在指令的隔离作用域中使用<code>&amp;</code>将controller中的方法传递到指令中，供指令调用，需要注意的事，如果传递参数的话（比如自定义的ngChange事件触发，会把当前的选择项作为参数传递到控制器中）这个时候在声明指令时候,需要填写方法调用的函数表达式，并且如果包含函数的话，需要在调用改方法的时候指明参数，该参数名字与在指令中调用中传递的参数JSON的key一致（指令中必须传递JSON的形式来调用）</p>
 <pre><code>    angular.module(&quot;app1&quot;, [])
 .controller(&quot;Ctrl1&quot;, function($scope, $element)
 {
@@ -1246,7 +1245,7 @@ this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
 </code></pre><p>声明指令</p>
 <pre><code>&lt;div my-directive ng-change=&quot;someThingChanged(name,age)&quot;&gt;&lt;/div&gt;
 调用时候上面输出 ：  张三 28
-</code></pre><h3 id="u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002"><a href="#u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002" class="headerlink" title="控制器调用指令的方法。"></a>控制器调用指令的方法。</h3><p>使用双向绑定的形式，首先在控制器新建一个空对象，在指令中将方法赋值给这个对象的一个属性，这样在控制器用就可以获取这个方法，进而进行调用。</p>
+</code></pre><h3 id="控制器调用指令的方法。"><a href="#控制器调用指令的方法。" class="headerlink" title="控制器调用指令的方法。"></a>控制器调用指令的方法。</h3><p>使用双向绑定的形式，首先在控制器新建一个空对象，在指令中将方法赋值给这个对象的一个属性，这样在控制器用就可以获取这个方法，进而进行调用。</p>
 <pre><code>var app = angular.module(&apos;plunker&apos;, []);
 app.controller(&apos;MainCtrl&apos;, function($scope) {
   $scope.focusinControl = {
@@ -1256,7 +1255,7 @@ app.directive(&apos;focusin&apos;, function factory() {
   return {
     restrict: &apos;E&apos;,
     replace: true,
-    template: &apos;&lt;div&gt;A:&lt;/div&gt;&apos;,
+    template: &apos;&lt;div&gt;A:{{internalControl}}&lt;/div&gt;&apos;,
     scope: {
       control: &apos;=&apos;
     },
@@ -1329,7 +1328,7 @@ app.directive(&apos;focusin&apos;, function factory() {
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/01/11/less-features/#comments" >
+            <a href="/2015/01/11/less-features/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/11/less-features/"></span>
             </a>
           </span>
@@ -1346,7 +1345,7 @@ app.directive(&apos;focusin&apos;, function factory() {
 
         
           <p>less并非多么高大上的东西，无非就是个编写CSS的工具，让我们像编程一样来书写CSS，关于less常用的特性无非几个，下面简单将常用这些特性简单记录。方便以后查阅</p>
-<h2 id="less_u7F16_u8BD1_u73AF_u5883"><a href="#less_u7F16_u8BD1_u73AF_u5883" class="headerlink" title="less编译环境"></a>less编译环境</h2><p>less-&gt;CSS的方法有多种，比如使用  grunt或者lgulp等构建工具配合相应的插件来完成less的自动编译。以gulp为例，gulpfile.js的代码如下。</p>
+<h2 id="less编译环境"><a href="#less编译环境" class="headerlink" title="less编译环境"></a>less编译环境</h2><p>less-&gt;CSS的方法有多种，比如使用  grunt或者lgulp等构建工具配合相应的插件来完成less的自动编译。以gulp为例，gulpfile.js的代码如下。</p>
 <pre><code>var less = require(&apos;gulp-less&apos;);
 var path = require(&apos;path&apos;);
 var gulp=require(&apos;gulp&apos;);
@@ -1361,14 +1360,14 @@ gulp.task(&apos;less&apos;, function () {
 gulp.watch([&apos;less/*.less&apos;], [&apos;less&apos;]) 
 gulp.task(&apos;default&apos;, [&apos;less&apos;]);
 </code></pre><p>通过watch 来见监听less文件的变化自动运行less任务。从而完成less-&gt;css的自动编译，可以查看生成的CSS文件</p>
-<h2 id="u6211_u5E38_u7528_u7684less__u7279_u6027_u3002"><a href="#u6211_u5E38_u7528_u7684less__u7279_u6027_u3002" class="headerlink" title="我常用的less 特性。"></a>我常用的less 特性。</h2><h3 id="@import"><a href="#@import" class="headerlink" title="@import"></a>@import</h3><p>在标准的CSS中，@import必须在所有其他类型的规则之前。但是Less不在乎你把@import语句放在什么位置。<br>@import语句会通过Less依赖文件扩展名的方式区别对待不同的文件：</p>
+<h2 id="我常用的less-特性。"><a href="#我常用的less-特性。" class="headerlink" title="我常用的less 特性。"></a>我常用的less 特性。</h2><h3 id="import"><a href="#import" class="headerlink" title="@import"></a>@import</h3><p>在标准的CSS中，@import必须在所有其他类型的规则之前。但是Less不在乎你把@import语句放在什么位置。<br>@import语句会通过Less依赖文件扩展名的方式区别对待不同的文件：</p>
 <ul>
 <li>如果文件有一个.css扩展名，则将它作为CSS对象，同时@import语句保持不变</li>
 <li>如果有其他扩展名，则作为Less对象，然后导入它。</li>
 <li>如果没有扩展名，则插入.less，然后将它作为Less文件导入包含进来。</li>
 <li>使用@import (reference)导入外部文件，但是不添加导入的样式到编译输出中，只引用。</li>
 </ul>
-<h3 id="u53D8_u91CF"><a href="#u53D8_u91CF" class="headerlink" title="变量"></a>变量</h3><p>LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。变量<code>@</code>开头，全局的变量可以在多个less文件之间共用</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。变量<code>@</code>开头，全局的变量可以在多个less文件之间共用</p>
 <pre><code>@light-blue: @nice-blue + #111;
 #header {
   color: @light-blue;
@@ -1405,7 +1404,7 @@ gulp.task(&apos;default&apos;, [&apos;less&apos;]);
 .class .brass {
   three: 3;
 }
-</code></pre><h3 id="Mixins_uFF08_u6DF7_u5165_uFF09"><a href="#Mixins_uFF08_u6DF7_u5165_uFF09" class="headerlink" title="Mixins（混入）"></a>Mixins（混入）</h3><p>在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</p>
+</code></pre><h3 id="Mixins（混入）"><a href="#Mixins（混入）" class="headerlink" title="Mixins（混入）"></a>Mixins（混入）</h3><p>在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</p>
 <p>less源文件</p>
 <pre><code>.bordered {
   border-top: dotted 1px black;
@@ -1469,7 +1468,7 @@ gulp.task(&apos;default&apos;, [&apos;less&apos;]);
   -webkit-box-shadow: 10px 12px 13px red;
   box-shadow: 10px 12px 13px red;
 }
-</code></pre><h3 id="u5D4C_u5957"><a href="#u5D4C_u5957" class="headerlink" title="嵌套"></a>嵌套</h3><p>在写CSS的时候 为了避免造成CSS污染 我们会采用命名空间的机制，在less中可以通过嵌套来解决。</p>
+</code></pre><h3 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h3><p>在写CSS的时候 为了避免造成CSS污染 我们会采用命名空间的机制，在less中可以通过嵌套来解决。</p>
 <p>less文件 </p>
 <pre><code>.myspace{
      .class1{
@@ -1532,7 +1531,7 @@ gulp.task(&apos;default&apos;, [&apos;less&apos;]);
   height:
 }
 </code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
-<h3 id="Comments_uFF08_u6CE8_u91CA_uFF09"><a href="#Comments_uFF08_u6CE8_u91CA_uFF09" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
+<h3 id="Comments（注释）"><a href="#Comments（注释）" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
 <h3 id="extend"><a href="#extend" class="headerlink" title="extend"></a>extend</h3><p>extend是一个Less伪类，它会合并它所在的选择其和它所匹配的引用。</p>
 <pre><code>nav ul {
   &amp;:extend(.inline);
@@ -1557,7 +1556,7 @@ nav ul {
   color: red;
 }
 </code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
-<h3 id="Comments_uFF08_u6CE8_u91CA_uFF09-1"><a href="#Comments_uFF08_u6CE8_u91CA_uFF09-1" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
+<h3 id="Comments（注释）-1"><a href="#Comments（注释）-1" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
 
         
 
@@ -1613,7 +1612,7 @@ nav ul {
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>

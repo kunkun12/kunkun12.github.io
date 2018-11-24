@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/07/qunit-introduce/#comments" >
+            <a href="/2014/02/07/qunit-introduce/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/07/qunit-introduce/"></span>
             </a>
           </span>
@@ -128,13 +128,13 @@
         
 
         
-          <p>在Javascript项目的开发流程中，测试驱动开发广为流传，测试驱动能够让我们节省编码的时间，本篇文章主要介绍<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>,一个测试驱动的开发框架，来帮助我们发现程序的错误以及bug</p>
-<h3 id="u4E3A_u4EC0_u4E48_u8981_u4F7F_u7528_u6D4B_u8BD5_u9A71_u52A8_u5F00_u53D1"><a href="#u4E3A_u4EC0_u4E48_u8981_u4F7F_u7528_u6D4B_u8BD5_u9A71_u52A8_u5F00_u53D1" class="headerlink" title="为什么要使用测试驱动开发"></a>为什么要使用测试驱动开发</h3><p>首先在最初使用单元测试的时候，这可能是一个繁杂和琐碎的过程，包括单元测试环境的搭建，以及为每一个要测试的函数编写测试代码，都会花费很多的时间，但是要相信单元测试最终会帮主我们来减少在一个项目周期中用来调试代码的时间。同时也会减少半夜接到电话被拉过去修改bug的麻烦，长远来说，这个过程会让你受益更多比如 跨浏览器的测试，使用这种方式能够让你在不同的浏览器中进行测试。总之编码之前，测试先行一个比较好的习惯。</p>
+          <p>在Javascript项目的开发流程中，测试驱动开发广为流传，测试驱动能够让我们节省编码的时间，本篇文章主要介绍<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>,一个测试驱动的开发框架，来帮助我们发现程序的错误以及bug</p>
+<h3 id="为什么要使用测试驱动开发"><a href="#为什么要使用测试驱动开发" class="headerlink" title="为什么要使用测试驱动开发"></a>为什么要使用测试驱动开发</h3><p>首先在最初使用单元测试的时候，这可能是一个繁杂和琐碎的过程，包括单元测试环境的搭建，以及为每一个要测试的函数编写测试代码，都会花费很多的时间，但是要相信单元测试最终会帮主我们来减少在一个项目周期中用来调试代码的时间。同时也会减少半夜接到电话被拉过去修改bug的麻烦，长远来说，这个过程会让你受益更多比如 跨浏览器的测试，使用这种方式能够让你在不同的浏览器中进行测试。总之编码之前，测试先行一个比较好的习惯。</p>
 <p>随着Github等类似的代码分享平台的出现，现在开源的东西也越来越多了，怎么才能证明这些东西的可用性呢，因为开源模块的作者会编写单元测试的代码。当我们clone完这个模块之后 然后跑一边单元测试代码，会让自己开源的模块增强可用性。同时我们在为开源项目贡献代码的时候也建议附上单元测试的程序，以增强自己的代码被接受的可能性。</p>
 <p>用Unit test 来代替调试，同时也能有利于团队合作，当他人看你写的模块的时候，看一下写的单元测试代码就明白该模块的功能了。单元测试能让我们更快地了解每个关键函数的功能。</p>
 <p>话说回来，当项目完成之后 又发现了bug，当我们在修改完一个bug之后，怎样才能说明bug修改好了呢，单元测试这个时候也可以为我们提供帮助，几行单元测试就能证明这个bug被修复了，无需多言。</p>
-<h3 id="u4E3A_u4EC0_u4E48_u9009_u62E9Qunit_3F"><a href="#u4E3A_u4EC0_u4E48_u9009_u62E9Qunit_3F" class="headerlink" title="为什么选择Qunit?"></a>为什么选择<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>?</h3><p>原因是这个框架很简单上手，也是单元测试新手的最佳选择，就像Jquery那么easy，对于初学者来说，<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>跟jQuery是也是出自同一人之手。<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>也是用来测试jQuery 本身的单元测试框架， Qunit对于jQuery开发者也是单元测试框架的最佳选择。当然还有更多javascript单元测试框架比如 <a href="http://visionmedia.github.io/mocha/" target="_blank" rel="external">mocha</a>,<a href="http://pivotal.github.io/jasmine/" target="_blank" rel="external">jasmine</a>,断言库<a href="http://chaijs.com/" target="_blank" rel="external">chai</a>,<a href="https://github.com/visionmedia/should.js" target="_blank" rel="external">should.js</a>、<a href="https://github.com/LearnBoost/expect.js" target="_blank" rel="external">Expect</a>、<a href="better-assert">better-assert</a>等</p>
-<h3 id="u5F00_u59CB_u642D_u5EFA_u73AF_u5883"><a href="#u5F00_u59CB_u642D_u5EFA_u73AF_u5883" class="headerlink" title="开始搭建环境"></a>开始搭建环境</h3><p>第一步就是先下载<a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a>的Javascript 和CSS文件。地址如下</p>
+<h3 id="为什么选择Qunit"><a href="#为什么选择Qunit" class="headerlink" title="为什么选择Qunit?"></a>为什么选择<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>?</h3><p>原因是这个框架很简单上手，也是单元测试新手的最佳选择，就像Jquery那么easy，对于初学者来说，<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>跟jQuery是也是出自同一人之手。<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>也是用来测试jQuery 本身的单元测试框架， Qunit对于jQuery开发者也是单元测试框架的最佳选择。当然还有更多javascript单元测试框架比如 <a href="http://visionmedia.github.io/mocha/" target="_blank" rel="noopener">mocha</a>,<a href="http://pivotal.github.io/jasmine/" target="_blank" rel="noopener">jasmine</a>,断言库<a href="http://chaijs.com/" target="_blank" rel="noopener">chai</a>,<a href="https://github.com/visionmedia/should.js" target="_blank" rel="noopener">should.js</a>、<a href="https://github.com/LearnBoost/expect.js" target="_blank" rel="noopener">Expect</a>、<a href="better-assert">better-assert</a>等</p>
+<h3 id="开始搭建环境"><a href="#开始搭建环境" class="headerlink" title="开始搭建环境"></a>开始搭建环境</h3><p>第一步就是先下载<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>的Javascript 和CSS文件。地址如下</p>
 <pre><code>&lt;link rel=“stylesheet&quot; href=&quot;//code.jquery.com/qunit/qunit-1.14.0.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
 &lt;script src=“//code.jquery.com/qunit/qunit-1.14.0.js”&gt;&lt;/script&gt;
 </code></pre><p>新建三个文件test.html、Calculator.js,test.js 我们用来展示单元测试的结果。Calculator.js编写我们要实现功能的程序，出于演示目的这里编写一个计算器的程序.test.js编写单元测试的代码。test.html代码如下</p>
@@ -177,7 +177,7 @@ test(&apos;multiply()&apos;, function() {
 });
 </code></pre><p> 到此为止就可以运行了，结果是 2个通过，两个失败。</p>
 <p>我们很容易的看出，测试就是调用了一个名字为test的函数，包含两个参数，第一个参数是对测试函数的描述，第二个参数是一个回调函数，里面的ok，strictEqual，equal 分别是对测试例子结果的断言，对于strictEqual，equal来说比如我要测试一个函数，第一个是被测试函数的调用的返回结果，第二个是期待的结果，第三个是对本次测试示例的描述，如果测试结果与自己想要的结果一致，则本次单元测试通过，否则 。。。。。对于ok断言主要是判断被测试的函数返回值是否为真。如果为真则通过。否则。。。。<br>值得要说一下的是，strictEqual 是判断严格相等相当于<code>===</code>比如4===4返回true，4==’4’则返回false，equal是只要可以转为相等的结果则通过相当于<code>==</code>，会对操作数进行类型转换 比如4==’4’ 返回true</p>
-<p>除此之外还有其他的<a href="http://api.qunitjs.com/category/assert/" target="_blank" rel="external">断言函数</a>可用，这里就不介绍了。官网写的灰常清楚了</p>
+<p>除此之外还有其他的<a href="http://api.qunitjs.com/category/assert/" target="_blank" rel="noopener">断言函数</a>可用，这里就不介绍了。官网写的灰常清楚了</p>
 <ul>
 <li><code>deepEqual()</code> ：深度相等判断，适用于原生类型，数组，对象 正则表达式，以及日期 函数类型</li>
 <li><code>equal()</code> ：非严格相等，</li>
@@ -189,7 +189,7 @@ test(&apos;multiply()&apos;, function() {
 <li><code>strictEqual()</code> 同时比较值和类型 </li>
 <li><code>throws()</code> 要求抛出异常。</li>
 </ul>
-<p>下载本篇博客的<a href="https://github.com/kunkun12/Qunit-Demo" target="_blank" rel="external">源码</a></p>
+<p>下载本篇博客的<a href="https://github.com/kunkun12/Qunit-Demo" target="_blank" rel="noopener">源码</a></p>
 
         
 
@@ -212,8 +212,7 @@ test(&apos;multiply()&apos;, function() {
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2014/02/07/qunit-introduce/"
-             data-title="测试驱动开发：QUnit 介绍" data-url="http://kunkun12.com/2014/02/07/qunit-introduce/">
+        <div class="ds-thread" data-thread-key="2014/02/07/qunit-introduce/" data-title="测试驱动开发：QUnit 介绍" data-url="http://kunkun12.com/2014/02/07/qunit-introduce/">
         </div>
 
       
@@ -250,7 +249,7 @@ test(&apos;multiply()&apos;, function() {
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -301,7 +300,7 @@ test(&apos;multiply()&apos;, function() {
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u4E3A_u4EC0_u4E48_u8981_u4F7F_u7528_u6D4B_u8BD5_u9A71_u52A8_u5F00_u53D1"><span class="nav-number">1.</span> <span class="nav-text">为什么要使用测试驱动开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u4E3A_u4EC0_u4E48_u9009_u62E9Qunit_3F"><span class="nav-number">2.</span> <span class="nav-text">为什么选择Qunit?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5F00_u59CB_u642D_u5EFA_u73AF_u5883"><span class="nav-number">3.</span> <span class="nav-text">开始搭建环境</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要使用测试驱动开发"><span class="nav-number">1.</span> <span class="nav-text">为什么要使用测试驱动开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么选择Qunit"><span class="nav-number">2.</span> <span class="nav-text">为什么选择Qunit?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始搭建环境"><span class="nav-number">3.</span> <span class="nav-text">开始搭建环境</span></a></li></ol>
       </div>
     
   </div>

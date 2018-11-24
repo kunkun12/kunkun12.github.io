@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/01/11/less-features/#comments" >
+            <a href="/2015/01/11/less-features/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/11/less-features/"></span>
             </a>
           </span>
@@ -129,7 +129,7 @@
 
         
           <p>less并非多么高大上的东西，无非就是个编写CSS的工具，让我们像编程一样来书写CSS，关于less常用的特性无非几个，下面简单将常用这些特性简单记录。方便以后查阅</p>
-<h2 id="less_u7F16_u8BD1_u73AF_u5883"><a href="#less_u7F16_u8BD1_u73AF_u5883" class="headerlink" title="less编译环境"></a>less编译环境</h2><p>less-&gt;CSS的方法有多种，比如使用  grunt或者lgulp等构建工具配合相应的插件来完成less的自动编译。以gulp为例，gulpfile.js的代码如下。</p>
+<h2 id="less编译环境"><a href="#less编译环境" class="headerlink" title="less编译环境"></a>less编译环境</h2><p>less-&gt;CSS的方法有多种，比如使用  grunt或者lgulp等构建工具配合相应的插件来完成less的自动编译。以gulp为例，gulpfile.js的代码如下。</p>
 <pre><code>var less = require(&apos;gulp-less&apos;);
 var path = require(&apos;path&apos;);
 var gulp=require(&apos;gulp&apos;);
@@ -144,14 +144,14 @@ gulp.task(&apos;less&apos;, function () {
 gulp.watch([&apos;less/*.less&apos;], [&apos;less&apos;]) 
 gulp.task(&apos;default&apos;, [&apos;less&apos;]);
 </code></pre><p>通过watch 来见监听less文件的变化自动运行less任务。从而完成less-&gt;css的自动编译，可以查看生成的CSS文件</p>
-<h2 id="u6211_u5E38_u7528_u7684less__u7279_u6027_u3002"><a href="#u6211_u5E38_u7528_u7684less__u7279_u6027_u3002" class="headerlink" title="我常用的less 特性。"></a>我常用的less 特性。</h2><h3 id="@import"><a href="#@import" class="headerlink" title="@import"></a>@import</h3><p>在标准的CSS中，@import必须在所有其他类型的规则之前。但是Less不在乎你把@import语句放在什么位置。<br>@import语句会通过Less依赖文件扩展名的方式区别对待不同的文件：</p>
+<h2 id="我常用的less-特性。"><a href="#我常用的less-特性。" class="headerlink" title="我常用的less 特性。"></a>我常用的less 特性。</h2><h3 id="import"><a href="#import" class="headerlink" title="@import"></a>@import</h3><p>在标准的CSS中，@import必须在所有其他类型的规则之前。但是Less不在乎你把@import语句放在什么位置。<br>@import语句会通过Less依赖文件扩展名的方式区别对待不同的文件：</p>
 <ul>
 <li>如果文件有一个.css扩展名，则将它作为CSS对象，同时@import语句保持不变</li>
 <li>如果有其他扩展名，则作为Less对象，然后导入它。</li>
 <li>如果没有扩展名，则插入.less，然后将它作为Less文件导入包含进来。</li>
 <li>使用@import (reference)导入外部文件，但是不添加导入的样式到编译输出中，只引用。</li>
 </ul>
-<h3 id="u53D8_u91CF"><a href="#u53D8_u91CF" class="headerlink" title="变量"></a>变量</h3><p>LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。变量<code>@</code>开头，全局的变量可以在多个less文件之间共用</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。变量<code>@</code>开头，全局的变量可以在多个less文件之间共用</p>
 <pre><code>@light-blue: @nice-blue + #111;
 #header {
   color: @light-blue;
@@ -188,7 +188,7 @@ gulp.task(&apos;default&apos;, [&apos;less&apos;]);
 .class .brass {
   three: 3;
 }
-</code></pre><h3 id="Mixins_uFF08_u6DF7_u5165_uFF09"><a href="#Mixins_uFF08_u6DF7_u5165_uFF09" class="headerlink" title="Mixins（混入）"></a>Mixins（混入）</h3><p>在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</p>
+</code></pre><h3 id="Mixins（混入）"><a href="#Mixins（混入）" class="headerlink" title="Mixins（混入）"></a>Mixins（混入）</h3><p>在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</p>
 <p>less源文件</p>
 <pre><code>.bordered {
   border-top: dotted 1px black;
@@ -252,7 +252,7 @@ gulp.task(&apos;default&apos;, [&apos;less&apos;]);
   -webkit-box-shadow: 10px 12px 13px red;
   box-shadow: 10px 12px 13px red;
 }
-</code></pre><h3 id="u5D4C_u5957"><a href="#u5D4C_u5957" class="headerlink" title="嵌套"></a>嵌套</h3><p>在写CSS的时候 为了避免造成CSS污染 我们会采用命名空间的机制，在less中可以通过嵌套来解决。</p>
+</code></pre><h3 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h3><p>在写CSS的时候 为了避免造成CSS污染 我们会采用命名空间的机制，在less中可以通过嵌套来解决。</p>
 <p>less文件 </p>
 <pre><code>.myspace{
      .class1{
@@ -315,7 +315,7 @@ gulp.task(&apos;default&apos;, [&apos;less&apos;]);
   height:
 }
 </code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
-<h3 id="Comments_uFF08_u6CE8_u91CA_uFF09"><a href="#Comments_uFF08_u6CE8_u91CA_uFF09" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
+<h3 id="Comments（注释）"><a href="#Comments（注释）" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
 <h3 id="extend"><a href="#extend" class="headerlink" title="extend"></a>extend</h3><p>extend是一个Less伪类，它会合并它所在的选择其和它所匹配的引用。</p>
 <pre><code>nav ul {
   &amp;:extend(.inline);
@@ -340,7 +340,7 @@ nav ul {
   color: red;
 }
 </code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
-<h3 id="Comments_uFF08_u6CE8_u91CA_uFF09-1"><a href="#Comments_uFF08_u6CE8_u91CA_uFF09-1" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
+<h3 id="Comments（注释）-1"><a href="#Comments（注释）-1" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
 
         
 
@@ -371,8 +371,7 @@ nav ul {
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2015/01/11/less-features/"
-             data-title="less常用特性" data-url="http://kunkun12.com/2015/01/11/less-features/">
+        <div class="ds-thread" data-thread-key="2015/01/11/less-features/" data-title="less常用特性" data-url="http://kunkun12.com/2015/01/11/less-features/">
         </div>
 
       
@@ -409,7 +408,7 @@ nav ul {
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -460,7 +459,7 @@ nav ul {
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#less_u7F16_u8BD1_u73AF_u5883"><span class="nav-number">1.</span> <span class="nav-text">less编译环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u6211_u5E38_u7528_u7684less__u7279_u6027_u3002"><span class="nav-number">2.</span> <span class="nav-text">我常用的less 特性。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#@import"><span class="nav-number">2.1.</span> <span class="nav-text">@import</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u53D8_u91CF"><span class="nav-number">2.2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixins_uFF08_u6DF7_u5165_uFF09"><span class="nav-number">2.3.</span> <span class="nav-text">Mixins（混入）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u5D4C_u5957"><span class="nav-number">2.4.</span> <span class="nav-text">嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comments_uFF08_u6CE8_u91CA_uFF09"><span class="nav-number">2.5.</span> <span class="nav-text">Comments（注释）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extend"><span class="nav-number">2.6.</span> <span class="nav-text">extend</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comments_uFF08_u6CE8_u91CA_uFF09-1"><span class="nav-number">2.7.</span> <span class="nav-text">Comments（注释）</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#less编译环境"><span class="nav-number">1.</span> <span class="nav-text">less编译环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我常用的less-特性。"><span class="nav-number">2.</span> <span class="nav-text">我常用的less 特性。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#import"><span class="nav-number">2.1.</span> <span class="nav-text">@import</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">2.2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixins（混入）"><span class="nav-number">2.3.</span> <span class="nav-text">Mixins（混入）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套"><span class="nav-number">2.4.</span> <span class="nav-text">嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comments（注释）"><span class="nav-number">2.5.</span> <span class="nav-text">Comments（注释）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extend"><span class="nav-number">2.6.</span> <span class="nav-text">extend</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comments（注释）-1"><span class="nav-number">2.7.</span> <span class="nav-text">Comments（注释）</span></a></li></ol></li></ol>
       </div>
     
   </div>

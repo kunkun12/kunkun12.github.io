@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/20/css-inline/#comments" >
+            <a href="/2014/03/20/css-inline/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/css-inline/"></span>
             </a>
           </span>
@@ -129,7 +129,7 @@
 
         
           <p>今天使用要为元素设置水平居中的时候发现 <code>margin:0 auto</code> 不起作用，查资料发现原来我给div设置了的是<code>disply:inline-block</code>属性,这种情况下 <code>margin:0 auto</code> 是无效的，于是通过给父元素div 设置了 <code>text-aglin:center</code>得以解决.然后搜集了一些资料，加深一下对inline 属性的了解。</p>
-<h3 id="u6D4B_u8BD5_u7ED3_u679C"><a href="#u6D4B_u8BD5_u7ED3_u679C" class="headerlink" title="测试结果"></a>测试结果</h3><ol>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><ol>
 <li>inline元素, 有效的: <code>background</code>, <code>margin-left</code>, <code>margin-right</code>, <code>padding</code>, <code>border</code></li>
 <li>inline元素, 无效的: <code>width</code>, <code>height</code>, <code>margin-top</code>, <code>margin-bottom</code> (个别除外)</li>
 <li>因width, height无效, 因此下列属性也无效: <code>text-align</code>, <code>text-indent</code>, <code>min|max-width|height</code>, <code>overflow</code> </li>
@@ -138,13 +138,13 @@
 <li><code>float</code>,<code>position</code>及与之相关<code>top</code>,<code>left</code>, 不考虑, 已经不是inline了 </li>
 <li><code>img</code>, <code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 设置inline与inline-block, 效果是一样的, 没有变化, 都等同于设置了inline-block </li>
 </ol>
-<h4 id="u601D_u8003_3A"><a href="#u601D_u8003_3A" class="headerlink" title="思考:"></a>思考:</h4><ol>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考:"></a>思考:</h4><ol>
 <li>inline元素的宽高是不能定义, 即宽高度是由inline元素inline内容的元素决定的,(ie6,ie7下高度会受inline-block元素的影响) </li>
 <li>即宽高完全是自适应而得出的, 因此也不存在overflow的问题, <code>min|max-width|height</code>也没有影响 </li>
 <li>margin四个属性, <code>left|right</code> 与 <code>top|bottom</code>有不同的待遇 </li>
 <li><code>margin-top</code>, <code>margin-bottom</code>, 可以用line-height模拟, 但有很大不同, 与<code>inline-block</code>也不兼容,  另 <code>margin:0 auto</code> 的居中效果, 也没有作用 </li>
 </ol>
-<h4 id="u6700_u540E_3A"><a href="#u6700_u540E_3A" class="headerlink" title="最后:"></a>最后:</h4><p>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后:"></a>最后:</h4><p>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
 <ul>
 <li><code>b</code>, <code>big</code>, <code>i</code>, <code>small</code>, <code>tt</code></li>
 <li><code>abbr</code>, <code>acronym</code>, <code>cite</code>, <code>code</code>, <code>dfn</code>, <code>em</code>, <code>kbd</code>, <code>strong</code>, <code>samp</code>, <code>var</code></li>
@@ -181,8 +181,7 @@
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2014/03/20/css-inline/"
-             data-title="css inline" data-url="http://kunkun12.com/2014/03/20/css-inline/">
+        <div class="ds-thread" data-thread-key="2014/03/20/css-inline/" data-title="css inline" data-url="http://kunkun12.com/2014/03/20/css-inline/">
         </div>
 
       
@@ -219,7 +218,7 @@
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -270,7 +269,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6D4B_u8BD5_u7ED3_u679C"><span class="nav-number">1.</span> <span class="nav-text">测试结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u601D_u8003_3A"><span class="nav-number">1.1.</span> <span class="nav-text">思考:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6700_u540E_3A"><span class="nav-number">1.2.</span> <span class="nav-text">最后:</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试结果"><span class="nav-number">1.</span> <span class="nav-text">测试结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思考"><span class="nav-number">1.1.</span> <span class="nav-text">思考:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后"><span class="nav-number">1.2.</span> <span class="nav-text">最后:</span></a></li></ol></li></ol>
       </div>
     
   </div>

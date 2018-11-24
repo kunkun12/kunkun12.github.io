@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/14/cross-domain/#comments" >
+            <a href="/2014/03/14/cross-domain/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/14/cross-domain/"></span>
             </a>
           </span>
@@ -128,11 +128,11 @@
         
 
         
-          <h4 id="u4F55_u4E3A_u8DE8_u57DF"><a href="#u4F55_u4E3A_u8DE8_u57DF" class="headerlink" title="何为跨域"></a>何为跨域</h4><p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
+          <h4 id="何为跨域"><a href="#何为跨域" class="headerlink" title="何为跨域"></a>何为跨域</h4><p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
 <ul>
-<li><a href="http://www.baidu.com:6080" target="_blank" rel="external">http://www.baidu.com:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> 端口号不同</li>
-<li><a href="http://www.baidu.com:6080" target="_blank" rel="external">http://www.baidu.com:6080</a> 与<a href="https://www.baidu.com:6080" target="_blank" rel="external">https://www.baidu.com:6080</a> 协议不同</li>
-<li><a href="http://www.QQ:6080" target="_blank" rel="external">http://www.QQ:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a>  hostname不同。</li>
+<li><a href="http://www.baidu.com:6080" target="_blank" rel="noopener">http://www.baidu.com:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a> 端口号不同</li>
+<li><a href="http://www.baidu.com:6080" target="_blank" rel="noopener">http://www.baidu.com:6080</a> 与<a href="https://www.baidu.com:6080" target="_blank" rel="noopener">https://www.baidu.com:6080</a> 协议不同</li>
+<li><a href="http://www.QQ:6080" target="_blank" rel="noopener">http://www.QQ:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a>  hostname不同。</li>
 </ul>
 <p>如上的各种组合还有好多情况，那么我们如何才能绕过浏览器的跨域限制 正常地访问服务呢。</p>
 <p>在flash或者silverlight中，只要服务的页面下放入 跨域策略文件就可以允许不同域下flash/silverlight的页面来调用,内容大致如下</p>
@@ -230,8 +230,8 @@ app.get(&quot;/multiply&quot;,function(req,res){
         $(&quot;result&quot;).innerHTML=&quot;这两个数的乘积为&quot;+data;
     }
 xhr.send();　　
-</code></pre><h4 id="u5176_u4ED6_u7684_u8DE8_u57DF_u89E3_u51B3_u65B9_u6848_u3002_u8FD8_u6709_u6BD4_u5982window-name_2Ciframe_uFF0Cimg_u6807_u7B7E_u7B49_u65B9_u5F0F"><a href="#u5176_u4ED6_u7684_u8DE8_u57DF_u89E3_u51B3_u65B9_u6848_u3002_u8FD8_u6709_u6BD4_u5982window-name_2Ciframe_uFF0Cimg_u6807_u7B7E_u7B49_u65B9_u5F0F" class="headerlink" title="其他的跨域解决方案。还有比如window.name,iframe，img标签等方式"></a>其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</h4><p>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
-<p>本博文的用到的<a href="https://github.com/kunkun12/cross-domain" target="_blank" rel="external">Demo的源码</a></p>
+</code></pre><h4 id="其他的跨域解决方案。还有比如window-name-iframe，img标签等方式"><a href="#其他的跨域解决方案。还有比如window-name-iframe，img标签等方式" class="headerlink" title="其他的跨域解决方案。还有比如window.name,iframe，img标签等方式"></a>其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</h4><p>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
+<p>本博文的用到的<a href="https://github.com/kunkun12/cross-domain" target="_blank" rel="noopener">Demo的源码</a></p>
 
         
 
@@ -262,8 +262,7 @@ xhr.send();　　
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2014/03/14/cross-domain/"
-             data-title="跨域解决方案之JSONP,CORS" data-url="http://kunkun12.com/2014/03/14/cross-domain/">
+        <div class="ds-thread" data-thread-key="2014/03/14/cross-domain/" data-title="跨域解决方案之JSONP,CORS" data-url="http://kunkun12.com/2014/03/14/cross-domain/">
         </div>
 
       
@@ -300,7 +299,7 @@ xhr.send();　　
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -351,7 +350,7 @@ xhr.send();　　
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#u4F55_u4E3A_u8DE8_u57DF"><span class="nav-number">1.</span> <span class="nav-text">何为跨域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONP"><span class="nav-number">2.</span> <span class="nav-text">JSONP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CORS"><span class="nav-number">3.</span> <span class="nav-text">CORS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5176_u4ED6_u7684_u8DE8_u57DF_u89E3_u51B3_u65B9_u6848_u3002_u8FD8_u6709_u6BD4_u5982window-name_2Ciframe_uFF0Cimg_u6807_u7B7E_u7B49_u65B9_u5F0F"><span class="nav-number">4.</span> <span class="nav-text">其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#何为跨域"><span class="nav-number">1.</span> <span class="nav-text">何为跨域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONP"><span class="nav-number">2.</span> <span class="nav-text">JSONP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CORS"><span class="nav-number">3.</span> <span class="nav-text">CORS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他的跨域解决方案。还有比如window-name-iframe，img标签等方式"><span class="nav-number">4.</span> <span class="nav-text">其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</span></a></li></ol>
       </div>
     
   </div>

@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/09/javascript-replace/#comments" >
+            <a href="/2014/02/09/javascript-replace/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/javascript-replace/"></span>
             </a>
           </span>
@@ -128,7 +128,7 @@
         
 
         
-          <h3 id="u7B80_u5355_u4ECB_u7ECD"><a href="#u7B80_u5355_u4ECB_u7ECD" class="headerlink" title="简单介绍"></a>简单介绍</h3><p><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
+          <h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
 <p>###字符串替换字符串<br><code>&#39;I am loser!&#39;.replace(&#39;loser&#39;,&#39;hero&#39;)//I am hero!</code></p>
 <p>直接使用字符串能让自己从loser变成hero，但是如果有2个loser就不能一起变成hero了。</p>
 <p><code>&#39;I am loser,You are loser&#39;.replace(&#39;loser&#39;,&#39;hero&#39;);//I am hero,You are loser</code></p>
@@ -137,7 +137,7 @@
 <p>###有趣的替换字符</p>
 <p>####使用$&amp;字符给匹配字符加大括号<br>        var sStr=’讨论一下正则表达式中的replace的用法’;<br>        sStr.replace(/正则表达式/,’{$&amp;}’);//讨论一下{正则表达式}中的replace的用法</p>
 <p>####使用$<code>和$&#39;字符替换内容,$</code>位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。<br>        ‘abc’.replace(/b/,”$`”);//aac<br>        ‘abc’.replace(/b/,”$’”);//acc</p>
-<p>####使用分组匹配组合新的字符串<br>        ‘nimojs@126.com’.replace(/(.+)(@)(.*)/,”$2$1”)//@nimojs</p>
+<p>####使用分组匹配组合新的字符串<br>        <a href="mailto:&#39;nimojs@126.com" target="_blank" rel="noopener">&#39;nimojs@126.com</a>‘.replace(/(.+)(@)(.*)/,”$2$1”)//@nimojs</p>
 <p>####replaceValue参数可以是一个函数<br><code>StringObject.replace(searchValue,replaceValue)</code>中的<strong>replaceValue</strong>可以是一个函数.如果replaceValue是一个函数的话那么，这个函数的arguments会有n+3个参数（n为正则匹配到的次数)</p>
 <pre><code>function logArguments(){    
 console.log(arguments);//[&quot;nimojs@126.com&quot;, &quot;nimojs&quot;, &quot;@&quot;, &quot;126.com&quot;, 0, &quot;nimojs@126.com&quot;] 
@@ -148,7 +148,7 @@ console.log(
 )
 </code></pre><p><strong>参数分别为</strong></p>
 <ol>
-<li>匹配到的字符串（此例为nimojs@126.com,推荐修改上面代码的正则来查看匹配到的字符帮助理解)</li>
+<li>匹配到的字符串（此例为<a href="mailto:nimojs@126.com" target="_blank" rel="noopener">nimojs@126.com</a>,推荐修改上面代码的正则来查看匹配到的字符帮助理解)</li>
 <li>如果正则使用了分组匹配就为多个否则无此参数。（此例的参数就分别为”nimojs”, “@”, “126.com”。推荐修改正则为/nimo/查看控制台中返回的arguments值）</li>
 <li>匹配字符串的对应索引位置（此例为0）</li>
 <li>原始字符串</li>
@@ -183,8 +183,7 @@ console.log(
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2014/02/09/javascript-replace/"
-             data-title="javascript replace" data-url="http://kunkun12.com/2014/02/09/javascript-replace/">
+        <div class="ds-thread" data-thread-key="2014/02/09/javascript-replace/" data-title="javascript replace" data-url="http://kunkun12.com/2014/02/09/javascript-replace/">
         </div>
 
       
@@ -221,7 +220,7 @@ console.log(
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -272,7 +271,7 @@ console.log(
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u7B80_u5355_u4ECB_u7ECD"><span class="nav-number">1.</span> <span class="nav-text">简单介绍</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单介绍"><span class="nav-number">1.</span> <span class="nav-text">简单介绍</span></a></li></ol>
       </div>
     
   </div>

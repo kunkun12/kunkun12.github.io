@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/01/14/ng-directive-callfunction-pass-argument/#comments" >
+            <a href="/2015/01/14/ng-directive-callfunction-pass-argument/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/14/ng-directive-callfunction-pass-argument/"></span>
             </a>
           </span>
@@ -128,7 +128,7 @@
         
 
         
-          <h3 id="u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09"><a href="#u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09" class="headerlink" title="指令调用控制器中的方式（给指令的事件绑定执行函数）"></a>指令调用控制器中的方式（给指令的事件绑定执行函数）</h3><p>angluarJS中，如果指令内部的事件触发，这个时候需要调用外部controller中的方法，可以在指令的隔离作用域中使用<code>&amp;</code>将controller中的方法传递到指令中，供指令调用，需要注意的事，如果传递参数的话（比如自定义的ngChange事件触发，会把当前的选择项作为参数传递到控制器中）这个时候在声明指令时候,需要填写方法调用的函数表达式，并且如果包含函数的话，需要在调用改方法的时候指明参数，该参数名字与在指令中调用中传递的参数JSON的key一致（指令中必须传递JSON的形式来调用）</p>
+          <h3 id="指令调用控制器中的方式（给指令的事件绑定执行函数）"><a href="#指令调用控制器中的方式（给指令的事件绑定执行函数）" class="headerlink" title="指令调用控制器中的方式（给指令的事件绑定执行函数）"></a>指令调用控制器中的方式（给指令的事件绑定执行函数）</h3><p>angluarJS中，如果指令内部的事件触发，这个时候需要调用外部controller中的方法，可以在指令的隔离作用域中使用<code>&amp;</code>将controller中的方法传递到指令中，供指令调用，需要注意的事，如果传递参数的话（比如自定义的ngChange事件触发，会把当前的选择项作为参数传递到控制器中）这个时候在声明指令时候,需要填写方法调用的函数表达式，并且如果包含函数的话，需要在调用改方法的时候指明参数，该参数名字与在指令中调用中传递的参数JSON的key一致（指令中必须传递JSON的形式来调用）</p>
 <pre><code>    angular.module(&quot;app1&quot;, [])
 .controller(&quot;Ctrl1&quot;, function($scope, $element)
 {
@@ -158,7 +158,7 @@
 </code></pre><p>声明指令</p>
 <pre><code>&lt;div my-directive ng-change=&quot;someThingChanged(name,age)&quot;&gt;&lt;/div&gt;
 调用时候上面输出 ：  张三 28
-</code></pre><h3 id="u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002"><a href="#u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002" class="headerlink" title="控制器调用指令的方法。"></a>控制器调用指令的方法。</h3><p>使用双向绑定的形式，首先在控制器新建一个空对象，在指令中将方法赋值给这个对象的一个属性，这样在控制器用就可以获取这个方法，进而进行调用。</p>
+</code></pre><h3 id="控制器调用指令的方法。"><a href="#控制器调用指令的方法。" class="headerlink" title="控制器调用指令的方法。"></a>控制器调用指令的方法。</h3><p>使用双向绑定的形式，首先在控制器新建一个空对象，在指令中将方法赋值给这个对象的一个属性，这样在控制器用就可以获取这个方法，进而进行调用。</p>
 <pre><code>var app = angular.module(&apos;plunker&apos;, []);
 app.controller(&apos;MainCtrl&apos;, function($scope) {
   $scope.focusinControl = {
@@ -168,7 +168,7 @@ app.directive(&apos;focusin&apos;, function factory() {
   return {
     restrict: &apos;E&apos;,
     replace: true,
-    template: &apos;&lt;div&gt;A:&lt;/div&gt;&apos;,
+    template: &apos;&lt;div&gt;A:{{internalControl}}&lt;/div&gt;&apos;,
     scope: {
       control: &apos;=&apos;
     },
@@ -213,8 +213,7 @@ app.directive(&apos;focusin&apos;, function factory() {
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2015/01/14/ng-directive-callfunction-pass-argument/"
-             data-title="angluarJS 指令与控制器中的方法的调用。" data-url="http://kunkun12.com/2015/01/14/ng-directive-callfunction-pass-argument/">
+        <div class="ds-thread" data-thread-key="2015/01/14/ng-directive-callfunction-pass-argument/" data-title="angluarJS 指令与控制器中的方法的调用。" data-url="http://kunkun12.com/2015/01/14/ng-directive-callfunction-pass-argument/">
         </div>
 
       
@@ -251,7 +250,7 @@ app.directive(&apos;focusin&apos;, function factory() {
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -302,7 +301,7 @@ app.directive(&apos;focusin&apos;, function factory() {
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6307_u4EE4_u8C03_u7528_u63A7_u5236_u5668_u4E2D_u7684_u65B9_u5F0F_uFF08_u7ED9_u6307_u4EE4_u7684_u4E8B_u4EF6_u7ED1_u5B9A_u6267_u884C_u51FD_u6570_uFF09"><span class="nav-number">1.</span> <span class="nav-text">指令调用控制器中的方式（给指令的事件绑定执行函数）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u63A7_u5236_u5668_u8C03_u7528_u6307_u4EE4_u7684_u65B9_u6CD5_u3002"><span class="nav-number">2.</span> <span class="nav-text">控制器调用指令的方法。</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#指令调用控制器中的方式（给指令的事件绑定执行函数）"><span class="nav-number">1.</span> <span class="nav-text">指令调用控制器中的方式（给指令的事件绑定执行函数）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制器调用指令的方法。"><span class="nav-number">2.</span> <span class="nav-text">控制器调用指令的方法。</span></a></li></ol>
       </div>
     
   </div>

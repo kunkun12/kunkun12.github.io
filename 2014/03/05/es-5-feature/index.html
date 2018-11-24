@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/05/es-5-feature/#comments" >
+            <a href="/2014/03/05/es-5-feature/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/es-5-feature/"></span>
             </a>
           </span>
@@ -128,9 +128,9 @@
         
 
         
-          <p>话说<a href="https://github.com/lukehoban/es6features" target="_blank" rel="external">ES6</a>的草稿都出来了，貌似好多人对ES5 还没有全面的了解，下面将我学习的关于ES5的一些东西总结一下。<br>ECMAScript 5.1(或者成为ES5 、ECMAScript 5)，在2009年发布草稿，2011发布正式版本，最初在2011年发布的Firefox 4上得到支持。但是万恶的IE（6、7、8） 并不支持ES5，因此这也一定程度上阻止了ES5的普及。但是我们可以通过ployfill的形式来让IE8支持ES5的一些功能，比如引入<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="external">shim</a>;</p>
-<h3 id="u6D4F_u89C8_u5668_u5BF9ES5_u7684_u652F_u6301_u60C5_u51B5_u3002"><a href="#u6D4F_u89C8_u5668_u5BF9ES5_u7684_u652F_u6301_u60C5_u51B5_u3002" class="headerlink" title="浏览器对ES5的支持情况。"></a>浏览器对ES5的支持情况。</h3><p>ES5出现以前，用的最多的是ES3(ES4 流产了). 总体上当今主流的浏览器都已经支持了ES5.比如常见的ie9+，chrome 19+，safari5+，firefox4+，opera 12+，android 3+，Blackberry Browser 7+，IOS safari 5+，opera mobile 12+，ie mobile 10+,例外是IE 9不支持ES 5.1的严格模式，IE10 已经支持。Safari 5.1+在严格模式下不支持0宽字符，比如<code>var $\u200c = &#39;a&#39;</code> 或者<code>{_\u200d: &#39;vuur&#39;}</code>.IE8 是ES3的脚本引擎，但是支持ES5的一些特性，比如<code>JSON</code>、<code>Object.defineProperty</code>,<code>Object.getOwnPropertyDescriptor</code>,然而 我们最好还是要把IE8 称为ES3的浏览器。当然如果对于不支持ES 5的浏览器可以使用<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="external">shim</a> 来进行扩展，以提供支持。下面开始描述ES 5的那些东西。</p>
-<h4 id="u6570_u7EC4_u6216_u8005_u662F_u5BF9_u8C61_u4E2D_u7684_u6700_u540E_u5143_u7D20_u5141_u8BB8_u6DFB_u52A0_u9017_u53F7_u3002"><a href="#u6570_u7EC4_u6216_u8005_u662F_u5BF9_u8C61_u4E2D_u7684_u6700_u540E_u5143_u7D20_u5141_u8BB8_u6DFB_u52A0_u9017_u53F7_u3002" class="headerlink" title="数组或者是对象中的最后元素允许添加逗号。"></a>数组或者是对象中的最后元素允许添加逗号。</h4><pre><code>var myObject = {
+          <p>话说<a href="https://github.com/lukehoban/es6features" target="_blank" rel="noopener">ES6</a>的草稿都出来了，貌似好多人对ES5 还没有全面的了解，下面将我学习的关于ES5的一些东西总结一下。<br>ECMAScript 5.1(或者成为ES5 、ECMAScript 5)，在2009年发布草稿，2011发布正式版本，最初在2011年发布的Firefox 4上得到支持。但是万恶的IE（6、7、8） 并不支持ES5，因此这也一定程度上阻止了ES5的普及。但是我们可以通过ployfill的形式来让IE8支持ES5的一些功能，比如引入<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="noopener">shim</a>;</p>
+<h3 id="浏览器对ES5的支持情况。"><a href="#浏览器对ES5的支持情况。" class="headerlink" title="浏览器对ES5的支持情况。"></a>浏览器对ES5的支持情况。</h3><p>ES5出现以前，用的最多的是ES3(ES4 流产了). 总体上当今主流的浏览器都已经支持了ES5.比如常见的ie9+，chrome 19+，safari5+，firefox4+，opera 12+，android 3+，Blackberry Browser 7+，IOS safari 5+，opera mobile 12+，ie mobile 10+,例外是IE 9不支持ES 5.1的严格模式，IE10 已经支持。Safari 5.1+在严格模式下不支持0宽字符，比如<code>var $\u200c = &#39;a&#39;</code> 或者<code>{_\u200d: &#39;vuur&#39;}</code>.IE8 是ES3的脚本引擎，但是支持ES5的一些特性，比如<code>JSON</code>、<code>Object.defineProperty</code>,<code>Object.getOwnPropertyDescriptor</code>,然而 我们最好还是要把IE8 称为ES3的浏览器。当然如果对于不支持ES 5的浏览器可以使用<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="noopener">shim</a> 来进行扩展，以提供支持。下面开始描述ES 5的那些东西。</p>
+<h4 id="数组或者是对象中的最后元素允许添加逗号。"><a href="#数组或者是对象中的最后元素允许添加逗号。" class="headerlink" title="数组或者是对象中的最后元素允许添加逗号。"></a>数组或者是对象中的最后元素允许添加逗号。</h4><pre><code>var myObject = {
     foo:&apos;foo&apos;,
     bar:&apos;bar&apos;, //no error
 };
@@ -138,21 +138,21 @@
 var myArray = [1,2,3,];
 
 console.log(myArray.length) //logs 3, regardless of trailing comma 
-</code></pre><h4 id="u4F7F_u7528_5C__u5206_u5272_u6765_u5B9E_u73B0_u591A_u884C_u5B57_u7B26_u4E32"><a href="#u4F7F_u7528_5C__u5206_u5272_u6765_u5B9E_u73B0_u591A_u884C_u5B57_u7B26_u4E32" class="headerlink" title="使用\ 分割来实现多行字符串"></a>使用\ 分割来实现多行字符串</h4><pre><code>//no error in ES5 scripting engines
+</code></pre><h4 id="使用-分割来实现多行字符串"><a href="#使用-分割来实现多行字符串" class="headerlink" title="使用\ 分割来实现多行字符串"></a>使用\ 分割来实现多行字符串</h4><pre><code>//no error in ES5 scripting engines
 var stringLiteral = &quot;Lorem ipsum dolor sit amet, consectetur \ 
 elit, sed do eiusmod tempor incididunt ut labore et dolore \
 magna aliqua. Ut enim ad minim veniam, quis nostrud \
 exercitation ullamco laboris nisi ut aliquip ex ea&quot;;
-</code></pre><h4 id="u5BF9_u8C61_u5C5E_u6027_u7684_u540D_u5B57_u5141_u8BB8_u4F7F_u7528_u9650_u5B9A_u5B57_u7B26_u3002"><a href="#u5BF9_u8C61_u5C5E_u6027_u7684_u540D_u5B57_u5141_u8BB8_u4F7F_u7528_u9650_u5B9A_u5B57_u7B26_u3002" class="headerlink" title="对象属性的名字允许使用限定字符。"></a>对象属性的名字允许使用限定字符。</h4><pre><code>var myObject = {function:&apos;function&apos;,new:&apos;new&apos;};
+</code></pre><h4 id="对象属性的名字允许使用限定字符。"><a href="#对象属性的名字允许使用限定字符。" class="headerlink" title="对象属性的名字允许使用限定字符。"></a>对象属性的名字允许使用限定字符。</h4><pre><code>var myObject = {function:&apos;function&apos;,new:&apos;new&apos;};
 
 console.log(myObject.function,myObject.new); //logs &apos;function new&apos;
-</code></pre><h4 id="u5904_u7406JSON__u7684_u65B9_u6CD5_JSON-parse_JSON-stringify"><a href="#u5904_u7406JSON__u7684_u65B9_u6CD5_JSON-parse_JSON-stringify" class="headerlink" title="处理JSON 的方法 JSON.parse  JSON.stringify"></a>处理JSON 的方法 <code>JSON.parse</code>  <code>JSON.stringify</code></h4><h4 id="u539F_u751F_u7684_u5B57_u7B26_u4E32_u53BB_u7A7A_u683C_u65B9_u6CD5string-trim_28_29"><a href="#u539F_u751F_u7684_u5B57_u7B26_u4E32_u53BB_u7A7A_u683C_u65B9_u6CD5string-trim_28_29" class="headerlink" title="原生的字符串去空格方法string.trim()"></a>原生的字符串去空格方法<code>string.trim()</code></h4><p>ES 5 提供String.trim()来去除字符串首尾的空格。</p>
+</code></pre><h4 id="处理JSON-的方法-JSON-parse-JSON-stringify"><a href="#处理JSON-的方法-JSON-parse-JSON-stringify" class="headerlink" title="处理JSON 的方法 JSON.parse  JSON.stringify"></a>处理JSON 的方法 <code>JSON.parse</code>  <code>JSON.stringify</code></h4><h4 id="原生的字符串去空格方法string-trim"><a href="#原生的字符串去空格方法string-trim" class="headerlink" title="原生的字符串去空格方法string.trim()"></a>原生的字符串去空格方法<code>string.trim()</code></h4><p>ES 5 提供String.trim()来去除字符串首尾的空格。</p>
 <pre><code>&apos;   foo   &apos;.trim(); // &apos;foo&apos;
 </code></pre><p>需要关注的是，有些浏览器已经提供了 <code>trimRight()</code>,<code>trimLeft()</code>,但是这并不是正式的标准。</p>
-<h4 id="u901A_u8FC7_5Bi_5D_u6765_u8BBF_u95EE_u5B57_u7B26_u4E32_u4E2D_u7684_u5B57_u7B26_u3002"><a href="#u901A_u8FC7_5Bi_5D_u6765_u8BBF_u95EE_u5B57_u7B26_u4E32_u4E2D_u7684_u5B57_u7B26_u3002" class="headerlink" title="通过[i]来访问字符串中的字符。"></a>通过[i]来访问字符串中的字符。</h4><pre><code>&apos;ES5&apos;[1]; //  &quot;S&quot;
+<h4 id="通过-i-来访问字符串中的字符。"><a href="#通过-i-来访问字符串中的字符。" class="headerlink" title="通过[i]来访问字符串中的字符。"></a>通过[i]来访问字符串中的字符。</h4><pre><code>&apos;ES5&apos;[1]; //  &quot;S&quot;
 </code></pre><p>ES3中 是不允许这种方式来进行访问的</p>
-<h4 id="undefined_2CNaN__u4EE5_u53CAInfinty_u662F_u53EA_u8BFB_u7684_u5E38_u91CF_u3002"><a href="#undefined_2CNaN__u4EE5_u53CAInfinty_u662F_u53EA_u8BFB_u7684_u5E38_u91CF_u3002" class="headerlink" title="undefined,NaN 以及Infinty是只读的常量。"></a><code>undefined</code>,<code>NaN</code> 以及<code>Infinty</code>是只读的常量。</h4><p>在ES5 之前的版本中这三个变量是可读写的。于是可能给undefined赋值，这样undefined，就不是真的undefined了。</p>
-<h4 id="u6570_u7EC4_u76F8_u5173"><a href="#u6570_u7EC4_u76F8_u5173" class="headerlink" title="数组相关"></a>数组相关</h4><p>判断数组类型的最佳方法:<code>Array.isArray([])</code></p>
+<h4 id="undefined-NaN-以及Infinty是只读的常量。"><a href="#undefined-NaN-以及Infinty是只读的常量。" class="headerlink" title="undefined,NaN 以及Infinty是只读的常量。"></a><code>undefined</code>,<code>NaN</code> 以及<code>Infinty</code>是只读的常量。</h4><p>在ES5 之前的版本中这三个变量是可读写的。于是可能给undefined赋值，这样undefined，就不是真的undefined了。</p>
+<h4 id="数组相关"><a href="#数组相关" class="headerlink" title="数组相关"></a>数组相关</h4><p>判断数组类型的最佳方法:<code>Array.isArray([])</code></p>
 <p>####Array.prototype 新增的方法。</p>
 <ul>
 <li>Array.prototype.every()</li>
@@ -173,7 +173,7 @@ var myFunction = function(a,b,c){
     [].forEach.call(arguments,console.log);
 };
 myFunction(1,2,3);
-</code></pre><h4 id="u4E3A_u6570_u7EC4_u7684_forEach_28_29_2C_every_28_29_2C_some_28_29_2C_filter_28_29_2C_map_28_29_u4E2D_u7684_u56DE_u8C03_u51FD_u6570_u6307_u5B9Athis_28_u4E0A_u4E0B_u6587_29_3B_u8FD9_u51E0_u4E2A_u51FD_u6570_u7684_u7B2C_u4E09_u4E2A_u53C2_u6570_u5373callback_u4E2D_u7684this_u5BF9_u8C61_uFF0C_u4E0B_u9762_u4EE3_u7801_u4E2D_u6211_u8BBE_u7F6E_u4E86_u4E00_u4E2A_arrayLikeObject__u5BF9_u8C61_uFF0C_u4F5C_u4E3AforEach_Callback_u7684this_u3002"><a href="#u4E3A_u6570_u7EC4_u7684_forEach_28_29_2C_every_28_29_2C_some_28_29_2C_filter_28_29_2C_map_28_29_u4E2D_u7684_u56DE_u8C03_u51FD_u6570_u6307_u5B9Athis_28_u4E0A_u4E0B_u6587_29_3B_u8FD9_u51E0_u4E2A_u51FD_u6570_u7684_u7B2C_u4E09_u4E2A_u53C2_u6570_u5373callback_u4E2D_u7684this_u5BF9_u8C61_uFF0C_u4E0B_u9762_u4EE3_u7801_u4E2D_u6211_u8BBE_u7F6E_u4E86_u4E00_u4E2A_arrayLikeObject__u5BF9_u8C61_uFF0C_u4F5C_u4E3AforEach_Callback_u7684this_u3002" class="headerlink" title="为数组的 forEach(), every(), some(), filter(), map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 arrayLikeObject 对象，作为forEach Callback的this。"></a>为数组的 <code>forEach()</code>, <code>every()</code>, <code>some()</code>, <code>filter()</code>, <code>map()</code>中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 <code>arrayLikeObject</code> 对象，作为forEach Callback的this。</h4><pre><code>var arrayLikeObject = {0:&apos;f&apos;,1:&apos;o&apos;,2:&apos;g&apos;,length:3};
+</code></pre><h4 id="为数组的-forEach-every-some-filter-map-中的回调函数指定this-上下文-这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个-arrayLikeObject-对象，作为forEach-Callback的this。"><a href="#为数组的-forEach-every-some-filter-map-中的回调函数指定this-上下文-这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个-arrayLikeObject-对象，作为forEach-Callback的this。" class="headerlink" title="为数组的 forEach(), every(), some(), filter(), map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 arrayLikeObject 对象，作为forEach Callback的this。"></a>为数组的 <code>forEach()</code>, <code>every()</code>, <code>some()</code>, <code>filter()</code>, <code>map()</code>中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 <code>arrayLikeObject</code> 对象，作为forEach Callback的this。</h4><pre><code>var arrayLikeObject = {0:&apos;f&apos;,1:&apos;o&apos;,2:&apos;g&apos;,length:3};
 
 [].forEach.call(arrayLikeObject,function(item){
 
@@ -181,7 +181,7 @@ myFunction(1,2,3);
     console.log(item + &apos; total: &apos; + this.length);
 
 },arrayLikeObject); //注意第三个参数 传递了也是arrayLikeObject
-</code></pre><h4 id="u5C5E_u6027_u8BBF_u95EE_u5668_getter_setter"><a href="#u5C5E_u6027_u8BBF_u95EE_u5668_getter_setter" class="headerlink" title="属性访问器 getter setter"></a>属性访问器 getter setter</h4><pre><code>var myObject = {
+</code></pre><h4 id="属性访问器-getter-setter"><a href="#属性访问器-getter-setter" class="headerlink" title="属性访问器 getter setter"></a>属性访问器 getter setter</h4><pre><code>var myObject = {
     //name:&apos;&apos;, WOULD CAUSE ERROR
     get name() { //notice use of get to indicate accessor property 
         console.log(&apos;read name&apos;);
@@ -194,7 +194,7 @@ myFunction(1,2,3);
 
 myObject.name = &apos;codylindley&apos;; //调用 set 
 myObject.name; //调用get
-</code></pre><h4 id="u5BF9_u8C61_u5C5E_u6027_u7684_u914D_u7F6E_u9879"><a href="#u5BF9_u8C61_u5C5E_u6027_u7684_u914D_u7F6E_u9879" class="headerlink" title="对象属性的配置项"></a>对象属性的配置项</h4><p>ES5中新的特性让对象的属性具有可只读readable，可只写writable、可配置性configurable,可遍历enumerable，通过<code>Object.getOwnPropertyDescriptor()</code> 可以查看特性的描述信息。</p>
+</code></pre><h4 id="对象属性的配置项"><a href="#对象属性的配置项" class="headerlink" title="对象属性的配置项"></a>对象属性的配置项</h4><p>ES5中新的特性让对象的属性具有可只读readable，可只写writable、可配置性configurable,可遍历enumerable，通过<code>Object.getOwnPropertyDescriptor()</code> 可以查看特性的描述信息。</p>
 <pre><code>var accessor = {
     get name(){},
     set name(){}
@@ -264,7 +264,7 @@ console.log(Object.getOwnPropertyDescriptor(cody,&apos;age&apos;));
 // {get: function, set: function, enumerable: true, configurable: true}
 console.log(Object.getOwnPropertyDescriptor(cody,&apos;name&apos;));
 </code></pre><p>注意 通过<code>Object.defineProperty()</code> 以及<code>Object.defineProperties()</code>定义的属性默认配置为<code>writable: false, enumerable: false, configurable: false</code>.定义的访问器属性默认配置<code>enumerable: false, configurable:false</code></p>
-<h4 id="u4F7F_u7528Object-keys__u4EE5_u53CAObject-getOwnPropertyNames_28_29_u83B7_u53D6_u5BF9_u8C61_u7684_u5C5E_u6027_u7684name_u3002"><a href="#u4F7F_u7528Object-keys__u4EE5_u53CAObject-getOwnPropertyNames_28_29_u83B7_u53D6_u5BF9_u8C61_u7684_u5C5E_u6027_u7684name_u3002" class="headerlink" title="使用Object.keys 以及Object.getOwnPropertyNames()获取对象的属性的name。"></a>使用<code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>获取对象的属性的name。</h4><p><code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>用来获取对象中的属性的name，不包括继承来的属性，两者区别是<code>Object.keys</code> 只能获取可遍历的属性的名字的数组，<code>Object.getOwnPropertyNames()</code>可以获得所有的属性的名字，作为字符串数组返回。</p>
+<h4 id="使用Object-keys-以及Object-getOwnPropertyNames-获取对象的属性的name。"><a href="#使用Object-keys-以及Object-getOwnPropertyNames-获取对象的属性的name。" class="headerlink" title="使用Object.keys 以及Object.getOwnPropertyNames()获取对象的属性的name。"></a>使用<code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>获取对象的属性的name。</h4><p><code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>用来获取对象中的属性的name，不包括继承来的属性，两者区别是<code>Object.keys</code> 只能获取可遍历的属性的名字的数组，<code>Object.getOwnPropertyNames()</code>可以获得所有的属性的名字，作为字符串数组返回。</p>
 <pre><code>var person = {};
 Object.defineProperties(person, 
     {
@@ -278,7 +278,7 @@ console.log(Object.keys(person)); //logs [&quot;name&quot;]
 
 //return array of all properties, including ones that are non-enumerable
 console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
-</code></pre><h4 id="u5C5E_u6027_u4FDD_u62A4_extending_u3001_sealing_u3001freezing_u3002"><a href="#u5C5E_u6027_u4FDD_u62A4_extending_u3001_sealing_u3001freezing_u3002" class="headerlink" title="属性保护 extending、 sealing、freezing。"></a>属性保护 extending、 sealing、freezing。</h4><p>在ES5中 对象可以被设置为non-extensible, sealed, 以及 frozen。这是三种不同的属性保护级别，可以通过<code>Object.preventExtensions(myObject)</code>, <code>Object.seal(myObject)</code>,  <code>Object.freeze(myObject)</code>来进行设置。</p>
+</code></pre><h4 id="属性保护-extending、-sealing、freezing。"><a href="#属性保护-extending、-sealing、freezing。" class="headerlink" title="属性保护 extending、 sealing、freezing。"></a>属性保护 extending、 sealing、freezing。</h4><p>在ES5中 对象可以被设置为non-extensible, sealed, 以及 frozen。这是三种不同的属性保护级别，可以通过<code>Object.preventExtensions(myObject)</code>, <code>Object.seal(myObject)</code>,  <code>Object.freeze(myObject)</code>来进行设置。</p>
 <ul>
 <li>Object.preventExtensions() 让对象无法新增属性。</li>
 <li>Object.seal()包括了Object.preventExtensions()的功能，同时还具有让已经存在的属性不可修改配置也就说不能使用Object.defineProperty以及Object.defineProperties 来修改属性的配置，但是修改属性的值依然是可以修改的。</li>
@@ -300,7 +300,7 @@ console.log(p.user);// 输出kunkun 还是原来的值发现并没有被修改
 <li>Object.isSealed()</li>
 <li>Object.isFrozen()</li>
 </ul>
-<h4 id="u4F7F_u7528Object-create_28_29_u663E_u5F0F_u7EE7_u627F_u3002"><a href="#u4F7F_u7528Object-create_28_29_u663E_u5F0F_u7EE7_u627F_u3002" class="headerlink" title="使用Object.create()显式继承。"></a>使用Object.create()显式继承。</h4><p>在ES3中创建对象的方式主要有以下三种</p>
+<h4 id="使用Object-create-显式继承。"><a href="#使用Object-create-显式继承。" class="headerlink" title="使用Object.create()显式继承。"></a>使用Object.create()显式继承。</h4><p>在ES3中创建对象的方式主要有以下三种</p>
 <ul>
 <li>var objectViaObjectLiteral = {};</li>
 <li>var objectViaObjectConstructor = new Object();</li>
@@ -324,9 +324,9 @@ console.log(cody.alive); // true
 //
 console.log(Object.getPrototypeOf(cody).alive); //logs true
 </code></pre><p>上面的例子中，可以看到create也传递了第二个参数来为对象增加属性,第二个参数与Object.defineProperties()结果是一样的。</p>
-<h4 id="u4F7F_u7528getPrototypeOf_28_29__u6765_u83B7_u53D6_u5BF9_u8C61_u7684_u539F_u578B_u3002"><a href="#u4F7F_u7528getPrototypeOf_28_29__u6765_u83B7_u53D6_u5BF9_u8C61_u7684_u539F_u578B_u3002" class="headerlink" title="使用getPrototypeOf() 来获取对象的原型。"></a>使用getPrototypeOf() 来获取对象的原型。</h4><p>ES3中有个非标准的<strong>proto</strong> 来获取对象的原型金，浏览器支持不兼容，ES5中有了标准化。</p>
+<h4 id="使用getPrototypeOf-来获取对象的原型。"><a href="#使用getPrototypeOf-来获取对象的原型。" class="headerlink" title="使用getPrototypeOf() 来获取对象的原型。"></a>使用getPrototypeOf() 来获取对象的原型。</h4><p>ES3中有个非标准的<strong>proto</strong> 来获取对象的原型金，浏览器支持不兼容，ES5中有了标准化。</p>
 <pre><code>Object.getPrototypeOf(new Object(&apos;foo&apos;)) === String.prototype // true
-</code></pre><h4 id="bind__uFF1A_u4E3A_u51FD_u6570_u7ED1_u5B9A_u4E0A_u4E0B_u6587_u3002"><a href="#bind__uFF1A_u4E3A_u51FD_u6570_u7ED1_u5B9A_u4E0A_u4E0B_u6587_u3002" class="headerlink" title="bind ：为函数绑定上下文。"></a>bind ：为函数绑定上下文。</h4><p>在ES3中通过Apply或者call来实现 比如</p>
+</code></pre><h4 id="bind-：为函数绑定上下文。"><a href="#bind-：为函数绑定上下文。" class="headerlink" title="bind ：为函数绑定上下文。"></a>bind ：为函数绑定上下文。</h4><p>在ES3中通过Apply或者call来实现 比如</p>
 <pre><code>Function.prototype.bind = function(obj) { 
    var method = this, 
    temp = function() { 
@@ -342,7 +342,7 @@ var myFunction = function(){
 };
 var usingBind = myFunction.bind(myObject,1,2,3); 
 usingBind(); // {foo=&quot;foo&quot;} 1 2 3
-</code></pre><h4 id="use_strict__u4E25_u683C_u6A21_u5F0F"><a href="#use_strict__u4E25_u683C_u6A21_u5F0F" class="headerlink" title="use strict 严格模式"></a>use strict 严格模式</h4><p>JavaScript代码标志为“严格模式”，则其中运行的所有代码都必然是严格模式下的。<br>其一：如果在语法检测时发现语法问题，则整个代码块失效，并导致一个语法异常。<br>其二：如果在运行期出现了违反严格模式的代码，则抛出执行异常。</p>
+</code></pre><h4 id="use-strict-严格模式"><a href="#use-strict-严格模式" class="headerlink" title="use strict 严格模式"></a>use strict 严格模式</h4><p>JavaScript代码标志为“严格模式”，则其中运行的所有代码都必然是严格模式下的。<br>其一：如果在语法检测时发现语法问题，则整个代码块失效，并导致一个语法异常。<br>其二：如果在运行期出现了违反严格模式的代码，则抛出执行异常。</p>
 <ul>
 <li>主要规则 </li>
 <li>定义变量必须带var 、</li>
@@ -380,8 +380,7 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2014/03/05/es-5-feature/"
-             data-title="ECMAScript 5 学习总结" data-url="http://kunkun12.com/2014/03/05/es-5-feature/">
+        <div class="ds-thread" data-thread-key="2014/03/05/es-5-feature/" data-title="ECMAScript 5 学习总结" data-url="http://kunkun12.com/2014/03/05/es-5-feature/">
         </div>
 
       
@@ -418,7 +417,7 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -469,7 +468,7 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#u6D4F_u89C8_u5668_u5BF9ES5_u7684_u652F_u6301_u60C5_u51B5_u3002"><span class="nav-number">1.</span> <span class="nav-text">浏览器对ES5的支持情况。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#u6570_u7EC4_u6216_u8005_u662F_u5BF9_u8C61_u4E2D_u7684_u6700_u540E_u5143_u7D20_u5141_u8BB8_u6DFB_u52A0_u9017_u53F7_u3002"><span class="nav-number">1.1.</span> <span class="nav-text">数组或者是对象中的最后元素允许添加逗号。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4F7F_u7528_5C__u5206_u5272_u6765_u5B9E_u73B0_u591A_u884C_u5B57_u7B26_u4E32"><span class="nav-number">1.2.</span> <span class="nav-text">使用\ 分割来实现多行字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5BF9_u8C61_u5C5E_u6027_u7684_u540D_u5B57_u5141_u8BB8_u4F7F_u7528_u9650_u5B9A_u5B57_u7B26_u3002"><span class="nav-number">1.3.</span> <span class="nav-text">对象属性的名字允许使用限定字符。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5904_u7406JSON__u7684_u65B9_u6CD5_JSON-parse_JSON-stringify"><span class="nav-number">1.4.</span> <span class="nav-text">处理JSON 的方法 JSON.parse  JSON.stringify</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u539F_u751F_u7684_u5B57_u7B26_u4E32_u53BB_u7A7A_u683C_u65B9_u6CD5string-trim_28_29"><span class="nav-number">1.5.</span> <span class="nav-text">原生的字符串去空格方法string.trim()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u901A_u8FC7_5Bi_5D_u6765_u8BBF_u95EE_u5B57_u7B26_u4E32_u4E2D_u7684_u5B57_u7B26_u3002"><span class="nav-number">1.6.</span> <span class="nav-text">通过[i]来访问字符串中的字符。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined_2CNaN__u4EE5_u53CAInfinty_u662F_u53EA_u8BFB_u7684_u5E38_u91CF_u3002"><span class="nav-number">1.7.</span> <span class="nav-text">undefined,NaN 以及Infinty是只读的常量。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u6570_u7EC4_u76F8_u5173"><span class="nav-number">1.8.</span> <span class="nav-text">数组相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4E3A_u6570_u7EC4_u7684_forEach_28_29_2C_every_28_29_2C_some_28_29_2C_filter_28_29_2C_map_28_29_u4E2D_u7684_u56DE_u8C03_u51FD_u6570_u6307_u5B9Athis_28_u4E0A_u4E0B_u6587_29_3B_u8FD9_u51E0_u4E2A_u51FD_u6570_u7684_u7B2C_u4E09_u4E2A_u53C2_u6570_u5373callback_u4E2D_u7684this_u5BF9_u8C61_uFF0C_u4E0B_u9762_u4EE3_u7801_u4E2D_u6211_u8BBE_u7F6E_u4E86_u4E00_u4E2A_arrayLikeObject__u5BF9_u8C61_uFF0C_u4F5C_u4E3AforEach_Callback_u7684this_u3002"><span class="nav-number">1.9.</span> <span class="nav-text">为数组的 forEach(), every(), some(), filter(), map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 arrayLikeObject 对象，作为forEach Callback的this。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5C5E_u6027_u8BBF_u95EE_u5668_getter_setter"><span class="nav-number">1.10.</span> <span class="nav-text">属性访问器 getter setter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5BF9_u8C61_u5C5E_u6027_u7684_u914D_u7F6E_u9879"><span class="nav-number">1.11.</span> <span class="nav-text">对象属性的配置项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4F7F_u7528Object-keys__u4EE5_u53CAObject-getOwnPropertyNames_28_29_u83B7_u53D6_u5BF9_u8C61_u7684_u5C5E_u6027_u7684name_u3002"><span class="nav-number">1.12.</span> <span class="nav-text">使用Object.keys 以及Object.getOwnPropertyNames()获取对象的属性的name。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5C5E_u6027_u4FDD_u62A4_extending_u3001_sealing_u3001freezing_u3002"><span class="nav-number">1.13.</span> <span class="nav-text">属性保护 extending、 sealing、freezing。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4F7F_u7528Object-create_28_29_u663E_u5F0F_u7EE7_u627F_u3002"><span class="nav-number">1.14.</span> <span class="nav-text">使用Object.create()显式继承。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u4F7F_u7528getPrototypeOf_28_29__u6765_u83B7_u53D6_u5BF9_u8C61_u7684_u539F_u578B_u3002"><span class="nav-number">1.15.</span> <span class="nav-text">使用getPrototypeOf() 来获取对象的原型。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bind__uFF1A_u4E3A_u51FD_u6570_u7ED1_u5B9A_u4E0A_u4E0B_u6587_u3002"><span class="nav-number">1.16.</span> <span class="nav-text">bind ：为函数绑定上下文。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#use_strict__u4E25_u683C_u6A21_u5F0F"><span class="nav-number">1.17.</span> <span class="nav-text">use strict 严格模式</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器对ES5的支持情况。"><span class="nav-number">1.</span> <span class="nav-text">浏览器对ES5的支持情况。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数组或者是对象中的最后元素允许添加逗号。"><span class="nav-number">1.1.</span> <span class="nav-text">数组或者是对象中的最后元素允许添加逗号。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-分割来实现多行字符串"><span class="nav-number">1.2.</span> <span class="nav-text">使用\ 分割来实现多行字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象属性的名字允许使用限定字符。"><span class="nav-number">1.3.</span> <span class="nav-text">对象属性的名字允许使用限定字符。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理JSON-的方法-JSON-parse-JSON-stringify"><span class="nav-number">1.4.</span> <span class="nav-text">处理JSON 的方法 JSON.parse  JSON.stringify</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原生的字符串去空格方法string-trim"><span class="nav-number">1.5.</span> <span class="nav-text">原生的字符串去空格方法string.trim()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过-i-来访问字符串中的字符。"><span class="nav-number">1.6.</span> <span class="nav-text">通过[i]来访问字符串中的字符。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined-NaN-以及Infinty是只读的常量。"><span class="nav-number">1.7.</span> <span class="nav-text">undefined,NaN 以及Infinty是只读的常量。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组相关"><span class="nav-number">1.8.</span> <span class="nav-text">数组相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为数组的-forEach-every-some-filter-map-中的回调函数指定this-上下文-这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个-arrayLikeObject-对象，作为forEach-Callback的this。"><span class="nav-number">1.9.</span> <span class="nav-text">为数组的 forEach(), every(), some(), filter(), map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 arrayLikeObject 对象，作为forEach Callback的this。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性访问器-getter-setter"><span class="nav-number">1.10.</span> <span class="nav-text">属性访问器 getter setter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象属性的配置项"><span class="nav-number">1.11.</span> <span class="nav-text">对象属性的配置项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Object-keys-以及Object-getOwnPropertyNames-获取对象的属性的name。"><span class="nav-number">1.12.</span> <span class="nav-text">使用Object.keys 以及Object.getOwnPropertyNames()获取对象的属性的name。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性保护-extending、-sealing、freezing。"><span class="nav-number">1.13.</span> <span class="nav-text">属性保护 extending、 sealing、freezing。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Object-create-显式继承。"><span class="nav-number">1.14.</span> <span class="nav-text">使用Object.create()显式继承。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用getPrototypeOf-来获取对象的原型。"><span class="nav-number">1.15.</span> <span class="nav-text">使用getPrototypeOf() 来获取对象的原型。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bind-：为函数绑定上下文。"><span class="nav-number">1.16.</span> <span class="nav-text">bind ：为函数绑定上下文。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#use-strict-严格模式"><span class="nav-number">1.17.</span> <span class="nav-text">use strict 严格模式</span></a></li></ol></li></ol>
       </div>
     
   </div>

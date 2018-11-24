@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/16/phonegap-create-mobileapp/#comments" >
+            <a href="/2014/03/16/phonegap-create-mobileapp/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/16/phonegap-create-mobileapp/"></span>
             </a>
           </span>
@@ -129,7 +129,7 @@
 
         
           <p>前段时间学习了Phonegap开发，本篇作为记录，希望对初道者有帮助,本篇主要介绍Phonegap以及环境的搭建。下篇结合Angluar 开发小Demo</p>
-<h3 id="Phonegap_u4ECB_u7ECD"><a href="#Phonegap_u4ECB_u7ECD" class="headerlink" title="Phonegap介绍"></a>Phonegap介绍</h3><p>Phonegap 作为一个开源的框架来帮助开发者使用Javascript/HTML5/CSS 开发跨平台的移动应用。他可以根据指定的移动平台打包为对应的包，支持的平台种类如下。</p>
+<h3 id="Phonegap介绍"><a href="#Phonegap介绍" class="headerlink" title="Phonegap介绍"></a>Phonegap介绍</h3><p>Phonegap 作为一个开源的框架来帮助开发者使用Javascript/HTML5/CSS 开发跨平台的移动应用。他可以根据指定的移动平台打包为对应的包，支持的平台种类如下。</p>
 <ul>
 <li>iOS</li>
 <li>Android</li>
@@ -141,7 +141,7 @@
 <li>Tizen</li>
 <li>Firefox OS（3.4版本开始支持的）</li>
 </ul>
-<h3 id="u63D2_u4EF6"><a href="#u63D2_u4EF6" class="headerlink" title="插件"></a>插件</h3><p>Phonegap 本质上是在本地原生应用程序中包裹了一个Webview 来支持使用HTML5 进行开发。但是这种方式本质上是不支持访问设备的功能，比如访问文件系统，或者照相机,但是Phonegap通过桥接机制允许Webview中的Javascript 来调用原生的代码，于是Phonegap就拥有了许多插件来支持访问设备API比如</p>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><p>Phonegap 本质上是在本地原生应用程序中包裹了一个Webview 来支持使用HTML5 进行开发。但是这种方式本质上是不支持访问设备的功能，比如访问文件系统，或者照相机,但是Phonegap通过桥接机制允许Webview中的Javascript 来调用原生的代码，于是Phonegap就拥有了许多插件来支持访问设备API比如</p>
 <ul>
 <li>加速度计</li>
 <li>相机</li>
@@ -160,7 +160,7 @@
 <li>日历</li>
 </ul>
 <p>在之前版本的Phonegap中 包括了一些预编译的插件。随着Phonegap 3的到来，一个新的插件架构取代了原来的插件访问。同时有一个注册中心来创建兼容Phonegap 3的插件</p>
-<h4 id="HTML/CSS_/Javascript__u79FB_u52A8_u5F00_u53D1_u57FA_u7840_u3002"><a href="#HTML/CSS_/Javascript__u79FB_u52A8_u5F00_u53D1_u57FA_u7840_u3002" class="headerlink" title="HTML/CSS /Javascript 移动开发基础。"></a>HTML/CSS /Javascript 移动开发基础。</h4><p>Phonegap本身提供的大部分功能是提供了一些非可视化的功能组件，比如访问文件系统，网络能力，地理定位，等等。Phonegap本身并没有提供构建图形界面的能力，对于此，我们必须使用HTML、CSS来构建，为了更方便地开发中应用，因此推荐结合JS 框架来进行组织程序的开发。这些框架包括</p>
+<h4 id="HTML-CSS-Javascript-移动开发基础。"><a href="#HTML-CSS-Javascript-移动开发基础。" class="headerlink" title="HTML/CSS /Javascript 移动开发基础。"></a>HTML/CSS /Javascript 移动开发基础。</h4><p>Phonegap本身提供的大部分功能是提供了一些非可视化的功能组件，比如访问文件系统，网络能力，地理定位，等等。Phonegap本身并没有提供构建图形界面的能力，对于此，我们必须使用HTML、CSS来构建，为了更方便地开发中应用，因此推荐结合JS 框架来进行组织程序的开发。这些框架包括</p>
 <ul>
 <li>jQuery Mobile</li>
 <li>Ionic</li>
@@ -174,15 +174,15 @@
 <p>####PhoneGap Or Cordova的关系</p>
 <p>在学习Phonegap的过程中，我们经常会碰到Cordova 这个词，事实上，我们使用命令行工具创建的Phonegap工程其实是Cordova，。Cordova是贡献给Apache后的开源项目，是从PhoneGap中抽出的核心代码，是驱动PhoneGap的核心引擎。Cordova提供了一组设备相关的API，通过这组API，移动应用能够以JavaScript访问原生的设备功能，如摄像头、麦克风等。<br>Cordova还提供了一组统一的JavaScript类库，以及为这些类库所用的设备相关的原生后台代码。你可以把他想象成类似于Webkit和Google Chrome的关系。在大部分情况下这两个名字是可以交换的，随着Phonegap作为Adobe的商标，这个开源的项目需要一个新的名字，因此就有了Cordova，Phonegap继续作为Adobe的商业产品，大部分仍然将这个整体的项目称为Phonegap。</p>
 <ul>
-<li><a href="http://phonegap.com/" target="_blank" rel="external">Phonega 官网</a></li>
-<li><a href="http://cordova.apache.org/" target="_blank" rel="external">cordova 官网</a></li>
+<li><a href="http://phonegap.com/" target="_blank" rel="noopener">Phonega 官网</a></li>
+<li><a href="http://cordova.apache.org/" target="_blank" rel="noopener">cordova 官网</a></li>
 </ul>
-<h4 id="Phonegap__u5F00_u53D1_u73AF_u5883_u642D_u5EFA_u3002"><a href="#Phonegap__u5F00_u53D1_u73AF_u5883_u642D_u5EFA_u3002" class="headerlink" title="Phonegap 开发环境搭建。"></a>Phonegap 开发环境搭建。</h4><p>这里我要基于Phonegap开发能够运行在android上的程序。</p>
-<h4 id="u5EFA_u73AF_u5883_u7684_u57FA_u672C_u51C6_u5907_3A"><a href="#u5EFA_u73AF_u5883_u7684_u57FA_u672C_u51C6_u5907_3A" class="headerlink" title="建环境的基本准备:"></a>建环境的基本准备:</h4><ol>
+<h4 id="Phonegap-开发环境搭建。"><a href="#Phonegap-开发环境搭建。" class="headerlink" title="Phonegap 开发环境搭建。"></a>Phonegap 开发环境搭建。</h4><p>这里我要基于Phonegap开发能够运行在android上的程序。</p>
+<h4 id="建环境的基本准备"><a href="#建环境的基本准备" class="headerlink" title="建环境的基本准备:"></a>建环境的基本准备:</h4><ol>
 <li>java JDK、配置Java环境变量</li>
-<li>下载<a href="https://developer.android.com/sdk/index.html?hl=sk" target="_blank" rel="external">android ADT Bundle</a>(里面是一个继承了安卓开发环境的Eclipse)，下载之后将android SDK下的tools的目录添加到环境变量中，启动下载包里面的eclipse 创建AVD</li>
-<li>Ant 打包工具(windows 下载推荐下载 <a href="https://code.google.com/p/winant/" target="_blank" rel="external">winant</a>)</li>
-<li><a href="http://nodejs.org/" target="_blank" rel="external">NodeJS</a></li>
+<li>下载<a href="https://developer.android.com/sdk/index.html?hl=sk" target="_blank" rel="noopener">android ADT Bundle</a>(里面是一个继承了安卓开发环境的Eclipse)，下载之后将android SDK下的tools的目录添加到环境变量中，启动下载包里面的eclipse 创建AVD</li>
+<li>Ant 打包工具(windows 下载推荐下载 <a href="https://code.google.com/p/winant/" target="_blank" rel="noopener">winant</a>)</li>
+<li><a href="http://nodejs.org/" target="_blank" rel="noopener">NodeJS</a></li>
 <li><p>安装phonegap</p>
 <pre><code>npm install -g cordova
 </code></pre><p> 或者</p>
@@ -190,7 +190,7 @@
 </code></pre><p>cordova和phonegap这两个命令是通用的。<code>npm install -g phonegap</code> 是3.0之后的新出的一种安装方式，这里我使用是phonegap。</p>
 </li>
 </ol>
-<h4 id="u521B_u5EFAHelloword"><a href="#u521B_u5EFAHelloword" class="headerlink" title="创建Helloword"></a>创建Helloword</h4><p>在命令行下运行</p>
+<h4 id="创建Helloword"><a href="#创建Helloword" class="headerlink" title="创建Helloword"></a>创建Helloword</h4><p>在命令行下运行</p>
 <pre><code>phonegap create my-app
 cd my-app
 phonegap run android
@@ -234,8 +234,7 @@ phonegap run android
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2014/03/16/phonegap-create-mobileapp/"
-             data-title="Phonegap创建移动应用" data-url="http://kunkun12.com/2014/03/16/phonegap-create-mobileapp/">
+        <div class="ds-thread" data-thread-key="2014/03/16/phonegap-create-mobileapp/" data-title="Phonegap创建移动应用" data-url="http://kunkun12.com/2014/03/16/phonegap-create-mobileapp/">
         </div>
 
       
@@ -272,7 +271,7 @@ phonegap run android
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -323,7 +322,7 @@ phonegap run android
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Phonegap_u4ECB_u7ECD"><span class="nav-number">1.</span> <span class="nav-text">Phonegap介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u63D2_u4EF6"><span class="nav-number">2.</span> <span class="nav-text">插件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML/CSS_/Javascript__u79FB_u52A8_u5F00_u53D1_u57FA_u7840_u3002"><span class="nav-number">2.1.</span> <span class="nav-text">HTML/CSS /Javascript 移动开发基础。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Phonegap__u5F00_u53D1_u73AF_u5883_u642D_u5EFA_u3002"><span class="nav-number">2.2.</span> <span class="nav-text">Phonegap 开发环境搭建。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u5EFA_u73AF_u5883_u7684_u57FA_u672C_u51C6_u5907_3A"><span class="nav-number">2.3.</span> <span class="nav-text">建环境的基本准备:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#u521B_u5EFAHelloword"><span class="nav-number">2.4.</span> <span class="nav-text">创建Helloword</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Phonegap介绍"><span class="nav-number">1.</span> <span class="nav-text">Phonegap介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件"><span class="nav-number">2.</span> <span class="nav-text">插件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTML-CSS-Javascript-移动开发基础。"><span class="nav-number">2.1.</span> <span class="nav-text">HTML/CSS /Javascript 移动开发基础。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Phonegap-开发环境搭建。"><span class="nav-number">2.2.</span> <span class="nav-text">Phonegap 开发环境搭建。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建环境的基本准备"><span class="nav-number">2.3.</span> <span class="nav-text">建环境的基本准备:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Helloword"><span class="nav-number">2.4.</span> <span class="nav-text">创建Helloword</span></a></li></ol></li></ol>
       </div>
     
   </div>

@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2016/03/05/React-createClass-VS-React-Component/#comments" >
+            <a href="/2016/03/05/React-createClass-VS-React-Component/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/05/React-createClass-VS-React-Component/"></span>
             </a>
           </span>
@@ -129,7 +129,7 @@
 
         
           <p>创建react组件有两种方式，使用用 <code>React.createClass</code> 以及用es6模块化的方式<code>extends React.Component</code> 通过集成 <code>Component</code> 组件类的形式来实现。两者的作用类似，后者是新的语法也是趋势。于是赶紧对比下如何升级到新的语法</p>
-<h3 id="React-createClass"><a href="#React-createClass" class="headerlink" title="React.createClass"></a>React.createClass</h3><h3 id="creatClass_u521B_u5EFA_u7684_u7EC4_u4EF6_u8D4B_u503C_u4E3Aconst_u7C7B_u578B_u7684_u53D8_u91CF_uFF0C_u5728_u7EC4_u4EF6_u5185_u90E8_u5B9E_u73B0_u5FC5_u8981_u7684_render_u51FD_u6570"><a href="#creatClass_u521B_u5EFA_u7684_u7EC4_u4EF6_u8D4B_u503C_u4E3Aconst_u7C7B_u578B_u7684_u53D8_u91CF_uFF0C_u5728_u7EC4_u4EF6_u5185_u90E8_u5B9E_u73B0_u5FC5_u8981_u7684_render_u51FD_u6570" class="headerlink" title="creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的 render函数"></a>creatClass创建的组件赋值为<code>const</code>类型的变量，在组件内部实现必要的 <code>render</code>函数</h3><pre><code>import React from &apos;react&apos;;
+<h3 id="React-createClass"><a href="#React-createClass" class="headerlink" title="React.createClass"></a>React.createClass</h3><h3 id="creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的-render函数"><a href="#creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的-render函数" class="headerlink" title="creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的 render函数"></a>creatClass创建的组件赋值为<code>const</code>类型的变量，在组件内部实现必要的 <code>render</code>函数</h3><pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   render() {
     return (
@@ -151,7 +151,7 @@ class Contacts extends React.Component {
   }
 }
 export default Contacts;
-</code></pre><h2 id="propTypes_and_getDefaultProps"><a href="#propTypes_and_getDefaultProps" class="headerlink" title="propTypes and getDefaultProps"></a>propTypes and getDefaultProps</h2><h3 id="React-createClass-1"><a href="#React-createClass-1" class="headerlink" title="React.createClass"></a>React.createClass</h3><pre><code>import React from &apos;react&apos;;
+</code></pre><h2 id="propTypes-and-getDefaultProps"><a href="#propTypes-and-getDefaultProps" class="headerlink" title="propTypes and getDefaultProps"></a>propTypes and getDefaultProps</h2><h3 id="React-createClass-1"><a href="#React-createClass-1" class="headerlink" title="React.createClass"></a>React.createClass</h3><pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   propTypes: {
 
@@ -185,7 +185,7 @@ Contacts.propTypes = {
 Contacts.defaultProps = {
 };
 export default Contacts;
-</code></pre><h2 id="u72B6_u6001_u5B9A_u4E49_State"><a href="#u72B6_u6001_u5B9A_u4E49_State" class="headerlink" title="状态定义 State"></a>状态定义 State</h2><pre><code>import React from &apos;react&apos;;
+</code></pre><h2 id="状态定义-State"><a href="#状态定义-State" class="headerlink" title="状态定义 State"></a>状态定义 State</h2><pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   getInitialState () {
     return {
@@ -214,7 +214,7 @@ class Contacts extends React.Component {
   }
 }
 export default Contacts;
-</code></pre><h3 id="this_u7684_u542B_u4E49_u4E0D_u540C"><a href="#this_u7684_u542B_u4E49_u4E0D_u540C" class="headerlink" title="this的含义不同"></a>this的含义不同</h3><p>在 <code>React.createClass</code>中，给组件绑定事件的函数中的 <code>this</code> 指向当前的组件 ，在 <code>React.Component</code> 中事件函数中的 <code>this</code> 默认指向为空</p>
+</code></pre><h3 id="this的含义不同"><a href="#this的含义不同" class="headerlink" title="this的含义不同"></a>this的含义不同</h3><p>在 <code>React.createClass</code>中，给组件绑定事件的函数中的 <code>this</code> 指向当前的组件 ，在 <code>React.Component</code> 中事件函数中的 <code>this</code> 默认指向为空</p>
 <pre><code>import React from &apos;react&apos;;
 const Contacts = React.createClass({
   handleClick() {
@@ -278,7 +278,7 @@ const Contacts = React.createClass({
   }
 });
 export default Contacts;
-</code></pre><p>在 React.Component 官方推荐 <a href="https://leozdgao.me/chushi-hoc/" target="_blank" rel="external">HOC(高阶组件)的形式</a> 来替换，如果一定要使用 mix的话 也可以使用 <a href="https://github.com/brigand/react-mixin" target="_blank" rel="external">react-mixin</a></p>
+</code></pre><p>在 React.Component 官方推荐 <a href="https://leozdgao.me/chushi-hoc/" target="_blank" rel="noopener">HOC(高阶组件)的形式</a> 来替换，如果一定要使用 mix的话 也可以使用 <a href="https://github.com/brigand/react-mixin" target="_blank" rel="noopener">react-mixin</a></p>
 
         
 
@@ -301,8 +301,7 @@ export default Contacts;
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2016/03/05/React-createClass-VS-React-Component/"
-             data-title="React.createClass VS React.Component" data-url="http://kunkun12.com/2016/03/05/React-createClass-VS-React-Component/">
+        <div class="ds-thread" data-thread-key="2016/03/05/React-createClass-VS-React-Component/" data-title="React.createClass VS React.Component" data-url="http://kunkun12.com/2016/03/05/React-createClass-VS-React-Component/">
         </div>
 
       
@@ -339,7 +338,7 @@ export default Contacts;
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -390,8 +389,8 @@ export default Contacts;
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#React-createClass"><span class="nav-number">1.</span> <span class="nav-text">React.createClass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#creatClass_u521B_u5EFA_u7684_u7EC4_u4EF6_u8D4B_u503C_u4E3Aconst_u7C7B_u578B_u7684_u53D8_u91CF_uFF0C_u5728_u7EC4_u4EF6_u5185_u90E8_u5B9E_u73B0_u5FC5_u8981_u7684_render_u51FD_u6570"><span class="nav-number">2.</span> <span class="nav-text">creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的 render函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React-Component"><span class="nav-number">3.</span> <span class="nav-text">React.Component</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#propTypes_and_getDefaultProps"><span class="nav-number"></span> <span class="nav-text">propTypes and getDefaultProps</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#React-createClass-1"><span class="nav-number">1.</span> <span class="nav-text">React.createClass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React-Component-1"><span class="nav-number">2.</span> <span class="nav-text">React.Component</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u72B6_u6001_u5B9A_u4E49_State"><span class="nav-number"></span> <span class="nav-text">状态定义 State</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#this_u7684_u542B_u4E49_u4E0D_u540C"><span class="nav-number">1.</span> <span class="nav-text">this的含义不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixins"><span class="nav-number">2.</span> <span class="nav-text">Mixins</span></a></li></ol>
-      </div>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#React-createClass"><span class="nav-number">1.</span> <span class="nav-text">React.createClass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的-render函数"><span class="nav-number">2.</span> <span class="nav-text">creatClass创建的组件赋值为const类型的变量，在组件内部实现必要的 render函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React-Component"><span class="nav-number">3.</span> <span class="nav-text">React.Component</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#propTypes-and-getDefaultProps"><span class="nav-number"></span> <span class="nav-text">propTypes and getDefaultProps</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#React-createClass-1"><span class="nav-number">1.</span> <span class="nav-text">React.createClass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React-Component-1"><span class="nav-number">2.</span> <span class="nav-text">React.Component</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态定义-State"><span class="nav-number"></span> <span class="nav-text">状态定义 State</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#this的含义不同"><span class="nav-number">1.</span> <span class="nav-text">this的含义不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixins"><span class="nav-number">2.</span> <span class="nav-text">Mixins</span></a></li></ol>
+      </li></div>
     
   </div>
 </div>

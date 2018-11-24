@@ -1,26 +1,26 @@
 <!doctype html>
 <html class="theme-next use-motion">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   
 
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4"/>
-
-
-
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
 
 
 
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
 
 
 
@@ -49,7 +49,7 @@
       
       <li class="menu-item menu-item-home">
         <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
+          <i class="menu-item-icon icon-home"></i> <br>
           首页
         </a>
       </li>
@@ -57,7 +57,7 @@
       
       <li class="menu-item menu-item-archives">
         <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
+          <i class="menu-item-icon icon-archives"></i> <br>
           归档
         </a>
       </li>
@@ -65,7 +65,7 @@
       
       <li class="menu-item menu-item-tags">
         <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
+          <i class="menu-item-icon icon-tags"></i> <br>
           标签
         </a>
       </li>
@@ -112,7 +112,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2017/03/14/react-native-webview-communicate/#comments" >
+            <a href="/2017/03/14/react-native-webview-communicate/#comments">
               <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/14/react-native-webview-communicate/"></span>
             </a>
           </span>
@@ -128,26 +128,26 @@
         
 
         
-          <p>react native 在官网的文档中，并没有详细介绍<a href="http://facebook.github.io/react-native/docs/webview.html#onmessage" target="_blank" rel="external">http://facebook.github.io/react-native/docs/webview.html#onmessage</a>如何实现RN与WebView中JavaScript的通信。 关于 onMessage的描述如下，</p>
+          <p>react native 在官网的文档中，并没有详细介绍<a href="http://facebook.github.io/react-native/docs/webview.html#onmessage" target="_blank" rel="noopener">http://facebook.github.io/react-native/docs/webview.html#onmessage</a>如何实现RN与WebView中JavaScript的通信。 关于 onMessage的描述如下，</p>
 <pre><code>onMessage?: function 
 A function that is invoked when the webview calls window.postMessage. Setting this property will inject a postMessage global into your webview, but will still call pre-existing values of postMessage.
 window.postMessage accepts one argument, data, which will be available on the event object, event.nativeEvent.data. data must be a string.
-</code></pre><p>从上只能看出，RN可以接受来自于webview的消息，然而并无法得知如何从RN往Webview内部发送消息，读源码的时候，发现了 RN的webview组件中除了<code>onMessage</code> 还有个<code>posMessage</code>方法，由此可以推出能搞定RN与Webview内H5的双向通信<a href="https://github.com/facebook/react-native/blob/0150bc76eb8d2baa84ba040aead8131228c1185e/Libraries/Components/WebView/WebView.ios.js#L506" target="_blank" rel="external">https://github.com/facebook/react-native/blob/0150bc76eb8d2baa84ba040aead8131228c1185e/Libraries/Components/WebView/WebView.ios.js#L506</a></p>
+</code></pre><p>从上只能看出，RN可以接受来自于webview的消息，然而并无法得知如何从RN往Webview内部发送消息，读源码的时候，发现了 RN的webview组件中除了<code>onMessage</code> 还有个<code>posMessage</code>方法，由此可以推出能搞定RN与Webview内H5的双向通信<a href="https://github.com/facebook/react-native/blob/0150bc76eb8d2baa84ba040aead8131228c1185e/Libraries/Components/WebView/WebView.ios.js#L506" target="_blank" rel="noopener">https://github.com/facebook/react-native/blob/0150bc76eb8d2baa84ba040aead8131228c1185e/Libraries/Components/WebView/WebView.ios.js#L506</a></p>
 <ul>
 <li>在RN中 <code>onMessage</code>负责接收Weview的消息 <code>postMessage</code> 负责发送消息给Webview</li>
 <li>通过监听<code>message</code>事件来接收RN的消息，通过<code>window.postMessage</code>在Webview中向RN中发送消息 </li>
 </ul>
 <p>于是写代码验证下。在html中放置两个输入框A、B,点击按钮把A、B的值发送给RN端，返会两个数的和并展示</p>
-<h4 id="H5_u7684_u4EE3_u7801"><a href="#H5_u7684_u4EE3_u7801" class="headerlink" title="H5的代码"></a>H5的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  &#60;div style=&#34;padding-top:50px;&#34;&#62;&#10;      &#60;input id=&#39;A&#39; /&#62; &#10;      &#60;input id=&#39;B&#39; /&#62;&#10;  &#60;/div&#62;&#10;&#60;Button id=&#39;cacl&#39;&#62;&#35745;&#31639;&#60;/Button&#62; &#60;span&#62;AB&#30456;&#21152;&#20026;&#60;/span&#62;&#60;span id=&#39;sum&#39;&#62;&#60;/span&#62;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> var bt= document.getElementById(&#39;cacl&#39;);&#10; bt.addEventListener(&#39;click&#39;,function()&#123;&#10;   var valA = document.getElementById(&#39;A&#39;).value;&#10;   var valB = document.getElementById(&#39;B&#39;).value;&#10;   window.postMessage(JSON.stringify(&#123;&#10;         type:&#39;add&#39;,&#10;         data:&#123;&#10;           A:valA,&#10;           B:valB&#10;         &#125;&#10;       &#125;))&#10; &#125;);&#10;document.addEventListener(&#39;message&#39;,function(e)&#123;&#10;   document.getElementById(&#39;sum&#39;).innerText = JSON.parse(e.data).result;&#10;&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="RN__u4E2D_u7684_u4EE3_u7801"><a href="#RN__u4E2D_u7684_u4EE3_u7801" class="headerlink" title="RN 中的代码"></a>RN 中的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> export default class RNWebbViewMessage extends Component &#123;&#10;  constructor(props)&#123;&#10;    super(props);&#10;      this.onMessage = this.onMessage.bind(this);&#10;  &#125;&#10;   onMessage(e)&#123;&#10;      var event =e.nativeEvent;&#10;      var data=JSON.parse(event.data);&#10;      if(data.type ===&#39;add&#39;)&#123;&#10;        let  args= data.data;&#10;        let a = Number(args.A);&#10;        let b = Number(args.B);&#10;        this.refs.webviewRef.postMessage(JSON.stringify(&#123;&#10;            result:a+b&#10;         &#125;))&#10;      &#125;&#10;    &#125;&#10;  render() &#123;&#10;    return (&#10;      &#60;View style=&#123;&#123;flex:1&#125;&#125;&#62;&#10;          &#60;WebView ref=&#123;&#39;webviewRef&#39;&#125; automaticallyAdjustContentInsets=&#123;false&#125; onMessage=&#123;this.onMessage&#125; javaScriptEnabled=&#123;true&#125; source=&#123;&#123;uri:&#39;http://localhost/work/study/rnwebviewmessage/index.html?ss&#39;&#125;&#125; /&#62; &#10;      &#60;/View&#62;&#10;    );&#10;  &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="H5的代码"><a href="#H5的代码" class="headerlink" title="H5的代码"></a>H5的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  &lt;div style=&quot;padding-top:50px;&quot;&gt;</span><br><span class="line">      &lt;input id=&apos;A&apos; /&gt; </span><br><span class="line">      &lt;input id=&apos;B&apos; /&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;Button id=&apos;cacl&apos;&gt;计算&lt;/Button&gt; &lt;span&gt;AB相加为&lt;/span&gt;&lt;span id=&apos;sum&apos;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> var bt= document.getElementById(&apos;cacl&apos;);</span><br><span class="line"> bt.addEventListener(&apos;click&apos;,function()&#123;</span><br><span class="line">   var valA = document.getElementById(&apos;A&apos;).value;</span><br><span class="line">   var valB = document.getElementById(&apos;B&apos;).value;</span><br><span class="line">   window.postMessage(JSON.stringify(&#123;</span><br><span class="line">         type:&apos;add&apos;,</span><br><span class="line">         data:&#123;</span><br><span class="line">           A:valA,</span><br><span class="line">           B:valB</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;))</span><br><span class="line"> &#125;);</span><br><span class="line">document.addEventListener(&apos;message&apos;,function(e)&#123;</span><br><span class="line">   document.getElementById(&apos;sum&apos;).innerText = JSON.parse(e.data).result;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="RN-中的代码"><a href="#RN-中的代码" class="headerlink" title="RN 中的代码"></a>RN 中的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"> export default class RNWebbViewMessage extends Component &#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    super(props);</span><br><span class="line">      this.onMessage = this.onMessage.bind(this);</span><br><span class="line">  &#125;</span><br><span class="line">   onMessage(e)&#123;</span><br><span class="line">      var event =e.nativeEvent;</span><br><span class="line">      var data=JSON.parse(event.data);</span><br><span class="line">      if(data.type ===&apos;add&apos;)&#123;</span><br><span class="line">        let  args= data.data;</span><br><span class="line">        let a = Number(args.A);</span><br><span class="line">        let b = Number(args.B);</span><br><span class="line">        this.refs.webviewRef.postMessage(JSON.stringify(&#123;</span><br><span class="line">            result:a+b</span><br><span class="line">         &#125;))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;View style=&#123;&#123;flex:1&#125;&#125;&gt;</span><br><span class="line">          &lt;WebView ref=&#123;&apos;webviewRef&apos;&#125; automaticallyAdjustContentInsets=&#123;false&#125; onMessage=&#123;this.onMessage&#125; javaScriptEnabled=&#123;true&#125; source=&#123;&#123;uri:&apos;http://localhost/work/study/rnwebviewmessage/index.html?ss&apos;&#125;&#125; /&gt; </span><br><span class="line">      &lt;/View&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>经过验证结论是成立的。</p>
 <ul>
 <li>webview网页可以使用<code>window.postMessage</code> 发送消息， <code>document.addEventListener(&#39;message&#39;,callback)</code>来监听消息</li>
 <li>RN 中onMessage 通过 参数中nativeEvent.data获得webview传递过来的字符串。然后把结果通过webview实例的postMessage方法发送到H5中</li>
 </ul>
 <p>以上只是通信api的介绍，如果生产环境中使用的话，还可以对调用形式进一步封装，比如H5中方法调用RN中的分享，并且要求知道分享结果是否成功，可以使用 <code>webviewBridgecallRN(&#39;share&#39;,{title:&#39;微信分享&#39;，content:&quot;分享内容&quot;},callback)</code>这种类似的方式，同时RN中可根据事件的名字进行分模块来实现。</p>
-<h5 id="u5907_u6CE8"><a href="#u5907_u6CE8" class="headerlink" title="备注"></a>备注</h5><ul>
+<h5 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h5><ul>
 <li>查阅了react-native的Webview源码变更记录  <code>onMessage/postMessage</code>是从 0.37 版才支持的。android与ios的支持版本同步。</li>
 <li>之前rn webview 通信可以使用 <a href="react-native-webview-bridge">https://github.com/alinz/react-native-webview-bridge</a></li>
 </ul>
@@ -173,8 +173,7 @@ window.postMessage accepts one argument, data, which will be available on the ev
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2017/03/14/react-native-webview-communicate/"
-             data-title="react-native与webview的双向通信" data-url="http://kunkun12.com/2017/03/14/react-native-webview-communicate/">
+        <div class="ds-thread" data-thread-key="2017/03/14/react-native-webview-communicate/" data-title="react-native与webview的双向通信" data-url="http://kunkun12.com/2017/03/14/react-native-webview-communicate/">
         </div>
 
       
@@ -211,7 +210,7 @@ window.postMessage accepts one argument, data, which will be available on the ev
 
     <div class="site-overview">
       <div class="site-author motion-element">
-        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun" />
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
         <p class="site-author-name">kunkun</p>
       </div>
       <p class="site-description motion-element"></p>
@@ -262,7 +261,7 @@ window.postMessage accepts one argument, data, which will be available on the ev
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#H5_u7684_u4EE3_u7801"><span class="nav-number">1.</span> <span class="nav-text">H5的代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RN__u4E2D_u7684_u4EE3_u7801"><span class="nav-number">2.</span> <span class="nav-text">RN 中的代码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#u5907_u6CE8"><span class="nav-number">2.1.</span> <span class="nav-text">备注</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#H5的代码"><span class="nav-number">1.</span> <span class="nav-text">H5的代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RN-中的代码"><span class="nav-number">2.</span> <span class="nav-text">RN 中的代码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#备注"><span class="nav-number">2.1.</span> <span class="nav-text">备注</span></a></li></ol></li></ol>
       </div>
     
   </div>
