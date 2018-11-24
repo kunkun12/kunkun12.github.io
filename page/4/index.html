@@ -99,6 +99,194 @@
           
           
             
+              <a class="post-title-link" href="/2014/03/12/javascript-bind-function/">
+                javascript bind function
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-12
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/12/javascript-bind-function/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/12/javascript-bind-function/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>记得半年之前在微博上看到一个问题，有人问如何才能证明自己真正理解了Javascript，有大神回答，最起码要能明白并写出bind 函数。当然这里的Javascript 仅仅是指的ECMASCRIPT本身，并不包含浏览器相关的那些。那么这篇博客这里就以bind开始吧。<br>首先搬出三个概念、</p>
+<ul>
+<li>作用域：表示变量或函数起作用的区域，作用域链-Javascript的作用域链也是按有顺序查询的。在访问变量时，先查看本地作用域是否有此变量，如果没有则依次向上一级作用域查找直到全局作用域。如果全局作用域也没有此变量，那么将会在全局作用域中声明这个变量;</li>
+<li>上下文：又可以理解为上下文对象，表示<strong>当前代码执行时所处的环境</strong>。即是this变量所指代的对象;</li>
+<li>闭包：表示能访问和操作其他本地作用域的变量的表达式（通常是函数）;</li>
+</ul>
+<p>在Javascript中<code>this</code>关键字是非常重要的，我之前也花费了不少时间来理解Javascript中的this是如何工作的。每个函数都有一个this变量，简单来说函数this是一个指针，它指向是不固定的，而是动态的，指向调用这个函数的对象，而这个对象就是上下文。我们都知道，Javascript里面的有作用域的概念，就是变量能够访问到的范围，this则是指向当前作用域的。通过this访问变量的时候会在当前作用域上查找。这篇博文是关于bind函数的，这个也是我们经常用的一个东西。</p>
+<h3 id="u63D0_u51FA_u95EE_u9898"><a href="#u63D0_u51FA_u95EE_u9898" class="headerlink" title="提出问题"></a>提出问题</h3><p>说起Javascript，很难避免的提到了闭包，每个闭包拥有自己的作用域以及this 变量闭包里面的this 并不是指向原来的对象。例如</p>
+<pre><code>var getUserComments = function(callback) {
+    var numOfCommets = 34;
+    callback({ comments: numOfCommets });
+};
+var User = {
+    fullName: &apos;kunkun&apos;,
+    print: function() {
+        getUserComments(function(data) {
+            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+        });
+    }
+};
+User.print();
+</code></pre><p>这里假设getUserComments 是一个异步的函数，通过一个回调函数来接受处理getUserComments返回的结果，在User对象里面我传入了一个匿名函数-闭包(即刚才说的回调的函数)，执行完毕的结果如下。</p>
+<pre><code>undefined made 34 comments
+</code></pre><p>可以看出这里的在调用print的时候。在刚才的回调函数里面<code>this.fullName</code>取值为undefined，可以看出此时这里面this 不再指向User对象了(其实是指向全局对比如在浏览器环境下的window);但是我期望的返回结果为<br><code>kunkun made 34 comments</code>可以如下解决。</p>
+<pre><code>var that= this;
+getUserComments(function(data) {
+    console.log(that.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+});
+</code></pre><p>在执行print的时候，由于print是由User来调用的因此，print 里面的 this 是指向的User对象的，于是把this 赋值给力that ，所以that 这里保存了User的地址。所以在调用fullname的时候 ，就是User作用域下的fullname。</p>
+<p>但是这种方法感觉有点混乱，同时也要定义像that这样新的变量，如果这样的情况出现多次的话，难免造成迷糊的。那么如何提前给这个函数固定好作用域呢。</p>
+<h4 id="u8BBE_u7F6E_u51FD_u6570_u7684_u4F5C_u7528_u57DF"><a href="#u8BBE_u7F6E_u51FD_u6570_u7684_u4F5C_u7528_u57DF" class="headerlink" title="设置函数的作用域"></a>设置函数的作用域</h4><p>这里提供了一种方式来设置函数的作用域：使用apply 或者call函数，这两个方法是在Function.prototype里面定义的，因此任何一个函数都继承了这两个方法，apply和call的第一个参数就是要给方法绑定的对象(即该方法调用时this指向的对象)。下面给定义一个getLength方法来获取fullname的length</p>
+<pre><code>var getLength = function() {
+    console.log(this.fullName.length);
+}
+getLength.apply(User);
+</code></pre><p>结果是这种方式的输出结果是6，说明我的目的是达到了，如果我们直接调用<code>getLength</code>方法呢，<code>getLength()</code>则会返回爆出异常，这种情况下 <code>getLength</code>是在最外层定义的，因此调用的时候this指向的是全局对象，但是全局对象中没有<code>fullName</code>这个属性，因此此时<code>this.fullName</code>为undfined，那么<code>this.fullName.length</code>则相当于执行了undfined.length，这是必然要爆出异常的。</p>
+<p>以上使用apply调用的时候 getLength也自然地调用了，那么如何给getLength指定好上下文，而不让他调用的。等以后调用的时候函数里面的this 则指向我们自己设定的对象。我们不妨把这个功能称之为 bind。</p>
+<h4 id="u539F_u751F_u7684Function-prototype-bind"><a href="#u539F_u751F_u7684Function-prototype-bind" class="headerlink" title="原生的Function.prototype.bind"></a>原生的Function.prototype.bind</h4><p>如上提到的一样apply和call一样，他们都是Function.prototype对象中的方法，这个是ES5里面新增的方法。因此当前主流的浏览器都是支持的包括Chrome, Firefox, Opera，safari 其中IE 要在8以上。</p>
+<p>在此将上面的代码修改如下</p>
+<pre><code>var User = {
+    fullName: &apos;kunkun&apos;,
+    print: function() {
+        getUserComments(function(data) {
+            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+        }.bind(this));
+    }
+};
+User.print();
+</code></pre><p>在上面绑定的时候调用bind(this)的时候， 在print里面的，此时print是由User调用的，因此的this指向User的。bind的第一个参数就是给该匿名函数绑定作用域。同时呢也可以使用该函数为函数绑定预定义的参数</p>
+<pre><code>var User = {
+    fullName: &apos;kunkun&apos;,
+    print: function() {
+        getUserComments(function(msg, data) {
+            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos; + msg);
+        }.bind(this, &apos;coder&apos;));
+    }
+};
+</code></pre><p>注意在调用的时候参数的顺序是在bind绑定的参数在前面。</p>
+<h4 id="Polyfill-_u4E3A_u65E7_u7248_u672C_u7684_u6D4F_u89C8_u5668_u589E_u52A0bind_u51FD_u6570"><a href="#Polyfill-_u4E3A_u65E7_u7248_u672C_u7684_u6D4F_u89C8_u5668_u589E_u52A0bind_u51FD_u6570" class="headerlink" title="Polyfill-为旧版本的浏览器增加bind函数"></a>Polyfill-为旧版本的浏览器增加bind函数</h4><p>同时也是文章开头的那道题要求的答案。</p>
+<p>这里的解决方案就是首先判断Function.prototype中的是否具有这个bind函数，如果没有的话在这里为Function.prototype增加一个bind属性，具体实现还是通过apply来搞定的，<code>Function.prototype.bind()</code>返回一个函数，在这个函数执行的时候动态地执行要绑定作用域的函数的apply方法</p>
+<pre><code>if (!Function.prototype.bind) {
+  Function.prototype.bind = function (oThis) {
+    if (typeof this !== &quot;function&quot;) {
+      throw new TypeError(&quot;Function.prototype.bind - what is trying to be bound is not callable&quot;);
+    }     
+    var aArgs = Array.prototype.slice.call(arguments, 1), 
+        fToBind = this, 
+        fNOP = function () {},
+        fBound = function () {
+          return fToBind.apply(
+            this instanceof fNOP &amp;&amp; oThis ? this : oThis, 
+            aArgs.concat(Array.prototype.slice.call(arguments))
+          );
+        };     
+    fNOP.prototype = this.prototype;
+    fBound.prototype = new fNOP();         
+    return fBound;
+  };
+}
+</code></pre><p>每个函数在执行的时候有个arguments 对象，这是一个类数组对象，是一个传入的参数列表，通过<code>Array.prototype.slice.call(arguments, 1)</code>来获取参数列表除第一个元素之外的元素列表，返回结果是一个数组。因为bind 函数第一个参数是要绑定的对象，之后的参数是预先为函数绑定的参数，同事呢这个函数在执行的时候也会传入参数，这个参数列表也在arguments里面，于是将这个两个参数列表进行合并。</p>
+<pre><code>aArgs.concat(Array.prototype.slice.call(arguments))
+</code></pre><p>将该数组传入给apply的第二个参数。apply第二个参数是arguments这样类型的，当然也可以是一个数组比如apply(obj,[参数一，参数二，参数三])，而call在这方面的区别就是参数列表是如 call(user,参数一，参数二，参数三)这种形式.apply调用要将参数封装到一个数组里面，这种方式适用用不清楚参数个数的情况下。而call则要求要明确参数的个数。很明显apply更灵活、功能要强一些。</p>
+<p>如果要了解更多信息可以参见<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind</a></p>
+<p>最后自己瞎编了两道题</p>
+<h5 id="u7B2C_u4E00_u9053"><a href="#u7B2C_u4E00_u9053" class="headerlink" title="第一道"></a>第一道</h5><pre><code>var name=&quot;张三&quot;
+function Person(name){
+this.name=name
+};
+
+Person.prototype.getName=function(){
+console.log(this.name)
+};
+
+var p=new Person(&quot;李四&quot;);
+ p.getName();
+
+ var m=p.getName;
+
+ m();
+</code></pre><h5 id="u7B2C_u4E8C_u9053"><a href="#u7B2C_u4E8C_u9053" class="headerlink" title="第二道"></a>第二道</h5><p>根据文章继续文章中使用Demo</p>
+<pre><code>var getUserComments = function(callback) {
+            var numOfCommets = 34;
+            callback({ comments: numOfCommets });
+        };
+var User = {
+            fullName: &apos;kunkun&apos;,
+            print: function() {
+                getUserComments(function(data) {
+                    console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+                }.bind(this));
+            }
+        };
+var p=    User.print;
+    p()
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2014/03/11/html-5-meta-tag/">
                 html 5 meta tag
               </a>
@@ -1956,131 +2144,6 @@ l access.
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/01/javascriptjudge-browser/">
-                判断浏览器特性
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-01
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/01/javascriptjudge-browser/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/javascriptjudge-browser/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD"><a href="#u6D4F_u89C8_u5668_u7C7B_u578B_u5224_u65AD" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
-<p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
-<pre><code> var Sys = {}; 
-var ua = navigator.userAgent.toLowerCase(); 
-var s; 
-(s = ua.match(/msie ([/d.]+)/)) ? Sys.ie = s[1] : 
-(s = ua.match(/firefox//([/d.]+)/)) ? Sys.firefox = s[1] : 
-(s = ua.match(/chrome//([/d.]+)/)) ? Sys.chrome = s[1] : 
-(s = ua.match(/opera.([/d.]+)/)) ? Sys.opera = s[1] : 
-(s = ua.match(/version//([/d.]+).*safari/)) ? Sys.safari = s[1] : 0;
-</code></pre><p>测试代码</p>
-<pre><code>if (Sys.ie) document.write(&apos;IE: &apos; + Sys.ie); 
-if (Sys.firefox) document.write(&apos;Firefox: &apos; + Sys.firefox); 
-if (Sys.chrome) document.write(&apos;Chrome: &apos; + Sys.chrome); 
-if (Sys.opera) document.write(&apos;Opera: &apos; + Sys.opera); 
-if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
-</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>实现。</p>
-<h3 id="Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002"><a href="#Modernizr_u662F_u4E13_u95E8_u7528_u6765_u68C0_u6D4B_u6D4F_u89C8_u5668_u5BF9HTML5_u548CCSS3_u7279_u6027_u7684JS_u5E93_u3002" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
-<pre><code>if (Modernizr.borderradius) {
-      //do something
-   }
-
-   if (Modernizr.csstransforms) {
-      //
-   }
-</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="external">shim/polyfill</a>脚本来达到支持的目的.</p>
-<p>可以使用Modernizr的load()函数来动态加载脚本，该函数的test属性是表明要测试是否支持的新特性，如果测试成功支持的话，就加载yep属性设置的脚本，如果不支持就加载nope属性设置的脚本，不管是否支持，both属性里设置的脚本都会加载的。例子代码如下：</p>
-<pre><code>Modernizr.load({
-    test: Modernizr.canvas,
-    yep:  &apos;html5CanvasAvailable.js’,
-    nope: &apos;excanvas.js’, 
-    both: &apos;myCustomScript.js&apos; 
-});
-</code></pre><p>在该例子里，Modernizr会判断当前浏览器是否支持canvas特性，如果支持，那就会加载html5CanvasAvailable.js和myCustomScript.js这两个脚本，如果不支持，就会加载excanvas.js（用于IE9之前的版本）脚本文件以让该浏览器支持canvas功能，然后再加载myCustomScript.js脚本。</p>
-<p>因为Modernizr可以加载脚本，所以你还可以用于其它的用途，比如，如果你引用的第三方脚本（例如提供CDN服务的Google和Microsoft提供jquery的托管）加载失败的情况下，可以加载备用的文件。下面的代码是Modernizr提供的一个加载jquery的示例：</p>
-<pre><code>Modernizr.load([
-    {
-        load: &apos;//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js&apos;,
-        complete: function () {
-            if (!window.jQuery) {
-                Modernizr.load(&apos;js/libs/jquery-1.6.4.min.js&apos;);
-            }
-        }
-    },
-    {
-        // This will wait for the fallback to load and
-        // execute if it needs to.
-        load: &apos;needs-jQuery.js&apos;
-    }
-]);
-</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="external">Detecting HTML5/CSS3 Features using Modernizr</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -2113,7 +2176,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
@@ -2169,7 +2232,7 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
         <div class="copyright">
   
   &copy; &nbsp; 
-  2017
+  2018
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
