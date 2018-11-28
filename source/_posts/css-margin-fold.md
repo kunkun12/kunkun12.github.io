@@ -1,6 +1,7 @@
 title: css margin折叠
 date: 2014-09-23 14:10:50
 tags: CSS
+categories: CSS
 ---
 
 ### margin折叠-Collapsing margin

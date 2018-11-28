@@ -3,7 +3,7 @@ layout: post
 title: "HTML5 Geolocation API-获取设备的地理位置"
 date: 2014-03-14 07:59:57 +0800
 comments: true
-categories: html5
+categories: html5 Geolocation
 tag: Html
 ---
 ### 地理位置API介绍

@@ -1,6 +1,7 @@
 title: React.createClass VS React.Component
 date: 2016-03-05 11:16:42
-tags:
+tags: React
+categories: React
 ---
 创建react组件有两种方式，使用用 `React.createClass` 以及用es6模块化的方式`extends React.Component` 通过集成 `Component` 组件类的形式来实现。两者的作用类似，后者是新的语法也是趋势。于是赶紧对比下如何升级到新的语法
 

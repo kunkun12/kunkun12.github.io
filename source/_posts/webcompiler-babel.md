@@ -1,6 +1,7 @@
 title: 前端编译技术：Babel
 date: 2018-11-24 18:44:49
-tags:
+tags: AST Babel 抽象语法树
+categories: Babel
 ---
 
 
@@ -258,6 +259,7 @@ const BASE_URL = env({
 - [How to use Babel macros with React Native](https://medium.freecodecamp.org/using-babel-macros-with-react-native-8615aaf5b7df)
 - [astexplorer.net](astexplorer.net)
 - [Writing custom Babel and ESLint plugins](http://slides.com/kentcdodds/a-beginners-guide-to-asts)
+- [AST for JavaScript developers](https://itnext.io/ast-for-javascript-developers-3e79aeb08343)
 - [Christoph Pojer: Evolving Complex Systems Incrementally | JSConf EU 2015](https://www.youtube.com/watch?v=d0pOgY8__JM&feature=youtu.be)
 - [Ramana Venkata: How to write a codemod](https://vramana.github.io/blog/2015/12/21/codemod-tutorial/)
 - [Jamund Ferguson: Harnessing The Power of Abstract Syntax Trees](https://www.youtube.com/watch?v=8uOXIM4giH8)

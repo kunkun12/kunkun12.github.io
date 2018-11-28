@@ -1,7 +1,8 @@
 layout: blog
 title: vue 1.0 的主要变化
 date: 2016-01-14 17:02:12
-tags:
+tags: Vue
+categories: Vue
 ---
 目前工作中还在使用 0.12.x版本，突然发现 1.0在使用上有不小的变化，于是参考 官方的更新日志<https://github.com/vuejs/vue/releases/tag/1.0.0>总结如下
 - v-repeat  替换为 v-for

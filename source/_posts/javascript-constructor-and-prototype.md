@@ -1,6 +1,7 @@
 title: Javascript中的类、对象、以及继承
 date: 2014-11-05 20:08:50
 tags: JavaScript
+categories: Javascript
 ---
 
 ## 关于对象

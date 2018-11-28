@@ -1,6 +1,6 @@
 title: mac上常用的工具
 date: 2015-02-26 14:14:53
-tags:
+tags: env mac
 ---
 
 我的mac (OS X)上常用的工具。。。

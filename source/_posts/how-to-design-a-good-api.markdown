@@ -3,7 +3,7 @@ layout: post
 title: "如何设计优秀的API"
 date: 2014-02-20 10:12:21 +0800
 comments: true
-categories: API
+categories: API 设计
 tag: API
 ---
 谷歌架构师Joshua Bloch最近分享了一份幻灯片，[系统的讨论了优秀API的设计原则](http://vidcat.org/papers/how-to-design-a-good-api-and-why-it-matters.html#.UxFCN_mSyKM)。他指出：每个API接口应该只专注一件事，并做好：如果它很难命名，那么这或许是个不好的征兆，好的名称可以驱动开发、并且只需拆分与合并模块即可。设计原则包括：

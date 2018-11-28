@@ -1,6 +1,7 @@
 title: angluarJS 指令与控制器中的方法的调用。
 date: 2015-01-14 16:52:42
 tags: AngularJS
+categories: AngularJS
 ---
 
 ### 指令调用控制器中的方式（给指令的事件绑定执行函数）

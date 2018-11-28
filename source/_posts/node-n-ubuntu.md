@@ -1,6 +1,7 @@
 title: ubuntu 下使用n 管理node 版本遇到的问题
 date: 2016-01-21 17:09:13
-tags:
+tags: node
+categories: node
 ---
 
 ubuntu 中使用n 来管理node，首先根据github<https://github.com/tj/n>上面的提示进行安装 

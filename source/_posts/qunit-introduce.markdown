@@ -3,8 +3,8 @@ layout: post
 title: "测试驱动开发：QUnit 介绍"
 date: 2014-02-07 08:07:25 +0800
 comments: true
-categories: 单元测试 QUnit
-
+categories: 单元测试
+tag: test 单元测试
 ---
 在Javascript项目的开发流程中，测试驱动开发广为流传，测试驱动能够让我们节省编码的时间，本篇文章主要介绍[Qunit](http://qunitjs.com/),一个测试驱动的开发框架，来帮助我们发现程序的错误以及bug
 

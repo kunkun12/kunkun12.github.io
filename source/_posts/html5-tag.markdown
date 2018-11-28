@@ -3,7 +3,7 @@ layout: post
 title: "HTML5 语义化标签"
 date: 2014-03-09 22:39:45 +0800
 comments: true
-categories: html5
+categories: html5 语义化
 tag: Html
 ---
 在HTML 5出来之前，我们用div来表示页面章节，但是这些div都没有实际意义。（即使我们用css样式的id和class形容这块内容的意义）。这些标签只是我们提供给浏览器的指令，只是定义一个网页的某些部分。但现在，那些之前没“意义”的标签因为因为html5的出现消失了，这就是我们平时说的“语义”。

@@ -1,6 +1,7 @@
 title: less常用特性
 date: 2015-01-11 23:53:04
-tags: Less
+tags: Less Css
+categories: Less
 ---
 
 less并非多么高大上的东西，无非就是个编写CSS的工具，让我们像编程一样来书写CSS，关于less常用的特性无非几个，下面简单将常用这些特性简单记录。方便以后查阅

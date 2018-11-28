@@ -3,8 +3,8 @@ layout: post
 title: "面向对象编程3大特性 7大原则[转] "
 date: 2014-03-20 12:42:35 +0800
 comments: true
-categories: object oriented
-tag: object oriented
+categories: 面向对象
+tag: 面向对象
 
 ---
 

@@ -1,6 +1,7 @@
 title: ionic 环境搭建 （mac）
 date: 2015-01-05 00:02:14
 tags: Ionic
+categories: Ionic
 ---
 
 ### android基础环境 JAVA 、ADT (Android SDK tools) （该过程不详细叙述）

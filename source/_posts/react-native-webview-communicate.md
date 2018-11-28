@@ -1,6 +1,6 @@
 title: react-native与webview的双向通信
 date: 2017-03-14 00:21:25
-tags:
+tags: React React-Native
 ---
 react native 在官网的文档中，并没有详细介绍<http://facebook.github.io/react-native/docs/webview.html#onmessage>如何实现RN与WebView中JavaScript的通信。 关于 onMessage的描述如下，
 

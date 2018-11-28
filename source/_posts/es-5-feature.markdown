@@ -3,7 +3,7 @@ layout: post
 title: "ECMAScript 5 学习总结"
 date: 2014-03-05 08:31:52 +0800
 comments: true
-categories: ES5
+categories: ES5 Javascript
 tag: JavaScript
 ---
 

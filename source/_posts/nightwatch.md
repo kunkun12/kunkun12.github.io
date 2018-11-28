@@ -1,6 +1,7 @@
 title: web 端到端测试工具 Nightwatch.js
 date: 2017-10-15 11:56:40
-tags: 
+tags: AngularJS
+categories: AngularJS
 ---
 
 ### Nightwath 介绍

@@ -16,7 +16,11 @@ url: http://kunkun12.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
-
+menu:
+   home: /
+   archives: /archives
+   tags: /tags
+   categories: /categories
 # Directory
 source_dir: source
 public_dir: public
@@ -79,5 +83,5 @@ social:
   zhihu: http://www.zhihu.com/people/du-bao-kun-61
 deploy:
   type: git
-  repo: git@kkgithub:kunkun12/kunkun12.github.io.git	
+  repo: git@github.com:kunkun12/kunkun12.github.io.git	
   branch: master
