@@ -204,9 +204,11 @@ ES5中新的特性让对象的属性具有可只读readable，可只写writable�
 #### 属性保护 extending、 sealing、freezing。
 在ES5中 对象可以被设置为non-extensible, sealed, 以及 frozen。这是三种不同的属性保护级别，可以通过`Object.preventExtensions(myObject)`, `Object.seal(myObject)`,  `Object.freeze(myObject)`来进行设置。
 
-- Object.preventExtensions() 让对象无法新增属性。
-- Object.seal()包括了Object.preventExtensions()的功能，同时还具有让已经存在的属性不可修改配置也就说不能使用Object.defineProperty以及Object.defineProperties 来修改属性的配置，但是修改属性的值依然是可以修改的。
-- Object.freeze() 包括了Object.preventExtensions(),Object.seal()的功能，同时为对象的所有数据属性将 writable 特性设置为 false。 当 writable 为 false 时，无法更改数据属性值。（如果 属性值是对象的话，还是可以改变的）
+- `Object.preventExtensions()` 对象无法新增属性。(强制赋值新的属性也不报错,可以使用delelte删除属性)
+- `Object.seal()`包括了`Object.preventExtensions()`的功能，不可再使用`Object.defineProperty`来修改属性的配置 congigurable 为false。
+- `Object.freeze()` 包括`Object.seal()`的功能，同时为对象的所有数据属性将 writable 特性设置为 false。属性不可写
+
+总结 不可新增属性，不可修改配置，不可写 逐渐递增。freeze 最厉害。
 
 					var  p={
 								user:"kunkun"
@@ -223,6 +225,7 @@ ES5中新的特性让对象的属性具有可只读readable，可只写writable�
 - Object.isExtensible()
 - Object.isSealed()
 - Object.isFrozen()
+
 
 #### 使用Object.create()显式继承。
 在ES3中创建对象的方式主要有以下三种

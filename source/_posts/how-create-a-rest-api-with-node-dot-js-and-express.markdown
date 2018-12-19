@@ -3,10 +3,9 @@ layout: post
 title: "如何使用Node+express创建Rest API"
 date: 2014-03-15 23:48:08 +0800
 comments: true
-categories: node express rest
-tag: Node
---- 
-
+categories: API 设计
+tag:  Node express
+---
 ### 安装环境
 
 1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处[下载](http://nodejs.org/)
