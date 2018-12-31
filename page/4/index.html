@@ -99,8 +99,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/03/12/javascript-bind-function/">
-                javascript bind function
+              <a class="post-title-link" href="/2014/09/23/css-margin-fold/">
+                css margin折叠
               </a>
             
           
@@ -110,15 +110,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-12
+              发表于 2014-09-23
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/12/javascript-bind-function/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/12/javascript-bind-function/"></span>
+            <a href="/2014/09/23/css-margin-fold/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/23/css-margin-fold/"></span>
             </a>
           </span>
           
@@ -133,1159 +133,26 @@
         
 
         
-          <p>记得半年之前在微博上看到一个问题，有人问如何才能证明自己真正理解了Javascript，有大神回答，最起码要能明白并写出bind 函数。当然这里的Javascript 仅仅是指的ECMASCRIPT本身，并不包含浏览器相关的那些。那么这篇博客这里就以bind开始吧。<br>首先搬出三个概念、</p>
+          <h3 id="margin折叠-Collapsing-margin"><a href="#margin折叠-Collapsing-margin" class="headerlink" title="margin折叠-Collapsing margin"></a>margin折叠-Collapsing margin</h3><p>所谓margin折叠(Collapsing margin)，就是我们常说的盒子垂直边距叠加，具体是指在同一个块级格式化上下文（简称BFC）中，毗邻的两个或者多个垂直外边距会发生互相折叠的现象。其中所说的毗邻可以归结为以下两点</p>
 <ul>
-<li>作用域：表示变量或函数起作用的区域，作用域链-Javascript的作用域链也是按有顺序查询的。在访问变量时，先查看本地作用域是否有此变量，如果没有则依次向上一级作用域查找直到全局作用域。如果全局作用域也没有此变量，那么将会在全局作用域中声明这个变量;</li>
-<li>上下文：又可以理解为上下文对象，表示<strong>当前代码执行时所处的环境</strong>。即是this变量所指代的对象;</li>
-<li>闭包：表示能访问和操作其他本地作用域的变量的表达式（通常是函数）;</li>
+<li>两个或者多个外边距没有被非空内容、padding、border或者clear分隔开。 </li>
+<li>两个或者多个外边距所归属的元素都处于普通流中，而非浮动元素或者绝对定位元素。</li>
 </ul>
-<p>在Javascript中<code>this</code>关键字是非常重要的，我之前也花费了不少时间来理解Javascript中的this是如何工作的。每个函数都有一个this变量，简单来说函数this是一个指针，它指向是不固定的，而是动态的，指向调用这个函数的对象，而这个对象就是上下文。我们都知道，Javascript里面的有作用域的概念，就是变量能够访问到的范围，this则是指向当前作用域的。通过this访问变量的时候会在当前作用域上查找。这篇博文是关于bind函数的，这个也是我们经常用的一个东西。</p>
-<h3 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h3><p>说起Javascript，很难避免的提到了闭包，每个闭包拥有自己的作用域以及this 变量闭包里面的this 并不是指向原来的对象。例如</p>
-<pre><code>var getUserComments = function(callback) {
-    var numOfCommets = 34;
-    callback({ comments: numOfCommets });
-};
-var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-        });
-    }
-};
-User.print();
-</code></pre><p>这里假设getUserComments 是一个异步的函数，通过一个回调函数来接受处理getUserComments返回的结果，在User对象里面我传入了一个匿名函数-闭包(即刚才说的回调的函数)，执行完毕的结果如下。</p>
-<pre><code>undefined made 34 comments
-</code></pre><p>可以看出这里的在调用print的时候。在刚才的回调函数里面<code>this.fullName</code>取值为undefined，可以看出此时这里面this 不再指向User对象了(其实是指向全局对比如在浏览器环境下的window);但是我期望的返回结果为<br><code>kunkun made 34 comments</code>可以如下解决。</p>
-<pre><code>var that= this;
-getUserComments(function(data) {
-    console.log(that.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-});
-</code></pre><p>在执行print的时候，由于print是由User来调用的因此，print 里面的 this 是指向的User对象的，于是把this 赋值给力that ，所以that 这里保存了User的地址。所以在调用fullname的时候 ，就是User作用域下的fullname。</p>
-<p>但是这种方法感觉有点混乱，同时也要定义像that这样新的变量，如果这样的情况出现多次的话，难免造成迷糊的。那么如何提前给这个函数固定好作用域呢。</p>
-<h4 id="设置函数的作用域"><a href="#设置函数的作用域" class="headerlink" title="设置函数的作用域"></a>设置函数的作用域</h4><p>这里提供了一种方式来设置函数的作用域：使用apply 或者call函数，这两个方法是在Function.prototype里面定义的，因此任何一个函数都继承了这两个方法，apply和call的第一个参数就是要给方法绑定的对象(即该方法调用时this指向的对象)。下面给定义一个getLength方法来获取fullname的length</p>
-<pre><code>var getLength = function() {
-    console.log(this.fullName.length);
-}
-getLength.apply(User);
-</code></pre><p>结果是这种方式的输出结果是6，说明我的目的是达到了，如果我们直接调用<code>getLength</code>方法呢，<code>getLength()</code>则会返回爆出异常，这种情况下 <code>getLength</code>是在最外层定义的，因此调用的时候this指向的是全局对象，但是全局对象中没有<code>fullName</code>这个属性，因此此时<code>this.fullName</code>为undfined，那么<code>this.fullName.length</code>则相当于执行了undfined.length，这是必然要爆出异常的。</p>
-<p>以上使用apply调用的时候 getLength也自然地调用了，那么如何给getLength指定好上下文，而不让他调用的。等以后调用的时候函数里面的this 则指向我们自己设定的对象。我们不妨把这个功能称之为 bind。</p>
-<h4 id="原生的Function-prototype-bind"><a href="#原生的Function-prototype-bind" class="headerlink" title="原生的Function.prototype.bind"></a>原生的Function.prototype.bind</h4><p>如上提到的一样apply和call一样，他们都是Function.prototype对象中的方法，这个是ES5里面新增的方法。因此当前主流的浏览器都是支持的包括Chrome, Firefox, Opera，safari 其中IE 要在8以上。</p>
-<p>在此将上面的代码修改如下</p>
-<pre><code>var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-        }.bind(this));
-    }
-};
-User.print();
-</code></pre><p>在上面绑定的时候调用bind(this)的时候， 在print里面的，此时print是由User调用的，因此的this指向User的。bind的第一个参数就是给该匿名函数绑定作用域。同时呢也可以使用该函数为函数绑定预定义的参数</p>
-<pre><code>var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(msg, data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos; + msg);
-        }.bind(this, &apos;coder&apos;));
-    }
-};
-</code></pre><p>注意在调用的时候参数的顺序是在bind绑定的参数在前面。</p>
-<h4 id="Polyfill-为旧版本的浏览器增加bind函数"><a href="#Polyfill-为旧版本的浏览器增加bind函数" class="headerlink" title="Polyfill-为旧版本的浏览器增加bind函数"></a>Polyfill-为旧版本的浏览器增加bind函数</h4><p>同时也是文章开头的那道题要求的答案。</p>
-<p>这里的解决方案就是首先判断Function.prototype中的是否具有这个bind函数，如果没有的话在这里为Function.prototype增加一个bind属性，具体实现还是通过apply来搞定的，<code>Function.prototype.bind()</code>返回一个函数，在这个函数执行的时候动态地执行要绑定作用域的函数的apply方法</p>
-<pre><code>if (!Function.prototype.bind) {
-  Function.prototype.bind = function (oThis) {
-    if (typeof this !== &quot;function&quot;) {
-      throw new TypeError(&quot;Function.prototype.bind - what is trying to be bound is not callable&quot;);
-    }     
-    var aArgs = Array.prototype.slice.call(arguments, 1), 
-        fToBind = this, 
-        fNOP = function () {},
-        fBound = function () {
-          return fToBind.apply(
-            this instanceof fNOP &amp;&amp; oThis ? this : oThis, 
-            aArgs.concat(Array.prototype.slice.call(arguments))
-          );
-        };     
-    fNOP.prototype = this.prototype;
-    fBound.prototype = new fNOP();         
-    return fBound;
-  };
-}
-</code></pre><p>每个函数在执行的时候有个arguments 对象，这是一个类数组对象，是一个传入的参数列表，通过<code>Array.prototype.slice.call(arguments, 1)</code>来获取参数列表除第一个元素之外的元素列表，返回结果是一个数组。因为bind 函数第一个参数是要绑定的对象，之后的参数是预先为函数绑定的参数，同事呢这个函数在执行的时候也会传入参数，这个参数列表也在arguments里面，于是将这个两个参数列表进行合并。</p>
-<pre><code>aArgs.concat(Array.prototype.slice.call(arguments))
-</code></pre><p>将该数组传入给apply的第二个参数。apply第二个参数是arguments这样类型的，当然也可以是一个数组比如apply(obj,[参数一，参数二，参数三])，而call在这方面的区别就是参数列表是如 call(user,参数一，参数二，参数三)这种形式.apply调用要将参数封装到一个数组里面，这种方式适用用不清楚参数个数的情况下。而call则要求要明确参数的个数。很明显apply更灵活、功能要强一些。</p>
-<p>如果要了解更多信息可以参见<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind</a></p>
-<p>最后自己瞎编了两道题</p>
-<h5 id="第一道"><a href="#第一道" class="headerlink" title="第一道"></a>第一道</h5><pre><code>var name=&quot;张三&quot;
-function Person(name){
-this.name=name
-};
-
-Person.prototype.getName=function(){
-console.log(this.name)
-};
-
-var p=new Person(&quot;李四&quot;);
- p.getName();
-
- var m=p.getName;
-
- m();
-</code></pre><h5 id="第二道"><a href="#第二道" class="headerlink" title="第二道"></a>第二道</h5><p>根据文章继续文章中使用Demo</p>
-<pre><code>var getUserComments = function(callback) {
-            var numOfCommets = 34;
-            callback({ comments: numOfCommets });
-        };
-var User = {
-            fullName: &apos;kunkun&apos;,
-            print: function() {
-                getUserComments(function(data) {
-                    console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-                }.bind(this));
-            }
-        };
-var p=    User.print;
-    p()
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/11/html-5-meta-tag/">
-                html 5 meta tag
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-11
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/11/html-5-meta-tag/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/html-5-meta-tag/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="meta的作用"><a href="#meta的作用" class="headerlink" title="meta的作用"></a>meta的作用</h3><p>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
-<ul>
-<li><meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。</li>
-<li><meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。</li>
+<h3 id="常见发生margin折叠的情况有："><a href="#常见发生margin折叠的情况有：" class="headerlink" title="常见发生margin折叠的情况有："></a>常见发生margin折叠的情况有：</h3><ul>
+<li>一个盒子元素的top margin与第一个子盒子元素的top margin。</li>
+<li>一个盒子元素的bottom margin与最后一个子盒子元素的bottom margin， 但须在该盒子元素的height为auto的情况下 * 一个盒子元素的bottom margin与紧接着的下一个盒子元素的top margin。</li>
+<li>一个盒子元素的top margin与其自身的bottom margin，但须满足没创建 BFC、零min-height、零或者“auto”的height、没有普通流的子盒子元素。</li>
 </ul>
-<p>每个meta标签必须具有content属性，定义与 http-equiv 或 name 属性相关的元信息。</p>
-<h3 id="可选属性"><a href="#可选属性" class="headerlink" title="可选属性"></a>可选属性</h3><h4 id="http-equiv-属性"><a href="#http-equiv-属性" class="headerlink" title="http-equiv 属性"></a>http-equiv 属性</h4><p>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
-<pre><code>&lt;meta http-equiv=&quot;charset&quot; content=&quot;iso-8859-1&quot;&gt;
-&lt;meta http-equiv=&quot;expires&quot; content=&quot;31 Dec 2008&quot;&gt;
-</code></pre><p>这样发送到浏览器的头部就应该包含：</p>
-<pre><code>content-type: text/html
-charset:iso-8859-1
-expires:31 Dec 2008
-</code></pre><p>5秒刷新一次页面</p>
-<pre><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot; /&gt;
-</code></pre><h4 id="content-属性"><a href="#content-属性" class="headerlink" title="content 属性"></a>content 属性</h4><ul>
-<li>content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。</li>
-<li>content 属性始终要和 name 属性或 http-equiv 属性一起使用。</li>
+<h3 id="margin折叠的后的外边距计算："><a href="#margin折叠的后的外边距计算：" class="headerlink" title="margin折叠的后的外边距计算："></a>margin折叠的后的外边距计算：</h3><ul>
+<li>参加折叠的元素指都为正，取其中较大的值; </li>
+<li>参加折叠的元素值都为负，取绝对值较大的，然后负向位移; </li>
+<li>参加折叠的元素有正有负，取出正值中最大的值+负值中绝对值最大的值; </li>
+<li>元素自身的 margin-bottom 和 margin-top 相邻时也会折叠，自身<br>margin-bottom 和 margin-top 相邻，只能是自身内容为空，垂直方向上 border、padding 为 0; </li>
+<li>相邻的 margin 要一起参与计算，不得分步计算，要注意，相邻的元素不一定非<br>要是兄弟节点，父子节点也可以，即使不是兄弟父子节点也可以相邻。而且，在计算时，相邻的 margin 要一起参与计算，不得分步计算。 </li>
 </ul>
-<h4 id="name-属性"><a href="#name-属性" class="headerlink" title="name 属性"></a>name 属性</h4><p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
-<pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;HTML,ASP,PHP,SQL&quot;&gt;
-&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词； 
-&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容； 
-&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者； 
-&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt; 
-</code></pre><p>其中的属性说明如下： </p>
-<ul>
-<li>设定为all：文件将被检索，且页面上的链接可以被查询； </li>
-<li>设定为none：文件将不被检索，且页面上的链接不可以被查询； </li>
-<li>设定为index：文件将被检索； </li>
-<li>设定为follow：页面上的链接可以被查询； </li>
-<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询； </li>
-<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。 </li>
-</ul>
-<p>另外一点需要注意的是在HTML4中定义页面的字符集需要，放在content-type对应的content里面</p>
-<pre><code>&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=ISO-8859-1&quot;&gt;
-</code></pre><p>HTML5中新增了 charset属性 ，使用更简单</p>
-<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/10/html5-canvas/">
-                html5 canvas 2d绘图API 学习总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-10
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/10/html5-canvas/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/10/html5-canvas/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h3><p>canvas本身提供的属性和方法很少 属性有hegight,width(这个属性与通过CSS设置的是不同的),绘图功能主要是存在通过canvas.getContext()返回的上下文中.有个一个toDataUrl()方法, 可以将canvas的转为一定格式的图片。下面主要介绍，context2d里面的方法。之前学过C语言绘图，貌似方法很类似</p>
-<p>获取绘图上下文</p>
-<pre><code>var context =canvas.getContext(&quot;2d&quot;);
-</code></pre><p>canvas元素绘制图像的时候有两种方法，分别是</p>
-<ul>
-<li>context.fill()//填充</li>
-<li>context.stroke()//绘制边框</li>
-</ul>
-<p>style:在进行图形绘制前，要设置好绘图的样式</p>
-<ul>
-<li>context.fillStyle//填充的样式</li>
-<li>context.strokeStyle//边框样式</li>
-<li>context.lineWidth//图形边框宽度</li>
-</ul>
-<p>颜色的表示方式:</p>
-<ul>
-<li>直接用颜色名称:”red” “green” “blue”</li>
-<li>十六进制颜色值: “#EEEEFF”</li>
-<li>rgb(1-255,1-255,1-255)</li>
-<li>rgba(1-255,1-255,1-255,透明度)<br>默认情况下坐标原点为canvas的左上角，水平向右为X</li>
-</ul>
-<h5 id="绘制矩形-context-fillRect-x-y-width-height-strokeRect-x-y-width-height"><a href="#绘制矩形-context-fillRect-x-y-width-height-strokeRect-x-y-width-height" class="headerlink" title="绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)"></a>绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)</h5><ul>
-<li><em>x:矩形起点横坐标</em></li>
-<li><em>y:矩形起点纵坐标</em></li>
-<li><em>width:矩形长度</em></li>
-<li><em>height:矩形高度</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/Rect.html" target="_blank" rel="noopener">查看Demo</a></p>
-<h5 id="清除矩形区域-context-clearRect-x-y-width-height"><a href="#清除矩形区域-context-clearRect-x-y-width-height" class="headerlink" title="清除矩形区域 context.clearRect(x,y,width,height)"></a>清除矩形区域 context.clearRect(x,y,width,height)</h5><ul>
-<li><em>x:清除矩形起点横坐标</em></li>
-<li><em>y:清除矩形起点纵坐标</em></li>
-<li><em>width:清除矩形长度</em></li>
-<li><em>height:清除矩形高度</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/clearRect.html" target="_blank" rel="noopener">查看Demo</a></p>
-<h5 id="圆弧context-arc-x-y-radius-starAngle-endAngle-anticlockwise"><a href="#圆弧context-arc-x-y-radius-starAngle-endAngle-anticlockwise" class="headerlink" title="圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)"></a>圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)</h5><ul>
-<li><em>x:圆心的x坐标</em></li>
-<li><em>y:圆心的y坐标</em></li>
-<li><em>straAngle:开始角度</em></li>
-<li><em>endAngle:结束角度</em></li>
-<li><p><em>anticlockwise:是否逆时针（true）为逆时针，(false)为顺时针</em></p>
-<p><a href="http://kunkun12.com/CanvasDemo/drawline.html">查看demo</a></p>
-</li>
-</ul>
-<h5 id="路径-context-beginPath-context-closePath"><a href="#路径-context-beginPath-context-closePath" class="headerlink" title="路径  context.beginPath()    context.closePath()"></a>路径  context.beginPath()    context.closePath()</h5><ul>
-<li>系统默认在绘制第一个路径的开始点为beginPath</li>
-<li>如果画完前面的路径没有重新指定beginPath，那么画第其他路径的时候会将前面最近指定的beginPath后的全部路径重新绘制</li>
-<li><p>每次调用context.fill（）的时候会自动把当次绘制的路径的开始点和结束点相连，接着填充封闭的部分</p>
-<p><a href="http://kunkun12.github.io/CanvasDemo/closepath.html" target="_blank" rel="noopener">查看demo</a></p>
-<h4 id="绘制线段-context-moveTo-x-y-context-lineTo-x-y"><a href="#绘制线段-context-moveTo-x-y-context-lineTo-x-y" class="headerlink" title="绘制线段 context.moveTo(x,y)  context.lineTo(x,y)"></a>绘制线段 context.moveTo(x,y)  context.lineTo(x,y)</h4></li>
-<li><p><em>x:x坐标</em></p>
-</li>
-<li><em>y:y坐标</em></li>
-</ul>
-<p>每次画线都从moveTo的点到lineTo的点，<br>如果没有moveTo那么第一次lineTo的效果和moveTo一样，<br>每次lineTo后如果没有moveTo，那么下次lineTo的开始点为前一次lineTo的结束点</p>
-<p><a href="http://kunkun12.github.io/CanvasDemo/drawarc.html" target="_blank" rel="noopener">查看demo</a></p>
-<h5 id="绘制贝塞尔曲线（贝济埃、bezier）-context-bezierCurveTo-cp1x-cp1y-cp2x-cp2y-x-y"><a href="#绘制贝塞尔曲线（贝济埃、bezier）-context-bezierCurveTo-cp1x-cp1y-cp2x-cp2y-x-y" class="headerlink" title="绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)"></a>绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)</h5><ul>
-<li><em>cp1x:第一个控制点x坐标</em></li>
-<li><em>cp1y:第一个控制点y坐标</em></li>
-<li><em>cp2y:第二个控制点y坐标</em></li>
-<li><em>x:终点x坐标</em></li>
-<li><em>y:终点y坐标</em></li>
-</ul>
-<h5 id="绘制二次样条曲线-context-quadraticCurveTo-qcpx-qcpy-qx-qy"><a href="#绘制二次样条曲线-context-quadraticCurveTo-qcpx-qcpy-qx-qy" class="headerlink" title="绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)"></a>绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)</h5><ul>
-<li><em>qcpx:二次样条曲线控制点x坐标</em></li>
-<li><em>qcpy:二次样条曲线控制点y坐标</em></li>
-<li><em>qx:二次样条曲线终点x坐标</em></li>
-<li><em>qy:二次样条曲线终点y坐标</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/bezier.html" target="_blank" rel="noopener">查看demo</a></p>
-<h5 id="线性渐变-var-lg-context-createLinearGradient-xStart-yStart-xEnd-yEnd-线性渐变颜色lg-addColorStop-offset-color"><a href="#线性渐变-var-lg-context-createLinearGradient-xStart-yStart-xEnd-yEnd-线性渐变颜色lg-addColorStop-offset-color" class="headerlink" title="线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)"></a>线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)</h5><ul>
-<li><em>xstart:渐变开始点x坐标</em></li>
-<li><em>ystart:渐变开始点y坐标</em></li>
-<li><em>xEnd:渐变结束点x坐标</em></li>
-<li><em>yEnd:渐变结束点y坐标</em></li>
-<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
-<li><em>color:绘制时要使用的颜色</em></li>
-</ul>
-<h5 id="径向渐变（发散）var-rg-context-createRadialGradient-xStart-yStart-radiusStart-xEnd-yEnd-radiusEnd"><a href="#径向渐变（发散）var-rg-context-createRadialGradient-xStart-yStart-radiusStart-xEnd-yEnd-radiusEnd" class="headerlink" title="径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)"></a>径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)</h5><h5 id="径向渐变（发散）颜色rg-addColorStop-offset-color"><a href="#径向渐变（发散）颜色rg-addColorStop-offset-color" class="headerlink" title="径向渐变（发散）颜色rg.addColorStop(offset,color)"></a>径向渐变（发散）颜色rg.addColorStop(offset,color)</h5><ul>
-<li><em>xStart:发散开始圆心x坐标</em></li>
-<li><em>yStart:发散开始圆心y坐标</em></li>
-<li><em>radiusStart:发散开始圆的半径</em></li>
-<li><em>xEnd:发散结束圆心的x坐标</em></li>
-<li><em>yEnd:发散结束圆心的y坐标</em></li>
-<li><em>radiusEnd:发散结束圆的半径</em></li>
-<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
-<li><em>color:绘制时要使用的颜色</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/Gradient.html" target="_blank" rel="noopener">渐变Demo</a></p>
-<h5 id="图形变换-坐标系变换"><a href="#图形变换-坐标系变换" class="headerlink" title="图形变换(坐标系变换)"></a>图形变换(坐标系变换)</h5><p>1、平移context.translate(x,y)</p>
-<ul>
-<li>x:坐标原点向x轴方向平移x</li>
-<li>y:坐标原点向y轴方向平移y</li>
-</ul>
-<p>2、缩放context.scale(x,y)</p>
-<ul>
-<li>x:x坐标轴按x比例缩放</li>
-<li>y:y坐标轴按y比例缩放</li>
-</ul>
-<p>3、旋转context.rotate(angle)</p>
-<ul>
-<li>angle:坐标轴旋转x角度（角度变化模型和画圆的模型一样)</li>
-</ul>
-<h5 id="矩阵变换-context-transform-m11-m12-m21-m22-dx-dy"><a href="#矩阵变换-context-transform-m11-m12-m21-m22-dx-dy" class="headerlink" title="矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)"></a>矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)</h5><p> 所谓的矩阵变换其实是context内实现平移，缩放，旋转的一种机制,他的主要原理就是矩阵相乘<br><a href="http://kunkun12.github.io/CanvasDemo/transform.html" target="_blank" rel="noopener">参见demo</a></p>
-<p>图形组合 context.globalCompositeOperation=type</p>
-<p>图形组合就是两个图形相互叠加了图形的表现形式,是后画的覆盖掉先画的呢，还是相互重叠的部分不显示等等，至于怎么显示就取决于type的值了<br>type：</p>
-<pre><code>source-over（默认值）:在原有图形上绘制新图形
-
-destination-over:在原有图形下绘制新图形
-
-source-in:显示原有图形和新图形的交集，新图形在上，所以颜色为新图形的颜色
-
-destination-in:显示原有图形和新图形的交集，原有图形在上，所以颜色为原有图形的颜色
-
-source-out:只显示新图形非交集部分
-
-destination-out:只显示原有图形非交集部分
-
-source-atop:显示原有图形和交集部分，新图形在上，所以交集部分的颜色为新图形的颜色
-
-destination-atop:显示新图形和交集部分，新图形在下，所以交集部分的颜色为原有图形的颜色
-
-lighter:原有图形和新图形都显示，交集部分做颜色叠加
-
-xor:重叠飞部分不现实
-
-copy:只显示新图形
-</code></pre><h5 id="给图形绘制阴影"><a href="#给图形绘制阴影" class="headerlink" title="给图形绘制阴影"></a>给图形绘制阴影</h5><ul>
-<li>context.shadowOffsetX :阴影的横向位移量（默认值为0）</li>
-<li>context.shadowOffsetY :阴影的纵向位移量（默认值为0）</li>
-<li>context.shadowColor :阴影的颜色</li>
-<li>context.shadowBlur :阴影的模糊范围（值越大越模糊）</li>
-</ul>
-<h5 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a>绘制图像</h5><ul>
-<li><p>绘图：context.drawImage</p>
-</li>
-<li><p>图像平铺：context.createPattern(image,type)</p>
-</li>
-<li><p>图像裁剪：context.clip()</p>
-</li>
-<li><p>像素处理：var imagedata=context.getImageData(sx,sy,sw,sh)</p>
-</li>
-<li><p>设置像素颜色：context.putImageData(imagedata,dx,dy,dirtyX,dirtyY,dirtyWidth,dirtyHeight)</p>
-</li>
-</ul>
-<h5 id="绘制文字"><a href="#绘制文字" class="headerlink" title="绘制文字"></a>绘制文字</h5><ul>
-<li>填充文字：context.fillText(text,x,y)  </li>
-<li><p>绘制文字轮廓 context.strokeText(text,x,y) </p>
-</li>
-<li><p>text:要绘制的文字</p>
-</li>
-<li>x:文字起点的x坐标轴</li>
-<li>y:文字起点的y坐标轴</li>
-<li>context.font:设置字体样式</li>
-<li>context.textAlign:水平对齐方式<pre><code>start、end、right、center
-</code></pre></li>
-<li>context.textBaseline:垂直对齐方式：top、hanging、middle、alphabetic、ideographic、bottom</li>
-</ul>
-<h5 id="保存和恢复上下文状态，主要包括坐标系，裁剪区域等"><a href="#保存和恢复上下文状态，主要包括坐标系，裁剪区域等" class="headerlink" title="保存和恢复上下文状态，主要包括坐标系，裁剪区域等"></a>保存和恢复上下文状态，主要包括坐标系，裁剪区域等</h5><ul>
-<li>保存：context.save()</li>
-<li>恢复：context.restore()</li>
-</ul>
-<h5 id="保存文件-canvas-toDataURL-MIME"><a href="#保存文件-canvas-toDataURL-MIME" class="headerlink" title="保存文件  canvas.toDataURL(MIME)"></a>保存文件  canvas.toDataURL(MIME)</h5><p>在canvas中绘出的图片只是canvas标签而已，并非是真正的图片，是不能右键，另存为的，我们可以利用canvas.toDataURL()这个方法把canvas绘制的图形生成一幅图片，生成图片后，就能对图片进行相应的操作了。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/09/html5-tag/">
-                HTML5 语义化标签
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-09
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/09/html5-tag/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/html5-tag/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>在HTML 5出来之前，我们用div来表示页面章节，但是这些div都没有实际意义。（即使我们用css样式的id和class形容这块内容的意义）。这些标签只是我们提供给浏览器的指令，只是定义一个网页的某些部分。但现在，那些之前没“意义”的标签因为因为html5的出现消失了，这就是我们平时说的“语义”。<br>节点元素标签因使用的地方不同，我将他们分为：节元素标签、文本元素标签、分组元素标签分开来讲解HTML5中新增加的语义化标签和使用总结。</p>
-<h3 id="header元素"><a href="#header元素" class="headerlink" title="header元素"></a>header元素</h3><p><code>header</code> 元素代表“网页”或“section”的页眉。<br>通常包含<code>h1-h6</code>元素或<code>hgroup</code>，作为整个页面或者一个内容块的标题。也可以包裹一节的目录部分，一个搜索框，一个<code>nav</code>，或者任何相关logo。<br>整个页面没有限制<code>header</code>元素的个数，可以拥有多个，可以为每个内容块增加一个header元素</p>
-<pre><code>&lt;header&gt;
-    &lt;hgroup&gt;
-        &lt;h1&gt;网站标题&lt;/h1&gt;
-        &lt;h1&gt;网站副标题&lt;/h1&gt;
-    &lt;/hgroup&gt;
-&lt;/header&gt;
-</code></pre><ul>
-<li>header使用注意：</li>
-<li>可以是“网页”或任意“section”的头部部分；</li>
-<li>没有个数限制。</li>
-<li>如果hgroup或h1-h6自己就能工作的很好，那就不要用header。</li>
-</ul>
-<h3 id="footer元素"><a href="#footer元素" class="headerlink" title="footer元素"></a>footer元素</h3><p><code>footer</code>元素代表“网页”或“section”的页脚，通常含有该节的一些基本信息，譬如：作者，相关文档链接，版权资料。如果<code>footer</code>元素包含了整个节，那么它们就代表附录，索引，提拔，许可协议，标签，类别等一些其他类似信息。</p>
-<pre><code>&lt;footer&gt;
-    COPYRIGHT@小北
-&lt;/footer&gt;
-</code></pre><p>footer使用注意：</p>
-<ul>
-<li>可以是“网页”或任意“section”的底部部分；</li>
-<li>没有个数限制，除了包裹的内容不一样，其他跟header类似。</li>
-</ul>
-<h3 id="hgroup元素"><a href="#hgroup元素" class="headerlink" title="hgroup元素"></a>hgroup元素</h3><p><code>hgroup</code>元素代表“网页”或“section”的标题，当元素有多个层级时，该元素可以将h1到h6元素放在其内，譬如文章的主标题和副标题的组合</p>
-<pre><code>&lt;hgroup&gt;
-    &lt;h1&gt;这是一篇介绍HTML 5语义化标签和更简洁的结构&lt;/h1&gt;
-    &lt;h2&gt;HTML 5&lt;/h2&gt;
-&lt;/hgroup&gt;
-</code></pre><p>hgroup使用注意：</p>
-<ul>
-<li>如果只需要一个h1-h6标签就不用hgroup</li>
-<li>如果有连续多个h1-h6标签就用hgroup</li>
-<li>如果有连续多个标题和其他文章数据，h1-h6标签就用hgroup包住，和其他文章元数据一起放入header标签</li>
-</ul>
-<h3 id="nav元素"><a href="#nav元素" class="headerlink" title="nav元素"></a>nav元素</h3><p>nav元素代表页面的导航链接区域。用于定义页面的主要导航部分。</p>
-<pre><code>&lt;nav&gt;
-    &lt;ul&gt;
-        &lt;li&gt;HTML 5&lt;/li&gt;
-        &lt;li&gt;CSS3&lt;/li&gt;
-        &lt;li&gt;JavaScript&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/nav&gt;
-</code></pre><p>但是我在有些时候却情不自禁的想用它，譬如：侧边栏上目录，面包屑导航，搜索样式，或者下一篇上一篇文章，但是事实上规范上说nav只能用在页面主要导航部分上。页脚区域中的链接列表，虽然指向不同网站的不同区域，譬如服务条款，版权页等，这些footer元素就能够用了。</p>
-<p>nav使用注意：</p>
-<ul>
-<li>用在整个页面主要导航部分上，不合适就不要用nav元素</li>
-</ul>
-<h3 id="aside元素"><a href="#aside元素" class="headerlink" title="aside元素"></a>aside元素</h3><p>aside元素被包含在article元素中作为主要内容的附属信息部分，其中的内容可以是与当前文章有关的相关资料、标签、名次解释等。（特殊的section）<br>在article元素之外使用作为页面或站点全局的附属信息部分。最典型的是侧边栏，其中的内容可以是日志串连，其他组的导航，甚至广告，这些内容相关的页面。</p>
-<pre><code>&lt;article&gt;
-    &lt;p&gt;内容&lt;/p&gt;
-    &lt;aside&gt;
-        &lt;h1&gt;作者简介&lt;/h1&gt;
-        &lt;p&gt;小北，前端一枚&lt;/p&gt;
-    &lt;/aside&gt;
-&lt;/article&gt;
-</code></pre><p>aside使用总结：</p>
-<ul>
-<li>aside在article内表示主要内容的附属信息，</li>
-<li>在article之外则可做侧边栏，没有article与之对应，最好不用。</li>
-<li>如果是广告，其他日志链接或者其他分类导航也可以用</li>
-</ul>
-<h3 id="section元素"><a href="#section元素" class="headerlink" title="section元素"></a>section元素</h3><p>section元素代表文档中的“节”或“段”，“段”可以是指一篇文章里按照主题的分段；“节”可以是指一个页面里的分组。<br>section通常还带标题，虽然html5中section会自动给标题h1-h6降级，但是最好手动给他们降级。如下：</p>
-<pre><code>&lt;section&gt;
-    &lt;h1&gt;section是啥？&lt;/h1&gt;
-    &lt;article&gt;
-        &lt;h2&gt;关于section&lt;/h1&gt;
-        &lt;p&gt;section的介绍&lt;/p&gt;
-        &lt;section&gt;
-            &lt;h3&gt;关于其他&lt;/h3&gt;
-            &lt;p&gt;关于其他section的介绍&lt;/p&gt;
-        &lt;/section&gt;
-    &lt;/article&gt;
-&lt;/section&gt;
-</code></pre><p>section使用注意：</p>
-<ul>
-<li>一张页面可以用section划分为简介、文章条目和联系信息。不过在文章内页，最好用article。section不是一般意义上的容器元素，如果想作为样式展示和脚本的便利，可以用div。</li>
-<li>表示文档中的节或者段；</li>
-<li>article、nav、aside可以理解为特殊的section，所以如果可以用article、nav、aside就不要用section，没实际意义的就用div</li>
-</ul>
-<h3 id="article元素"><a href="#article元素" class="headerlink" title="article元素"></a>article元素</h3><p>article元素最容易跟section和div容易混淆，其实article代表一个在文档，页面或者网站中自成一体的内容，其目的是为了让开发者独立开发或重用。譬如论坛的帖子，博客上的文章，一篇用户的评论，一个互动的widget小工具。（特殊的section）<br>除了它的内容，article会有一个标题（通常会在header里），会有一个footer页脚。我们举几个例子介绍一下article，好更好区分article、section、div</p>
-<pre><code>&lt;article&gt;
-    &lt;h1&gt;一篇文章&lt;/h1&gt;
-    &lt;p&gt;文章内容..&lt;/p&gt;
-    &lt;footer&gt;
-        &lt;p&gt;&lt;small&gt;版权：html5jscss网所属，作者：小北&lt;/small&gt;&lt;/p&gt;
-    &lt;/footer&gt;
-&lt;/article&gt;
-</code></pre><p>上例是最好简单的article标签使用情况，如果在article内部再嵌套article，那就代表内嵌的article是与它外部的内容有关联的，如博客文章下面的评论，如下：</p>
-<pre><code>&lt;article&gt;
-    &lt;header&gt;
-        &lt;h1&gt;一篇文章&lt;/h1&gt;
-        &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03&quot;&gt;2012/10/03&lt;/time&gt;&lt;/p&gt;
-    &lt;/header&gt;
-    &lt;p&gt;文章内容..&lt;/p&gt;
-    &lt;article&gt;
-        &lt;h2&gt;评论&lt;/h2&gt;
-        &lt;article&gt;
-            &lt;header&gt;
-                &lt;h3&gt;评论者: XXX&lt;/h3&gt;
-                &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03T19:10-08:00&quot;&gt;~1 hour ago&lt;/time&gt;&lt;/p&gt;
-            &lt;/header&gt;
-            &lt;p&gt;哈哈哈&lt;/p&gt;
-        &lt;/article&gt;
-        &lt;article&gt;
-            &lt;header&gt;
-                &lt;h3&gt;评论者: XXX&lt;/h3&gt;
-                &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03T19:10-08:00&quot;&gt;~1 hour ago&lt;/time&gt;&lt;/p&gt;
-            &lt;/header&gt;
-            &lt;p&gt;哈？哈？哈？&lt;/p&gt;
-        &lt;/article&gt;
-    &lt;/article&gt;
-&lt;/article&gt;
-</code></pre><p>文章里的评论，一个article嵌套article来表示的实例<br>article内部嵌套article，有可能是评论或其他跟文章有关联的内容。那article内部嵌套section一般是什么情况呢。如下：</p>
-<pre><code>&lt;article&gt;
-    &lt;h1&gt;前端技术&lt;/h1&gt;
-    &lt;p&gt;前端技术有那些&lt;/p&gt;
-    &lt;section&gt;
-        &lt;h2&gt;CSS&lt;/h2&gt;
-        &lt;p&gt;样式..&lt;/p&gt;
-    &lt;/section&gt;
-    &lt;section&gt;
-        &lt;h2&gt;JS&lt;/h2&gt;
-        &lt;p&gt;脚本&lt;/p&gt;
-    &lt;/section&gt;
-&lt;/article&gt;
-</code></pre><p>文章里的章节，一个article里的section实例<br>因为文章内section部分虽然也是独立的部分，但是它门只能算是组成整体的一部分，从属关系，article是大主体，section是构成这个大主体的一部分。本网站的全部文章都是article嵌套一个个section章节，这样能让浏览器更容易区分各个章节所包括的内容。<br>那section内部嵌套article又有哪些情况呢，如下</p>
-<pre><code>&lt;section&gt;
-    &lt;h1&gt;介绍: 网站制作成员配备&lt;/h1&gt;
-    &lt;article&gt;
-        &lt;h2&gt;设计师&lt;/h2&gt;
-        &lt;p&gt;设计网页的...&lt;/p&gt;
-    &lt;/article&gt;
-    &lt;article&gt;
-        &lt;h2&gt;程序员&lt;/h2&gt;
-        &lt;p&gt;后台写程序的..&lt;/p&gt;
-    &lt;/article&gt;
-    &lt;article&gt;
-        &lt;h2&gt;前端工程师&lt;/h2&gt;
-        &lt;p&gt;给楼上两位打杂的..&lt;/p&gt;
-    &lt;/article&gt;
-&lt;/section&gt;
-</code></pre><p>设计师、程序员、前端工程师都是一个独立的整体，他们组成了网站制作基本配备，当然还有其他成员~~。设计师、程序员、前端工程师就像article，是一个个独立的整体，而section将这些自成一体的article包裹，就组成了一个团体。<br>article和section和例子就例举这么多了，具体情况具体分析，不易深究。漏了div，其实div就是只是想用来把元素组合或者给它们加样式时使用。</p>
-<p>article使用注意：</p>
-<pre><code>自身独立的情况下：用article
-是相关内容：用section
-没有语义的：用div
-</code></pre><h3 id="HTML5其他结构元素标签"><a href="#HTML5其他结构元素标签" class="headerlink" title="HTML5其他结构元素标签"></a>HTML5其他结构元素标签</h3><p>HTML5节元素标签包括<code>body</code> <code>article</code> <code>nav</code> <code>aside</code> <code>section</code> <code>header</code> <code>footer</code> <code>hgroup</code> ，还有<code>h1-h6</code> <code>address</code>。</p>
-<ul>
-<li><code>address</code>代表区块容器，必须是作为联系信息出现，邮编地址、邮件地址等等,一般出现在footer。</li>
-<li><code>h1-h</code>6因为hgroup，section和article的出现，h1-h6定义也发生了变化，允许一张页面出现多个h1。</li>
-</ul>
-<h3 id="文本字体元素"><a href="#文本字体元素" class="headerlink" title="文本字体元素"></a>文本字体元素</h3><p>文字对SEO影响很大，而HTML5对一些文本字体元素的语义又重新定义了一遍，也增加了一些新的。那我们就来重新认识他们。</p>
-<ul>
-<li>a（anchor 的缩写）： 用于定义超链接</li>
-<li>em(emphasis 的缩写)：em 是句意强调，加与不加会引起语义变化，也可以理解为局部强调，用在语句某个单词上来改变句子的侧重。</li>
-<li>strong：strong表示重要，strong 的强调则是一种随意无顺序的，看见某文时，立刻就凸显出来的关键词句。</li>
-<li>p：p元素</li>
-<li>b（bold 的缩写）：b 元素原本就是加粗，现在表示“文体突出”文字，通俗将是用来在文本中高亮显示某个或者几个字符，旨在引起用户的特别注意，无强调作用。譬如文档概要中的关键字，评论中的产品名，以及分类名。</li>
-<li>i（italic 的缩写）：i 元素原本只是倾斜，现在描述为在普通文章中突出不同意见或语气或其他的一段文本，就像剧本里的话外音（外语、译音），或也可以用做排版的斜体文字。</li>
-<li>code：定义计算机代码文本。</li>
-<li>q（quote 的缩写）：用于定义一段引用的内容（短内容）<br>-cite ：用于定义引用内容出自书籍或杂志等的标题，不允许其他信息，如作者，日期等。</li>
-<li>u （underline 的缩写）：定义下划线文本<br>-abbr （abbreviation 的缩写）：定义一个缩写文本，建议在 abbr 的 title 属性中描述缩写的全称</li>
-<li>dfn （defining instance 的缩写）：用于定义一个术语</li>
-<li>var ：定义计算机代码中的变量</li>
-<li>samp （sample 的缩写）：由程序输出的示例文本</li>
-<li>kbd （keyboard 的缩写）：定义由键盘输入的文本</li>
-<li>wbr (word break)的缩写：定义换行的时机</li>
-<li>span ：没有任何语义</li>
-<li>br ：定义一个换行符</li>
-</ul>
-<p>文本字体元素标签使用注意:</p>
-<ul>
-<li>在下面这些元素都不适合的时候：表重要的 strong ，表强调的 em ，表标题的 h1–h6，表高亮或标记文本的 p 等，就用 b 来表示。</li>
-<li>em 的强调是用在语句某个单词上来改变句子的侧重，可以说是局部的，而strong 和局部还是全局无关，局部强调用strong也可以，strong强调的是重要性，不会改变句意。</li>
-</ul>
-<p>###分组元素标签<br>我们熟悉的div、 p 、dl 、dt、dd、ol、ul、li、hr都是分组元素标签，我们接下来看一些不常用的和新加的分组元素标签</p>
-<ul>
-<li>blockquote：标记一段长引文。标记短引文（行内引文），应采用 q 元素！</li>
-<li>pre：pre 元素可定义预格式化的文本。被包围在 pre 元素中的文本通常会保留空格和换行符。而文本也会呈现为等宽字体。pre 标签的一个常见应用就是用来表示源代码。他跟code的关系好比blockquote和q的关系。</li>
-<li><p>ol元素<br>ol元素在HTML5有改良，增加了两个属性：</p>
-<ul>
-<li><code>start</code>：start属性用来定义列表编号的起始位置，</li>
-<li><code>reversed</code>:reversed属性表示将列表进行反转，但是目前还没有任何一款浏览器对其提供支持，在这里就不细说了。</li>
-</ul>
-</li>
-<li><p>figure元素与figcaption元素<br>figure元素用来包含一块独立内容，该内容如果被移除掉不会对周围的内容有影响。具体来说它可以用来表示图片，统计图，图表，音频，视频，代码片段等。如果需要你也可以给该内容添加一个标题，这个标题使用figcaption来表示。figcaption只能作为figure元素的子元素，可以放在figure元素内的任何位置。形如：</p>
-<pre><code>&lt;figure&gt;
-    &lt;img src=&quot;&quot; alt=&quot;&quot; /&gt;
-    &lt;figcaption&gt;html5jscss前端网是刚建立的小站&lt;/figcaption&gt;
-&lt;/figure&gt;
-</code></pre></li>
-</ul>
-<p>不是所有图片都用figure来包裹，img 标签也有语义的。如果纯粹只是为了呈现的图，也不在文档其他地方引用，那就绝对不要用figure。如果和上下文有关，也可以把它移动到附录，那就别用figure，aside可能适合。<br>figure元素和aside元素看起来表达的内容差不多，但是aside所能包含的内容比figure要广。当你不知道如何选择的时候可以这样来做：这段内容对周围的内容来说是一个要点，或者很重要，不可少，那么可以使用figure，否则使用aside。<br>注意：</p>
-<ul>
-<li>一个figure元素内最多只允许放置一个figcaption元素，也可以不放，但是其他元素可无限放置。注意不是所有图片都得用figure元素。</li>
-</ul>
-<p>嵌入元素标签</p>
-<p>在页面中除了显示文档活字符外，还需要放入一些其他元素，就是我们所说的嵌入元素。<br>嵌入元素包括img（图片），页面（iframe），多媒体对象将不再全部绑定在 object 或 embed 标签 中，而是由有 video(视频)audio（音频），用于绘画的 canvas 元素<br>这里我们不详细介绍它们的属性了.<br>HTML5中增加了一些表单元素和一些交互元素等新的标签，但是着重点不同，所以我们放在另一片文章来继续了解。HTML5语义标签到此结束。</p>
-<p><a href="http://www.html5jscss.com/html5-semantics-rich.html" target="_blank" rel="noopener">原文链接</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/09/doucument-element-postion-and-geometry/">
-                文档元素的几何形状以及位置判定
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-09
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/09/doucument-element-postion-and-geometry/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/doucument-element-postion-and-geometry/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>元素的位置是以像素来度量的,向右代表X坐标增加，向下代表Y坐标增加，但是有两个不同的点作为坐标系的原点，元素的X和Y坐标可以相对于文档的左上角，或者相对于其中文档视口的左上角.</p>
-<p>“视口”是我们人眼看到的页面,只是实际显示文档内容的一部分：他不包括浏览器的外壳，(如菜单，工具条，标签页等),另一个是文档坐标，他的原点是页面的左上角，不随着页面的滚动发生变化，而视口坐标系的原点位置相对浏览器窗体是不发生变化的，当页面中没有滚动条时候，视口坐标系原点与文档坐标系原点重合的。然后如果存在滚动条的话。向下滚动页面，则某一元素的文档坐标是不发生变化的，视口的Y坐标变小。同理向右滚动的话，元素相对时候X坐标变小。</p>
-<p>文档坐标比视口坐标更加基础，并且不随着用户滚动页面而发生变化，当使用CSS指定元素位置是使用了文档坐标吗，但是客户端编程中视口坐标是非常常见的，简单的查询元素在显示页面中位置方法是返回视口坐标系的位置。</p>
-<p>为了再坐标系之前进行互相转换，我们需要判定浏览器窗口滚动条的位置，windows对象的pageXOffset和pageYOffset，属性在所有浏览器中提供了这些值除了IE8 以及更低版本的浏览器，不过可以使用scrollleft和scrollTop属性来获取滚动条的位置，正常情况下使用document.documentElemt来获得，在怪异模式下使用document.body对象来获得。下面封装了一个获取浏览器中滚动条位置的方法，并且兼容所有的浏览器</p>
-<h3 id="获得浏览中滚动条的位置"><a href="#获得浏览中滚动条的位置" class="headerlink" title="获得浏览中滚动条的位置"></a>获得浏览中滚动条的位置</h3><pre><code>function getScrollOffset(w){
-            w=w||window;
-            if(w.pageXOffset)return {
-                x:w.pageXOffset,
-                y:w.pageYOffset
-            }
-        var d=w.document;
-        if(document.compatMode==&apos;CSS1Compact&apos;){
-            return {x:d.document.scrollLeft,y:d.document.scrollTop}
-        }
-
-        return {
-            x:d.body.scrollLeft,
-            y:d.body.scrollTop
-        }
-};
-</code></pre><h3 id="查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。"><a href="#查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。" class="headerlink" title="查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。"></a>查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</h3><pre><code>function getViewportSize(w){
-    w=w||window;
-    //ie8+
-    if(w.innerWidth !=null)return{w:w.innerWidth ,h:w.innerHeight}
-     //ie标准模式以及其他浏览器
-        var d=w.document;
-    if(document.compatMode==&apos;CSS1Compact&apos;){
-        return {
-            w:d.document.clientWidth,
-            h:d.document.clientHeight
-        }
-    }
-    // 怪异模式下的浏览器
-    return{
-        w:d.body.document.clientWidth,
-        h:d.body.document.clientHeight
-    }
-
-}
-</code></pre><h3 id="查询元素的尺寸"><a href="#查询元素的尺寸" class="headerlink" title="查询元素的尺寸"></a>查询元素的尺寸</h3><p>判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。</p>
-<pre><code>var box=e.getBoundingClientRect();
-var offsets=getScrollOffset();
-var x=box.left;
-var y=box.top;
-</code></pre><p>很多浏览器中还可以获得width和height属性但是IE中未实现。getBoundingClientRect()返回的值包括内边距和边框，但是不包含外边距。<br>使用elementFromPoint查询视口中指定位置有什么元素。参数为视口坐标系下的x,y坐标</p>
-<p>任何HTML元素的只读属性offsetWidth 和offsetHeight以CSS像素返回他的屏幕的尺寸，返回的尺寸包括元素的边框和内边距，不包括外边距。所有的HTML元素用有OffsetLeft和offsetTop属性来返回元素的X和Y坐标，这些值都是文档坐标。对于已经定位的元素的后代和一些其他的元素，这些属性返回是相对于祖先元素而非文档，offsetParent指定这些元素相对的父元素，如果offsetParent为null这些属性都是文档坐标，一般来说用offsetLeft和OffsetTop来计算元素e的位置需要一个循环</p>
-<pre><code>function getElmentPosition(e){
-    var x=0,y=0;
-    while(e){
-        x+=e.offsetLeft;
-        y+=e.offsetTop;
-        e=e.offsetParentl
-    }
-    return{
-        x:x,
-        y:y
-    }
-}
-</code></pre><p>所有HTML元素定义了如下与位置相关的属性。</p>
-<p>offsetwidth        clientWidth     scrollWidth<br>offsetHeight    clientHeight    scrollHeight<br>offsetLeft        clientLeft        scrollLeft<br>offsetTop        clientTop        scrollTop<br>offsetParent</p>
-<p>offsetHeight、offsetwidth包含内边距和边框、clientWidth、clientHeight不包含边框，只包含内容和内边距。scrollWidth、scrollHeight内容+内边距+任何内容溢出的尺寸。其中scrollLeft、scrollTop指定滚动条的位置。当文档中包含滚动条且有内容溢出时上面的getElmentPosition(e) 不在起作用了，因为没有把滚动条考虑进去。offsetLeft offsetTop为文档坐标包含了滚动条的位置    修改版本如下</p>
-<pre><code>function getElementPos(elt){
-    var x=0,y=0;
-    for(var e=elt;e!=null;e=e.offsetParent){
-        x+=e.offsetLeft；
-        y+e.offsetTop;
-    }
-    //offsetLeft offsetTop为文档坐标包含了滚动条的位置，再次循环所有的祖先元素，
-    //减去滚动条的偏移量，并转换为视口坐标
-    for(var e=elt.parentNode;e!=null&amp;&amp;e.nodeType==1;e=e.parentNode){
-        x-=e.scrollLeft;
-        y-=e.scrollTop;
-    }
-    return {
-            x:x;
-            y:y
-    }
-}
-</code></pre><ul>
-<li>文档的高度 document.body.offsetHeight</li>
-<li>视口的高度 window.innerHeight</li>
-<li>滚动条滑动的高度 window.scrollY</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/09/javascript-valueOf/">
-                javascript valueOf方法
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-09
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/09/javascript-valueOf/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/javascript-valueOf/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>如果将对象用于Javascript的关系比较运算符，比如<code>&lt;</code>、<code>&lt;=</code>，javascript会首先调用对象的valueOf方法，如果这个方法返回一个原始值，则直接比较原始值。定义一个类Person</p>
-<pre><code>function person(age,name){
-    this.age=age;
-    this.valueOf=function(){
-        return this.age;
-    }
-}
-</code></pre><p>然后新建两个Person的实例。</p>
-<pre><code>var person1=new person(12,&apos;张三&apos;);
-var person2=new person(13,&apos;李四&apos;);
-console.log(person1&lt;person2) //true
-console.log(person1&gt;person2)//false
-</code></pre><p>如果构造函数没有valueOf方法，以上对象无轮如何比较都是输出false<br>此外在对两个对象求和的话，也会尝试调用valueOf方法</p>
-<p>比如<br>        var person1=new person(12,’张三’);<br>        var person2=new person(13,’李四’);<br>        console.log(person1+person2) //25</p>
-<p>当然如果构造函数没有valueOf方法,则会对象会先自动调用的toString方法。。默认情况下对象使用的是Object的toString方法的话则输出<code>[object Object]</code>;我们也可以重写toString方法。</p>
-<pre><code>function person(age,name){
-    this.age=age;
-    this.name=name;
-    this.toString=function(){
-        return this.name;
-    }
-}
-
-var person1=new person(12,&apos;张三&apos;);
-var person2=new person(13,&apos;李四&apos;);
-console.log(person1+person2);//张三李四。
-</code></pre><p>如果一个构造函数中同时重写了valueOf和toString的话则只调用valueOf返回的结果参与运算.如下</p>
-<pre><code>function person(age,name){
-    this.age=age;
-    this.valueOf=function(){
-        return this.age;
-    }
-    this.toString=function(){
-        return this.name;
-    }
-}
-
-var person1=new person(12,&apos;张三&apos;);
-var person2=new person(13,&apos;李四&apos;);
-console.log(person1+person2);//25
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/05/media-query/">
-                Media Queries
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-05
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/05/media-query/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/media-query/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>媒体查询在CSS2中就有了，CSS3中得到了进一步增强，简单来说我们可以设置不同类型的媒体条件，并根据对应的条件，给相应符合条件的媒体调用相对应的样式表，说白了就是就是根据设备当前本身的环境(比如屏幕的长宽，设备的种类等）来对元素应用响应的CSS文件，但是所有的CSS 文件总是要下载到本地的。</p>
-<h4 id="引入方式"><a href="#引入方式" class="headerlink" title="引入方式"></a>引入方式</h4><ul>
-<li><p>link方法引入 </p>
-<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../css/print.css&quot; media=&quot;print&quot; /&gt;
-</code></pre></li>
-<li><p>xml方式引入</p>
-<pre><code>&lt;?xml-stylesheet rel=&quot;stylesheet&quot; media=&quot;screen&quot; href=&quot;css/style.css&quot; ？&gt;
-</code></pre></li>
-<li><p>@import方式引入</p>
-<pre><code>@import url(&quot;css/reset.css&quot;) screen;
-</code></pre></li>
-<li><p>@media引入</p>
-<pre><code>@media screen{
-     选择器{
-    属性：属性值；
-     }
-   }
-</code></pre></li>
-</ul>
-<h4 id="如何定义查询条件"><a href="#如何定义查询条件" class="headerlink" title="如何定义查询条件"></a>如何定义查询条件</h4><p>媒体类型包括如下几种</p>
-<ul>
-<li>all 所有设备可用</li>
-<li>braille 盲文</li>
-<li>embossed</li>
-<li>handheld</li>
-<li>print 打印</li>
-<li>projection 投影</li>
-<li>screen 显示器</li>
-<li>speech</li>
-<li>tty 电传打字机 </li>
-<li>tv 电视</li>
-</ul>
-<h4 id="最大宽度Max-Width-max-height-max-width"><a href="#最大宽度Max-Width-max-height-max-width" class="headerlink" title="最大宽度Max Width,max-height,max-width"></a>最大宽度Max Width,max-height,max-width</h4><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width:600px)&quot; href=&quot;small.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><p>也可在style 标签或者单独的CSS文件里面:</p>
-<pre><code>@media only screen and (max-device-width: 480px) {
-        div#wrapper {
-            width: 400px;
-        }
-
-        div#header {
-            background-image: url(media-queries-phone.jpg);
-            height: 93px;
-            position: relative;
-        }
-
-        div#header h1 {
-            font-size: 140%;
-        }
-
-        #content {
-            float: none;
-            width: 100%;
-        }
-
-        #navigation {
-            float:none;
-            width: auto;
-        }
-    }
-</code></pre><h4 id="最小宽度Min-Width-min-width-min-height"><a href="#最小宽度Min-Width-min-width-min-height" class="headerlink" title="最小宽度Min Width min-width,min-height"></a>最小宽度Min Width min-width,min-height</h4><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:900px)&quot; href=&quot;big.css&quot; type=&quot;text/css&quot;  /&gt;
-</code></pre><h4 id="and-not-only关键字"><a href="#and-not-only关键字" class="headerlink" title="and not only关键字"></a>and not only关键字</h4><h5 id="多个Media-Queries使用查询取交集"><a href="#多个Media-Queries使用查询取交集" class="headerlink" title="多个Media Queries使用查询取交集"></a>多个Media Queries使用查询取交集</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:600px) and (max-width:900px)&quot; href=&quot;style.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><h5 id="not用于排除符合表达式的设备。"><a href="#not用于排除符合表达式的设备。" class="headerlink" title="not用于排除符合表达式的设备。"></a>not用于排除符合表达式的设备。</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;not print and (max-width: 1200px)&quot; href=&quot;print.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><h5 id="only用来定某种特定的媒体类型"><a href="#only用来定某种特定的媒体类型" class="headerlink" title="only用来定某种特定的媒体类型"></a>only用来定某种特定的媒体类型</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
-</code></pre><h4 id="Device-Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"><a href="#Device-Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用" class="headerlink" title="Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"></a>Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用</h4><p>max-device-width、min-device-width</p>
-<h4 id="orientation-横屏或者竖屏"><a href="#orientation-横屏或者竖屏" class="headerlink" title="orientation 横屏或者竖屏"></a>orientation 横屏或者竖屏</h4><h4 id="device-pixel-ratio-设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"><a href="#device-pixel-ratio-设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio" class="headerlink" title="device-pixel-ratio 设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"></a>device-pixel-ratio 设备的宽高比<code>min-device-pixel-ratio</code>，<code>max-device-pixel-ratio</code></h4><h4 id="resolution-分辨率-min-resolution-max-resolution。"><a href="#resolution-分辨率-min-resolution-max-resolution。" class="headerlink" title="resolution 分辨率 min-resolution  max-resolution。"></a>resolution 分辨率 <code>min-resolution</code>  <code>max-resolution</code>。</h4><p>可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下<br>使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。</p>
-<pre><code>/*240px的宽度*/
- &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
- /*360px的宽度*/
- &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:241px) and (max-device-width:360px)&quot; href=&quot;android360.css&quot; type=&quot;text/css&quot; /&gt;
- /*480px的宽度*/
- &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:361px) and (max-device-width:480px)&quot; href=&quot;android480.css&quot; type=&quot;text/css&quot; /&gt;。
-</code></pre><p>总结：media query 就是让我们根据屏幕的大小来对HTML元素应用适合当前屏幕的样式，能够在不同尺寸的屏幕，甚至是不同的设备上达到较好的用户体验。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;margin:50px 0; background:green; width:50px;&quot;&gt; </span><br><span class="line">&lt;div style=&quot;margin:-60px 0;&quot;&gt; </span><br><span class="line">   &lt;div style=&quot;margin:150px 0;&quot;&gt;A&lt;/div&gt; &lt;/div&gt; &lt;/div&gt; </span><br><span class="line">&lt;div style=&quot;margin:-100px 0;background:green; width:50px;&quot;&gt; </span><br><span class="line">&lt;div style=&quot;margin:-120px 0;&quot;&gt; </span><br><span class="line">    &lt;div style=&quot;margin:200px 0;&quot;&gt;B&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>错误的计算方式：分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。  请注意，多个 margin 相邻折叠成一个 margin，计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。  以上例子中，A 和 B 之间的 margin 折叠产生的 margin，是6个相邻 margin 折叠的结果。将其 margin 值分为两组：    正值：50px，150px，200px   负值：-60px，-100px，-120px  根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 200 + (-120) = 80px。</p>
+<p><strong>创建了BFC(块级格式化上下文)的元素，不和内部的子元素发生margin 折叠</strong></p>
 
         
 
@@ -1326,8 +193,8 @@ console.log(person1+person2);//25
           
           
             
-              <a class="post-title-link" href="/2014/03/05/es-5-feature/">
-                ECMAScript 5 学习总结
+              <a class="post-title-link" href="/2014/05/06/install-mongo-service-on-windows/">
+                在windows 下安装 MongoDb
               </a>
             
           
@@ -1337,15 +204,15 @@ console.log(person1+person2);//25
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-05
+              发表于 2014-05-06
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/05/es-5-feature/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/es-5-feature/"></span>
+            <a href="/2014/05/06/install-mongo-service-on-windows/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/05/06/install-mongo-service-on-windows/"></span>
             </a>
           </span>
           
@@ -1360,228 +227,518 @@ console.log(person1+person2);//25
         
 
         
-          <p>话说<a href="https://github.com/lukehoban/es6features" target="_blank" rel="noopener">ES6</a>的草稿都出来了，貌似好多人对ES5 还没有全面的了解，下面将我学习的关于ES5的一些东西总结一下。<br>ECMAScript 5.1(或者成为ES5 、ECMAScript 5)，在2009年发布草稿，2011发布正式版本，最初在2011年发布的Firefox 4上得到支持。但是万恶的IE（6、7、8） 并不支持ES5，因此这也一定程度上阻止了ES5的普及。但是我们可以通过ployfill的形式来让IE8支持ES5的一些功能，比如引入<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="noopener">shim</a>;</p>
-<h3 id="浏览器对ES5的支持情况。"><a href="#浏览器对ES5的支持情况。" class="headerlink" title="浏览器对ES5的支持情况。"></a>浏览器对ES5的支持情况。</h3><p>ES5出现以前，用的最多的是ES3(ES4 流产了). 总体上当今主流的浏览器都已经支持了ES5.比如常见的ie9+，chrome 19+，safari5+，firefox4+，opera 12+，android 3+，Blackberry Browser 7+，IOS safari 5+，opera mobile 12+，ie mobile 10+,例外是IE 9不支持ES 5.1的严格模式，IE10 已经支持。Safari 5.1+在严格模式下不支持0宽字符，比如<code>var $\u200c = &#39;a&#39;</code> 或者<code>{_\u200d: &#39;vuur&#39;}</code>.IE8 是ES3的脚本引擎，但是支持ES5的一些特性，比如<code>JSON</code>、<code>Object.defineProperty</code>,<code>Object.getOwnPropertyDescriptor</code>,然而 我们最好还是要把IE8 称为ES3的浏览器。当然如果对于不支持ES 5的浏览器可以使用<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="noopener">shim</a> 来进行扩展，以提供支持。下面开始描述ES 5的那些东西。</p>
-<h4 id="数组或者是对象中的最后元素允许添加逗号。"><a href="#数组或者是对象中的最后元素允许添加逗号。" class="headerlink" title="数组或者是对象中的最后元素允许添加逗号。"></a>数组或者是对象中的最后元素允许添加逗号。</h4><pre><code>var myObject = {
-    foo:&apos;foo&apos;,
-    bar:&apos;bar&apos;, //no error
-};
-
-var myArray = [1,2,3,];
-
-console.log(myArray.length) //logs 3, regardless of trailing comma 
-</code></pre><h4 id="使用-分割来实现多行字符串"><a href="#使用-分割来实现多行字符串" class="headerlink" title="使用\ 分割来实现多行字符串"></a>使用\ 分割来实现多行字符串</h4><pre><code>//no error in ES5 scripting engines
-var stringLiteral = &quot;Lorem ipsum dolor sit amet, consectetur \ 
-elit, sed do eiusmod tempor incididunt ut labore et dolore \
-magna aliqua. Ut enim ad minim veniam, quis nostrud \
-exercitation ullamco laboris nisi ut aliquip ex ea&quot;;
-</code></pre><h4 id="对象属性的名字允许使用限定字符。"><a href="#对象属性的名字允许使用限定字符。" class="headerlink" title="对象属性的名字允许使用限定字符。"></a>对象属性的名字允许使用限定字符。</h4><pre><code>var myObject = {function:&apos;function&apos;,new:&apos;new&apos;};
-
-console.log(myObject.function,myObject.new); //logs &apos;function new&apos;
-</code></pre><h4 id="处理JSON-的方法-JSON-parse-JSON-stringify"><a href="#处理JSON-的方法-JSON-parse-JSON-stringify" class="headerlink" title="处理JSON 的方法 JSON.parse  JSON.stringify"></a>处理JSON 的方法 <code>JSON.parse</code>  <code>JSON.stringify</code></h4><h4 id="原生的字符串去空格方法string-trim"><a href="#原生的字符串去空格方法string-trim" class="headerlink" title="原生的字符串去空格方法string.trim()"></a>原生的字符串去空格方法<code>string.trim()</code></h4><p>ES 5 提供String.trim()来去除字符串首尾的空格。</p>
-<pre><code>&apos;   foo   &apos;.trim(); // &apos;foo&apos;
-</code></pre><p>需要关注的是，有些浏览器已经提供了 <code>trimRight()</code>,<code>trimLeft()</code>,但是这并不是正式的标准。</p>
-<h4 id="通过-i-来访问字符串中的字符。"><a href="#通过-i-来访问字符串中的字符。" class="headerlink" title="通过[i]来访问字符串中的字符。"></a>通过[i]来访问字符串中的字符。</h4><pre><code>&apos;ES5&apos;[1]; //  &quot;S&quot;
-</code></pre><p>ES3中 是不允许这种方式来进行访问的</p>
-<h4 id="undefined-NaN-以及Infinty是只读的常量。"><a href="#undefined-NaN-以及Infinty是只读的常量。" class="headerlink" title="undefined,NaN 以及Infinty是只读的常量。"></a><code>undefined</code>,<code>NaN</code> 以及<code>Infinty</code>是只读的常量。</h4><p>在ES5 之前的版本中这三个变量是可读写的。于是可能给undefined赋值，这样undefined，就不是真的undefined了。</p>
-<h4 id="数组相关"><a href="#数组相关" class="headerlink" title="数组相关"></a>数组相关</h4><p>判断数组类型的最佳方法:<code>Array.isArray([])</code></p>
-<p>####Array.prototype 新增的方法。</p>
+          <blockquote>
+<p>Starting in version 2.2, MongoDB does not support Windows XP</p>
+</blockquote>
 <ul>
-<li>Array.prototype.every()</li>
-<li>Array.prototype.filter()</li>
-<li>Array.prototype.forEach()</li>
-<li>Array.prototype.indexOf()</li>
-<li>Array.prototype.lastIndexOf()</li>
-<li>Array.prototype.map()</li>
-<li>Array.prototype.reduce()</li>
-<li>Array.prototype.some()</li>
+<li>到官网下载<a href="http://www.mongodb.org/downloads" target="_blank" rel="noopener">MongoDb</a></li>
+<li><p>解压到制定目录。我的机器目录如下</p>
+<pre><code>D:
+  mongodb
+         |mongodb                            
+                |mongod.cfg
+                |README
+                |THIRD-PARTY-NOTICES
+                |bin
+</code></pre></li>
+<li>创建MongoDb的数据存储目录，可以再任意文件夹下创建，这里我在<strong>D:/mongodb</strong>下创建了<strong>D:/mongodb/data/db</strong>目录</li>
+<li><p>启动MongoDb服务，打开命令行模式下 进入MongoDb的bin目录 运行<strong>mongod.exe</strong>命令</p>
+<pre><code>D:\mongodb\mongodb\bin\mongod.exe --dbpath d:\mongodb\data
+</code></pre></li>
 </ul>
-<p>同时也可以在字符串以及类数组中使用这些方法，比如</p>
-<pre><code>//在字符串中使用
-[].forEach.call(&apos;ABC&apos;,console.log);
+<p>输出的结果如下,表示服务启动成功.然后在浏览器输入localhost:28017会打开一个MongoDb的监控网页</p>
+<pre><code>Tue May 06 08:56:28.645 [initandlisten] MongoDB starting : pid=808 port=27017 db
+path=d:\mongodb\data 64-bit host=DuBaoKun
+Tue May 06 08:56:28.646 [initandlisten] db version v2.4.1
+Tue May 06 08:56:28.646 [initandlisten] git version: 1560959e9ce11a693be8b4d0d16
+0d633eee75110
+********
+Tue May 06 08:56:29.056 [initandlisten] command local.$cmd command: { create: &quot;s
+tartup_log&quot;, size: 10485760, capped: true } ntoreturn:1 keyUpdates:0  reslen:37
+290ms
+Tue May 06 08:56:29.077 [initandlisten] waiting for connections on port 27017
+Tue May 06 08:56:29.077 [websvr] admin web console waiting for connections on po
+rt 28017
+</code></pre><ul>
+<li>连接数据库 保持上述的Mongodb服务处于开启状态 在开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="noopener">这篇文章</a>继续操作</li>
+</ul>
+<h3 id="将MongoDb配置为服务"><a href="#将MongoDb配置为服务" class="headerlink" title="将MongoDb配置为服务"></a>将MongoDb配置为服务</h3><blockquote>
+<p>虽然进行了以上的配置，但是之后每次使用Mongodb的时候都要先启动服务，如果配置为windows服务，让其自动启动。</p>
+</blockquote>
+<ul>
+<li>创建日志目录：除了配置数据存储目录外，MongoDb还需要要一个日志存储的目录。在<strong>d:\mongodb</strong>目录下创建log目录(这个目录是任意的)</li>
+<li><p>创建服务配置文件：在<strong>d:\mongodb</strong>目录下创建<strong>mongod.cfg</strong>文件。用记事本打开配置dbpath和logpath</p>
+<pre><code>logpath=D:\mongodb\log\mongo.log
+dbpath=D:\mongodb\data\db
+</code></pre></li>
+<li><p>安装服务。在命令行中运行如下命令</p>
+<pre><code>D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --install
+</code></pre><p>运行之后提示如下</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tue May 06 10:03:12.151 Trying to install Windows service &apos;MongoDB&apos;</span><br><span class="line">Tue May 06 10:03:12.358 Service &apos;MongoDB&apos; (Mongo DB) installed with command line</span><br><span class="line">&apos;D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --service&apos;</span><br><span class="line">Tue May 06 10:03:12.359 Service can be started from the command line with &apos;net s</span><br><span class="line">tart MongoDB&apos;</span><br></pre></td></tr></table></figure>
+</code></pre></li>
+</ul>
+<p>此命令成功之后会安装 Mongo Db的服务。并且开机会自动启动，如果要自己控制启动，在开始栏的搜索框输入services.msc可以到计算机管理服务里找个Mongo Db的服务进行设置.</p>
+<blockquote>
+<p>启动服务 <strong>net start MongoDB</strong></p>
+</blockquote>
+<blockquote>
+<p>停止服务 <strong>net stop MongoDB</strong></p>
+</blockquote>
+<blockquote>
+<p>删除服务 <strong>“C:\Program Files\MongoDB\bin\mongod.exe” –remove</strong></p>
+</blockquote>
+<ul>
+<li>连接数据库 保持Mongodb服务处于开启状态 开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="noopener">这篇文章</a>继续操作</li>
+</ul>
 
-//argument  
-var myFunction = function(a,b,c){
-    [].forEach.call(arguments,console.log);
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/MongoDb/">
+                #MongoDb
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/29/graceful-degradation-with-progressive-enhancement/">
+                渐进性增强与优雅性降级
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-29
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/29/graceful-degradation-with-progressive-enhancement/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/29/graceful-degradation-with-progressive-enhancement/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>每个专业词语的背后是一种思想，理解并在实践中应用才是必要的。</p>
+</blockquote>
+<h4 id="优雅降级（graceful-degradation）"><a href="#优雅降级（graceful-degradation）" class="headerlink" title="优雅降级（graceful degradation）"></a>优雅降级（graceful degradation）</h4><p>一开始就构建站点的完整功能，然后针对浏览器测试和修复,使用优雅降级方案，Web站点在所有新式浏览器中都能正常工作，如果用户使用的是老式浏览器，则代码会检查以确认它们是否能正常工作。由于IE独特的盒模型布局问题，绝大多数Web设计师和开发者都通过专门的样式表或针对不同版本的IE的hack实践过优雅降级了；<br>使用优雅降级技术时，你必须首先完整的实现了网站，其中包括所有的功能和效果。然后再为那些无法支持所有功能的浏览器增加候选方案，使之在旧式浏览器上以某种形式降级体验却不至于完全失效.</p>
+<h4 id="渐进增强（progressive-enhancement）"><a href="#渐进增强（progressive-enhancement）" class="headerlink" title="渐进增强（progressive enhancement）"></a>渐进增强（progressive enhancement）</h4><p>一开始只构建站点的最少特性，然后不断针对各浏览器追加功能。从被所有浏览器支持的基本功能开始，逐步地添加那些只有新式浏览器才支持的功能。渐进增强是值得所有开发者采用的做法。渐进增强方案并不假定所有用户都支持javascript，而总是提供一种候补方法，确保用户可以访问（主要的）内容。</p>
+<p>使用渐进增强时，无需为了一个已成型的网站在旧式浏览器下正常工作而做逆向工程。首先，只需要为所有的设备和浏览器准备好清晰且语义化的HTML以及完善的内容，然后再以无侵入（unobtrusive）的方式向页面增加无害于基础浏览器的额外样式和功能。当浏览器升级时，它们会自动地呈现出来并发挥作用。</p>
+<p>想让网站在任何环境下看起来都保持一致是不可能的，不管为此付出多少努力，结局依旧会令你失望。与其试图让IE看起来堪比年轻它十岁的浏览器，不如努力改善网站的可访问性，或是进行更多的可用性测试，而不仅仅是让页面看起来更靓一点。</p>
+<p>某些CSS3特性在不支持它的浏览器中简直是无法模拟实现的，但若使用渐进增强，就无需为了能让你的网站适合所有人而放弃这些技术。仅仅因为部分人不愿或不能升级浏览器，却让使用新型浏览器的用户无法享受CSS3所提供的伟大技术，这是毫无道理可言的。</p>
+<p>我们应该先让网站能够正常工作于尽可能旧的浏览器上，然后不断为它在新型浏览器上实现更多的增强和改进。随着时间的推移，当越来越多的人开始升级浏览器而浏览器本身的支持度也不断提升时，就会有越来越多的人体验到这些增强和改进，它持续有效的使网站越来越好，却如需你刻意做什么。</p>
+<h5 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h5><p> 其实优雅降级和渐进增强都是页面的加分项，是针对技术的一种形而上的要求。保证尽可能多的用户都能正常使用网站是第一步，在此之上才需要考虑降级的极端情形和现代浏览器的体验增强。其实可以定义一个基准线，在此之上的增强叫做渐进增强，在此之下的兼容叫优雅降级。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/24/css3-selectors/">
+                CSS3 选择器总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-24
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/24/css3-selectors/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/24/css3-selectors/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>在学习新技术的同时不要忘记复习一下那些最基础的东西</p>
+</blockquote>
+<h4 id="基本选择器"><a href="#基本选择器" class="headerlink" title="基本选择器"></a>基本选择器</h4><ul>
+<li>通配符选择器(*) 通配符选择器是用来选择所有元素，，也可以选择某个元素下的所有元素</li>
+<li>元素选择器 根据tag名字来选择 比如 p body div 等等</li>
+<li>类选择器 .className</li>
+<li>id选择器 #ID</li>
+<li>后代选择器 A B (A、B分别为选择器 中间) 有空格</li>
+<li>子元素选择器(A&gt;B)(IE6不支持子元素选择器)。</li>
+<li>相邻兄弟元素选择器(E + F)<blockquote>
+<p>相邻兄弟选择器可以选择紧接在另一元素后的元素，而且他们具有一个相同的父元素，换句话说，EF两元素具有一个相同的父元素，而且Ｆ元素在Ｅ元素后面，而且相邻，这样我们就可以使用相邻兄弟元素选择器来选择Ｆ元素。</p>
+</blockquote>
+</li>
+<li>通用兄弟选择器（Ｅ &gt;Ｆ）<blockquote>
+<p>通用兄弟元素选择器是CSS3新增加一种选择器，这种选择器将选择某元素后面的所有兄弟元素，他们也和相邻兄弟元素类似，需要在同一个父元素之中，换句话说，E和F元素是属于同一父元素之内，并且F元素在Ｅ元素之后，那么E ~ F 选择器将选择中所有Ｅ元素后面的Ｆ元素。比如下面的代码：</p>
+</blockquote>
+</li>
+<li>群组选择器（selector1,selector2,…,selectorN）<blockquote>
+<p>群组选择器是将具有相同样式的元素分组在一起，每个选择器之间使用逗号“，”隔开，如上面所示selector1,selector2,…,selectorN。这个逗号告诉浏览器，规则中包含多个不同的选择器，如果不有这个逗号，那么所表达的意就完全不同了，省去逗号就成了我们前面所说的后代选择器，这一点大家在使用中千万要小心加小心。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h4><ul>
+<li>E[attr]：只使用属性名，而不论这个属性值是什么，你就可以使用这个属性选择器</li>
+<li>E[attr=”value”]：指定属性名，并指定了该属性的属性值为value；</li>
+<li>E[attr~=”value”]：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的“~”不能不写;属性选择器中有波浪（〜）时属性值有value时就相匹配，没有波浪（〜）时属性值要完全是value时才匹配。</li>
+<li>E[attr^=”value”]：属性值是以value开头的；</li>
+<li>E[attr$=”value”]：而且属性值是以value结束的；</li>
+<li>E[attr*=”value”]：而且属值中包含了value；</li>
+<li>E[attr|=”value”]：属性值是value或者以“value-”开头的值</li>
+</ul>
+<h4 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h4><h5 id="动态伪类"><a href="#动态伪类" class="headerlink" title="动态伪类"></a>动态伪类</h5><ul>
+<li>:hover用于当用户把鼠标移动到元素上面时的效果；</li>
+<li>:active用于用户点击元素那一下的效果（正发生在点的那一下，松开鼠标左键此动作也就完成了）</li>
+<li><p>:focus用于元素成为焦点，这个经常用在表单元素上。<br>#####UI元素状态伪类</p>
+</li>
+<li><p>:enabled 表单元素可用（比如”type=”text”有enable和disabled两种状态，前者为可写状态后者为不可状态）</p>
+</li>
+<li>:disabled    </li>
+<li><p>:checked 表单元素选中适用于radio checked</p>
+<h5 id="CSS3的-nth选择器"><a href="#CSS3的-nth选择器" class="headerlink" title="CSS3的:nth选择器"></a>CSS3的:nth选择器</h5></li>
+<li><p>:fist-child选择某个元素的第一个子元素；</p>
+</li>
+<li>:last-child选择某个元素的最后一个子元素；</li>
+<li>:nth-child()选择某个元素的一个或多个特定的子元素；</li>
+</ul>
+<blockquote>
+<ul>
+<li>:nth-child(length);参数是具体数字</li>
+<li>:nth-child(n);参数是n,n从0开始计算</li>
+<li>:nth-child(n*length)n的倍数选择，n从0开始算</li>
+<li>:nth-child(n+length);选择大于length后面的元素</li>
+<li>:nth-child(-n+length)选择小于length前面的元素</li>
+<li>:nth-child(n*length+1);表示隔n选一</li>
+</ul>
+</blockquote>
+<ul>
+<li>:nth-last-child()选择某个元素的一个或多个特定的子元素，从这个元素的最后一个子元素开始算；</li>
+<li>:nth-of-type()选择指定的元素；</li>
+<li>:nth-last-of-type()选择指定的元素，从元素的最后一个开始计算；</li>
+<li>:first-of-type选择一个上级元素下的第一个同类子元素；</li>
+<li>:last-of-type选择一个上级元素的最后一个同类子元素；</li>
+<li>:only-child选择的元素是它的父元素的唯一一个了元素；</li>
+<li>:only-of-type选择一个元素是它的上级元素的唯一一个相同类型的子元素；</li>
+<li>:empty是用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格.</li>
+</ul>
+<h5 id="否定选择器（-not）selctorA-not-slectorB"><a href="#否定选择器（-not）selctorA-not-slectorB" class="headerlink" title="否定选择器（:not）selctorA:not(slectorB)"></a>否定选择器（:not）selctorA:not(slectorB)</h5><blockquote>
+<p>用来过滤元素，比如要选择除了type为button之外的任何input可以使用 input:not([type=”button”])<br>使用</p>
+</blockquote>
+<h5 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h5><p>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
+<ul>
+<li>::first-line选择元素内容的第一行</li>
+<li>::first-letter选择文本块的第一个字母，比如用来实现首字下沉。</li>
+<li><p>::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常用”content”配合使用，比如流行的清除浮动。</p>
+<pre><code>.clearfix:before,
+.clearfix:after {
+    content: &quot;.&quot;;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix:after {clear: both;}
+.clearfix {zoom: 1;}
+</code></pre><p>-::selection用来改变浏览网页选中文的默认效果</p>
+</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/24/lines-javascript-library-for-calling-asynchronous-functions/">
+                7行代码实现异步函数顺序执行-No Callback
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-24
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/24/lines-javascript-library-for-calling-asynchronous-functions/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/24/lines-javascript-library-for-calling-asynchronous-functions/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>首先假设我们有两个函数，分别按顺序被调用，但是他们都会操作一个相同的变量，第一个函数式为这个变量赋值，第二个函数是使用这个变量：代码如下</p>
+<pre><code>var value;
+var A = function() {
+    setTimeout(function() {
+        value = 10;
+    }, 200);
+}
+var B = function() {
+    console.log(value);
+}
+</code></pre><p>如果我们先后调用<code>A()</code> ,<code>B()</code> 我们将会得到输出结果为    <code>undefined</code>，因为函数A式异步的设置变量的值，在执行B的时候，还没有为value赋值，但是我们可以给A传递一个回调函数，带赋值之后执行这个函数，如下</p>
+<pre><code>var value;
+var A = function(callback) {
+  setTimeout(function() {
+    value = 10;
+    callback();
+  }, 200);
 };
-myFunction(1,2,3);
-</code></pre><h4 id="为数组的-forEach-every-some-filter-map-中的回调函数指定this-上下文-这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个-arrayLikeObject-对象，作为forEach-Callback的this。"><a href="#为数组的-forEach-every-some-filter-map-中的回调函数指定this-上下文-这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个-arrayLikeObject-对象，作为forEach-Callback的this。" class="headerlink" title="为数组的 forEach(), every(), some(), filter(), map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 arrayLikeObject 对象，作为forEach Callback的this。"></a>为数组的 <code>forEach()</code>, <code>every()</code>, <code>some()</code>, <code>filter()</code>, <code>map()</code>中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 <code>arrayLikeObject</code> 对象，作为forEach Callback的this。</h4><pre><code>var arrayLikeObject = {0:&apos;f&apos;,1:&apos;o&apos;,2:&apos;g&apos;,length:3};
+var B = function() {
+  console.log(value);
+};
 
-[].forEach.call(arrayLikeObject,function(item){
+A(function() {
+  B();
+});
+</code></pre><p>这种方式是可行的，但是假设，如果我要执行四个甚至更异步的方法，这样一直传递回调函数的话将会让代码变得杂乱，并且代码也会失去美观，于是这就是传说中的callback hell，就像这样</p>
+<pre><code>A(function() {
+    B(function(){
+         C(function(){
+                  D(function(){
+                      E();
+                  });
+              });
+          });
+        });
+</code></pre><p>可以考虑写一个小的函数，来帮助我们来完成这个过程，首先从最简单的开始</p>
+<pre><code>var queue = function(funcs) {
 
-    // this = arrayLikeObject
-    console.log(item + &apos; total: &apos; + this.length);
+}
+</code></pre><p>我们可以通过queue([A,B]);分别实现A和B的顺序调用。分别获得每个函数，然后执行</p>
+<pre><code>var queue = function(funcs) {
+    var f = funcs.shift();
+    f();
+}
+</code></pre><p>如果执行这些代码话,将会得到如下的异常<code>TypeError: undefined is not a function.</code>,因为A需要接受一个回调函数作为参数，但是并没有传递参数，所以会报错了，下面定义一个next函数作为A的参数进行传递</p>
+<pre><code>var queue = function(funcs) {
+    var next = function() {
+        // ...
+    };
+    var f = funcs.shift();
+    f(next);
+};
+</code></pre><p>next函数是在A执行结束之后执行的，这样只是执行了函数A，如果要执行数组里面的每一个函数可以做如下调整</p>
+<pre><code>var queue = function(funcs) {
+    var next = function() {
+        var f = funcs.shift();
+        f(next);
+    };
+    next();
+};
+</code></pre><p>到此为止我们基本上已经实现了我们的目标了。通过queue([A,B]);可以实现A和B的顺序执行，即A执行完之后才执行B。以上代码中的<code>shift</code>是一个关键的函数，他移除并返回数组中的第一个元素，执行多次之后，这个数组最后悔变为空的，因此最终会导致错误，为了验证这个，假设这里有两个函数，我们不知道他们的执行顺序，它们都会接受一个回调函数，并在函数的末尾执行回调函数。</p>
+<pre><code>var A = function(callback) {
+    setTimeout(function() {
+        value = 10;
+        callback();
+    }, 200);
+};
+var B = function(callback) {
+    console.log(value);
+    callback();
+};
+</code></pre><p>如果按照顺序调用queue([A,B])的话，我们会得到<code>TypeError: undefined is not a function</code>。为了避免这种情况的发生，在next函数里面要检查funcs是否为空</p>
+<pre><code>var queue = function(funcs) {
+    (function next() {
+        if(funcs.length &gt; 0) {
+            var f = funcs.shift();
+            f(next);
+        }
+    })();
+};
+</code></pre><p>下面考虑一下更多的情况，这个函数里面的this是在闭包里面的，默认是指向了全局的window对象，如果我们可以给他绑定我们自己的作用域会更好一些比如：</p>
+<pre><code>var queue = function(funcs, scope) {
+    (function next() {
+          if(funcs.length &gt; 0) {
+              var f = funcs.shift();
+              f.apply(scope, [next]);
+          }
+    })();
+</code></pre><p>我用 <code>apply</code> 替换了<code>f(next)</code>来实现设置函数的作用域以及传递next作为参数，最后一步就是考虑参数函数之间的传递，首先我们不知道传递的参数的个数，于是使用<code>arguments</code>变量，这个变量存在每个函数中的，是一个ArrayLike对象、里面存储了执行改函数时传递过来的参数列表，因为apply函数的第二个参数需要接受一个真的数组，来传递参数列表。可以使用<code>Array.prototype.slice.call(arguments, 0)</code> 搞定</p>
+<pre><code>var queue = function(funcs, scope) {
+    (function next() {
+          if(funcs.length &gt; 0) {
+              var f = funcs.shift();
+              f.apply(scope, [next].concat(Array.prototype.slice.call(arguments, 0)));
+          }
+    })();
+};
+</code></pre><p>到此为止这个功能已经完全实现了让异步函数的同步执行，可以调用方式如下</p>
+<pre><code>    var obj = {
+        value: null
+    };
 
-},arrayLikeObject); //注意第三个参数 传递了也是arrayLikeObject
-</code></pre><h4 id="属性访问器-getter-setter"><a href="#属性访问器-getter-setter" class="headerlink" title="属性访问器 getter setter"></a>属性访问器 getter setter</h4><pre><code>var myObject = {
-    //name:&apos;&apos;, WOULD CAUSE ERROR
-    get name() { //notice use of get to indicate accessor property 
-        console.log(&apos;read name&apos;);
+    queue([
+        function(callback) {
+            var self = this;
+        setTimeout(function() {
+            self.value = 10;
+            callback(20);
+        }, 200);
     },
-    set name(value) { //notice use of set to indicate accessor property
-        console.log(&apos;wrote to name the value: &apos; + value);
+    function(callback, add) {
+        console.log(this.value + add);
+        callback();
+    },
+    function() {
+        console.log(obj.value);
     }
-
+], obj);
+</code></pre><p>函数的执行结果 为</p>
+<pre><code>30
+10
+</code></pre><p>言之就是把这些异步的函数放在一个数组里，然后通过next里面的shift来获取函数并传递next并实现了依次调用、最后列出queue函数的源码</p>
+<pre><code>var queue = function(funcs, scope) {
+    (function next() {
+          if(funcs.length &gt; 0) {
+              funcs.shift().apply(scope || {}, [next].concat(Array.prototype.slice.call(arguments, 0)));
+          }
+    })();
 };
-
-myObject.name = &apos;codylindley&apos;; //调用 set 
-myObject.name; //调用get
-</code></pre><h4 id="对象属性的配置项"><a href="#对象属性的配置项" class="headerlink" title="对象属性的配置项"></a>对象属性的配置项</h4><p>ES5中新的特性让对象的属性具有可只读readable，可只写writable、可配置性configurable,可遍历enumerable，通过<code>Object.getOwnPropertyDescriptor()</code> 可以查看特性的描述信息。</p>
-<pre><code>var accessor = {
-    get name(){},
-    set name(){}
-};
-
-var data = {name:&apos;Cody Lindley&apos;};
-
-//logs {get: function, set: function, enumerable: true, configurable: true}
-console.log(Object.getOwnPropertyDescriptor(accessor,&apos;name&apos;));
-
-//logs {value: &quot;Cody Lindley&quot;, writable: true, enumerable: true, configurable: true}
-console.log(Object.getOwnPropertyDescriptor(data,&apos;name&apos;));
-</code></pre><p>默认情况下Object.defineProperty() Object.defineProperties()<code>writable: true, enumerable: true, configurable: true。</code>如果是通过属性访问器来定义的属性 默认特性为 <code>enumerable: true, configurable:true</code> 。</p>
-<p>####新的 定义/修改对象的语法<br>通过<code>Object.defineProperty()</code> 以及 <code>Object.defineProperties()</code>两个函数来定义对象的属性以及属性的特性。下面是通过<code>Object.defineProperty()</code>为data对象定义两个属性<code>age</code>和<code>name</code>.</p>
-<pre><code>var data = {}; //create data object
-Object.defineProperty( //在data 对象上定义属性age
-    data,
-    &quot;age&quot;, 
-    {
-        value: 38,//配置属性的特性 包括value writable enumerable configurable
-        writable: true,
-        enumerable: true,
-        configurable: true
-    }
-);
-
-var accessor = {}; 
-Object.defineProperty( //以get set的形式来定义属性 name
-    accessor,
-    &quot;name&quot;, 
-    {
-        get: function () {},
-        set: function (value){},
-        enumerable: true,
-        configurable: true
-    }
-);
-
-//{value: 38, writable: true, enumerable: true, configurable: true} 
-console.log(Object.getOwnPropertyDescriptor(data,&apos;age&apos;));
-
-//{get: function, set: function, enumerable: true, configurable: true}
-console.log(Object.getOwnPropertyDescriptor(accessor,&apos;name&apos;));
-</code></pre><p>与上不同的是<code>Object.defineProperties()</code> 可以同时定义多组属性</p>
-<pre><code>var cody = {}; //
-Object.defineProperties( //定义两个属性
-    cody, 
-    {
-        &quot;age&quot;: {
-            value: 38,
-            writable: true,
-            enumerable: true,
-            configurable: true
-        },
-        &quot;name&quot;: {
-            get: function(){},
-            set:function(value){},
-            enumerable: true,
-            configurable: true
-        }
-    }
-);
-
-//{value: 38, writable: true, enumerable: true, configurable: true} 
-console.log(Object.getOwnPropertyDescriptor(cody,&apos;age&apos;));
-
-// {get: function, set: function, enumerable: true, configurable: true}
-console.log(Object.getOwnPropertyDescriptor(cody,&apos;name&apos;));
-</code></pre><p>注意 通过<code>Object.defineProperty()</code> 以及<code>Object.defineProperties()</code>定义的属性默认配置为<code>writable: false, enumerable: false, configurable: false</code>.定义的访问器属性默认配置<code>enumerable: false, configurable:false</code></p>
-<h4 id="使用Object-keys-以及Object-getOwnPropertyNames-获取对象的属性的name。"><a href="#使用Object-keys-以及Object-getOwnPropertyNames-获取对象的属性的name。" class="headerlink" title="使用Object.keys 以及Object.getOwnPropertyNames()获取对象的属性的name。"></a>使用<code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>获取对象的属性的name。</h4><p><code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>用来获取对象中的属性的name，不包括继承来的属性，两者区别是<code>Object.keys</code> 只能获取可遍历的属性的名字的数组，<code>Object.getOwnPropertyNames()</code>可以获得所有的属性的名字，作为字符串数组返回。</p>
-<pre><code>var person = {};
-Object.defineProperties(person, 
-    {
-        &quot;name&quot;: {value: &apos;Cody Lindley&apos;,enumerable: true},
-        &quot;age&quot;: {value: 38,enumerable: false}
-    }
-);
-
-//只返回可以可遍历的属性 
-console.log(Object.keys(person)); //logs [&quot;name&quot;]
-
-//return array of all properties, including ones that are non-enumerable
-console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
-</code></pre><h4 id="属性保护-extending、-sealing、freezing。"><a href="#属性保护-extending、-sealing、freezing。" class="headerlink" title="属性保护 extending、 sealing、freezing。"></a>属性保护 extending、 sealing、freezing。</h4><p>在ES5中 对象可以被设置为non-extensible, sealed, 以及 frozen。这是三种不同的属性保护级别，可以通过<code>Object.preventExtensions(myObject)</code>, <code>Object.seal(myObject)</code>,  <code>Object.freeze(myObject)</code>来进行设置。</p>
-<ul>
-<li>Object.preventExtensions() 让对象无法新增属性。</li>
-<li>Object.seal()包括了Object.preventExtensions()的功能，同时还具有让已经存在的属性不可修改配置也就说不能使用Object.defineProperty以及Object.defineProperties 来修改属性的配置，但是修改属性的值依然是可以修改的。</li>
-<li><p>Object.freeze() 包括了Object.preventExtensions(),Object.seal()的功能，同时为对象的所有数据属性将 writable 特性设置为 false。 当 writable 为 false 时，无法更改数据属性值。（如果 属性值是对象的话，还是可以改变的）</p>
-<pre><code>var  p={
-            user:&quot;kunkun&quot;
-        }
-Object.seal(p);
-p.name=&apos;du&apos;;
-console.log(p.name);//undefined 并没有增加
-Object.freeze(p);
-p.user=&apos;baokun&apos;
-console.log(p.user);// 输出kunkun 还是原来的值发现并没有被修改
-</code></pre></li>
-</ul>
-<p>同时也提供三个函数来对这三种保护级别进行判断</p>
-<ul>
-<li>Object.isExtensible()</li>
-<li>Object.isSealed()</li>
-<li>Object.isFrozen()</li>
-</ul>
-<h4 id="使用Object-create-显式继承。"><a href="#使用Object-create-显式继承。" class="headerlink" title="使用Object.create()显式继承。"></a>使用Object.create()显式继承。</h4><p>在ES3中创建对象的方式主要有以下三种</p>
-<ul>
-<li>var objectViaObjectLiteral = {};</li>
-<li>var objectViaObjectConstructor = new Object();</li>
-<li>var objectViaCustomConstructor = new(function Person(){});</li>
-</ul>
-<p>ES5中新增了Object.create函数来让开发者现实地设置对象以及对象继承的原型。第一个参数为对象的原型</p>
-<pre><code>var object = Object.create(Object.prototype); //创建对象 与{} 、 new Object()功能相同。
-</code></pre><p>object.create的主要作用继承指定的对象来创建新的对象，如果不传递参数，则默认值为Object.prototype。如果传递null 表示对象将会不继承于任何东西，则创建一个真正的空对象</p>
-<pre><code>var person = {alive: true};
-var cody = Object.create(person, {
-    name: {
-        configurable: true,
-        enumerable: true,
-        writeable: true,
-        value: &apos;cody&apos;
-    }
-});
-
-console.log(cody.alive); // true
-
-//
-console.log(Object.getPrototypeOf(cody).alive); //logs true
-</code></pre><p>上面的例子中，可以看到create也传递了第二个参数来为对象增加属性,第二个参数与Object.defineProperties()结果是一样的。</p>
-<h4 id="使用getPrototypeOf-来获取对象的原型。"><a href="#使用getPrototypeOf-来获取对象的原型。" class="headerlink" title="使用getPrototypeOf() 来获取对象的原型。"></a>使用getPrototypeOf() 来获取对象的原型。</h4><p>ES3中有个非标准的<strong>proto</strong> 来获取对象的原型金，浏览器支持不兼容，ES5中有了标准化。</p>
-<pre><code>Object.getPrototypeOf(new Object(&apos;foo&apos;)) === String.prototype // true
-</code></pre><h4 id="bind-：为函数绑定上下文。"><a href="#bind-：为函数绑定上下文。" class="headerlink" title="bind ：为函数绑定上下文。"></a>bind ：为函数绑定上下文。</h4><p>在ES3中通过Apply或者call来实现 比如</p>
-<pre><code>Function.prototype.bind = function(obj) { 
-   var method = this, 
-   temp = function() { 
-     return method.apply(obj,arguments); 
-   }; 
-
-   return temp; 
-} 
-</code></pre><p>ES 5中有了正式的bind</p>
-<pre><code>var myObject = {foo:&apos;foo&apos;};
-var myFunction = function(){
-    console.log(this,arguments[0],arguments[1],arguments[2]);
-};
-var usingBind = myFunction.bind(myObject,1,2,3); 
-usingBind(); // {foo=&quot;foo&quot;} 1 2 3
-</code></pre><h4 id="use-strict-严格模式"><a href="#use-strict-严格模式" class="headerlink" title="use strict 严格模式"></a>use strict 严格模式</h4><p>JavaScript代码标志为“严格模式”，则其中运行的所有代码都必然是严格模式下的。<br>其一：如果在语法检测时发现语法问题，则整个代码块失效，并导致一个语法异常。<br>其二：如果在运行期出现了违反严格模式的代码，则抛出执行异常。</p>
-<ul>
-<li>主要规则 </li>
-<li>定义变量必须带var 、</li>
-<li>不能在JSON定义重复的key、</li>
-<li>函数不能有重复的参数、</li>
-<li>不能改变arguments的值</li>
-</ul>
+</code></pre><p>原文地址：<a href="http://krasimirtsonev.com/blog/article/7-lines-JavaScript-library-for-calling-asynchronous-functions" target="_blank" rel="noopener">http://krasimirtsonev.com/blog/article/7-lines-JavaScript-library-for-calling-asynchronous-functions</a></p>
 
         
 
@@ -1622,8 +779,8 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
           
           
             
-              <a class="post-title-link" href="/2014/03/03/introduce-underscore/">
-                underscore学习总结
+              <a class="post-title-link" href="/2014/03/21/http-status/">
+                REST 程序设计之http method 、http status
               </a>
             
           
@@ -1633,15 +790,15 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-03
+              发表于 2014-03-21
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/03/introduce-underscore/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/03/introduce-underscore/"></span>
+            <a href="/2014/03/21/http-status/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/21/http-status/"></span>
             </a>
           </span>
           
@@ -1656,355 +813,34 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
         
 
         
-          <h3 id="underscore介绍"><a href="#underscore介绍" class="headerlink" title="underscore介绍"></a>underscore介绍</h3><p><a href="https://github.com/jashkenas/underscore/" target="_blank" rel="noopener">underscore</a>是一个很小很强大的函数库，帮助程序猿不用扩展内置的JS对象即可实现一系列常用的功能。对于“如果我面前是一个空白的HTML 页面，我想想立刻开发出网页，我需要做什么”这样的问题，underscore给出了答案。</p>
-<p>underscore 提供了80多个 工具函数，来提供了常见的功能。比如<code>map</code> ,<code>select</code>,<code>invoke</code>,以及更专业的助手    函数绑定，javascript模板，深度相等测试。如果当今流行的浏览器中如果已经存内置方法，他会优先调用浏览器原生的方法比如ES5中新增的<code>forEach</code>，<code>map</code>，<code>reduce</code>，<code>filter</code>，<code>every</code>，<code>some</code>, <code>indexOf</code> 等。</p>
-<p>underscore的函数主要包含了<strong>Collections</strong>,<strong>Arrays</strong>,<strong>Functions</strong>,<strong>Object</strong>,<strong>Utility</strong>,<strong>Chaining</strong> 等6块内容。对开发者来说是个很强的轮子。</p>
-<h3 id="underscore如何使用"><a href="#underscore如何使用" class="headerlink" title="underscore如何使用"></a>underscore如何使用</h3><p>相关文档</p>
-<p><a href="http://underscorejs.org/" target="_blank" rel="noopener">帮助文档</a></p>
-<p><a href="http://underscorejs.org/docs/underscore.html" target="_blank" rel="noopener">带注释的源码</a></p>
-<p><a href="https://github.com/jashkenas/underscore" target="_blank" rel="noopener">Github</a>;</p>
-<p>获取方法：</p>
-<p><a href="http://underscorejs.org/underscore.js" target="_blank" rel="noopener">开发环境版本</a> 未压缩</p>
-<p><a href="http://underscorejs.org/underscore-min.js" target="_blank" rel="noopener">生产环境版本</a> 经过压缩混淆</p>
-<p>也可以使用工具安装的方式来获取</p>
+          <h4 id="HTTP-method"><a href="#HTTP-method" class="headerlink" title="HTTP method"></a>HTTP method</h4><p>在rest程序设计中对资源都是通过URI来体现的，对资源的操作主要是通过Http请求的方法来实现的。API功能是由http method+ URI共同体现的。举例如下</p>
 <ul>
-<li>Node.js npm install underscore</li>
-<li>Require.js require([“underscore”], …</li>
-<li>Bower bowser install underscore</li>
-<li>Component component install jashkenas/underscore</li>
+<li>GET /tasks - 获取任务列表信息</li>
+<li>GET /tasks/12 -获取指定的任务信息</li>
+<li>POST /tasks - 创建新的任务</li>
+<li>PUT /tasks/12 - 更新指定的任务</li>
+<li>PATCH /tasks/12 - 更新指定任务的部分信息</li>
+<li>DELETE /tasks/12 - 删除指定的任务</li>
 </ul>
-<h3 id="使用Demo"><a href="#使用Demo" class="headerlink" title="使用Demo"></a>使用Demo</h3><p>之前使用过Jquery的时候我们学会了用$,使用underscore也同样的容易，只需要一个下划线_即可，<br>比如</p>
-<pre><code>_.each([1, 2, 3], alert);
-=&gt; alerts each number in turn...
-_.each({one: 1, two: 2, three: 3}, alert);
-=&gt; alerts each number value in turn...
-</code></pre><p>看到函数名字基本上就能猜到功能了，为了方便全面了解功能，这里仅列出函数的名字，仅对不熟悉的做一下解释，个别函数值列出了源码，其实看源码能学到更多。</p>
-<h4 id="Collections-数组，对象以及类数组可以调用的方法"><a href="#Collections-数组，对象以及类数组可以调用的方法" class="headerlink" title="Collections(数组，对象以及类数组可以调用的方法)"></a>Collections(数组，对象以及类数组可以调用的方法)</h4><ul>
-<li><code>each</code></li>
-<li><code>map</code></li>
-<li><code>reduce</code></li>
-<li><code>reduceright</code></li>
-<li><code>find</code></li>
-<li><code>filter</code> </li>
-<li><code>every</code></li>
-<li><code>some</code> 以上几个都是ES5 中的东东 就不在介绍了</li>
-<li><code>where</code>:选出所有的符合条件的</li>
-<li><code>findWhere</code>:只返回第一个符合条件的元素</li>
-<li><code>reject</code> 筛选出不符合条件的</li>
-<li><code>contains</code></li>
-<li><code>invoke</code>依次传入集合中的方法，来调用一个函数</li>
-<li><code>pluck</code> 提取某个字段的集合</li>
-<li><p><code>max</code>    根据集合中的某一属性或者对其操作的结果，提取结果最大的元素。如果第二个参数省略，则根据数组中值得大小进行比较。比如</p>
-<pre><code>var stooges = [{name: &apos;moe&apos;, age: 40}, {name: &apos;larry&apos;, age: 50}, {name: &apos;curly&apos;, age: 60}];
-_.max(stooges, function(stooge){ return stooge.age; });
-=&gt; {name: &apos;curly&apos;, age: 60};
-</code></pre></li>
-<li><p><code>min</code> 根据集合中的某一属性或者对其操作的结果，提取结果最小的元素。</p>
-</li>
-<li><code>sortBy</code></li>
-<li><code>groupBy</code></li>
-<li><code>countBy</code></li>
-<li><code>indexBy</code> 给集合添加索引</li>
-<li><code>shuffle</code>打乱集合元素的顺序</li>
-<li><code>sample</code>从数组中随机子数组</li>
-<li><code>toArray</code>。将集合转化为数组</li>
-</ul>
-<p>####Array Functions</p>
+<p>以上中get 、post、put、delete比较常用。主要实现对资源的CURD。</p>
+<h4 id="HTTP-status"><a href="#HTTP-status" class="headerlink" title="HTTP status"></a>HTTP status</h4><p>作为 API 的设计者，正确的将 API 执行结果和失败原因用清晰简洁的方式传达给客户程序是十分关键的一步。 我们确实可以在 HTTP 的相应内容中描述是否成功，如果出错是因为什么， 然而， 这就意味着用户需要进行内容解析，才知道执行结果和错误原因。因此，HTTP 响应代码可以保证客户端在第一时间用最高效的方式获知 API 运行结果，并采取相应动作。 下表列出了比较常用的响应代码。</p>
 <ul>
-<li><code>first</code></li>
-<li><p><code>initial</code> 返回前几个元素比如 </p>
-<pre><code>`_.initial([5, 4, 3, 2, 1]); =&gt; [5, 4, 3, 2]`
-</code></pre></li>
-<li><p><code>last</code></p>
-</li>
-<li><code>rest</code></li>
-<li><p><code>compact</code> 返回一个数组的拷贝，其中不包括值为false的元素 比如</p>
-<pre><code>_.compact([0, 1, false, 2, &apos;&apos;, 3]);
-=&gt; [1, 2, 3]
-</code></pre></li>
-<li><p><code>flatten</code>，把嵌套数组中的元素提取出来做为数组的元素。如果第二个参数为true 仅进行浅提取。比如</p>
-<pre><code>_.flatten([1, [2], [3, [[4]]]]);
-=&gt; [1, 2, 3, 4];
-
-_.flatten([1, [2], [3, [[4]]]], true);
-=&gt; [1, 2, 3, [[4]]];
-</code></pre></li>
-<li><p><code>without</code></p>
-</li>
-<li><code>partition</code> 将一个数组分组，其中的元素第一个满足第二个参数，第二个是不满足的</li>
-<li><code>union</code> 求数组的并集</li>
-<li><code>intersection</code>  交集</li>
-<li><code>difference</code> 差集</li>
-<li><code>uniq</code> 去掉数组中重复的元素</li>
-<li><p><code>zip</code> 看Demo</p>
-<pre><code>_.zip([&apos;moe&apos;, &apos;larry&apos;, &apos;curly&apos;], [30, 40, 50], [true, false, false]);
-=&gt; [[&quot;moe&quot;, 30, true], [&quot;larry&quot;, 40, false], [&quot;curly&quot;, 50, false]]
-</code></pre></li>
-<li><p><code>object</code> 把数组转为对象。</p>
-<pre><code>_.object([&apos;moe&apos;, &apos;larry&apos;, &apos;curly&apos;], [30, 40, 50]);
-=&gt; {moe: 30, larry: 40, curly: 50}
-
-_.object([[&apos;moe&apos;, 30], [&apos;larry&apos;, 40], [&apos;curly&apos;, 50]]);
-=&gt; {moe: 30, larry: 40, curly: 50}
-</code></pre></li>
-<li><p><code>indexOf</code></p>
-</li>
-<li>`lastIndexOf</li>
-<li><code>sortedIndex</code></li>
-<li><code>range</code> 产生一个连续的数组</li>
+<li>200 响应成功。主要响应GET, PUT, PATCH 、DELETE.请求，同时也可以响应资源创建成功无返回结果的post请求</li>
+<li>201 资源成功创建，同时在location header 里面有新资源的 地址</li>
+<li>204 返回请求成功 不反返回内容，即返回结果不包含body，比如delete请求。</li>
+<li>301 重定向 , 请求的网页已被永久移动到新位置。服务器返回此响应时，会自动将请求者转到新位置。</li>
+<li>302 重定向 , 请求的网页临时移动到新位置，但求者应继续使用原有位置来进行以后的请求。302 会自动将请求者转到不同的临时位置。</li>
+<li>304 自从上次请求后，请求的网页未被修改过。服务器返回此响应时，不会返回网页内容。</li>
+<li>400 错误请求</li>
+<li>401 未授权 , 请求要求进行身份验证</li>
+<li>403 已禁止 , 服务器拒绝请求。</li>
+<li>404 未找到 , 服务器找不到请求的网页。</li>
+<li>405 方法禁用 , 禁用请求中所指定的方法。</li>
+<li>410 请求的页面不存在</li>
+<li>415 不支持的媒体类型</li>
+<li>429 请求次数过多</li>
+<li>500 内部服务器错误。</li>
 </ul>
-<h4 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h4><ul>
-<li><p><code>bind</code> 将函数绑定到具体的对象，并且可以绑定参数</p>
-<pre><code>var func = function(greeting){ return greeting + &apos;: &apos; + this.name };
-func = _.bind(func, {name: &apos;moe&apos;}, &apos;hi&apos;);
-func();
-=&gt; &apos;hi: moe&apos;
-</code></pre></li>
-<li><p><code>bindAll</code> 同时绑定对象的方法，只需要指定相应的方法即可</p>
-<pre><code>var buttonView = {
-  label  : &apos;underscore&apos;,
-  onClick: function(){ alert(&apos;clicked: &apos; + this.label); },
-  onHover: function(){ console.log(&apos;hovering: &apos; + this.label); }
-};
-_.bindAll(buttonView, &apos;onClick&apos;, &apos;onHover&apos;);
-// When the button is clicked, this.label will have the correct value.
-jQuery(&apos;#underscore_button&apos;).bind(&apos;click&apos;, buttonView.onClick);
-</code></pre></li>
-<li><p><code>partial</code> 绑定部分的参数。返回一个函数</p>
-<pre><code>var add = function(a, b) { return a + b; };
-add5 = _.partial(add, 5);
-add5(10);
-=&gt; 15
-</code></pre></li>
-<li><p><code>memioze</code> 缓存计算结果。</p>
-</li>
-<li><code>delay</code> 延迟执行，类似于setTimeOut</li>
-<li><code>defer</code>也是延迟执行方法，不同的是他能保证在当前堆栈中的所有的代码跑完之后再执行function。其实就是setTimeout(fn,0);</li>
-<li><p><code>throttle</code> throttle这个单词的意思是使减速，用于控制频繁触发的 function的的频率，比如，拖动页面滚动条时scroll方法会以很高的频率触发，如果在scroll的处理事件中做了很费时的操作，会导致浏览器假死，如果使用了throttle后，function被触发的频率可以降低。</p>
-<pre><code>var throttled = _.throttle(updatePosition, 100);
-$(window).scroll(throttled);
-</code></pre></li>
-<li><p><code>debounce</code> 对于频繁处理的时间，只在第一次触发(是否触发取决于immdiate 参数)，和事件频繁触发最后一次触发(有最多wait的延时)。拿滚动事件为例，滚动事件50ms触发一次，如果设置wait为100ms。则在最后一次触发scroll事件时，也就是停止滚动时，在100ms后触发function。如果immediate参数为true，开始滚动时也会触发function</p>
-<p>  var lazyLayout = _.debounce(calculateLayout, 300);<br>  $(window).resize(lazyLayout);</p>
-</li>
-<li><code>once</code> once能确保func只调用一次，如果用func返回一个什么对象，源码也比较简单，无非就是用一个标志位来标示是否运行过，缓存返回值</li>
-<li><p><code>after</code> 创建一个新的函数，当func反复调用时，count次才调用一次，比如：</p>
-<p>  var afterA = _.after(3,a);<br>  afterA();//调用<br>  afterA();//不alert<br>  afterA();//不alert<br>  afterA();//调用</p>
-</li>
-<li><p><code>now</code> 返回当前的时间戳  _.now = Date.now || function() { return new Date().getTime(); };</p>
-</li>
-<li><code>wrap</code></li>
-<li><code>compose</code></li>
-</ul>
-<p>####Objects</p>
-<ul>
-<li><p><code>keys</code> 返回 对象的key的数组</p>
-<p>  _.keys({one: 1, two: 2, three: 3});<br>  =&gt; [“one”, “two”, “three”]</p>
-</li>
-<li><p><code>values</code> 返回对象的value数组</p>
-<p>  _.values({one: 1, two: 2, three: 3});<br>  =&gt; [1, 2, 3]</p>
-</li>
-<li><p><code>pairs</code> 转为[key,valu]的集合</p>
-<p>  _.values({one: 1, two: 2, three: 3});<br>  =&gt; [1, 2, 3]</p>
-</li>
-<li><p><code>invert</code> 将 key和value反转</p>
-</li>
-<li><code>functions</code>返回对象中方法的集合</li>
-<li><p><code>extend</code> 扩展对象的属性。</p>
-<p>  _.extend({name: ‘moe’}, {age: 50});<br>  =&gt; {name: ‘moe’, age: 50}</p>
-</li>
-<li><p><code>pick</code> 筛选字段，只选满足传入的key的字段</p>
-<p>  _.pick({name: ‘moe’, age: 50, userid: ‘moe1’}, ‘name’, ‘age’);<br>  =&gt; {name: ‘moe’, age: 50}</p>
-</li>
-<li><p><code>omit</code> 与上面相反</p>
-</li>
-<li><code>defaults</code></li>
-<li><code>clone</code></li>
-<li><code>tap</code> 对象的拦截器，用于在对象方法链中，调试对象 </li>
-<li><code>has</code></li>
-<li><code>matches</code></li>
-<li><p><code>property</code></p>
-<p>  var moe = {name: ‘moe’};<br>  ‘moe’ === _.property(‘name’)(moe);<br>  =&gt; true</p>
-</li>
-<li><p><code>isEqual</code> 深度比较是否相等</p>
-<pre><code>var moe   = {name: &apos;moe&apos;, luckyNumbers: [13, 27, 34]};
-var clone = {name: &apos;moe&apos;, luckyNumbers: [13, 27, 34]};
-moe == clone;
-=&gt; false
-_.isEqual(moe, clone);
-=&gt; true
-</code></pre></li>
-<li><p><code>isEmpty</code> 判断对象是否为{}</p>
-<pre><code>_.isEmpty([1, 2, 3]);
-=&gt; false
-_.isEmpty({});
-=&gt; true
-</code></pre></li>
-<li><p><code>isElement</code> 判断是否为dom 元素</p>
-<p>   _.isElement = function(obj) {</p>
-<pre><code>  return !!(obj &amp;&amp; obj.nodeType === 1);
-};
-</code></pre></li>
-<li><p><code>isArray</code></p>
-</li>
-<li><code>isObject</code></li>
-<li><code>isArguments</code></li>
-<li><code>isFunction</code></li>
-<li><code>isString</code></li>
-<li><code>isNumber</code></li>
-<li><code>isDate</code></li>
-<li><p><code>isRegExp</code><br>以上就不解释了，看源码吧 </p>
-<pre><code> each([&apos;Arguments&apos;, &apos;Function&apos;, &apos;String&apos;, &apos;Number&apos;, &apos;Date&apos;, &apos;RegExp&apos;], function(name) {
-  _[&apos;is&apos; + name] = function(obj) {
-    return toString.call(obj) == &apos;[object &apos; + name + &apos;]&apos;;
-  };
-});
-</code></pre></li>
-<li><p><code>isFinite</code> 是否为有限数</p>
-<pre><code>_.isFinite = function(obj) {
-  return isFinite(obj) &amp;&amp; !isNaN(parseFloat(obj));
-};
-</code></pre></li>
-<li><p><code>isBoolean</code> 是否为bool值</p>
-<pre><code>_.isBoolean = function(obj) {
-  return obj === true || obj === false || toString.call(obj) == &apos;[object Boolean]&apos;;
-};
-</code></pre></li>
-<li><p><code>isNaN</code>  注意typeof(NaA)为number</p>
-<pre><code>_.isNaN = function(obj) {
-  return _.isNumber(obj) &amp;&amp; obj != +obj;
-};
-</code></pre></li>
-<li><p><code>isNull</code> </p>
-<pre><code>_.isNull = function(obj) {
-    return obj === null;
-  };
-</code></pre></li>
-<li><p><code>isUndefined</code></p>
-<pre><code>_.isUndefined = function(obj) {
-   return obj === void 0;
- };
-</code></pre></li>
-</ul>
-<p>####UTILITY FUNCTIONS</p>
-<ul>
-<li><p><code>noConflict</code> 这个 与jQuery中的类似，将_ 还原为之前代表的意思，以后使用</p>
-<p>  var underscore = _.noConflict();</p>
-<pre><code>_.noConflict = function() {
-  root._ = previousUnderscore;
-  return this;
-};
-</code></pre></li>
-<li><p><code>identify</code> 返回用作参数的相同值。数学 f(x) = x、这个函数看着没有什么用途，但使用整个Underscore作为默认的迭代器</p>
-<pre><code>_.identity = function(value) {
-   return value;
- };
-</code></pre></li>
-<li><p><code>constant</code>。创建一个返回与传入参数相同值得函数</p>
-<pre><code>_.constant = function(value) {
-    return function () {
-      return value;
-    };
-  };
-</code></pre></li>
-<li><p><code>times</code> 调用给定的迭代函数n次 </p>
-<pre><code> _.times = function(n, iterator, context) {
-   var accum = Array(Math.max(0, n));
-   for (var i = 0; i &lt; n; i++) accum[i] = iterator.call(context, i);
-   return accum;
- };
-_(3).times(function(n){ dosomething });
-</code></pre></li>
-</ul>
-<ul>
-<li><p><code>radom</code> 返回随机数</p>
-<pre><code>_.random = function(min, max) {
-  if (max == null) {
-    max = min;
-    min = 0;
-  }
-  return min + Math.floor(Math.random() * (max - min + 1));
-};
-</code></pre></li>
-<li><p><code>mixin</code> 扩展underscore中的方法</p>
-<pre><code>_.mixin({
-  capitalize: function(string) {
-    return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
-  }
-});
-_(&quot;fabio&quot;).capitalize();
-=&gt; &quot;Fabio&quot;
-</code></pre></li>
-<li><p><code>uniqueId</code> 为一个对象生成一个唯一的ID 可以自己加前缀</p>
-</li>
-<li><p><code>escape</code>转义HTML字符串，替换&amp;, &lt;, &gt;, “, ‘,  /字符 替换为&amp;, &lt;, &gt;, &quot;, &amp;#x27</p>
-<pre><code>_.escape(&apos;Curly, Larry &amp; Moe&apos;); 
-=&gt; &quot;Curly, Larry &amp;amp; Moe&quot; 
-</code></pre></li>
-<li><p><code>unescape</code> 与上相反 替换 &amp;, &lt;, &gt;, &quot;, &#x27; 替换为&amp;, &lt;, &gt;, “, ‘,  /</p>
-</li>
-<li><code>result</code> _.result(object, property)  如果第二个参数是函数的话则调用这个函数，并将第一个参数作为函数的上下文，否则返回object[property]</li>
-<li><code>template</code> javascript模板编译函数使用&lt;%= … %&gt; 替换变量，&lt;% … %&gt;执行JS代码， &lt;%- … %&gt;让HTML被转义。</li>
-</ul>
-<p>####Chaining<br>可以根据自己的喜好决定是函数式编程还是采用面向对象的方式来使用underscore，比如下的两种方式</p>
-<pre><code>_.map([1, 2, 3], function(n){ return n * 2; });
-_([1, 2, 3]).map(function(n){ return n * 2; });
-</code></pre><p><code>value</code>  提取出_(obj)对象的值。比如</p>
-<pre><code>_([1, 2, 3]).value();
-=&gt; [1, 2, 3]
-</code></pre><p>####OOP<br> 如果_作为函数被调用的话，会返回一个包装的好的对象，这个对象拥有当前版本Underscore的所有方法。同时这个对象还可以通过调用chain实现对一个对象的包裹</p>
-<p>链式调用</p>
-<pre><code>var lyrics = [
-  {line: 1, words: &quot;I&apos;m a lumberjack and I&apos;m okay&quot;},
-  {line: 2, words: &quot;I sleep all night and I work all day&quot;},
-  {line: 3, words: &quot;He&apos;s a lumberjack and he&apos;s okay&quot;},
-  {line: 4, words: &quot;He sleeps all night and he works all day&quot;}
-];
-
-_.chain(lyrics)
-  .map(function(line) { return line.words.split(&apos; &apos;); })
-  .flatten()
-  .reduce(function(counts, word) {
-    counts[word] = (counts[word] || 0) + 1;
-    return counts;
-  }, {})
-  .value();
-=&gt; {lumberjack: 2, all: 4, night: 2 ... }
-</code></pre><p>chain 的源码 </p>
-<pre><code>_.chain = function(obj) {
-    return _(obj).chain();
-  };
-</code></pre><p>同时下面还为_原型增加了方法</p>
-<pre><code>_.extend(_.prototype, {
-  chain: function() {
-    this._chain = true;
-    return this;
-  },
-  value: function() {
-    return this._wrapped;
-  }
-});
-</code></pre><p>上面的例子中开始调用_.chain(lyrics),是调用的 <em>.chain(obj)。然后经过</em>(obj) 返回一个示例。接下来调用的是原型上的方法chain 将 this.<em>chain = true; 然后返回this 这样就可以进行链式调用的，第一次调用的</em>对象的chain，第二次调用的是_函数的原型对象的方法。接下来是一句神奇的代码</p>
-<pre><code>_.mixin(_);
-</code></pre><p>然后调用了 <em>mixin为把</em>中的所有方法都赋给了_.prototype.于是经过包装的对象都是经过 new <em>(obj)的，具有了</em>对象的中的方法</p>
-<p><em>mixin的源码 ，将传入对象的方法都添加到</em>.prototype上</p>
-<pre><code>_.mixin = function(obj) {
-  each(_.functions(obj), function(name) {
-    var func = _[name] = obj[name];
-    _.prototype[name] = function() {
-      var args = [this._wrapped];
-      push.apply(args, arguments);
-      return result.call(this, func.apply(_, args));
-    };
-  });
-};
-</code></pre><p>看看执行_()发生了什么,回到源码开头</p>
-<pre><code>var _ = function(obj) {
-   if (obj instanceof _) return obj; //如果传入的对象是 _的实例
-   if (!(this instanceof _)) return new _(obj); // 如果不是通过new _()的，则new new _(obj) 一个实例继续调用
-   this._wrapped = obj;// 传入其他参数 new 实例的时候传入的参数
- };
-</code></pre><p>这是一个单例模式，通过创建一个underscore对象，如果以包裹的形式来调用的话。会将包裹的对象设置为内部的_wrapped变量。</p>
 
         
 
@@ -2016,118 +852,8 @@ _.chain(lyrics)
         
           <div class="post-tags">
             
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/02/git-multiple-account-setting/">
-                git账户配置以及多账户配置
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-02
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/02/git-multiple-account-setting/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/02/git-multiple-account-setting/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>在使用git的时候，git与远程服务器是一般通过ssh传输的(也支持ftp，https)，我们在管理远程分支之前 需要在本机上创建ssh-key密钥对，并把其中的公钥添加到github中。</p>
-<h3 id="单用户情况"><a href="#单用户情况" class="headerlink" title="单用户情况"></a>单用户情况</h3><p>如果你就会一直在你的计算计算机使用一个远程的Git服务器，并且账号是一个，比较简单，生成key的时候也没有太大注意的地方，直接运行如下的第一步然后按回车就可以了<br>  1、在 gitbash上运行  ssh-keygen -t  rsa  -C  “Github账户邮箱”<br>  2、接下来会提示输入key的名字 默认名字为id_rsa .默认就行了<br>  3、然后会提示输入口令，这里口令与Github中的密码无关，随便输入可以为空。</p>
-<ol start="4">
-<li><p>如果在第二步中的没有重新命名的话，则忽略此步骤，ssh agent默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中<br>ssh-add id_rsa<br>如果出现Could not open a connection to your authentication agent的错误，就试着先用以下命令：</p>
-<p>ssh-agent bash<br>ssh-add id_rsa<br>添加完之后 登陆Github   点击 网页右上侧的 Account Setting 按钮 - 选择 ssh-keys  点击Add SSH Key  ，在title中输入名字，然后将公约即id_rsa.pub添加到ssh-key处。</p>
-</li>
-</ol>
-<p>在git bash的命令行中输入 </p>
-<p>ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a> 如果能正常访问即可</p>
-<pre><code>$ ssh -T git@github.com
-Enter passphrase for key &apos;C:/Users/kunkun/.ssh/github.rsa&apos;:
-Hi kunkun01! You&apos;ve successfully authenticated, but GitHub does not provide shel
-l access.
-</code></pre><h3 id="多账户配置"><a href="#多账户配置" class="headerlink" title="多账户配置"></a>多账户配置</h3><p> 多账户又分为两种情况  </p>
-<ul>
-<li>针对同一个服务器的同用户（比如 我平时开发开源的小东东，有的是一个账号是公司的账号对外开源项目用的，另外我自己也比较崇尚开源，所以自己也有了Github账号)</li>
-<li><p>针对不同服务器的用户(现在pass平台 部署应用都是通过git来管理的，比如常见的Openshift，Heroku appfog等，在这里我也注册了账号）</p>
-<p>在我们访问git服务器的时候，如果通过ssh的方式话，访问不同的服务器要使用不同的ssh-key。经过在第一步的过程中，在创建ssh-key的默认命名为id_rsa，如果使用不同的账户的，必须得给不同的key设置不同的名字，否则如果继续使用默认名字的话，会把之前的id_rsa覆盖掉。<br>具体操作如下 user2是我的另外一个Github账户</p>
-<h4 id="1、新建user2的SSH-Key"><a href="#1、新建user2的SSH-Key" class="headerlink" title="1、新建user2的SSH Key"></a>1、新建user2的SSH Key</h4><p>  #新建SSH key：<br> $ cd ~/.ssh     # 切换到C:\Users\Administrator.ssh<br> ssh-keygen -t rsa -C “<a href="mailto:mywork@email.com" target="_blank" rel="noopener">mywork@email.com</a>“  # 新建工作的SSH key</p>
-<h1 id="设置名称为id-rsa-work"><a href="#设置名称为id-rsa-work" class="headerlink" title="设置名称为id_rsa_work"></a>设置名称为id_rsa_work</h1><p> Enter file in which to save the key (/c/Users/Administrator/.ssh/id_rsa): id_rsa_work<br>####2、新密钥添加到SSH agent中<br>因为默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中：</p>
-<p> ssh-add ~/.ssh/id_rsa_work<br>上面提到了，如果出现Could not open a connection to your authentication agent的错误，就试着用以下命令：</p>
-<p> ssh-agent bash<br> ssh-add ~/.ssh/id_rsa_work</p>
-<h4 id="3、修改config文件-将账户以及git服务器与对应的密钥关联。在C-Users-kunkun-ssh目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下：-比如我的config配置如下："><a href="#3、修改config文件-将账户以及git服务器与对应的密钥关联。在C-Users-kunkun-ssh目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下：-比如我的config配置如下：" class="headerlink" title="3、修改config文件 将账户以及git服务器与对应的密钥关联。在C:\Users\kunkun\.ssh目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下："></a>3、修改config文件 将账户以及git服务器与对应的密钥关联。在<code>C:\Users\kunkun\.ssh</code>目录下找到config文件，如果没有就创建名字为config的文本文件（无后缀名），然后修改如下： 比如我的config配置如下：</h4><h1 id="该文件用于配置私钥对应的服务器"><a href="#该文件用于配置私钥对应的服务器" class="headerlink" title="该文件用于配置私钥对应的服务器"></a>该文件用于配置私钥对应的服务器</h1><h1 id="Default-github-user-first-mail-com"><a href="#Default-github-user-first-mail-com" class="headerlink" title="Default github user(first@mail.com)"></a>Default github user(<a href="mailto:first@mail.com" target="_blank" rel="noopener">first@mail.com</a>)</h1><p>  Host github.com<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa</p>
-<h1 id="second-user-second-mail-com"><a href="#second-user-second-mail-com" class="headerlink" title="second user(second@mail.com)"></a>second user(<a href="mailto:second@mail.com" target="_blank" rel="noopener">second@mail.com</a>)</h1><h1 id="建一个github别名，新建的帐号使用这个别名做克隆和更新"><a href="#建一个github别名，新建的帐号使用这个别名做克隆和更新" class="headerlink" title="建一个github别名，新建的帐号使用这个别名做克隆和更新"></a>建一个github别名，新建的帐号使用这个别名做克隆和更新</h1><p>  Host github2<br>  HostName github.com<br>  User git<br>  IdentityFile C:/Users/Administrator/.ssh/id_rsa_work<br>其规则就是：从上至下读取config的内容，在每个Host下寻找对应的私钥。这里将GitHub SSH仓库地址中的<a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>替换成新建的Host别名如：github2，那么原地址是：<a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:kunkun/Mywork.git，替换后应该是：github2:kunkun/Mywork.git。</p>
-</li>
-</ul>
-<h4 id="4、用记事本打开新生成的-ssh-id-rsa2-pub-和id-rsa-work-复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh-keys中。"><a href="#4、用记事本打开新生成的-ssh-id-rsa2-pub-和id-rsa-work-复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh-keys中。" class="headerlink" title="4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。"></a>4、用记事本打开新生成的~/.ssh/id_rsa2.pub 和id_rsa_work 复制里面的内容、登陆Github网站，将里面的内容添加到分别加入对应的ssh keys中。</h4><h4 id="5、测试："><a href="#5、测试：" class="headerlink" title="5、测试："></a>5、测试：</h4><pre><code>$ ssh -T git@github.com
-Hi BeginMan! You&apos;ve successfully authenticated, but GitHub does not provide shel
-l access.
-
-$ ssh -T github2
-Hi BeginMan! You&apos;ve successfully authenticated, but GitHub does not provide shel
-l access.
-</code></pre><p>克隆的时候将Github.com替换为对应的别名即可<br>比如我的第二个账户中的一个仓库地址为<a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:kunkun12/PiesLayer.git。但是我以上的配置中使用</p>
-<p> git clone git@github2:kunkun12/PiesLayer.git</p>
-<p> 注意：如果你只是通过这篇文章中所述配置了Host，那么你多个账号下面的提交用户会是一个人，所以需要通过命令git config –global –unset user.email删除用户账户设置，在每一个repo下面使用git config –local user.email ‘你的github邮箱@mail.com’ 命令单独设置用户账户信息</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Git/">
-                #Git
+              <a href="/tags/Http-method-status/">
+                #Http method status
               </a>
             
           </div>
@@ -2149,7 +875,7 @@ l access.
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/3/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">&raquo;</a>
             </div>
           
         </div>
@@ -2176,15 +902,15 @@ l access.
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-count">29</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
-            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-count">2</span>
             <span class="site-state-item-name">页面</span>
         </div>
       </div>
@@ -2199,15 +925,11 @@ l access.
             </span>
           
             <span class="soclial-item">
-              <a href="https://twitter.com/your-user-name">TWITTER</a>
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
             </span>
           
             <span class="soclial-item">
               <a href="http://weibo.com/u/1821556025">WEIBO</a>
-            </span>
-          
-            <span class="soclial-item">
-              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
             </span>
           
             <span class="soclial-item">

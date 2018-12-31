@@ -99,8 +99,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/03/01/javascriptjudge-browser/">
-                判断浏览器特性
+              <a class="post-title-link" href="/2014/03/20/oo-3-features/">
+                面向对象编程3大特性 7大原则[转] 
               </a>
             
           
@@ -110,15 +110,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-01
+              发表于 2014-03-20
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/01/javascriptjudge-browser/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/javascriptjudge-browser/"></span>
+            <a href="/2014/03/20/oo-3-features/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/oo-3-features/"></span>
             </a>
           </span>
           
@@ -133,57 +133,29 @@
         
 
         
-          <h3 id="浏览器类型判断"><a href="#浏览器类型判断" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
-<p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
-<pre><code> var Sys = {}; 
-var ua = navigator.userAgent.toLowerCase(); 
-var s; 
-(s = ua.match(/msie ([/d.]+)/)) ? Sys.ie = s[1] : 
-(s = ua.match(/firefox//([/d.]+)/)) ? Sys.firefox = s[1] : 
-(s = ua.match(/chrome//([/d.]+)/)) ? Sys.chrome = s[1] : 
-(s = ua.match(/opera.([/d.]+)/)) ? Sys.opera = s[1] : 
-(s = ua.match(/version//([/d.]+).*safari/)) ? Sys.safari = s[1] : 0;
-</code></pre><p>测试代码</p>
-<pre><code>if (Sys.ie) document.write(&apos;IE: &apos; + Sys.ie); 
-if (Sys.firefox) document.write(&apos;Firefox: &apos; + Sys.firefox); 
-if (Sys.chrome) document.write(&apos;Chrome: &apos; + Sys.chrome); 
-if (Sys.opera) document.write(&apos;Opera: &apos; + Sys.opera); 
-if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
-</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>实现。</p>
-<h3 id="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"><a href="#Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
-<pre><code>if (Modernizr.borderradius) {
-      //do something
-   }
-
-   if (Modernizr.csstransforms) {
-      //
-   }
-</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="noopener">shim/polyfill</a>脚本来达到支持的目的.</p>
-<p>可以使用Modernizr的load()函数来动态加载脚本，该函数的test属性是表明要测试是否支持的新特性，如果测试成功支持的话，就加载yep属性设置的脚本，如果不支持就加载nope属性设置的脚本，不管是否支持，both属性里设置的脚本都会加载的。例子代码如下：</p>
-<pre><code>Modernizr.load({
-    test: Modernizr.canvas,
-    yep:  &apos;html5CanvasAvailable.js’,
-    nope: &apos;excanvas.js’, 
-    both: &apos;myCustomScript.js&apos; 
-});
-</code></pre><p>在该例子里，Modernizr会判断当前浏览器是否支持canvas特性，如果支持，那就会加载html5CanvasAvailable.js和myCustomScript.js这两个脚本，如果不支持，就会加载excanvas.js（用于IE9之前的版本）脚本文件以让该浏览器支持canvas功能，然后再加载myCustomScript.js脚本。</p>
-<p>因为Modernizr可以加载脚本，所以你还可以用于其它的用途，比如，如果你引用的第三方脚本（例如提供CDN服务的Google和Microsoft提供jquery的托管）加载失败的情况下，可以加载备用的文件。下面的代码是Modernizr提供的一个加载jquery的示例：</p>
-<pre><code>Modernizr.load([
-    {
-        load: &apos;//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js&apos;,
-        complete: function () {
-            if (!window.jQuery) {
-                Modernizr.load(&apos;js/libs/jquery-1.6.4.min.js&apos;);
-            }
-        }
-    },
-    {
-        // This will wait for the fallback to load and
-        // execute if it needs to.
-        load: &apos;needs-jQuery.js&apos;
-    }
-]);
-</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="noopener">Detecting HTML5/CSS3 Features using Modernizr</a></p>
+          <p>原文地址&lt;<a href="http://blog.163.com/wumingli456@126/blog/static/28896414201211121629525" target="_blank" rel="noopener">http://blog.163.com/wumingli456@126/blog/static/28896414201211121629525</a> &gt;</p>
+<h3 id="面向对象的特性"><a href="#面向对象的特性" class="headerlink" title="面向对象的特性"></a>面向对象的特性</h3><p>三个基本的特性：封装、继承与多态。</p>
+<p>1、封装<br>面向对象编程核心思想这一就是就是将数据和对数据的操作封装在一起.通过抽象,即从具体的实例中抽取共同的性质形成一般的概念,比如类的概念.</p>
+<p>2、继承<br>继承体现了一种先进的编程模式.子类可以继承父类的属性和功能,即子类继承了父类所具有的数据和数据上的操作,同时又可以增添子类独有的数据和数据上的操作.例如,”人类”继承了”哺乳类”的属性和功能,同时又增添了人类独有的属性和功能.</p>
+<p>3、多态<br> 多态是面向对象编程的又一重要特征.有两种意义的多态（表现为方法的重写(Overriding)和重载(Overloading)）<br> 一种是操作名称的多态,即有多个操作具有相同的名字,但这些操作所接收的消息类型必须不同.所谓操作名称的多态是指可以向操作传递不同消息,以便让对象根据相应的消息来产生一定的行为.</p>
+<h3 id="七大基本原则"><a href="#七大基本原则" class="headerlink" title="七大基本原则"></a>七大基本原则</h3><p> 单一职责原则SRP(Single Responsibility Principle)、开放封闭原则OCP(Open－Close Principle) 、替换原则、依赖原则(the Dependency Inversion Principle DIP) (the Liskov Substitution Principle LSP) 、接口分离原则(the Interface Segregation Principle ISP)、“迪米特”法则 、组合/聚合原则 </p>
+<p>1、单一职责原则SRP(Single Responsibility Principle)<br>即一个类只负责一项职责<br>可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>提高类的可读性，提高系统的可维护性；<br>变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
+<p>2、开放封闭原则OCP(Open－Close Principle)<br>一个模块在扩展性方面应该是开放的而在更改性方面应该是封闭的。比如：一个网络模块，原来只服务端功能，而现在要加入客户端功能，<br>那么应当在不用修改服务端功能代码的前提下，就能够增加客户端功能的实现代码，这要求在设计之初，就应当将服务端和客户端分开，公共部分抽象出来。</p>
+<p>3、里氏替换原则(the Liskov Substitution Principle LSP)<br>子类应当可以替换父类并出现在父类能够出现的任何地方。</p>
+<p>4、依赖倒转原则(the Dependency Inversion Principle DIP)<br>具体依赖抽象，上层依赖下层。假设B是较A低的模块，但B需要使用到A的功能，<br>这个时候，B不应当直接使用A中的具体类： 而应当由B定义一抽象接口，并由A来实现这个抽象接口，B只使用这个抽象接口：这样就达到<br>了 依赖倒置的目的，B也解除了对A的依赖，反过来是A依赖于B定义的抽象接口。通过上层模块难以避免依赖下层模块，假如B也直接依赖A的实现，那么就可能造 成循环依赖。一个常见的问题就是编译A模块时需要直接包含到B模块的cpp文件，而编译B时同样要直接包含到A的cpp文件。</p>
+<p>5、接口分离原则(the Interface Segregation Principle ISP)<br>模块间要通过抽象接口隔离开，而不是通过具体的类强耦合起来。即面向接口编程</p>
+<p>6、“迪米特”法则<br>又叫最少知识原则，就是说，一个对象应当对其他对象有尽可能少的了解<br>① 在类的划分上，应该创建有弱耦合的类；<br>② 在类的结构设计上，每一个类都应当尽量降低成员的访问权限；<br>③ 在类的设计上，只要有可能，一个类应当设计成不变类；<br>④ 在对其他类的引用上，一个对象对其它对象的引用应当降到最低；<br>⑤ 尽量降低类的访问权限；<br>⑥ 谨慎使用序列化功能；<br>⑦ 不要暴露类成员，而应该提供相应的访问器(属性)。 </p>
+<p>7、.组合/聚合原则<br>又叫合成复用原则。原则就是在一个新的对象里面通过关联关系（包括组合关系和聚合关系）使用一些已有的对象，使之成为新对象的一部分，新对象通过委派调用已有对象的方法达到复用其已有功能的目的。也就是，要尽量使用类的合成复用，尽量不要使用继承。<br>就是在一个新的对象里面使用一些已有的对象，使之成为新对象的一部分，新的对象通过向这些对象的委派达到复用已有功能的目的。这个原则有一个简短的描述：要尽量使用合成、聚合，尽量不要使用继承。</p>
+<p>1)  新对象存取成分对象的唯一方法是通过成分对象的接口</p>
+<p>2)  这种复用是黑箱复用，因为成分对象的内部细节是新对象所看不到的</p>
+<p>3)  这种复用可以在运行时间内动态进行，新对象可以动态的引用与成分对象类型相同的对象</p>
+<p>4)  合成、聚合可以应用到任何环境中去，而继承只能应用到一些有限环境中去</p>
+<p>5)  导致错误的使用合成、聚合与继承的一个常见原因是错误的把“Has-a”关系当作“Is-a”关系。如果两个类是“Has-a”关系那么应使用合成、聚合，如果是“Is-a”关系那么可使用继承</p>
+<p>在面向对象设计中，可以通过两种基本方法在不同的环境中复用已有的设计和实现，即通过组合/聚合关系或通过继承。</p>
+<p>1)   继承复用：实现简单，易于扩展。破坏系统的封装性，从基类继承而来的实现是静态的，不可能在运行时发生改变，没有足够的灵活性；只能在有限的环境中使用。（“白箱”复用 ）</p>
+<p>2)   组合/聚合复用：耦合度相对较低，选择性地调用成员对象的操作；可以在运行时动态进行。（“黑箱”复用 ）</p>
+<p>组合/聚合可以使系统更加灵活，类与类之间的耦合度降低，一个类的变化对其他类造成的影响相对较少，因此一般首选使用组合/聚合来实现复用；</p>
+<p>其次才考虑继承，在使用继承时，需要严格遵循里氏代换原则，有效使用继承会有助于对问题的理解，降低复杂度，而滥用继承反而会增加系统构建和维护的难度以及系统的复杂度，因此需要慎重使用继承复用。</p>
 
         
 
@@ -195,8 +167,8 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
         
           <div class="post-tags">
             
-              <a href="/tags/JavaScript/">
-                #JavaScript
+              <a href="/tags/面向对象/">
+                #面向对象
               </a>
             
           </div>
@@ -224,8 +196,8 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
           
           
             
-              <a class="post-title-link" href="/2014/03/01/what-is-node/">
-                Node.JS 究竟是什么?
+              <a class="post-title-link" href="/2014/03/20/css-inline/">
+                css inline
               </a>
             
           
@@ -235,15 +207,15 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-01
+              发表于 2014-03-20
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/01/what-is-node/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/what-is-node/"></span>
+            <a href="/2014/03/20/css-inline/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/css-inline/"></span>
             </a>
           </span>
           
@@ -258,219 +230,29 @@ if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
         
 
         
-          <h3 id="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"><a href="#Node旨在解决服务器能够处理的并发连接的最大数量的问题。" class="headerlink" title="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"></a>Node旨在解决服务器能够处理的并发连接的最大数量的问题。</h3><p>  Node官网首页有一句话就是对Node是什么以及node解决什么问题做出了介绍，原文如下</p>
-<pre><code>Node.js is a platform built on Chrome&apos;s JavaScript runtime for easily building fast, 
-scalable network applications. Node.js uses an event-driven, 
-non-blocking I/O model that makes it lightweight and efficient,
-perfect for data-intensive real-time applications that run across distributed devices.
-</code></pre><p> 大概意思是说Node是基于Chrome的javascript的引擎，旨在提供一种简单的构建可伸缩网络程序的方法，node特点是基于事件驱动，非阻塞I/O，同时还有一个特点没有直接提到就是单线程。</p>
-<p>在 Java™ 和 PHP 这类语言中，每个连接都会生成一个新线程，每个新线程可能需要 2 MB 的配套内存。在一个拥有 8 GB RAM 的系统上，理论上最大的并发连接数量是 4,000 个用户。随着您的客户群的增长，如果希望您的 Web 应用程序支持更多用户，那么，您必须添加更多服务器。当然，这会增加服务器成本、流量成本和人工成本等成本。除这些成本上升外，还有一个潜在技术问题，即用户可能针对每个请求使用不同的服务器，因此，任何共享资源都必须在所有服务器之间共享。鉴于上述所有原因，整个 Web 应用<br>Node 解决这个问题的方法是：更改连接到服务器的方式。每个连接发射一个在 Node 引擎的进程中运行的事件，而不是为每个连接生成一个新的 OS 线程（并为其分配一些配套内存）。Node 声称它绝不会死锁，因为它根本不允许使用锁，它不会直接阻塞 I/O 调用。Node 还宣称，运行它的服务器能支持数万个并发连接。</p>
-<h3 id="为什么选择是Javascript-语言"><a href="#为什么选择是Javascript-语言" class="headerlink" title="为什么选择是Javascript 语言"></a>为什么选择是Javascript 语言</h3><ul>
-<li>V8 JavaScript 引擎是 Google 用于其 Chrome 浏览器的底层 JavaScript 引擎。很少有人考虑 JavaScript 在客户机上实际做了些什么？实际上，JavaScript 引擎负责解释并执行代码。Google 使用 V8 创建了一个用 C++ 编写的超快解释器，该解释器拥有另一个独特特征；可以下载该引擎并将其嵌入任何 应用程序。</li>
-<li>JavaScript 是一种很棒的事件驱动编程语言，因为它允许使用匿名函数和闭包，更重要的是，任何写过代码的人都熟悉它的语法。事件发生时调用的回调函数可以在捕获事件处进行编写。这样可以使代码容易编写和维护，没有复杂的面向对象框架，没有接口，没有过度设计的可能性。只需监听事件，编写一个回调函数，其他事情都可以交给系统处理！<br>由于V8正好可以满足上述提到Node几个特点，以及Javascript独特优势，以及Javascript的大量用户，所以NodeJS就这样地产生了。</li>
-</ul>
-<h3 id="Node适合做什么工作。实时-高并发I-O，弱密集逻辑计算"><a href="#Node适合做什么工作。实时-高并发I-O，弱密集逻辑计算" class="headerlink" title="Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算"></a>Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算</h3><ul>
-<li>RESTful API</li>
-<li>新浪微博、twiter这样高并发的应用</li>
-<li>编写网络小工具。</li>
-<li>聊天程序</li>
-<li>游戏后台</li>
-<li>股票等实时信息展示网站。</li>
-</ul>
-<p>同时Node有数万的计的第三方模块，Node 的一个特性是 Node Package Module，这是一个内置功能，用于安装和管理 Node 模块。它自动处理依赖项，因此您可以确定：您想要安装的任何模块都将正确安装并包含必要的依赖项。它还支持将您自己的模块发布到 Node 社区，假如您选择加入社区并编写自己的模块的话。您可以将 NPM 视为一种允许轻松扩展 Node 功能的方法，不必担心这会破坏您的 Node 安装。同样，如果您选择深入学习 Node，那么 NPM 将是您的 Node 解决方案的一个重要组成部分。</p>
-<p>优秀的设计+众多开发者的支持，应该是Node平台火起来的原因吧。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Node/">
-                #Node
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/20/how-to-design-a-good-api/">
-                如何设计优秀的API
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-20
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/20/how-to-design-a-good-api/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/20/how-to-design-a-good-api/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>谷歌架构师Joshua Bloch最近分享了一份幻灯片，<a href="http://vidcat.org/papers/how-to-design-a-good-api-and-why-it-matters.html#.UxFCN_mSyKM" target="_blank" rel="noopener">系统的讨论了优秀API的设计原则</a>。他指出：每个API接口应该只专注一件事，并做好：如果它很难命名，那么这或许是个不好的征兆，好的名称可以驱动开发、并且只需拆分与合并模块即可。设计原则包括：</p>
-<ul>
-<li>API应尽可能地简洁：满足需求、对有疑问的地方可以暂时不使用（函数、类、方法、参数等，你可以不添加，但千万不要删除）、概念性的东西比体积重要）；</li>
-<li>实现不要影响API：关注实现细节（不要迷惑用户、不要随便改变实现方式）、意识到具体的实现细节（不要有越权的方法行为，例如不所有的调优参数都是可疑的）；</li>
-<li>不要让实现细节“泄露”到API（例如on-disk和on-the-wire格式等异常情况）；</li>
-<li>最小化可访问：设计人员应尽量把类及成员设为私有，公共类不应该有公共字段（包括异常实例），最大限度地提高信息隐藏，允许模块可以被使用、理解、构建、测试和独立调试；</li>
-<li>命名问题：应该见名知意，避免含糊的缩写、对同一样东西的命名应该有个一致性的前缀（遍及整个平台API）、讲究对称、代码应该易读。</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/API/">
-                #API
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/15/css-bfc/">
-                CSS 定位之BFC
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-15
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/15/css-bfc/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/css-bfc/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <blockquote>
-<p>在 CSS 面试中问 BFC 等概念，就如在 JS 面试中问闭包等概念一样，经常会刷掉一些真正优秀的人。 ——玉伯</p>
-</blockquote>
-<p>第一次接触BFC是在清除浮动的时候，清除浮动主要有两种法</p>
-<p>它决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。</p>
-<ul>
-<li>利用 clear属性，清除浮动</li>
-<li>使父容器形成BFC<br>于是当时查询了好多资料总结如下：<br>但在进一步说明 BFC 特性之前，首先要介绍另一个在 CSS 的可视化格式模型 (Visual Formatting Model) 中具有非常重要地位的概念——定位方案。定位方案是控制元素的布局，在 CSS 2.1 中，有三种定位方案——普通流 (Normal Flow) 、浮动 (Floats) 和绝对定位 (Absolute Positioning) ，下面分别对这三种布局简略说明一下。</li>
-</ul>
-<p>####普通流(Normal Flow)</p>
-<p>在普通流中，元素按照其在 HTML 中的先后位置至上而下布局，在这个过程中，行内元素水平排列，直到当行被占满然后换行，块级元素则会被渲染为完整的一个新行， 除非另外指定，否则所有元素默认都是普通流定位，也可以说，普通流中元素的位置由该元素在 HTML 文档中的位置决定。</p>
-<h4 id="浮动-Floats"><a href="#浮动-Floats" class="headerlink" title="浮动 (Floats)"></a>浮动 (Floats)</h4><p>在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。</p>
-<p>####绝对定位 (Absolute Positioning)</p>
-<p>在绝对定位布局中，元素会整体脱离普通流，因此绝对定位元素不会对其兄弟元素造成影响（如果看了上文的童鞋，会发现这点与浮动元素会影响兄弟元素是不同的），而元素具体的位置由绝对定位的坐标决定。</p>
-<p>BFC 正是属于普通流的，因此它对兄弟元素也不会造成什么影响。</p>
-<p>####BFC的定义<br>在进行盒子元素布局的时候， BFC 提供了一个环境， 在这个环境中按照一定规则进<br>行布局不会影响到其它环境中的布局。比如浮动元素会形成 BFC，浮动元素内部子元素<br>的主要受该浮动元素影响，两个浮动元素之间是互不影响的。<br>也就是说，如果一个元素符合了成为 BFC 的条件，该元素内部元素的布局和定位<br>就和外部元素互不影响(除非内部的盒子建立了新的  BFC)， 是一个隔离了的独立容器。<br>在  CSS3  中，BFC  叫做  Flow Root。</p>
-<p>####BFC到底是什么？<br>当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。</p>
-<p>####怎样才能形成BFC</p>
-<ul>
-<li>float的值不为none。</li>
-<li>overflow的值不为visible。</li>
-<li>display的值为table-cell, table-caption, inline-block中的任何一个。</li>
-<li>position的值不为relative和static。</li>
-<li>css3中flex boxes</li>
-</ul>
-<p>####BFC的作用</p>
-<ol>
-<li>包含浮动元素(清除浮动)<br>BFC 会 根据子元素的情况自 适应 高度 ，这个 特性 是 对父元素 使 用<br>overflow:hidden/auto/scroll、 float:left/right 样式可以闭合浮动的</li>
-<li>不被浮动元素覆盖<br>浮动元素会无视兄弟元素的存在， 覆盖在兄弟元素的上面， 为该兄弟元素创建<br>BFC 后可以阻止这种情况的出现</li>
+          <p>今天使用要为元素设置水平居中的时候发现 <code>margin:0 auto</code> 不起作用，查资料发现原来我给div设置了的是<code>disply:inline-block</code>属性,这种情况下 <code>margin:0 auto</code> 是无效的，于是通过给父元素div 设置了 <code>text-aglin:center</code>得以解决.然后搜集了一些资料，加深一下对inline 属性的了解。</p>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><ol>
+<li>inline元素, 有效的: <code>background</code>, <code>margin-left</code>, <code>margin-right</code>, <code>padding</code>, <code>border</code></li>
+<li>inline元素, 无效的: <code>width</code>, <code>height</code>, <code>margin-top</code>, <code>margin-bottom</code> (个别除外)</li>
+<li>因width, height无效, 因此下列属性也无效: <code>text-align</code>, <code>text-indent</code>, <code>min|max-width|height</code>, <code>overflow</code> </li>
+<li>原文字相关的依然有效, 如<code>word-spacing</code>,  <code>word-wrap</code>,  <code>white-space</code>, <code>letter-spacing</code> </li>
+<li>下面两个有效, <code>line-height</code>, <code>vertical-align</code>, <code>box-shadow</code> </li>
+<li><code>float</code>,<code>position</code>及与之相关<code>top</code>,<code>left</code>, 不考虑, 已经不是inline了 </li>
+<li><code>img</code>, <code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 设置inline与inline-block, 效果是一样的, 没有变化, 都等同于设置了inline-block </li>
 </ol>
-<p>BFC 主要有三个特性：</p>
-<p>(1) BFC 会阻止外边距折叠<br>两个相连的 div 在垂直上的外边距会发生叠加，在实际开发中，或许我们有时会不需要这种折叠，这时可以利用 BFC 的其中一个特性——阻止外边距叠加。阻止父子元素的 margin 折叠，仅当两个块级元素毗邻并且在同一个块级格式化上下文时，它们垂直方向之间的外边距才会叠加。也就<br>是说，即便两个块级元素相邻，但当它们不在同一个块级格式化上下文时它们的边<br>距也不会折叠。同时BFC 的元素，不和它的子元素发生外边距折叠。</p>
-<p>(2) BFC 可以包含浮动的元素<br>这也正是上面使用 overflow: hidden 与 overflow: auto 方法闭合浮动的原理，使用 overflow: hidden 或 overflow: auto 触发浮动元素父元素的 BFC 特性，从而可以包含浮动元素，闭合浮动。</p>
-<p>W3C 的原文是“’Auto’ heights for block formatting context roots”，也就是 BFC 会根据子元素的情况自动适应高度，即使其子元素中包括浮动元素。</p>
-<p>但是 IE6-7 并不支持 W3C 的 BFC ，而是使用自产的 hasLayout 。从表现上来说，它跟 BFC 很相似，只是 hasLayout 自身存在很多问题，导致了 IE6-7 中一系列的 bug 。触发 hasLayout 的条件与触发 BFC 有些相似，具体情况 Kayo 会另写文章介绍。这里 Kayo 推荐为元素设置 IE 特有的 CSS 属性 zoom: 1 触发 hasLayout ，zoom 用于设置或检索元素的缩放比例，值为“1”即使用元素的实际尺寸，使用 zoom: 1 既可以触发 hasLayout 又不会对元素造成其他影响，相对来说会更为方便。</p>
-<p>(3) BFC 可以阻止元素被浮动元素覆盖<br>如上面所说，浮动元素的块状兄弟元素会无视浮动元素的位置，尽量占满一整行，这样就会被浮动元素覆盖，为该兄弟元素触发 BFC 后可以阻止这种情况的发生。</p>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考:"></a>思考:</h4><ol>
+<li>inline元素的宽高是不能定义, 即宽高度是由inline元素inline内容的元素决定的,(ie6,ie7下高度会受inline-block元素的影响) </li>
+<li>即宽高完全是自适应而得出的, 因此也不存在overflow的问题, <code>min|max-width|height</code>也没有影响 </li>
+<li>margin四个属性, <code>left|right</code> 与 <code>top|bottom</code>有不同的待遇 </li>
+<li><code>margin-top</code>, <code>margin-bottom</code>, 可以用line-height模拟, 但有很大不同, 与<code>inline-block</code>也不兼容,  另 <code>margin:0 auto</code> 的居中效果, 也没有作用 </li>
+</ol>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后:"></a>最后:</h4><p>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
+<ul>
+<li><code>b</code>, <code>big</code>, <code>i</code>, <code>small</code>, <code>tt</code></li>
+<li><code>abbr</code>, <code>acronym</code>, <code>cite</code>, <code>code</code>, <code>dfn</code>, <code>em</code>, <code>kbd</code>, <code>strong</code>, <code>samp</code>, <code>var</code></li>
+<li><code>a</code>, <code>bdo</code>, <code>br</code>, <code>img</code>, <code>map</code>, <code>object</code>, <code>q</code>, <code>script</code>, <code>span</code>, <code>sub</code>, <code>sup</code></li>
+<li>表单元素:<code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 与inline-block等同</li>
+</ul>
 
         
 
@@ -511,8 +293,8 @@ perfect for data-intensive real-time applications that run across distributed de
           
           
             
-              <a class="post-title-link" href="/2014/02/09/successful-git-branching-model/">
-                一个成功的 Git 分支模型
+              <a class="post-title-link" href="/2014/03/19/finding-object-size/">
+                ECMASCRIPT 5 Object.keys 
               </a>
             
           
@@ -522,15 +304,15 @@ perfect for data-intensive real-time applications that run across distributed de
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-02-09
+              发表于 2014-03-19
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/09/successful-git-branching-model/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/successful-git-branching-model/"></span>
+            <a href="/2014/03/19/finding-object-size/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/19/finding-object-size/"></span>
             </a>
           </span>
           
@@ -545,107 +327,100 @@ perfect for data-intensive real-time applications that run across distributed de
         
 
         
-          <p><img src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ee9vinri33j20gz0mnmzt.jpg" alt="一个成功的git分支模型"></p>
+          <h4 id="问题提出-我要获取一个对象包含属性的个数"><a href="#问题提出-我要获取一个对象包含属性的个数" class="headerlink" title="问题提出 我要获取一个对象包含属性的个数"></a>问题提出 我要获取一个对象包含属性的个数</h4><p>在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下</p>
+<pre><code>var bookAuthors = {
+    &quot;Farmer Giles of Ham&quot;: &quot;J.R.R. Tolkien&quot;,
+    &quot;Out of the Silent Planet&quot;: &quot;C.S. Lewis&quot;,
+    &quot;The Place of the Lion&quot;: &quot;Charles Williams&quot;,
+    &quot;Poetic Diction&quot;: &quot;Owen Barfield&quot;
+};
+</code></pre><p>作为分析的一部分，我们像一个API发送图书作者的数据，不幸的是 这个API只能接受一个包含100本左右的图书对象，于是我们需要向一个号的解决方案，在向API发送之前想告诉它一共包含了多少本书。</p>
+<h4 id="解决方案，使用for-in-变量所有属性，hasOwnProperty判断是不是属于当前对象本身的"><a href="#解决方案，使用for-in-变量所有属性，hasOwnProperty判断是不是属于当前对象本身的" class="headerlink" title="解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的"></a>解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的</h4><p>于是最初的设计可能如下</p>
+<pre><code>function countProperties (obj) {
+    var count = 0;
 
-        
+    for (var property in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, property)) {
+            count++;
+        }
+    }
 
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Git/">
-                #Git
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/09/javascript-replace/">
-                javascript replace
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-09
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/09/javascript-replace/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/javascript-replace/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
-<p>###字符串替换字符串<br><code>&#39;I am loser!&#39;.replace(&#39;loser&#39;,&#39;hero&#39;)//I am hero!</code></p>
-<p>直接使用字符串能让自己从loser变成hero，但是如果有2个loser就不能一起变成hero了。</p>
-<p><code>&#39;I am loser,You are loser&#39;.replace(&#39;loser&#39;,&#39;hero&#39;);//I am hero,You are loser</code></p>
-<p>正则表达式替换为字符串、并将正则的global属性改为true则可以让所有loser都变为hero</p>
-<p><code>&#39;I am loser,You are loser&#39;.replace(/loser/g,&#39;hero&#39;)//I am hero,You are hero</code></p>
-<p>###有趣的替换字符</p>
-<p>####使用$&amp;字符给匹配字符加大括号<br>        var sStr=’讨论一下正则表达式中的replace的用法’;<br>        sStr.replace(/正则表达式/,’{$&amp;}’);//讨论一下{正则表达式}中的replace的用法</p>
-<p>####使用$<code>和$&#39;字符替换内容,$</code>位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。<br>        ‘abc’.replace(/b/,”$`”);//aac<br>        ‘abc’.replace(/b/,”$’”);//acc</p>
-<p>####使用分组匹配组合新的字符串<br>        <a href="mailto:&#39;nimojs@126.com" target="_blank" rel="noopener">&#39;nimojs@126.com</a>‘.replace(/(.+)(@)(.*)/,”$2$1”)//@nimojs</p>
-<p>####replaceValue参数可以是一个函数<br><code>StringObject.replace(searchValue,replaceValue)</code>中的<strong>replaceValue</strong>可以是一个函数.如果replaceValue是一个函数的话那么，这个函数的arguments会有n+3个参数（n为正则匹配到的次数)</p>
-<pre><code>function logArguments(){    
-console.log(arguments);//[&quot;nimojs@126.com&quot;, &quot;nimojs&quot;, &quot;@&quot;, &quot;126.com&quot;, 0, &quot;nimojs@126.com&quot;] 
-    return &apos;返回值会替换掉匹配到的目标&apos;
+    return count;
 }
-console.log(
-&apos;nimojs@126.com&apos;.replace(/(.+)(@)(.*)/,logArguments)
-)
-</code></pre><p><strong>参数分别为</strong></p>
-<ol>
-<li>匹配到的字符串（此例为<a href="mailto:nimojs@126.com" target="_blank" rel="noopener">nimojs@126.com</a>,推荐修改上面代码的正则来查看匹配到的字符帮助理解)</li>
-<li>如果正则使用了分组匹配就为多个否则无此参数。（此例的参数就分别为”nimojs”, “@”, “126.com”。推荐修改正则为/nimo/查看控制台中返回的arguments值）</li>
-<li>匹配字符串的对应索引位置（此例为0）</li>
-<li>原始字符串</li>
-</ol>
+var bookCount = countProperties(bookAuthors);
+// Outputs: 4
+console.log(bookCount);
+</code></pre><p>之所以使用hasOwnProperty 是因为 for in 不但会对象本身的属性，同时也会遍历继承而来的属性 判断</p>
+<h4 id="Object-keys"><a href="#Object-keys" class="headerlink" title="Object.keys"></a>Object.keys</h4><p>当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于</p>
+<pre><code>  for (var property in obj) {
+     if (Object.prototype.hasOwnProperty.call(obj, property)) {                      
+    }
+}
+</code></pre><p>如果要获取一个对象属性的个数 获取Keys之后，通过数组的length属性就可以获取了。值得一提的是Object.keys(obj) ,只能通过这种方式，他是Object对象中的方法（有点是静态的意思），并不是在Object.prototype上的 因此我们自己定义的对象时没有这个方法的，所以正确的使用方式如下</p>
+<pre><code>var bookCount = Object.keys(bookAuthors).length;
+// Outputs: 4
+console.log(bookCount);
+</code></pre><p>错误的使用方式</p>
+<pre><code>var bookCount = bookAuthors.keys().length; //会报错的，自己声明的对象时不具有这个方法的
+</code></pre><h4 id="其他-Object-getOwnPropertyNames"><a href="#其他-Object-getOwnPropertyNames" class="headerlink" title="其他-Object.getOwnPropertyNames"></a>其他-Object.getOwnPropertyNames</h4><p>同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别</p>
+<p>Object.keys 以及Object.getOwnPropertyNames()用来获取对象中的属性的name，不包括继承来的属性，两者区别是Object.keys 只能获取可遍历的属性的名字的数组。举个例子</p>
+<pre><code> var person = {};
+Object.defineProperties(person, 
+    {
+        &quot;name&quot;: {value: &apos;Cody Lindley&apos;,enumerable: true},
+        &quot;age&quot;: {value: 38,enumerable: false}
+    }
+);
+//只返回可以可遍历的属性 
+console.log(Object.keys(person)); //logs [&quot;name&quot;]
+//return array of all properties, including ones that are non-enumerable
+console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
+</code></pre><h4 id="ployFill-为不支持ES5的浏览器提供支持"><a href="#ployFill-为不支持ES5的浏览器提供支持" class="headerlink" title="ployFill 为不支持ES5的浏览器提供支持"></a>ployFill 为不支持ES5的浏览器提供支持</h4><p>以下摘自<a href="https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js" target="_blank" rel="noopener">es5-shim</a></p>
+<pre><code>   var hasDontEnumBug = true,
+        hasProtoEnumBug = (function () {}).propertyIsEnumerable(&apos;prototype&apos;),
+        dontEnums = [
+            &quot;toString&quot;,
+            &quot;toLocaleString&quot;,
+            &quot;valueOf&quot;,
+            &quot;hasOwnProperty&quot;,
+            &quot;isPrototypeOf&quot;,
+            &quot;propertyIsEnumerable&quot;,
+            &quot;constructor&quot;
+        ],
+        dontEnumsLength = dontEnums.length;
+    for (var key in {&quot;toString&quot;: null}) {
+        hasDontEnumBug = false;
+    }
+    Object.keys = function keys(object) {
+        var isFunction = _toString(object) === &apos;[object Function]&apos;,
+            isObject = object !== null &amp;&amp; typeof object === &apos;object&apos;;
 
+        if (!isObject &amp;&amp; !isFunction) {
+            throw new TypeError(&quot;Object.keys called on a non-object&quot;);
+        }
+
+        var keys = [],
+            skipProto = hasProtoEnumBug &amp;&amp; isFunction;
+        for (var name in object) {
+            if (!(skipProto &amp;&amp; name === &apos;prototype&apos;) &amp;&amp; owns(object, name)) {
+                keys.push(name);
+            }
+        }
+        if (hasDontEnumBug) {
+            var ctor = object.constructor,
+                skipConstructor = ctor &amp;&amp; ctor.prototype === object;
+            for (var i = 0; i &lt; dontEnumsLength; i++) {
+                var dontEnum = dontEnums[i];
+                if (!(skipConstructor &amp;&amp; dontEnum === &apos;constructor&apos;) &amp;&amp; owns(object, dontEnum)) {
+                    keys.push(dontEnum);
+                }
+            }
+        }
+        return keys;
+    };
+
+}
+</code></pre>
         
 
       </div>
@@ -685,8 +460,8 @@ console.log(
           
           
             
-              <a class="post-title-link" href="/2014/02/08/python-study-1/">
-                Python 学习笔记(1)
+              <a class="post-title-link" href="/2014/03/16/phonegap-create-mobileapp/">
+                Phonegap创建移动应用
               </a>
             
           
@@ -696,15 +471,15 @@ console.log(
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-02-08
+              发表于 2014-03-15
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/08/python-study-1/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/08/python-study-1/"></span>
+            <a href="/2014/03/16/phonegap-create-mobileapp/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/16/phonegap-create-mobileapp/"></span>
             </a>
           </span>
           
@@ -719,67 +494,83 @@ console.log(
         
 
         
-          <p>去年买了本Python基础教程，看了一个月，感觉Python 入门也挺easy的，也写了一些简单的代码，最近又买了本《Python入门教程》，感觉这个书不应该买的，就是太基础，书看完了,，将Python一些最基本的东西总结一下吧。将重点内容概括一下 作为读书笔记，好记性不如烂笔头啊。</p>
-<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>字符串有三种方式 </p>
-<pre><code>1. 单引号
-2. 双引号
-3. 三引号
-</code></pre><p>通过+ 完成字符串拼接<br>len (s) 求字符串的长度<br>3*”hello”复制三次字符串。</p>
-<p>列出模块中的所有函数 dir(math)<br>打印文档字符串 print(math.cos.<strong>doc</strong>)</p>
-<h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><pre><code>int(&quot;3&quot;)
-str(3)
-float(&apos;3.0&apos;)
-float(3)
-</code></pre><p>变量的引用赋值：让变量指向表达式的值 比如 x=2;x指向2，y=x;y也指向，改变y的值对x无影响，只是改变了y的指向而已</p>
-<p>多种赋值 </p>
-<pre><code>x,y,z=1,2,3  相当于x=1,y=2,z=3;
-</code></pre><p>从 键盘读取字符串 name=input();只能获取到字符串 ，如果要读取整数的话，需要类型转换，int(a)</p>
-<p>将字符串 首字母大写<br>        ‘du bao kun’.capitalize(); //Du bao kun<br>去除收尾的空格<br>        ‘  du  bao  kun   ‘.strip();// du bao kun</p>
-<p>print 在字符串  可以传入多个参数，以分隔符来输出，可以设置sep来自定义分割符号,比如  print(‘du’,’bao’,’kun’,sep=’.’)#du.bao.kun</p>
-<p>ord 获取字符编码 比如 ord(‘a’)#65<br>chr获取对应的字符 chr(97)#’a’</p>
-<p>转义字符  \单斜杠，\’单引号 、\”双引号、\n 回车，\r,换行\t 制表符</p>
-<p>获取字符串的字符 通过  [index]<br>字符串切片  比如<br>        food=’apple pie’;food[0:5] #apple</p>
-<p> 不包括索引5的字符,相当于food[:5]，如果起始索引忽略的话则相当于0，如果最后一个索引忽略，相当于 为字符串长度。</p>
-<p>负数索引， 比如 ‘food[-9,-4]’ #apple</p>
-<p>字符串测试函数:’s.endwith’ ,’s.startwith’,’s.isalnum’只包含字字母或者数字isalpha<br>只包含字母，’isdecimal’只包含十进制的数字的字符<br>‘isdigital’只包含数字，’isidentifier’只包含合法字符，’islower’只包含小写字母，’isnumric’只包含数字，’istitle’大小写符合头衔要求<br>‘isupper’只包含大写字母、’t in s s’包含字符串t<br>cout(t) 字符串中t出现的次数</p>
-<p>搜索函数：find(t) 如果没有找到子串t则返回-1、 rfind(t)、index(t)、rindex(t)没有找到会爆出异常</p>
-<p>要范文索引为i的字符 ，通过 ‘s[i]’或者 ‘s[i:i+1]’</p>
-<p>同时还有改变大小写、剥除函数、拆分函数，替换函数</p>
-<p><strong>format</strong>    函数 一下输出结果均为Jack like rose</p>
-<pre><code>print(&apos;{0} like {1} &apos;.format(&apos;jack&apos;,&apos;rose&apos;))
-print(&apos;{first} like {second} &apos;.format(second=&apos;rose&apos;,first=&apos;jack&apos;))
-</code></pre><p>eval可以解析 表达式的值 比如 ‘eval(‘5+3’)’结果为8<br>布尔逻辑 ：’not  and  or    ==、’<br>短路求值  如果 true or  x ，则表达式x值不再计算。同理如果 false and x，x表达是也不进行计算。<br>流程控制  if /else,if/elif/else</p>
-<pre><code>if x:
-    print(&apos;x&apos;)
-else
-    print(&apos;y&apos;)
-</code></pre><p>条件表达式</p>
-<pre><code>reply=‘yuck’if food ==&apos;lamb&apos; else &apos;yum&apos;
-</code></pre><p>相当于</p>
-<pre><code>if food ==&apos;lamb&apos;
-    reply=&apos;yuck&apos;
-else
-    replay=&apos;yum&apos;
-</code></pre><p>循环<br>        for i in range(10):<br>              print (i)<br>while </p>
-<pre><code>i=0
-while i&lt;10:
-    print(i)
-    i=i+1
-</code></pre><p>python 使用缩进来表示代码块，要在Python中 表示代码块，必须以同样程度缩进代码块的每一行，但Python 允许你编写包含任意数量语句的代码块,但注意冒号</p>
-<p>函数定义 </p>
-<pre><code>def say_hello():
-    print (&apos;hello&apos;)
-</code></pre><p>默认值</p>
-<pre><code>def greet(name,greeting =&apos;hello&apos;):
-    print(name+greeting)
-greet(&apos;kunkun&apos;)
-greet(&apos;kunkun&apos;,&apos;你好&apos;)
-</code></pre><p>输出结果 </p>
-<pre><code>kunkunhello
-kunkun你好
-</code></pre><p>关键字参数</p>
-<pre><code>greet(greeting=&apos;nihao&apos;,name=&apos;kunkun&apos;)
-</code></pre>
+          <p>前段时间学习了Phonegap开发，本篇作为记录，希望对初道者有帮助,本篇主要介绍Phonegap以及环境的搭建。下篇结合Angluar 开发小Demo</p>
+<h3 id="Phonegap介绍"><a href="#Phonegap介绍" class="headerlink" title="Phonegap介绍"></a>Phonegap介绍</h3><p>Phonegap 作为一个开源的框架来帮助开发者使用Javascript/HTML5/CSS 开发跨平台的移动应用。他可以根据指定的移动平台打包为对应的包，支持的平台种类如下。</p>
+<ul>
+<li>iOS</li>
+<li>Android</li>
+<li>Windows 8</li>
+<li>Windows Phone 7 and 8</li>
+<li>BlackBerry 5.x+</li>
+<li>WebOS</li>
+<li>Symbian</li>
+<li>Tizen</li>
+<li>Firefox OS（3.4版本开始支持的）</li>
+</ul>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><p>Phonegap 本质上是在本地原生应用程序中包裹了一个Webview 来支持使用HTML5 进行开发。但是这种方式本质上是不支持访问设备的功能，比如访问文件系统，或者照相机,但是Phonegap通过桥接机制允许Webview中的Javascript 来调用原生的代码，于是Phonegap就拥有了许多插件来支持访问设备API比如</p>
+<ul>
+<li>加速度计</li>
+<li>相机</li>
+<li>联系人</li>
+<li>文件系统</li>
+<li>媒体文件的播放 以及录音</li>
+<li>网络</li>
+<li>存储</li>
+</ul>
+<p>同时Phonegap 可以允许开发者通过扩展插件来访问更多的设备API比如</p>
+<ul>
+<li>二维码扫描</li>
+<li>蓝牙</li>
+<li>推送通知</li>
+<li>语音合成</li>
+<li>日历</li>
+</ul>
+<p>在之前版本的Phonegap中 包括了一些预编译的插件。随着Phonegap 3的到来，一个新的插件架构取代了原来的插件访问。同时有一个注册中心来创建兼容Phonegap 3的插件</p>
+<h4 id="HTML-CSS-Javascript-移动开发基础。"><a href="#HTML-CSS-Javascript-移动开发基础。" class="headerlink" title="HTML/CSS /Javascript 移动开发基础。"></a>HTML/CSS /Javascript 移动开发基础。</h4><p>Phonegap本身提供的大部分功能是提供了一些非可视化的功能组件，比如访问文件系统，网络能力，地理定位，等等。Phonegap本身并没有提供构建图形界面的能力，对于此，我们必须使用HTML、CSS来构建，为了更方便地开发中应用，因此推荐结合JS 框架来进行组织程序的开发。这些框架包括</p>
+<ul>
+<li>jQuery Mobile</li>
+<li>Ionic</li>
+<li>Sencha Touch</li>
+<li>Kendo UI Complete</li>
+<li>AppGyver’s Steroids</li>
+<li>Enyo</li>
+<li>TopCoat</li>
+</ul>
+<p>jQuery Mobile 这个就不用说了，简单理解Jquery的移动版本，AngluarJS 是一个比较火的MMV框架，Ionic也是AngluarJS构建的，这里我采用的是AngluarJs。开发之前还要了解一下面的这个问题。</p>
+<p>####PhoneGap Or Cordova的关系</p>
+<p>在学习Phonegap的过程中，我们经常会碰到Cordova 这个词，事实上，我们使用命令行工具创建的Phonegap工程其实是Cordova，。Cordova是贡献给Apache后的开源项目，是从PhoneGap中抽出的核心代码，是驱动PhoneGap的核心引擎。Cordova提供了一组设备相关的API，通过这组API，移动应用能够以JavaScript访问原生的设备功能，如摄像头、麦克风等。<br>Cordova还提供了一组统一的JavaScript类库，以及为这些类库所用的设备相关的原生后台代码。你可以把他想象成类似于Webkit和Google Chrome的关系。在大部分情况下这两个名字是可以交换的，随着Phonegap作为Adobe的商标，这个开源的项目需要一个新的名字，因此就有了Cordova，Phonegap继续作为Adobe的商业产品，大部分仍然将这个整体的项目称为Phonegap。</p>
+<ul>
+<li><a href="http://phonegap.com/" target="_blank" rel="noopener">Phonega 官网</a></li>
+<li><a href="http://cordova.apache.org/" target="_blank" rel="noopener">cordova 官网</a></li>
+</ul>
+<h4 id="Phonegap-开发环境搭建。"><a href="#Phonegap-开发环境搭建。" class="headerlink" title="Phonegap 开发环境搭建。"></a>Phonegap 开发环境搭建。</h4><p>这里我要基于Phonegap开发能够运行在android上的程序。</p>
+<h4 id="建环境的基本准备"><a href="#建环境的基本准备" class="headerlink" title="建环境的基本准备:"></a>建环境的基本准备:</h4><ol>
+<li>java JDK、配置Java环境变量</li>
+<li>下载<a href="https://developer.android.com/sdk/index.html?hl=sk" target="_blank" rel="noopener">android ADT Bundle</a>(里面是一个继承了安卓开发环境的Eclipse)，下载之后将android SDK下的tools的目录添加到环境变量中，启动下载包里面的eclipse 创建AVD</li>
+<li>Ant 打包工具(windows 下载推荐下载 <a href="https://code.google.com/p/winant/" target="_blank" rel="noopener">winant</a>)</li>
+<li><a href="http://nodejs.org/" target="_blank" rel="noopener">NodeJS</a></li>
+<li><p>安装phonegap</p>
+<pre><code>npm install -g cordova
+</code></pre><p> 或者</p>
+<pre><code>npm install -g phonegap
+</code></pre><p>cordova和phonegap这两个命令是通用的。<code>npm install -g phonegap</code> 是3.0之后的新出的一种安装方式，这里我使用是phonegap。</p>
+</li>
+</ol>
+<h4 id="创建Helloword"><a href="#创建Helloword" class="headerlink" title="创建Helloword"></a>创建Helloword</h4><p>在命令行下运行</p>
+<pre><code>phonegap create my-app
+cd my-app
+phonegap run android
+</code></pre><p>如果有android 设备连接了电脑的话，这时候会自动将应用部署到设备上，如果没有设备的话，会自动启用刚才创建的模拟器（注意 前面配置过程中一定要把android SDK下的tool 目录添加到环境变量中，并且确保已经创建了模拟器（AVD））到此为止一个Phonegap 版本的Hello World 已经开发完毕。</p>
+<p>下面看进入my-app的目录，进入之后我们发现有5个文件夹</p>
+<ul>
+<li>www              : 文件夹  开发的 HTML5 ; CSS ; JS 文件都拷贝到这下面，以后我们开发HTML5的应用主要在这个文件夹下进行</li>
+<li>plugins          : 文件夹  存放的是phonegap插件比如文件,摄像头等插件都下载到这里。</li>
+<li>merges          : （这个我还不了解）</li>
+<li>platforms      : 文件夹 存放的是编译好后的android文件,(如果这个文件夹为空,需要你在命令行编译一次才能生成. 如上面 phonegap run android)</li>
+<li>.cordova        : 存放的是配置文件 。</li>
+</ul>
+<p>将这个工程 导入到 Eclipse 下可以查看更多的工程信息。</p>
+
         
 
       </div>
@@ -790,8 +581,8 @@ kunkun你好
         
           <div class="post-tags">
             
-              <a href="/tags/Python/">
-                #Python
+              <a href="/tags/PhoneGap/">
+                #PhoneGap
               </a>
             
           </div>
@@ -819,8 +610,8 @@ kunkun你好
           
           
             
-              <a class="post-title-link" href="/2014/02/07/qunit-introduce/">
-                测试驱动开发：QUnit 介绍
+              <a class="post-title-link" href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/">
+                如何使用Node+express创建Rest API
               </a>
             
           
@@ -830,15 +621,15 @@ kunkun你好
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-02-07
+              发表于 2014-03-15
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/07/qunit-introduce/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/07/qunit-introduce/"></span>
+            <a href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/"></span>
             </a>
           </span>
           
@@ -853,68 +644,147 @@ kunkun你好
         
 
         
-          <p>在Javascript项目的开发流程中，测试驱动开发广为流传，测试驱动能够让我们节省编码的时间，本篇文章主要介绍<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>,一个测试驱动的开发框架，来帮助我们发现程序的错误以及bug</p>
-<h3 id="为什么要使用测试驱动开发"><a href="#为什么要使用测试驱动开发" class="headerlink" title="为什么要使用测试驱动开发"></a>为什么要使用测试驱动开发</h3><p>首先在最初使用单元测试的时候，这可能是一个繁杂和琐碎的过程，包括单元测试环境的搭建，以及为每一个要测试的函数编写测试代码，都会花费很多的时间，但是要相信单元测试最终会帮主我们来减少在一个项目周期中用来调试代码的时间。同时也会减少半夜接到电话被拉过去修改bug的麻烦，长远来说，这个过程会让你受益更多比如 跨浏览器的测试，使用这种方式能够让你在不同的浏览器中进行测试。总之编码之前，测试先行一个比较好的习惯。</p>
-<p>随着Github等类似的代码分享平台的出现，现在开源的东西也越来越多了，怎么才能证明这些东西的可用性呢，因为开源模块的作者会编写单元测试的代码。当我们clone完这个模块之后 然后跑一边单元测试代码，会让自己开源的模块增强可用性。同时我们在为开源项目贡献代码的时候也建议附上单元测试的程序，以增强自己的代码被接受的可能性。</p>
-<p>用Unit test 来代替调试，同时也能有利于团队合作，当他人看你写的模块的时候，看一下写的单元测试代码就明白该模块的功能了。单元测试能让我们更快地了解每个关键函数的功能。</p>
-<p>话说回来，当项目完成之后 又发现了bug，当我们在修改完一个bug之后，怎样才能说明bug修改好了呢，单元测试这个时候也可以为我们提供帮助，几行单元测试就能证明这个bug被修复了，无需多言。</p>
-<h3 id="为什么选择Qunit"><a href="#为什么选择Qunit" class="headerlink" title="为什么选择Qunit?"></a>为什么选择<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>?</h3><p>原因是这个框架很简单上手，也是单元测试新手的最佳选择，就像Jquery那么easy，对于初学者来说，<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>跟jQuery是也是出自同一人之手。<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>也是用来测试jQuery 本身的单元测试框架， Qunit对于jQuery开发者也是单元测试框架的最佳选择。当然还有更多javascript单元测试框架比如 <a href="http://visionmedia.github.io/mocha/" target="_blank" rel="noopener">mocha</a>,<a href="http://pivotal.github.io/jasmine/" target="_blank" rel="noopener">jasmine</a>,断言库<a href="http://chaijs.com/" target="_blank" rel="noopener">chai</a>,<a href="https://github.com/visionmedia/should.js" target="_blank" rel="noopener">should.js</a>、<a href="https://github.com/LearnBoost/expect.js" target="_blank" rel="noopener">Expect</a>、<a href="better-assert">better-assert</a>等</p>
-<h3 id="开始搭建环境"><a href="#开始搭建环境" class="headerlink" title="开始搭建环境"></a>开始搭建环境</h3><p>第一步就是先下载<a href="http://qunitjs.com/" target="_blank" rel="noopener">Qunit</a>的Javascript 和CSS文件。地址如下</p>
-<pre><code>&lt;link rel=“stylesheet&quot; href=&quot;//code.jquery.com/qunit/qunit-1.14.0.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
-&lt;script src=“//code.jquery.com/qunit/qunit-1.14.0.js”&gt;&lt;/script&gt;
-</code></pre><p>新建三个文件test.html、Calculator.js,test.js 我们用来展示单元测试的结果。Calculator.js编写我们要实现功能的程序，出于演示目的这里编写一个计算器的程序.test.js编写单元测试的代码。test.html代码如下</p>
-<pre><code>&lt;!doctype html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;Unit Test&lt;/title&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;http://code.jquery.com/qunit/qunit-1.14.0.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
-    &lt;script src=&quot;http://code.jquery.com/qunit/qunit-1.14.0.js&quot;&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-             &lt;h1 id=&quot;qunit-header&quot;&gt;QUnit Test Suite&lt;/h1&gt;
-                &lt;h2 id=&quot;qunit-banner&quot;&gt;&lt;/h2&gt;
-                &lt;div id=&quot;qunit-testrunner-toolbar&quot;&gt;&lt;/div&gt;
-                &lt;h2 id=&quot;qunit-userAgent&quot;&gt;&lt;/h2&gt;
-               &lt;ol id=&quot;qunit-tests&quot;&gt;&lt;/ol&gt;
-
-
-               &lt;script type=&quot;text/javascript&quot; src=&apos;./Calculator.js&apos;&gt;&lt;/script&gt;
-               &lt;script type=&quot;text/javascript&quot; src=&apos;./test.js&apos;&gt;&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;    
-</code></pre><p>其中body里面几个html元素是为了展示测试结果使用的，测试代码执行的时候，Qunit会把测试结果放到这些元素中，结合内置一些CSS 让我们方便地了解哪些测试通过了，哪些没有通过。<br>Calculator.js主要包含两个简单的函数 multiply返回两个数的乘积，isOdd判断一个数是不是奇数。</p>
-<pre><code>function multiply(a,b) {
-  return a*b;
-}
-function isOdd(n) {
-   return Math.abs(n) % 2 == 1;
-}
-</code></pre><p>test.js就是我们要写的测试了。代码如下</p>
-<pre><code>test(&apos;isOdd()&apos;, function() {
-    ok(isOdd(3), &apos;Three is an odd number&apos;);
-    ok(isOdd(2), &apos;Two is not an odd number&apos;);
-});
-
-test(&apos;multiply()&apos;, function() {
-    strictEqual(multiply(2,2), &apos;4&apos;, &apos;2 multiplied by 2 is 4&apos;);
-    equal(multiply(2,3), 6, &apos;3 multiplied by 2 is 6&apos;);
-});
-</code></pre><p> 到此为止就可以运行了，结果是 2个通过，两个失败。</p>
-<p>我们很容易的看出，测试就是调用了一个名字为test的函数，包含两个参数，第一个参数是对测试函数的描述，第二个参数是一个回调函数，里面的ok，strictEqual，equal 分别是对测试例子结果的断言，对于strictEqual，equal来说比如我要测试一个函数，第一个是被测试函数的调用的返回结果，第二个是期待的结果，第三个是对本次测试示例的描述，如果测试结果与自己想要的结果一致，则本次单元测试通过，否则 。。。。。对于ok断言主要是判断被测试的函数返回值是否为真。如果为真则通过。否则。。。。<br>值得要说一下的是，strictEqual 是判断严格相等相当于<code>===</code>比如4===4返回true，4==’4’则返回false，equal是只要可以转为相等的结果则通过相当于<code>==</code>，会对操作数进行类型转换 比如4==’4’ 返回true</p>
-<p>除此之外还有其他的<a href="http://api.qunitjs.com/category/assert/" target="_blank" rel="noopener">断言函数</a>可用，这里就不介绍了。官网写的灰常清楚了</p>
+          <h3 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h3><p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="noopener">下载</a><br>2 安装 express </p>
+<pre><code>npm install express -g
+</code></pre><p>3 创建express 项目</p>
+<pre><code>express myapp
+</code></pre><h3 id="API设计"><a href="#API设计" class="headerlink" title="API设计"></a>API设计</h3><p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
 <ul>
-<li><code>deepEqual()</code> ：深度相等判断，适用于原生类型，数组，对象 正则表达式，以及日期 函数类型</li>
-<li><code>equal()</code> ：非严格相等，</li>
-<li><code>notDeepEqual</code> ：与<code>deepEqual</code>功能相反</li>
-<li><code>notPropEqual()</code> 严格的比较对象属性，不相等则通过。</li>
-<li><code>notStrictEqual()</code> 严格的比较，不严格相等则返回通过</li>
-<li><code>ok()</code>  第一个参数为true 则通过测试。</li>
-<li><code>propEqual()</code> 使用=== 来比较对象内部的属性，与<code>deepEqual()</code> 不同的是<code>propEqual()</code>可以用来比较两个具有不同原型以及构造函数的对象。</li>
-<li><code>strictEqual()</code> 同时比较值和类型 </li>
-<li><code>throws()</code> 要求抛出异常。</li>
+<li>GET /tasks/ 返回计划任务列表</li>
+<li>GET /tasks/:id  根据指定的任务id 返回计划任务的信息</li>
+<li>POST /tasks/ 接受传进来的JSON数据来创建一个新的计划任务</li>
+<li>PUT /tasks/:id 更新计划任务信息</li>
+<li>DELETE /tasks/:id 根据指定的计划Id 删除计划任务</li>
 </ul>
-<p>下载本篇博客的<a href="https://github.com/kunkun12/Qunit-Demo" target="_blank" rel="noopener">源码</a></p>
+<p>这些方法的返回如下</p>
+<ul>
+<li>访问get请求之外的api ，如果执行成功返回http 状态符为200</li>
+<li>如果访问不存的计划信息 则返回http 状态符为 404</li>
+</ul>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h4><p>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
+<pre><code>function TaskRepository() {}
+/**
+ * Find a task by id
+ * Param: id of the task to find
+ * Returns: the task corresponding to the specified id
+ */
+TaskRepository.prototype.find = function (id) {}
+/**
+ * Find the index of a task
+ * Param: id of the task to find
+ * Returns: the index of the task identified by id
+ */
+TaskRepository.prototype.findIndex = function (id) {}
+/**
+ * Retrieve all tasks
+ * Returns: array of tasks
+ */
+TaskRepository.prototype.findAll = function () {
+    return this.tasks;
+}
+/**
+ * Save a task (create or update)
+ * Param: task the task to save
+ */
+TaskRepository.prototype.save = function (task) {}
+/**
+ * Remove a task
+ * Param: id the of the task to remove
+ */
+TaskRepository.prototype.remove = function (id) {}
+</code></pre><h4 id="创建express-server"><a href="#创建express-server" class="headerlink" title="创建express server"></a>创建express server</h4><pre><code>var express = require(&apos;express&apos;);
+var app = express();
+app.configure(function() {
+    app.use(express.bodyParser()); // used to parse JSON object given in the request body
+});
+</code></pre><h4 id="获取计划的列表-get"><a href="#获取计划的列表-get" class="headerlink" title="获取计划的列表 get"></a>获取计划的列表 get</h4><pre><code>app.get(&apos;/tasks&apos;, function (request, response) {
+    response.json({tasks: taskRepository.findAll()});
+});
+</code></pre><h4 id="根据指定的id获取一个计划的信息-get"><a href="#根据指定的id获取一个计划的信息-get" class="headerlink" title="根据指定的id获取一个计划的信息 get"></a>根据指定的id获取一个计划的信息 get</h4><pre><code>app.get(&apos;/tasks/:id&apos;, function (request, response) {
+    var taskId = request.params.id;
+    try {
+        response.json(taskRepository.find(taskId));
+    } catch (exeception) {
+        response.send(404);
+    }
+});
+</code></pre><h4 id="创建一个新的计划-post"><a href="#创建一个新的计划-post" class="headerlink" title="创建一个新的计划 post"></a>创建一个新的计划 post</h4><pre><code>app.post(&apos;/tasks&apos;, function (request, response) {
+    var task = request.body;
+    taskRepository.save({
+        title: task.title || &apos;Default title&apos;,
+        description: task.description || &apos;Default description&apos;,
+        dueDate: task.dueDate,
+        status: task.status || &apos;not completed&apos;
+    });
+    response.send(200);
+});
+</code></pre><h4 id="更新计划信息-put"><a href="#更新计划信息-put" class="headerlink" title="更新计划信息 put"></a>更新计划信息 put</h4><pre><code>app.put(&apos;/tasks/:id&apos;, function (request, response) {
+    var task = request.body;
+    var taskId = request.params.id;
+    try {
+        var persistedTask = taskRepository.find(taskId);
+        taskRepository.save({
+            taskId: persistedTask.taskId,
+            title: task.title || persistedTask.title,
+            description: task.description || persistedTask.description,
+            dueDate: task.dueDate || persistedTask.dueDate,
+            status: task.status || persistedTask.status
+        });
+        response.send(200);
+    } catch (exception) {
+        response.send(404);
+    }
+});
+</code></pre><h4 id="删除计划delete"><a href="#删除计划delete" class="headerlink" title="删除计划delete"></a>删除计划delete</h4><pre><code>app.delete(&apos;/tasks/:id&apos;, function (request, response) {
+    try {
+        taskRepository.remove(request.params.id);
+        response.send(200);
+    } catch (exeception) {
+        response.send(404);
+    }
+});
+</code></pre><h4 id="启动express-server"><a href="#启动express-server" class="headerlink" title="启动express server"></a>启动express server</h4><pre><code>app.listen(8080)
+</code></pre><h3 id="测试-这里使用-curl-执行http请求访问rest-api"><a href="#测试-这里使用-curl-执行http请求访问rest-api" class="headerlink" title="测试 这里使用 curl 执行http请求访问rest api"></a>测试 这里使用 curl 执行http请求访问rest api</h3><p>首先启动程序</p>
+<pre><code>node rest_api.js
+</code></pre><p>最初的情况下访问计划列表应该空的</p>
+<pre><code>$ curl -i http://localhost:8080/tasks/
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 17
+Date: Sun, 10 Feb 2013 12:37:45 GMT
+Connection: keep-alive
+
+{
+  &quot;tasks&quot;: []
+}
+</code></pre><h4 id="创建计划"><a href="#创建计划" class="headerlink" title="创建计划"></a>创建计划</h4><pre><code>$ curl -i -X POST http://localhost:8080/tasks --data &apos;{}&apos; -H &quot;Content-Type: application/json&quot;
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:39:13 GMT
+Connection: keep-alive
+
+OK
+</code></pre><h4 id="更新计划"><a href="#更新计划" class="headerlink" title="更新计划"></a>更新计划</h4><pre><code>$ curl -i -X PUT http://localhost:8080/tasks/1 --data &apos;{&quot;description&quot;:&quot;blabla&quot;}&apos; -H &quot;Content-Type: application/json&quot;
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:42:39 GMT
+Connection: keep-alive
+OK
+</code></pre><h4 id="删除计划"><a href="#删除计划" class="headerlink" title="删除计划"></a>删除计划</h4><pre><code>$ curl -i -X DELETE http://localhost:8080/tasks/1
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/plain
+Content-Length: 2
+Date: Sun, 10 Feb 2013 12:43:31 GMT
+Connection: keep-alive
+
+OK
+</code></pre><p>这里介绍了用express创建rest api的大致过程，而实际过程中要复杂一些，比如存储数据使用数据库(mongodb 或者传统的关系数据库）来解决，有的也会包括一些复杂的逻辑信息。</p>
 
         
 
@@ -923,6 +793,14 @@ test(&apos;multiply()&apos;, function() {
 
     
       <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Node-express/">
+                #Node express
+              </a>
+            
+          </div>
         
 
         
@@ -947,8 +825,8 @@ test(&apos;multiply()&apos;, function() {
           
           
             
-              <a class="post-title-link" href="/2014/01/26/sublime-chinise-language/">
-                sublime 输出对中文的支持
+              <a class="post-title-link" href="/2014/03/15/using-postgresql-with-django/">
+                在django中使用postgresQL
               </a>
             
           
@@ -958,15 +836,15 @@ test(&apos;multiply()&apos;, function() {
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-01-26
+              发表于 2014-03-15
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/01/26/sublime-chinise-language/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/26/sublime-chinise-language/"></span>
+            <a href="/2014/03/15/using-postgresql-with-django/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/using-postgresql-with-django/"></span>
             </a>
           </span>
           
@@ -981,24 +859,28 @@ test(&apos;multiply()&apos;, function() {
         
 
         
-          <p>今天用sublime 写Python的Demo，当编辑代码完成之后按Ctrl +B，能完成Python的解释，并在控制台输出结果，但是如果输出内容中包含中文的话则会有错误发生，错误如下</p>
-<p><code>[Decode error - output not utf-8]</code></p>
-<p>大概猜出是编码的问题，于是百度了解决方案为，在Sublime插件包里修改 <code>Python.sublime-build</code> 这个文件在<code>C:\Users\kunkun\AppData\Roaming\Sublime Text 2\Packages\Python</code>下面.在最后一行里面添加·<code>&quot;encoding&quot;: &quot;cp936&quot;</code>,原来的文件为：</p>
-<pre><code>{
-    &quot;cmd&quot;: [&quot;python&quot;, &quot;-u&quot;, &quot;$file&quot;],
-    &quot;file_regex&quot;: &quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;,
-    &quot;selector&quot;: &quot;source.python&quot;
+          <p>最近开始做的东西要用到Django，数据库是postgresQL,需要在Django的setting.py中修改相关数据库的配置文件。事先我已经装好了PostgresQL 9.2.6</p>
+<h4 id="下载python连接postgresQL数据库的驱动"><a href="#下载python连接postgresQL数据库的驱动" class="headerlink" title="下载python连接postgresQL数据库的驱动"></a>下载python连接postgresQL数据库的驱动</h4><p>安装方式也有多种：根据个人喜好可以使用easy_istall或者pip方式安装</p>
+<ul>
+<li>easy_install psycopg2</li>
+<li>pip install psycopg2</li>
+</ul>
+<p>或者自己下载<a href="http://initd.org/psycopg/" target="_blank" rel="noopener">http://initd.org/psycopg/</a>解压之后，进入目录运行</p>
+<pre><code>python setup.py install
+</code></pre><p>会自动安装到Python安装目录的site-packages的目录下</p>
+<p>这里我直接在windows安装的exe 下载地址（如果是64位的系统的话也建议下载32位的）<a href="http://www.stickpeople.com/projects/python/win-psycopg/" target="_blank" rel="noopener">http://www.stickpeople.com/projects/python/win-psycopg/</a> 根据数据库的版本选择合适的进行下载</p>
+<h4 id="修改配置文件setting-py-找到DATABASES处"><a href="#修改配置文件setting-py-找到DATABASES处" class="headerlink" title="修改配置文件setting.py,找到DATABASES处"></a>修改配置文件setting.py,找到DATABASES处</h4><pre><code>DATABASES = {
+    &apos;default&apos;: {
+        &apos;ENGINE&apos;: &apos;django.db.backends.postgresql_psycopg2&apos;,
+        &apos;NAME&apos;: &apos;mydb&apos;,                      
+        &apos;USER&apos;: &apos;postgres&apos;,
+        &apos;PASSWORD&apos;: &apos;1&apos;,
+        &apos;HOST&apos;: &apos;localhost&apos;,
+        &apos;PORT&apos;: &apos;5432&apos;
+    }
 }
-</code></pre><p>修改后的文件</p>
-<pre><code>{
-  &quot;cmd&quot;: [&quot;python&quot;, &quot;-u&quot;, &quot;$file&quot;],
-  &quot;file_regex&quot;: &quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9]*)&quot;,
-   &quot;selector&quot;: &quot;source.python&quot;,
-   &quot;encoding&quot;: &quot;cp936&quot;
-}
-</code></pre><p>改完之后则可以正常输出中文了。</p>
-<p>如果nodejs在控制台输出中文乱码的问题</p>
-<p>修改Nodejs.sublime-build文件中的encoding为utf-8</p>
+</code></pre><p>将ENGINE修改为<code>django.db.backends.postgresql_psycopg2</code>,<strong>NAME</strong>为数据库的名字,<strong>USER</strong>为数据库的用户名，<strong>PASSWORD</strong>为数据库用户对应的密码，<strong>HOST</strong>为数据库所在的主机名，<strong>Port</strong>为PostgreSQL的端口号。</p>
+<p>参考资料<a href="https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-DATABASES" target="_blank" rel="noopener">https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-DATABASES</a></p>
 
         
 
@@ -1010,8 +892,8 @@ test(&apos;multiply()&apos;, function() {
         
           <div class="post-tags">
             
-              <a href="/tags/Sublime/">
-                #Sublime
+              <a href="/tags/Django/">
+                #Django
               </a>
             
           </div>
@@ -1033,7 +915,7 @@ test(&apos;multiply()&apos;, function() {
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+              <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
             </div>
           
         </div>
@@ -1060,15 +942,15 @@ test(&apos;multiply()&apos;, function() {
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-count">29</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
-            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-count">2</span>
             <span class="site-state-item-name">页面</span>
         </div>
       </div>
@@ -1083,15 +965,11 @@ test(&apos;multiply()&apos;, function() {
             </span>
           
             <span class="soclial-item">
-              <a href="https://twitter.com/your-user-name">TWITTER</a>
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
             </span>
           
             <span class="soclial-item">
               <a href="http://weibo.com/u/1821556025">WEIBO</a>
-            </span>
-          
-            <span class="soclial-item">
-              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
             </span>
           
             <span class="soclial-item">

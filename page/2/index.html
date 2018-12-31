@@ -99,8 +99,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/01/05/ionic-env-androd/">
-                ionic 环境搭建 （mac）
+              <a class="post-title-link" href="/2016/01/21/node-n-ubuntu/">
+                ubuntu 下使用n 管理node 版本遇到的问题
               </a>
             
           
@@ -110,15 +110,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2015-01-04
+              发表于 2016-01-21
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/01/05/ionic-env-androd/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/05/ionic-env-androd/"></span>
+            <a href="/2016/01/21/node-n-ubuntu/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/21/node-n-ubuntu/"></span>
             </a>
           </span>
           
@@ -133,26 +133,18 @@
         
 
         
-          <h3 id="android基础环境-JAVA-、ADT-Android-SDK-tools-（该过程不详细叙述）"><a href="#android基础环境-JAVA-、ADT-Android-SDK-tools-（该过程不详细叙述）" class="headerlink" title="android基础环境 JAVA 、ADT (Android SDK tools) （该过程不详细叙述）"></a>android基础环境 JAVA 、ADT (Android SDK tools) （该过程不详细叙述）</h3><h3 id="配置环境变量-sudo-vim-bash-profile-或者sudo-vim-profile"><a href="#配置环境变量-sudo-vim-bash-profile-或者sudo-vim-profile" class="headerlink" title="配置环境变量 sudo vim ~/.bash_profile 或者sudo vim .profile"></a>配置环境变量 <code>sudo vim ~/.bash_profile</code> 或者<code>sudo vim .profile</code></h3><pre><code>export  PATH=${PATH}:/Users/adsage/work/adt/sdk/platform-tools:/Users/adsage/work/adt/sdk/tools
-ANDROID_HOME=$HOME/work/adt/sdk
-export ANDROID_HOME
-</code></pre><h3 id="使环境变量生效-source-bash-profile"><a href="#使环境变量生效-source-bash-profile" class="headerlink" title="使环境变量生效 source .bash_profile"></a>使环境变量生效 <code>source .bash_profile</code></h3><h3 id="将android-SDK目录权限设置为可写"><a href="#将android-SDK目录权限设置为可写" class="headerlink" title="将android SDK目录权限设置为可写"></a>将android SDK目录权限设置为可写</h3><pre><code>chmod -R 777 sdk/
-</code></pre><h3 id="android构建依赖ant"><a href="#android构建依赖ant" class="headerlink" title="android构建依赖ant"></a>android构建依赖ant</h3><pre><code>brew update &amp;&amp;brew install ant
-</code></pre><h3 id="下载android-API-和-镜像"><a href="#下载android-API-和-镜像" class="headerlink" title="下载android API 和 镜像"></a>下载android API 和 镜像</h3><p>－ 使用android SDK manager 下载android的API 和镜像（当然也可以离线下载）<br>－ 使用Android Virtual manager 创建android的虚拟机</p>
-<h3 id="安装nodeJS-以及相关包"><a href="#安装nodeJS-以及相关包" class="headerlink" title="安装nodeJS 以及相关包"></a>安装nodeJS 以及相关包</h3><pre><code>sudo npm install -g cordova ionic
-</code></pre><h4 id="创建一个项目"><a href="#创建一个项目" class="headerlink" title="创建一个项目"></a>创建一个项目</h4><pre><code>ionic start myApp tabs
-</code></pre><h3 id="编译并在真机上运行"><a href="#编译并在真机上运行" class="headerlink" title="编译并在真机上运行"></a>编译并在真机上运行</h3><pre><code>cd myApp
-$ ionic platform add android
-$ ionic build android
-$ ionic run android 或者ionic emulate android 在模拟上跑
-</code></pre><h3 id="程序已部署至真机-完成。"><a href="#程序已部署至真机-完成。" class="headerlink" title="程序已部署至真机 完成。"></a>程序已部署至真机 完成。</h3><h3 id="ios"><a href="#ios" class="headerlink" title="ios"></a>ios</h3><p>另外 如果是IOS环境下 需要有IOS环境 在app store上下载安装XCODE即可, 另外在构建过程中还会提示缺少相关的npm包 比如</p>
-<pre><code>sudo npm install -g ios-sim
-sudo npm install -g ios-deploy
-</code></pre><p>然后 运行 </p>
-<pre><code>ionic platform add ios
-ionic build ios
-ionic run ios 或者ionic emulate ios 在模拟上跑
-</code></pre>
+          <p>ubuntu 中使用n 来管理node，首先根据github<a href="https://github.com/tj/n" target="_blank" rel="noopener">https://github.com/tj/n</a>上面的提示进行安装 </p>
+<p>在非 root 用户的话 ，运行node提示找不到命令（root下可以，然而使用 Linux是不鼓励在root 下操作的)<br>可以确认环境变量没有生效，可是装n之后会自动把<br><code>export N_PREFIX=&quot;$HOME/n&quot;; [[ :$PATH: == *&quot;:$N_PREFIX/bin:&quot;* ]] || PATH+=&quot;:$N_PREFIX/bin&quot;</code><br>添加到.bashrc下了。来自动设置了相关的环境变量。<br>于是 运行下 <code>source ~/.bashrc</code> 就可以了 环境变量生效了.可以正常运行弄的，然而 重新打开一个终端以后 又失效了。</p>
+<p>在登录的时候会系统自动执行<code>~/.profile</code> ,在<code>~/.profile</code> 有</p>
+<pre><code># if running bash
+if [ -n &quot;$BASH_VERSION&quot; ]; then
+    # include .bashrc if it exists
+    if [ -f &quot;$HOME/.bashrc&quot; ]; then
+    . &quot;$HOME/.bashrc&quot;
+    fi
+fi
+</code></pre><p>就是终端连接的时候会自动执行  <code>~/.bashrc</code>,理论上来说是环境变量会自动生效才是。可以猜测在执行 <code>~/.bashrc</code> 的时候 出了问题 ，导致 n相关的环境变量没有生效。<br>于是把~/.bashrc的那一行代码 <code>export N_PREFIX=&quot;$HOME/n&quot;; [[ :$PATH: == *&quot;:$N_PREFIX/bin:&quot;* ]] || PATH+=&quot;:$N_PREFIX/bin&quot;</code><br>拷贝到 ~/.profile 下即可使环境变量生效了。重新连接以后 运行node 就可以了。。</p>
+
         
 
       </div>
@@ -163,8 +155,8 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
         
           <div class="post-tags">
             
-              <a href="/tags/Ionic/">
-                #Ionic
+              <a href="/tags/node/">
+                #node
               </a>
             
           </div>
@@ -192,8 +184,8 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
           
           
             
-              <a class="post-title-link" href="/2014/12/30/ngEter/">
-                angularJS 实现ngEnter
+              <a class="post-title-link" href="/2016/01/14/vue-1-0-changes/">
+                vue 1.0 的主要变化
               </a>
             
           
@@ -203,15 +195,15 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-12-30
+              发表于 2016-01-14
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/12/30/ngEter/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/30/ngEter/"></span>
+            <a href="/2016/01/14/vue-1-0-changes/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/14/vue-1-0-changes/"></span>
             </a>
           </span>
           
@@ -226,23 +218,447 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
         
 
         
-          <p>Ng中有一些内置的指令，来响应我们的操作事件，比如ng-click,ng-change ng-select等等，但是我发现众多指令中缺少一个 当键盘按下的指令，比如 按回车的指令，比如我在一个搜索框中输入关键字之后按回车键，然后自动进行关键字来搜索，虽然ng中没有自带这个指令，但是我们很容易的定义一个这样的指令。下面就是一个ng-enter指令来完成这样的操作，使用的时候与ng-click这等方法类似，传递一个函数即可。当绑定该指令的元素处于焦点状态的时候，按下回车键就会触发 ng-enter的函数。</p>
-<pre><code>app.directive(&apos;ngEnter&apos;, function () {
-    return function (scope, element, attrs) {
-        element.bind(&quot;keydown keypress&quot;, function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
-                    scope.$eval(attrs.ngEnter);
-                });
+          <p>目前工作中还在使用 0.12.x版本，突然发现 1.0在使用上有不小的变化，于是参考 官方的更新日志<a href="https://github.com/vuejs/vue/releases/tag/1.0.0" target="_blank" rel="noopener">https://github.com/vuejs/vue/releases/tag/1.0.0</a>总结如下</p>
+<ul>
+<li>v-repeat  替换为 v-for<br>使用方法 <code>v-for=&quot;item in items&quot;</code> 不能使用 <code>v-for=&quot;imtes&quot;</code> 可以使用$index来获取当前项在数组中的索引</li>
+</ul>
+<pre><code>&lt;ul id=&apos;example-1&apos;&gt;
+&lt;li v-for=&apos;item in items&apos;&gt;
+      $index { {item.message} }
+&lt;/li&gt;
+&lt;ul&gt;
+</code></pre><p>或者  给索引取一个别名 如下 v-for  块中的内容可以使用其父作用域中的属性</p>
+<pre><code>   &lt;ul id=&apos;example-1&apos;&gt;
+   &lt;li v-for=&apos;(index,item) in items&apos;&gt;
+           { {index} } { {item.message} }
+   &lt;/li&gt;
+   &lt;ul&gt;
 
-                event.preventDefault();
-            }
+
+var example=new Vue({
+   el:&apos;#example&apos;,
+   data:{
+       items:[
+           {message:&apos;Fool&apos;},
+           {message:&quot;Bar&quot;}
+       ]
+   }
+   })
+</code></pre><ul>
+<li><p>v-on=’action:fun’ 替换为 v-on:action=’func’ 缩写 @action=’func’，新增了两个事件修饰符号 .prevent与stop</p>
+<pre><code>&lt;button v-on:click=&quot;doThis&quot;&gt;&lt;/button&gt;
+&lt;button v-on:click=&quot;doThat(&apos;hello&apos;, $event)&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 缩写 --&gt;
+&lt;button @click=&quot;doThis&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 停止冒泡 --&gt;
+&lt;button @click.stop=&quot;doThis&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 阻止默认--&gt;
+&lt;button @click.prevent=&quot;doThis&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 组织默认的提交表单 --&gt;
+&lt;form @submit.prevent&gt;&lt;/form&gt;
+
+&lt;!-- 链式执行绑定的方法并阻止冒泡 --&gt;
+&lt;button @click.stop.prevent=&quot;doThis&quot;&gt;&lt;/button&gt;
+
+&lt;!-- 绑定键盘事件 --&gt;
+&lt;input @keyup.enter=&quot;onEnter&quot;&gt;
+
+&lt;!-- 缩写形式 --&gt;
+&lt;input @keyup.13=&quot;onEnter&quot;&gt;
+&lt;button v-on:click=&quot;dothis&quot; v-on:keyup=&quot;dothat&quot;&gt;&lt;/button&gt;
+</code></pre></li>
+<li><p>v-attr=’attr:val’ 替换为 v-bind:attr=”val” 缩写 :attr=”val”</p>
+</li>
+<li>新增 v-else 指令 与 v-if / v-show 成对使用</li>
+<li><p>v-el 指令，注册指令 可以在VM中通过 $els 来获得注册DOM的哈希对象</p>
+<pre><code>&lt;span v-el:msg&gt;hello&lt;/span&gt;
+&lt;span v-el:other-msg&gt;world&lt;/span&gt;
+
+this.$els.msg.textContent // -&gt; &quot;hello&quot;
+this.$els.otherMsg.textContent // -&gt; &quot;world&quot;
+</code></pre></li>
+<li>v-pre 跳过VUE的处理 比如使用 直接显示 <code></code> 这样的形式</li>
+<li>v-component指令过时了，建议使用is<code>&lt;component :is=&quot;componentId&quot;&gt;&lt;/component&gt;</code> 更多关于 组件的内容参考  <a href="http://vuejs.org/guide/components.html" target="_blank" rel="noopener">http://vuejs.org/guide/components.html</a></li>
+<li><p>props 的传递变更为</p>
+<pre><code>&lt;!-- 单向绑定 --&gt;
+&lt;child :msg=&apos;parentMsg&apos;&gt;&lt;/child&gt;  
+&lt;!-- 双向绑定 --&gt;
+&lt;child :msg.sync=&apos;parentMsg&apos;&gt;&lt;/child&gt; 
+&lt;!--  单次绑定 --&gt;
+&lt;child :msg.once=&apos;parentMsg&apos;&gt;&lt;/child&gt;
+</code></pre></li>
+</ul>
+<ul>
+<li><p>v-class and v-style 过时了 推荐使用属性绑定使用<code>v-bind</code>方式 <code>v-bind:class</code>、<code>v-bind:style</code></p>
+<pre><code>&lt;!-- 切换class--&gt;
+&lt;div v-bind:class=&quot;{ &apos;class-a&apos;: true, &apos;class-b&apos;: false }&quot;&gt;&lt;/div&gt;
+&lt;!-- 应用样式列表 --&gt;
+&lt;div v-bind:class=&quot;[ dynamicClass, &apos;literal-class&apos; ]&quot;&gt;&lt;/div&gt;
+
+&lt;!-- 接受驼峰式属性 --&gt;
+&lt;div v-bind:style=&quot;{ fontSize: &apos;14px&apos;, color: &apos;red&apos; }&quot;&gt;&lt;/div&gt;
+&lt;!--  支持样式的绑定--&gt;
+&lt;div v-bind:style=&quot;[ styleObjectA, styleObjectB ]&quot;&gt;&lt;/div&gt;
+&lt;a v-bind-href=&quot;&quot;&gt;&lt;/a&gt;
+&lt;a v-bind-src=&quot;&quot;&gt;&lt;/a&gt;
+</code></pre></li>
+<li><p>v-model 支持checkbox与数组绑定 (终于支持了 记得以前使用ng的时候用了<a href="https://github.com/vitalets/checklist-model" target="_blank" rel="noopener">一个插件</a>来完成这个功能</p>
+<pre><code>&lt;input type=&quot;checkbox&quot; value=&quot;Jack&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;input type=&quot;checkbox&quot; value=&quot;John&quot; v-model=&quot;checkedNames&quot;&gt;
+&lt;input type=&quot;checkbox&quot; value=&quot;Mike&quot; v-model=&quot;checkedNames&quot;&gt;
+被选中的项的value值将会与 checkedNames的数组绑定
+</code></pre></li>
+<li><p>过滤器<br>1、<code>debounce</code>是空闲时间的间隔控制,空闲时间必须大于或等于 一定值的时候，才会执行调用方法。。比如我们做autocomplete，这时需要我们很好的控制输入文字时调用方法时间间隔。一般时第一个输入的字符马上开始调用，根据一定的时间间隔重复调用执行的方法。</p>
+<pre><code>&lt;input @keyup=&quot;onKeyup | debounce 500&quot;&gt;
+</code></pre></li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Vue/">
+                #Vue
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/02/26/mac-env/">
+                mac上常用的工具
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-02-26
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/02/26/mac-env/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/26/mac-env/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>我的mac (OS X)上常用的工具。。。</p>
+<h1 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h1><ul>
+<li>sublime</li>
+<li>webstorm</li>
+<li>ADT/android studio android环境</li>
+<li>git</li>
+<li>source tree git客户端</li>
+<li>charles</li>
+<li>Photoshop</li>
+<li>liteIDE go开发工具</li>
+<li>Appzapper 软件卸载</li>
+<li>phpstorm PHP IDE</li>
+<li>xcode （IOS开发工具 ObjectC、swift）</li>
+<li>iTools</li>
+<li>QQ</li>
+<li>skype</li>
+<li>android transfer android文件传输</li>
+<li>MplayerX 视频播放器</li>
+<li>EasyHtml5video 视频格式转换</li>
+<li>迅雷</li>
+<li>搜狗输入法</li>
+<li>Dash</li>
+<li>Chrome</li>
+<li>Firefox Developer Edition</li>
+<li>office</li>
+<li>为之笔记</li>
+<li>virtual box （win7 虚拟机）</li>
+<li>gliffy Diagram 绘图工具</li>
+<li>izip unarchiver 解压工具 可以解压rar格式</li>
+<li>Mysql/navicat</li>
+<li>dash 查API的工具</li>
+<li>iterm+oh myzsh  终端工具(内置的终端界面不好看,体验也不好)</li>
+<li>vim （内置工具）</li>
+</ul>
+<h1 id="语言环境"><a href="#语言环境" class="headerlink" title="语言环境"></a>语言环境</h1><ul>
+<li>node/iojs</li>
+<li>go</li>
+<li>dart</li>
+<li>ruby （内置 2.0） mac上的软件管理工具 brew 基于ruby的。</li>
+<li>python （内置 2.7.6）</li>
+<li>java （内置了 open JDK）</li>
+<li>php/Yii （内置的不好用，自己编译，然后单独下载xdebug 并编译，有了xdebug可以在phpstorm下断点调试）</li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li>cordova/phonegap</li>
+<li>grunt/gulp</li>
+<li>fis</li>
+<li>hexo 博客系统</li>
+</ul>
+<p>其他内置工具  <code>safira</code> <code>Apache</code> <code>邮件客户端</code></p>
+<h2 id="常见的配置-文件"><a href="#常见的配置-文件" class="headerlink" title="常见的配置 文件"></a>常见的配置 文件</h2><h4 id="与环境变量相关的配置文件"><a href="#与环境变量相关的配置文件" class="headerlink" title="与环境变量相关的配置文件"></a>与环境变量相关的配置文件</h4><p><code>etc/profile</code> ,<code>/etc/bashrc</code>;<code>~/.bash_profile</code> ;<code>~/.bashrc</code>;<code>/etc/paths</code>; <code>/etc/paths.d</code> <a href="http://apple.stackexchange.com/questions/140507/what-is-the-complete-authoritative-way-in-which-mac-osx-10-9-and-later-builds-i" target="_blank" rel="noopener">相关链接</a></p>
+<ul>
+<li>软件相关配置目录在 home目录下 隐藏文件 以.开头 比如<code>.adobe</code> <code>.android</code> <code>.cache</code> <code>.cnpmrc</code> <code>.composer</code> <code>.config</code> <code>.cordova</code> <code>.dbshell</code> <code>.eclipse</code> <code>.gem</code> <code>.gradle</code> <code>.npm</code>等等.</li>
+</ul>
+<h4 id="apache-配置文件"><a href="#apache-配置文件" class="headerlink" title="apache 配置文件"></a>apache 配置文件</h4><ul>
+<li>主配置文件 <code>/etc/apache2/httpd.conf</code></li>
+<li><p>虚拟主机配置 <code>/etc/apache2/extra/httpd-vhosts.conf</code>  <a href="https://gist.github.com/kunkun12/1d1787d8c8f758cea4af" target="_blank" rel="noopener">参考</a></p>
+</li>
+<li><p>node 版本 webServer快速配置 适合前端开发使用，代码变化之后自动刷新页面  <a href="https://gist.github.com/kunkun12/31fb79a11e4cfd521b8e" target="_blank" rel="noopener">配置文件</a></p>
+</li>
+</ul>
+<ul>
+<li>2015-四月开始使用atom 代码编辑器，感觉比sublime还要爽,不过打开大文件会卡。<br>需要配合一些插件。比如git-plus,autocomplete-plus,color-picker,git-log,language-jade,open-last-project,terminal-panel(shift+enter)</li>
+<li>然而用了 atom 半年之久实在太卡了，最终转回来了sublime3 <a href="https://packagecontrol.io/packages/Theme%20-%20Afterglow" target="_blank" rel="noopener">换了个好看的主题</a>  需要配合一些插件 比如 less/sass jade jsformat terminal emmet git等</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/env-mac/">
+                #env mac
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/01/16/ES6-Featues/">
+                ECMAScript 6 新特性总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-01-15
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/01/16/ES6-Featues/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/16/ES6-Featues/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/01/14/ng-directive-callfunction-pass-argument/">
+                angluarJS 指令与控制器中的方法的调用。
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-01-14
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/01/14/ng-directive-callfunction-pass-argument/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/14/ng-directive-callfunction-pass-argument/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="指令调用控制器中的方式（给指令的事件绑定执行函数）"><a href="#指令调用控制器中的方式（给指令的事件绑定执行函数）" class="headerlink" title="指令调用控制器中的方式（给指令的事件绑定执行函数）"></a>指令调用控制器中的方式（给指令的事件绑定执行函数）</h3><p>angluarJS中，如果指令内部的事件触发，这个时候需要调用外部controller中的方法，可以在指令的隔离作用域中使用<code>&amp;</code>将controller中的方法传递到指令中，供指令调用，需要注意的事，如果传递参数的话（比如自定义的ngChange事件触发，会把当前的选择项作为参数传递到控制器中）这个时候在声明指令时候,需要填写方法调用的函数表达式，并且如果包含函数的话，需要在调用改方法的时候指明参数，该参数名字与在指令中调用中传递的参数JSON的key一致（指令中必须传递JSON的形式来调用）</p>
+<pre><code>    angular.module(&quot;app1&quot;, [])
+.controller(&quot;Ctrl1&quot;, function($scope, $element)
+{
+  $scope.someThingChanged = function(arg1,arg2)
+  {
+       console.log(arg1,arg2);
+  }
+})
+.directive(&quot;myDirective&quot;, function($timeout)
+{
+  return {
+    scope: {
+      ngChange: &apos;&amp;&apos;
+    },
+    link: function(scope, element, attrs)
+    {
+      $timeout(function()
+      {
+        scope.ngChange({
+          name:&apos;张三&apos;,
+          age:28
         });
-    };
+      });
+    }
+  }
+})
+</code></pre><p>声明指令</p>
+<pre><code>&lt;div my-directive ng-change=&quot;someThingChanged(name,age)&quot;&gt;&lt;/div&gt;
+调用时候上面输出 ：  张三 28
+</code></pre><h3 id="控制器调用指令的方法。"><a href="#控制器调用指令的方法。" class="headerlink" title="控制器调用指令的方法。"></a>控制器调用指令的方法。</h3><p>使用双向绑定的形式，首先在控制器新建一个空对象，在指令中将方法赋值给这个对象的一个属性，这样在控制器用就可以获取这个方法，进而进行调用。</p>
+<pre><code>var app = angular.module(&apos;plunker&apos;, []);
+app.controller(&apos;MainCtrl&apos;, function($scope) {
+  $scope.focusinControl = {
+  };
 });
-</code></pre><p>关于 <code>keydown</code>,<code>keypress</code>可以参阅<a href="http://www.cnblogs.com/silence516/archive/2013/01/25/2876611.html" target="_blank" rel="noopener">http://www.cnblogs.com/silence516/archive/2013/01/25/2876611.html</a></p>
-<p>使用方式 <code>&lt;input ng-enter=&#39;myfunction()&#39;/&gt;</code></p>
-
+app.directive(&apos;focusin&apos;, function factory() {
+  return {
+    restrict: &apos;E&apos;,
+    replace: true,
+    template: &apos;&lt;div&gt;A:{{internalControl}}&lt;/div&gt;&apos;,
+    scope: {
+      control: &apos;=&apos;
+    },
+    link  : function (scope, element, attrs) {
+      scope.internalControl = scope.control || {};
+      scope.internalControl.takenTablets = 0;
+      scope.internalControl.takeTablet = function() {
+        scope.internalControl.takenTablets += 1;  
+      }
+    }
+  };
+});
+</code></pre><p>html </p>
+<pre><code>&lt;focusin control=&quot;focusinControl&quot;&gt;&lt;/focusin&gt;
+</code></pre>
         
 
       </div>
@@ -282,8 +698,8 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
           
           
             
-              <a class="post-title-link" href="/2014/12/18/dojo-Object-Store/">
-                dojo统一的数据访问接口——dojo Oject store API
+              <a class="post-title-link" href="/2015/01/11/less-features/">
+                less常用特性
               </a>
             
           
@@ -293,15 +709,15 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-12-17
+              发表于 2015-01-11
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/12/18/dojo-Object-Store/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/18/dojo-Object-Store/"></span>
+            <a href="/2015/01/11/less-features/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/11/less-features/"></span>
             </a>
           </span>
           
@@ -316,1465 +732,219 @@ ionic run ios 或者ionic emulate ios 在模拟上跑
         
 
         
-          <h2 id="关于dojo中统一数据访问接口"><a href="#关于dojo中统一数据访问接口" class="headerlink" title="关于dojo中统一数据访问接口"></a>关于dojo中统一数据访问接口</h2><p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
-<blockquote>
-<p>数据的提供者不用再关心数据如何被展示，以及数据的使用者不用关心数据来自于哪里。通过接口（协议）来实现职责的分离，即使同一个人来完成数据的获取以及展示，也要将数据的获取与展示做到分离，因为这种松散的耦合 也方便系统的维护。</p>
-</blockquote>
-<p>说起dojo 数据访问API我们之前会使用<strong>dojo data</strong> 里面的的东东 也就是旗下的 如下四类接口</p>
-<ul>
-<li><code>Dojo.data.api.read</code> 提供读取数据的功能，同时也支持对数据集的搜索，排序，和过滤。</li>
-<li><code>Dojo.data.api.write</code> 提供创建，删除，更新数据项功能</li>
-<li><code>Dojo.data.api.identify</code> 提供基于唯一的标识符来定位和查询数据项的功能。</li>
-<li><code>Dojo.data.api.notification</code> 提供当 datastore的数据项改变等事件发生时通知侦听器的功能。最基本的事件包括数据的创建，修改和删除等。这也是Dojo.data的一项很重要的功能，通过此接口可以将数据展现层与数据中间层更好的分离开来。</li>
-</ul>
-<p>以上只是<strong>dojo/data</strong>接口的定义,对于不同的数据格式格式读取也有具体的实现，如果上面是接口的话 下面的就是类的具体实现了。</p>
-<ul>
-<li><code>dojo.data.ItemFileReadStore</code>    用于JSON数据的只读的DataStore。</li>
-<li><code>dojo.data.ItemFileWriteStore</code>    用于JSON数据的可读写的DataStore</li>
-<li><code>dojox.data.CsvStore</code>    用于CVS数据的只读的DataStore</li>
-<li><code>dojox.data.OpmlStore</code>用于OPML（Outline Processor Markup Language）数据的只读的DataStore</li>
-<li><code>dojox.data.HtmlTableStore</code>    用于HTML table数据的只读的DataStore</li>
-<li><code>dojox.data.XmlStore</code>    用于XML数据的可读写的DataStore</li>
-<li><code>dojox.data.FlickrStore</code>    用于读取web服务flickr.com提供的数据</li>
-<li><code>dojox.data.QueryReadStore</code>    用于读取由服务器端提供的JSON数据</li>
-</ul>
-<p>具体内容可以参见<br><a href="http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/</a>不错的文章好好读读</p>
-<p>基本以上能满足所有对数据操作的需求。。如果你已经读完了上面的这篇文章，或者对dojo data API有所了解，你可能会发现这些对数据的操作非常滴麻烦，虽然能达到了接口的统一，但是繁琐的交互接口也不利于Widget之间的通信，关键是开发者用着不爽，好消息是，这些接口的确已经被淘汰了。。于是引入今天的主题- <em>Dojo Object Store API</em>。</p>
-<p>那么首先区分一下两个名词,旧的数据访问接口是 <code>dojo data store API</code> ，就是上面介绍的那些东西，在dojo目录的 dojo/data 里面，建议以后不要用这里面的东西来存取东西，也就是说 不要再用 <code>dojo/data/ItemFileReadStore</code> <code>dojo/data/ItemFileWriteStore</code>这两个东西了。。。新的数据统一访问接口是     <code>dojo Object Store</code> 。。具体的接口以及实现在源码（文档）目录的 dojo/store里面，请注意区分</p>
-<p>##关于dojo Object store API。 </p>
-<p>翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于<strong>HTML5 object store</strong> API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。</p>
-<h2 id="dojo对象存储API背后的几个理念"><a href="#dojo对象存储API背后的几个理念" class="headerlink" title="dojo对象存储API背后的几个理念"></a>dojo对象存储API背后的几个理念</h2><ul>
-<li>数据与UI关注点分离，让我们将数据与展现关注点进行分离，并且方便数据与部件之间独立的实现。</li>
-<li>保持简单 可以仅仅地创建一个具有query和get方法的对象来创建一个简单的数据存储对象，如果要提供创建一个新的对象功能，可以增加一个add方法，如果要增加更新对象的功能 只需要增加一个put方法</li>
-<li>基于纯的javascript对象 dojo store api 使用纯的JS对象即{}，使用get返回一个对象或者使用query来返回一个对象的数据，这些对象可以像普通的JS对象一样被操做，比如可以通过点直接访问查询结果对象的属性，或者可以用 <em>for  in</em> 来循环便利对象的属性。如果要保存/更新对象可以将一个更新过的纯JS对象传递给put方法即可。</li>
-<li>基于Promise 更好地来处理异步的存储。通过返回<em>promise</em> 来做到异步和同步存取的统一</li>
-<li>独立简单的功能实现 不需要任何方法来设置存储对象的功能，如果你想知道是否可以添加一个新的对象到存储对象中，只需要检查他是否具有add方法，如果想知道它是否支持查询，只需要检查是否有query方法；如果只是想实现一个只读的存储对象，只需要实现读的方法(<code>get</code>, <code>query</code>, <code>getIdentity</code>)</li>
-<li>功能的层次性增强 通过分层的功能，就可以基于一个轻量级的，简单的存储，通过插件对原始的store进行包装来增加store的功能。比如Dojo中提供了（<code>dojo/store/Cache</code>）包装数据存储对象实现数据缓存，用来提高性能。<code>dojo/store/Observable</code>包装数据存储对象用来实现对对象变化的检测，而这并不是必须的。这种插件机制 让我们的原始的存储对象更简单轻量。</li>
-</ul>
-<h3 id="关于dojo-Object-API中的方法以及属性。"><a href="#关于dojo-Object-API中的方法以及属性。" class="headerlink" title="关于dojo Object API中的方法以及属性。"></a>关于dojo Object API中的方法以及属性。</h3><p>下面的这些方法都是可选的。实现的时候可以根据需要来提供不同的方法。任何一个方法除了特别指明意外都可以返回一个promise 来更好滴完成异步的操作。（这里与W3C中 IndexDB api 有些出入）可以到<em>dojo/store/api/store</em>里面来查看这些接口具体的方法和属性</p>
-<ul>
-<li><code>get(id)</code> 查询方法根据唯一标识返回一个对象。</li>
-<li><code>query(query, options)</code> 查询方法 根据查询条件来查询对象。返回一个数据或者promise（可以从then方法里获得查询结果） ，查询结果具有<em>forEach()</em> , <em>map()</em>, <em>filter()</em>, <em>reduce()</em> 方法来让我们，同时返回结果还包括一个total属性来标标识返回结果列表中包含的对象的的个数（当然也可以自己调用length手动获得),第一个参数为查询条件可以为字符串,对象,函数类型,第二个参数是为可选部分，包含三个属性<code>start</code>查询的起始处。<code>count</code>返回结果的最大个数 <code>sort</code> 排序信息,sort为数组类型可以根据多个字段进行排序</li>
-<li><code>put(object, options)</code>保存更新对象。也可以用来增加新对象。第一个参数就是要更新或者增加的对象，</li>
-<li><code>add(object, options)</code> 增加新对象</li>
-<li><code>remove(id)</code> 根据唯一标识来移除对象</li>
-<li><code>getIdentity(object)</code> 获得对象的唯一标识 （这个必须是同步的方法 直接返回结果）</li>
-<li><code>queryEngine(query, options）</code> 构造查询条件</li>
-<li><code>transaction()</code> 开启一个事物 与 数据库的事物理念类似。具有两个方法commit()提交所有的改变 和abort 撤销所有的更新即回滚。</li>
-<li><code>getChildren(object, options)</code> 获取对象的子元素，</li>
-<li><code>getMetadata(object)</code> 获取对象的元数据信息</li>
-</ul>
-<p>另外还包括两个属性</p>
-<ul>
-<li><code>idProperty</code> 指定对象的唯一标识 一旦指定了，构造对象的时候要确保数据的这个字段是唯一的否则会报错</li>
-<li><code>data</code>   原始数据的数组</li>
-</ul>
-<p>以上只是API中的方法，dojo也有对应的类对此进行了实现后面会做具体的介绍。此外为了直观些可以看一下直接画的图<br><a href="http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow" target="_blank" rel="noopener">http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow</a></p>
-<h3 id="关于返回的对象。"><a href="#关于返回的对象。" class="headerlink" title="关于返回的对象。"></a>关于返回的对象。</h3><p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
-<h3 id="检测结果集的变化"><a href="#检测结果集的变化" class="headerlink" title="检测结果集的变化"></a>检测结果集的变化</h3><p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
-<ul>
-<li><p><code>observe(listener, includeObjectUpdates)</code> 第一个参数是一个监听函数函数签名<code>listener(object, removedFrom, insertedInto);</code>第一个参数为变动的对象可能是增加的新对象，修改或者是删除的对象。removedFrom 为删除对象的索引 如果这个值为-1 说明没有对象被删除，可能是发生了增加或者是修改行为。insertedInto 返回被增加对象在结果集中的索引.</p>
-</li>
-<li><p><code>close</code>  如果查询结果集调用colse 方法 ，停止监听这些变化。</p>
-</li>
-</ul>
-<h2 id="关于-dojo-store-Memory"><a href="#关于-dojo-store-Memory" class="headerlink" title="关于 dojo/store/Memory"></a>关于 <code>dojo/store/Memory</code></h2><p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
-<ul>
-<li><p><code>dojo/store/Memory</code> 一个简单的内存存储， 是dojo/store API的实现类， 这个是创建 dojo store 非常有用的一个类，特别是小型的数据集，可以用内存的对象数组作为数据源。构造好之后就可以对其进行操作了。</p>
-<p>数据源为<em>PM2.5信息的数据</em> 如下格式的数据</p>
-<pre><code> var mydata=[
-    {
-        &quot;aqi&quot;: 30, //空气质量指数（Air Quality Index
-        &quot;aqimsg&quot;: &quot;优&quot;,
-        &quot;collectTime&quot;: 1418798880775,
-        &quot;lvmsg&quot;: &quot;lv-good&quot;,
-        &quot;name&quot;: &quot;房山良乡&quot;,
-        &quot;path&quot;: &quot;beijing/fangshanliangxiang&quot;,
-        &quot;source&quot;: &quot;aqicn.org&quot;,
-        &quot;updateTime&quot;: &quot;星期二21点&quot;,
-        &quot;values&quot;: {}
-        },
-        {
-        &quot;aqi&quot;: 25,
-        &quot;aqimsg&quot;: &quot;优&quot;,
-        &quot;collectTime&quot;: 1418798880775,
-        &quot;lvmsg&quot;: &quot;lv-good&quot;,
-        &quot;name&quot;: &quot;昌平定陵&quot;,
-        &quot;path&quot;: &quot;beijing/changpingdingling&quot;,
-        &quot;source&quot;: &quot;aqicn.org&quot;,
-        &quot;updateTime&quot;: &quot;星期二21点&quot;,
-        &quot;values&quot;: {}
-    }。。。
-    。。。。。由于篇幅这里不全部列出 知道这个格式就行了
-];
-</code></pre></li>
-</ul>
-<p>引入<code>dojo/store/Memory</code> 构造Memory对象</p>
-<pre><code>require([&quot;dojo/store/Memory&quot;], function(Memory){
-    mystore = new Memory({data: myData,idProperty:&apos;name&apos;});
-    //注意这里的idProperty，JSON对象的唯一标识 如果不指定默认为&quot;id&quot;字段
-
-});
-</code></pre><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><ul>
-<li><p><em>get</em>根据对象唯一标识来查询一个，返回一个JS对象，查询‘密云镇’的数据</p>
-<pre><code>var obj1= mystore.get(&apos;密云镇&apos;);//get 跟据唯一标示（idProperty)来查询对象,这里查询 name为 丰台花园的信息
-
-    {
-        &quot;aqi&quot;: 23,
-        &quot;aqimsg&quot;: &quot;优&quot;,
-        &quot;collectTime&quot;: 1418798880775,
-        &quot;lvmsg&quot;: &quot;lv-good&quot;,
-        &quot;name&quot;: &quot;密云镇&quot;,
-        &quot;path&quot;: &quot;beijing/miyunzhen&quot;,
-        &quot;source&quot;: &quot;aqicn.org&quot;,
-        &quot;updateTime&quot;: &quot;星期二21点&quot;,
-        &quot;values&quot;: {}
-    }
-</code></pre></li>
-</ul>
-<ul>
-<li><p><em>query</em> 根据查询条件来检索对象 返回符合条件的对象数组,查询结果如果参数为空返回所有的数据</p>
-<pre><code>var    alldataarray=mystore.query()
-</code></pre></li>
-<li><p>查询条件可以为一个对象</p>
-<pre><code> var    array2=mystore.query({name:&apos;密云镇&apos;}) //
-
-//好吧 再复杂点 查询空气质量指数为 38 并且评级为‘优’的检测点
- var    array3=mystore.query({
-      &quot;aqi&quot;: 38,
-      &quot;aqimsg&quot;: &quot;优&quot;
-     });
-
- //查询对象还可以为 函数 与 Array.filter类似 实现复杂的查询 或者模糊查询
- //查询 api 小于38 
- var    array4=mystore.query(function(obj){
-         return obj.aqi&lt;38;
-   }
- );
-</code></pre></li>
-<li><p>还可以把查询函数参数放到store 对象上作为store的一个方法,在调用query的时候写入方法的名字</p>
-<pre><code> mystore.myquerymethod=function(obj){
-     return obj.aqi&lt;38;
- };
-   var array5=mystore.query(&apos;myquerymethod&apos;);
-//console.log(array5);
-</code></pre></li>
-</ul>
-<blockquote>
-<p>这样有什么好处呢？？个人认为这种情况能很方便把查询条件缓存下来，在其他的地方下次查询方便使用，并且可以给查询方法取有意义的名字 比如增加个查询方法 查询评级为优的检测站点 </p>
-</blockquote>
-<pre><code>mystore.getgoodstation=unction(obj){
-     return obj.aqimsg===&apos;优&apos;;
-       };
-mystore.query(&apos;getgoodstation&apos;);
-</code></pre><ul>
-<li>更复杂的查询</li>
-</ul>
-<p>查询条件：空气质量指数在38-50之间的检测点,然后根据aqi从大到小排序，从第三个开始返回，返回的最大个数3</p>
-<pre><code> var result6 =mystore.query(function(obj){
-   return obj.aqi&gt;38&amp;&amp;obj.aqi&lt;50
- },{
-     start:3,
-     count:3,          
-   sort:[{
-     attribute:&apos;aqi&apos;,
-     descending: true //为ture 表示从大到小，为false 表示从小到大
-   }]
- }); 
-
-result6.forEach(function(a){
-  console.log(a.name)
-})
-</code></pre><blockquote>
-<p>说明：在query的结果集中 有个total属性，这个是满足条件的个数。即满足query的 第一个参数的对象的个数，在query第二个参数中，如果不包含start和count属性的话，则total等于最终结果集的个数即length==total</p>
-</blockquote>
-<p>因为返回的数组具有<em>forEach，fitler,map</em>等方法，方便对结果进一步处理</p>
-<pre><code>array6.forEach(function(a){
-  console.log(a.name)
-})
-</code></pre><p>关于查询结果集的接口定义 可以查阅 <code>dojo/store/api/Store.QueryResults</code> ,如果是异步查询的话 query 会返回一个promise ，即他会拥有一个then方法，从callback里面可以获取查询结果。`比如</p>
-<pre><code>query().then(function(data){
-    console.log(data);
-});
-</code></pre><p>在实际的实现中<code>dojo/store/Memory</code> 是对内存中数据的操作是<em>同步</em>的，而<code>dojo/store/JsonRest</code>则是<em>异步</em>的。</p>
-<h3 id="修改对象的属性很简单"><a href="#修改对象的属性很简单" class="headerlink" title="修改对象的属性很简单"></a>修改对象的属性很简单</h3><pre><code>var array7 =mystore.query(function(obj){
-        return obj.name==&quot;密云镇&quot;
-});  
- array7.forEach(function(a){
-   console.log(a.aqi)
-   a.aqi=100 //修改赋值 没有调用put方法
- });
-
-var array8 =mystore.query(function(obj){
-      return obj.name==&quot;密云镇&quot;
-})       
- array8.forEach(function(b){
-  console.log(b.aqi)//100 说明已经修改了
- })
-</code></pre><p>可是说好的修改用put呢??? 好吧，JS是引用传递的,查询到的对象是JS中的普通对象。。。对象属性直接赋值就能实现修改了，</p>
-<pre><code>var objmiyun= mystore.get(&apos;密云镇&apos;);
-objmiyun.aqi=10;      
-var objmiyun1= mystore.get(&apos;密云镇&apos;);
-console.log(objmiyun.aqi)//10
-console.log(objmiyun===objmiyun1);//为true 说明两次get返回的是同一个对象的引用
-</code></pre><p>那么通过query 查询到的又是如此呢</p>
-<pre><code> mystore.getmiyun=function(obj){
-        return obj.name===&apos;密云镇&apos;;
- };
-
-var arraym3= mystore.query(&quot;getmiyun&quot;);
-var arraym4= mystore.query(&quot;getmiyun&quot;);
-console.log(arraym3[0]===arraym4[0])//true
-console.log(arraym3[0]===mystore.data[1])//true
-</code></pre><p>综上不管是通过get还是query来查询，得到的对象都是原始数据的引用。所以修改很easy了</p>
-<blockquote>
-<p>注意：原则上说我们调用一下put方法来标识更新对象。<code>store.put(obj)</code> 这样如果通过<code>dojo/store/Observable</code> 包装的话 监听函数才能监听的到.</p>
-</blockquote>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
-<pre><code>store.remove(id);
-</code></pre><blockquote>
-<p>其实感觉删除的方法设计不好，删除的参数只能是唯一标识，却不能是根据查询条件来删除。。。也无法达到批量删除的目的。。感觉如果参数为Obj的查询参数类型，以及唯一标识数组类型 就更好了。。</p>
-</blockquote>
-<p>另外更新数据源可以使用 store.setData方法。</p>
-<h3 id="dojo-store-JsonRest"><a href="#dojo-store-JsonRest" class="headerlink" title="dojo/store/JsonRest"></a><code>dojo/store/JsonRest</code></h3><p><code>dojo/store/JsonRest</code>(与dojox里面的JsonRest不同) 也是dojo Object storeAPI的实现，与<em>Memory</em>不同的是，<em>Memory</em>的数据源存在内存中，而JSONRest的数据源是远程的JSON，JsonRest 实现了对标准Rest接口访问的封装，JSONRest非常适合大量数据的展示(数据存在远端，分页异步获取等来降低性能的损耗)，上面已经提到JSONrest 所有的操作都是以promise形式返回的。JsonRest object store 与服务端交互的方式与<code>dojox.data.JsonRestStore</code>类似，但是<code>dojo/store/JsonRest</code>是基于新的<em>dojo Object store APi </em>简单方便使用的理念，进行重新设计，并做出了很大的简化。只需要提供一个url 既可以构造一个<code>dojo/store/JsonRest</code>。</p>
-<p><em>JsonRest</em> 主要干了一件事 就是在不同的方法里面发送不同的类型的http请求，最终完成了服务端数据的CURD（对应的请求类型为get，put，post，delete。使用JSONrest的难点就是服务端必须是标准的Rest风格的。因此要求服务的编写者对Rest有一定的了解，同时要求返回的格式必须为JSON，那么首先要了解前端发出的请求格式。这里假设构造好了一个JSONRest</p>
-<pre><code>require([&apos;dojo/store/JsonRest&apos;, &quot;dojo/domReady!&quot;], function(JsonRest) {     
-        jsonreststore = new JsonRest({target:&quot;/Data/&quot;});
-
-        jsonreststore.get(&quot;some-id&quot;).then(function(someObject){
-
-        });
-});
-</code></pre><p>假设服务的基地址为 /Data/</p>
-<ul>
-<li><code>get(&quot;someid&quot;)</code>  向<code>/Data/someid</code> 发送get请求，返回promise</li>
-<li><p><code>query(query,options)</code>;//query 为 string或者object,options 为 object 可选</p>
-</li>
-<li><p><code>query(&quot;someid&quot;)</code> 如果query的参数为类型 发送请求同上 即向<code>/Data/someid</code> 发送get请求，返回promise</p>
-</li>
-<li><p><code>query({name:&#39;hello&#39;,aqi:20})</code>,如果query的参数为Object类型，则会使用 dojo/io-query::objectToQuery()将Object转为查询字符串的形式添加到URL上，即/Data/?name=hello&amp;aqi=20 发送get请求。如果包含两个参数，第二个参数也会被序列化为查询字符串添加到url上，</p>
-<p>   query({name:’hello’,aqi:20}, {</p>
-<pre><code>   count: 10,
-  sort: [
-    { attribute: &quot;aqi&quot; }
-  ]
-});
-</code></pre></li>
-</ul>
-<p>发送的get请求的URL为<code>/Data/?name=hello&amp;count=10&amp;aqi=20&amp;sort(+aqi)</code> sort信息中+表示升序 -表示降序</p>
-<p><strong>put(object, options);</strong></p>
-<ul>
-<li><code>put({&quot;aqi&quot;:30,&quot;aqimsg&quot;: &quot;优&quot;})</code>//<code>向/Data/</code>发送一个Post请求，参数放在在body里面，表示增加元素</li>
-<li><code>put({&quot;aqi&quot;:30,&quot;aqimsg&quot;: &quot;优&quot;},{id:11});</code>//两个参数 第二个指定id,向/Data/11 发送put请求，表示更新元素{“aqi”:30,”aqimsg”: “优”}在请求body里面. put方法的第二参数如果包含<em>overwrite</em>并设置为<em>true</em>，请求头中会包含 <code>If- Match: *</code> 如果设置为false请求头中包含<code>If- None-Match: *</code>，如果第二个参数中包含<em>incrementa</em>并设置为<em>true</em>，发送Post请求表示增加。</li>
-<li><code>add(obj,options)</code> 同上，特别之处是 <em>options.overwrite</em> 始终被设置为<em>false</em>，即请求头中始终包含·<code>If- None-Match: *</code>通过这种方式来告诉服务器是创建还是更新操作 `关于 if-node-Match 可以参考<a href="http://wuhua.iteye.com/blog/385451" target="_blank" rel="noopener">http://wuhua.iteye.com/blog/385451</a></li>
-</ul>
-<p><code>remove(&#39;id&#39;)</code> //向 Data/id发送delete请求。</p>
-<p>另外如果要为请求增加header信息，可以在第二个参数里面设置headers字段即可，比如要添加分页信息，如果要为所有的请求统一添加请求header，可以在构造JsonRest对象的构造函数里面设置如</p>
-<pre><code>var store = new JsonRest({
-  target: &quot;/FooObject/&quot;,
-  headers: { &quot;X-Custom-Header&quot;: &quot;Foo&quot; } // 所有的请求都会包含X-Custom-Header: Foo
+          <p>less并非多么高大上的东西，无非就是个编写CSS的工具，让我们像编程一样来书写CSS，关于less常用的特性无非几个，下面简单将常用这些特性简单记录。方便以后查阅</p>
+<h2 id="less编译环境"><a href="#less编译环境" class="headerlink" title="less编译环境"></a>less编译环境</h2><p>less-&gt;CSS的方法有多种，比如使用  grunt或者lgulp等构建工具配合相应的插件来完成less的自动编译。以gulp为例，gulpfile.js的代码如下。</p>
+<pre><code>var less = require(&apos;gulp-less&apos;);
+var path = require(&apos;path&apos;);
+var gulp=require(&apos;gulp&apos;);
+gulp.task(&apos;less&apos;, function () {
+  gulp.src(&apos;less/*.less&apos;)
+    .pipe(less({
+      paths: [ path.join(__dirname, &apos;less&apos;, &apos;includes&apos;) ]
+    }))
+    .pipe(gulp.dest(&apos;css&apos;));
 });
 
-store.query({ foo: &quot;value1&quot; }, {
-  headers: { &quot;X-Custom-Header&quot;: &quot;Bar&quot; } // 仅在本次请求中包含 include X-Custom-Header: Bar instead
-});
-</code></pre><h4 id="JSONREST与分页查询"><a href="#JSONREST与分页查询" class="headerlink" title="JSONREST与分页查询"></a>JSONREST与分页查询</h4><p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
-<pre><code>query({
-    aqi: 40
-    }, {
-    headers: {
-        Range: &quot;items=0-24&quot;
-    }
-});
-</code></pre><p>鉴于http的标准，要求服务端返回的头中包含分页信息 即Content-Range 头例如 <code>Content-Range: items 0-24/66</code> <em>0-24</em>表示实际返回的索引<em>0-24</em>的对象，<em>66</em>表示符合条件的对象的总个数。为啥要这种格式呢，因为这是http协议上就这么说的。</p>
-<blockquote>
-<p>对于使用者来说，<strong>JsonRest</strong>的难点还是后端的实现，后端可以解析http请求的内容<em>（method,querystring，请求头，请求body）</em> 来对CURD做实际的处理。</p>
-</blockquote>
-<h3 id="将异步和同步进行统一处理"><a href="#将异步和同步进行统一处理" class="headerlink" title="将异步和同步进行统一处理"></a>将异步和同步进行统一处理</h3><p>上面的<em>MemoryStore</em> 和 <em>JsonRest store</em> 都是实现了<code>dojo Object Store API</code> 具有的方法也基本一致，但是一个重要区别就是<em>MemoryStor</em>e的操作是同步的结果直接返回，而JsonRest操作是异步的，返回的是promise，可以在then方法的回调函数里面获得操作结果，我们可以使用dojo/when 来封装以屏蔽这种差距。不用再关心是同步还是异步的，统一在then方法里面进行处理，比如这里有个store 你不知道他是<em>Memorystore</em>，还是<em>JsonRest store</em>。你关注的是查询里面的数据，可以如下处理</p>
-<pre><code>require([&apos;dojo/when&apos;], function (when) {
-  when(store.get(id), function(object){
-
-  });
-  }};
-</code></pre><p>通过这种方式 来达到了操作上的统一，当然你也可以使用其他的方式进行门面封装 ，暴露出来统一的操作方法，既然官方推荐了，我们就暂时用 dojo/when吧。</p>
-<h2 id="包装器wrappers。"><a href="#包装器wrappers。" class="headerlink" title="包装器wrappers。"></a>包装器wrappers。</h2><p>在dojo里面如果要增强已有的类的话，可以使用包装器进行层次性的增强，类似插件的性质，这种理念能够让我们做到按需的选择，根据不同的功能来选择不同的<code>wrapper</code>类进行包装，以避免不必要的资源浪费。对于dojo/store来说 这里有两个重要的包装器<code>dojo/store/Cache</code> 和<code>dojo/store/Observable</code></p>
-<h3 id="dojo-store-Cache"><a href="#dojo-store-Cache" class="headerlink" title="dojo/store/Cache"></a>dojo/store/Cache</h3><p>一个Cache对象主要是用来缓存JsonRest的，将远程端的JsonRest的缓存到本地，避免发重复的查询请求，这样就需要构造一个MemoryStore来存储缓存下来的数据，JsonRest来与远程的数据交互。使用的例子如下</p>
-<pre><code>require([&apos;dojo/store/Memory&apos;, &apos;dojo/store/JsonRest&apos;, &apos;dojo/store/Cache&apos;],
-    function (Memory, JsonRest, Cache) {
-  memoryStore = new Memory({});
-  restStore = new JsonRest({target:&quot;/Data/&quot;});
-  store = new Cache(restStore, memoryStore);
-  ...
-</code></pre><p>查询所有的数据</p>
-<pre><code>var results = store.query();
-</code></pre><p>查询结果会被缓存到MemoryStore里面，这里我们可以查询数据，来避免不必要的请求</p>
-<pre><code>object = store.get(&quot;some-id&quot;);
-</code></pre><p>如果对store进行更新 删除 增加操作，对应的memoryStore 也会自动发生更新，可以直接访问memoryStore 来查看缓存的数据。</p>
-<h3 id="“dojo-store-Observable”"><a href="#“dojo-store-Observable”" class="headerlink" title="“dojo/store/Observable”"></a>“dojo/store/Observable”</h3><p><code>dojo/store/Observable</code>包装后的dojo store（只要是实现了dojo/store API 的类都可以用Observable来包装)功能会得到增强–在支持原来的API的基础上 又让查询结果集的变化可以被监听的。通过store.query得到的结果数组（结果集）有一个observe方法（如果是异步的返回的promise也会拥有这个方法），通过这个方法可以监听我们对查询结果集的操作变动情况，注意observe方法存在<em>查询结果</em>的方法中，而不是store中，事实store上会拥有一个notify方法，用于发出广播（这是一个典型的观察者模式），因为我们对数据的操作都是在store上进行的。因此监听查询结果的变动情况。好吧可能还需要解释一下，操作对象（即更新删除增加对象）是在store上进行的。 而observe是在查询结果集中进行的，也就是说如果store中变动的对象符合调用observe的查询结果集当时的查询条件，那么这些变动将会发通知到查询结果集里面，然后查询结果集的observe会监听到。这种通知变化的机制与旧版本的<em>dojo/data</em> 是不一样的。通过这种模式 可以实现数据的变化与UI更新的分离，对于UI组件实现者来说只需要监听查询结果集的变动即可（显示查询结果集中的东西），对于UI组件的使用者来说完全不必关系如何更新UI，只需要对store进行 CURD即可。</p>
-<p>我们的关注的是我们要查询的数据，我们的操作是对store的操作，我们队store操作的时候，store会调用notify方法，如果变化的内容符合查询结果集的查询条件，则结果集的observe会被监听的到。还是上代码吧.</p>
-<p>构建 ObservableStore</p>
-<pre><code>require([&quot;dojo/store/Memory&quot;, &apos;dojo/store/Observable&apos;,&quot;dojo/domReady!&quot;], function(    
-                Memory,Observable) {
-
-                memorystore = new Memory({
-                    data: pmData,
-                    idProperty: &apos;name&apos;
-                 });
-                observablestore = new Observable(store); 
-    });
-</code></pre><p>这里还是以空气质量PM2.5的数据为例吧，查询 aqi 值大于80的站点。值越高空气质量越差</p>
-<pre><code>var worsedata=observablestore.query(function(obj){
-        return obj.aqi&gt;80;
-    })
- worsedata.forEach(function(d){
-     console.log(d.name);
- })
-</code></pre><p>经过<em>Observable</em> 来包装<em>Memory Store</em>(也可以包装JsonRest)，调用query之后的结果集（resultset中）拥有一个observe方法，接口的定义格式如下</p>
-<pre><code>resultSet.observe(listener, includeObjectUpdates);
-</code></pre><p>第一个参数为监听器，一个毁掉函数，接受三个参数 <code>listener(object, removedFrom, insertedInto)</code>;</p>
+gulp.watch([&apos;less/*.less&apos;], [&apos;less&apos;]) 
+gulp.task(&apos;default&apos;, [&apos;less&apos;]);
+</code></pre><p>通过watch 来见监听less文件的变化自动运行less任务。从而完成less-&gt;css的自动编译，可以查看生成的CSS文件</p>
+<h2 id="我常用的less-特性。"><a href="#我常用的less-特性。" class="headerlink" title="我常用的less 特性。"></a>我常用的less 特性。</h2><h3 id="import"><a href="#import" class="headerlink" title="@import"></a>@import</h3><p>在标准的CSS中，@import必须在所有其他类型的规则之前。但是Less不在乎你把@import语句放在什么位置。<br>@import语句会通过Less依赖文件扩展名的方式区别对待不同的文件：</p>
 <ul>
-<li><code>object</code> 被操作（修改，删除，增加）的对象</li>
-<li><code>removedFrom</code>  表示object在操作之前在查询结果集中的旧的索引位置，如果为-1 表示改对象之前不在结果集中（不符合查询条件），现在符合条件的对象增加了（可能是store中创建了新符合查询条件的对象，也可能是原来不符合查询条件的对象进行修改之后满足了条件，总之我们的关注点是查询结果集 比如 以上面的查询条件来说有个<code>aqi大于80</code>的对象被增加到了store中 或者 store中一个aqi原来为75的修改成了 aqi为85（ 满足了 <code>aqi大于80</code>这个条件了）。</li>
-<li><code>insertedInto</code> 表示object在结果集新的索引。如果为-1，表示object不在当前结果集中了，被从查询结果集中移除了。可能是被删除，也可能对象进行了修改，比如 有个<code>aqi大于80</code>的对象从store中被删除了， 或者 store中一个aqi原来为85的修改成了 aqi为75（ 不在满足 <code>aqi大于80</code>这个条件了）。</li>
+<li>如果文件有一个.css扩展名，则将它作为CSS对象，同时@import语句保持不变</li>
+<li>如果有其他扩展名，则作为Less对象，然后导入它。</li>
+<li>如果没有扩展名，则插入.less，然后将它作为Less文件导入包含进来。</li>
+<li>使用@import (reference)导入外部文件，但是不添加导入的样式到编译输出中，只引用。</li>
 </ul>
-<blockquote>
-<p>个人感觉 把<em>removedFrom</em>和<em>insertedInto</em>  分别改为 oldIndex和newIndex更适合。说白了就是发生变化的对象在变化前后在结果集中的索引位置。</p>
-</blockquote>
-<p>另外observe 还有个参数<em>includeObjectUpdates</em> 表示是否监听查询结果集中对象的更新跟新，但是这种更新之后对象依然符合查询条件，比如上面的  <code>aqi大于80</code>中有个 aqi为 82的对象 修改为aqi 为85，这种情况下，没有影响到查询结果集的个数，如果<em>includeObjectUpdates </em>设置为false或者不设置的话，这种变化是无法被监听到的，如果设置为true的话 就可以了。调整元素的顺序也是如此。如果想监听查询结果集的变化的话 建议设置为true吧。</p>
-<p>对于listener来说 我们可以根据<em>removedFrom和insertedInto</em> 来判断进行了什么操作</p>
-<ul>
-<li><code>removedFrom===-1</code>， 新增了符合查询条件的元素，此时insertedInto不可能为-1 insertedInto为新增元素的索引位置，需要UI中新增一项</li>
-<li><code>insertedInto===-1</code> 符合查询条件的元素被移除，此时removedFrom不可能为-1，removedFrom代表查询结果集中元素被移除前在结果集中的索引。UI需要UI中移除相应的项</li>
-<li><code>removedFrom===insertedInto</code> 且大于-1 ，结果集中的元素发生了更新 需要UI对应的项进行更新</li>
-</ul>
-<p>记住我们关注点是<code>查询结果集</code>即符合查询条件的对象，对store的操作只有让查询结果集发生变化（能让查询结果集增加或者修改）listener才会触发。一个元素从查询结果集中被移除 不一定从store上移除，相反如果结果集中增加了元素也不一定是store上新增的对象。而我们关注点是查询结果集，虽然我们的操作是在store上进行的。这种变动会直接反应到查询结果上面。因此Observalstore中的查询结果集 会随着store中的数据的变化做相应的更新。</p>
-<p>继续看代码吧 接着上面的例子</p>
-<pre><code> worsedata.observe(function(object, removedFrom, insertedInto){
-    console.log(object);
-    if(removedFrom===-1){
-        console.log(&quot;worsedata中的对象增加，新增对象的索引为&quot;,insertedInto)
-    }
-    else if(insertedInto===-1){
-        console.log(&quot;worsedata中的对象被移除,删除对象的索引为&quot;,removedFrom)
-    }
- else if(removedFrom===insertedInto){
-     //需要将observe的第二个参数设置为 true
-    console.log(&quot;worsedata中的对象的属性发生更新,更新对象的索引为&quot;,removedFrom)
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。变量<code>@</code>开头，全局的变量可以在多个less文件之间共用</p>
+<pre><code>@light-blue: @nice-blue + #111;
+#header {
+  color: @light-blue;
+}
+</code></pre><p>生成的CSS 如下 </p>
+<pre><code>.mythemes tableBorder { 
+  border: 1px solid #b5bcc7; 
  }
-worsedata.forEach(function(a){
-     console.log(&quot;name:&quot;,a.name,&apos;aqi:&apos;,a.aqi);
-    });
- },true);
-
-newobj={
-        &quot;aqi&quot;: 83,
-        &quot;aqimsg&quot;: &quot;优&quot;,
-        &quot;collectTime&quot;: 1418798880775,
-        &quot;lvmsg&quot;: &quot;lv-good&quot;,
-        &quot;name&quot;: &quot;天安门&quot;,
-        &quot;path&quot;: &quot;beijing/fengtaiyungang&quot;,
-        &quot;source&quot;: &quot;aqicn.org&quot;,
-        &quot;updateTime&quot;: &quot;星期二21点&quot;,
-        &quot;values&quot;: {}
-    }
- observablestore.put(newobj); 
-</code></pre><p> 新增加的这个对象满足worsedata的条件（即aqi大于80）所以上面的函数会监听的到变动，worsedata值也会自动做相应的增加。如果 此前aqi为70的话，则上面的监听函数不会被触发，因为虽然对store增加了元素，但是这不会对我们的之前的查询结果造成影响,关于修改的例子这里就不再举例子了。Observe的这种设计是非常合理</p>
-<p>另外 查询结果集还有个 <code>cancel</code>方法来取消监听（dojo store API 上说的是close ，这里有点出入）</p>
-<h3 id="dojo-store-DataStore"><a href="#dojo-store-DataStore" class="headerlink" title="dojo/store/DataStore"></a>dojo/store/DataStore</h3><p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="noopener">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
-<p>好吧 <code>dojo/data</code>包里面的已经是老掉牙的东西，<em>dojo Object store</em> 目前的 <code>dojo/store</code>包里的东西也正在被换血。。dojo store的未来 是 <a href="https://github.com/SitePen/dstore" target="_blank" rel="noopener">dstore</a> 既然如此，可是本博文还有什么用呢，这不是在祸害人么。。。我想估计也没多少人能看到这里。。哈哈，能保持耐心看到这里的就直接看dstore 的源码吧。。</p>
-<blockquote>
-<p>The dstore package is a data infrastructure framework, providing the tools for modelling and interacting with data collections and objects. dstore is designed to work with a variety of data storage mediums, and provide a consistent interface for accessing data across different user interface components. </p>
-</blockquote>
-<p>不翻译了</p>
-<p><strong>dstore</strong> 正在完善中，等<strong>dojo2.0</strong>的时候就会转正了。应该还是在<strong>dojo/store</strong>这个大模块里面</p>
-<p>写了这么多不知道在写什么，希望对你有所帮助 也可以留言 求<strong>轻黑</strong></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Dojo/">
-                #Dojo
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/11/22/dojocdn/">
-                dojocdn
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-11-22
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/11/22/dojocdn/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/22/dojocdn/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>谷歌为dojo提供了CDN服务，可惜我朝无法正常访问，于是自己在国内空间 -@七牛云存储 上部署了一份。。感谢</p>
-<p>dojo的最新版本 1.10.2</p>
-<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js</a></p>
-<p>未压缩版本</p>
-<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js</a></p>
-<p>本目录与dojo源码的目录一致，同时包含了<code>dojo</code> <code>dijit</code> <code>dojox</code> <code>dgrid</code> <code>put-selector</code> <code>xstyle</code> <code>dstore</code> 目录结构如下</p>
-<pre><code>http://dojocdn.qiniudn.com/dojo-1.10.2
-                                        |dojo
-                                        |dijit
-                                        |dojox
-                                        |dgrid
-                                        |put-selector
-                                        |xstyle
-                                        |dstore
-</code></pre><p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
-<p>如果要找dojo中的主题</p>
-<h2 id="claro-css"><a href="#claro-css" class="headerlink" title="claro.css"></a>claro.css</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css</a></p>
-<h2 id="tundar主题"><a href="#tundar主题" class="headerlink" title="tundar主题"></a>tundar主题</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css</a></p>
-<h2 id="soria主题"><a href="#soria主题" class="headerlink" title="soria主题"></a>soria主题</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css</a></p>
-<p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
-<p><a href="http://jsbin.com/gogezu/2/edit?html,js,output" target="_blank" rel="noopener">以创建grid为例的Demo</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Dojo/">
-                #Dojo
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/11/05/javascript-constructor-and-prototype/">
-                Javascript中的类、对象、以及继承
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-11-05
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/11/05/javascript-constructor-and-prototype/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/05/javascript-constructor-and-prototype/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h2 id="关于对象"><a href="#关于对象" class="headerlink" title="关于对象"></a>关于对象</h2><p>虽然JS不是正宗的面向对象语言，但是“对象”这个词却与JS密不可分，好吧，用专业术语来讲JS是 <em>基于对象</em>的语言，或者是<em>基于原型</em>的语言。那么我们先从对象说起。经过艰难险阻，我们只是想要一个功能强大的对象而已。</p>
-<p>首先说一下空对象，在JS中可以使用以下两种方式定义“空”对象-其实null才是空对象</p>
-<pre><code>var person={};
-</code></pre><p>或者</p>
-<pre><code>var person=new Object(); // 或者不带括号 person=new Object   
-</code></pre><p>以上两种方式本质是一致的。平时使用的时候推荐 <em>var person={}</em> 其实内部也是通过调用new Object实现的，类似还有数组、正则对象的定义也是如此。</p>
-<pre><code>var myarray=new Array();
-var myarray1=[];
-</code></pre><p>我们可以把使用{}、[]定义对象或者数组的方式人为是JS引擎给我们提供了快捷方式。毕竟这两个都是最常用的。<br>对象定义好之后我们可以给他动态地添加属性或者方法比如</p>
-<pre><code>   obj.name=&apos;张三&apos;;
-   obj.eat=function(){
-   console.log(&quot;吃饭&quot;);
+</code></pre><p>同时还支持变量的计算。</p>
+<pre><code>@width: 10px + 5;
+  .btn{
+    width:@width;
+  }
+</code></pre><p>编译为：</p>
+<pre><code>@width: 10px + 5;
+  .btn{
+    width:@width;
+  }
+</code></pre><p><code>变量查找以及变量作用域</code>：在定义一个变量两次时，只会使用最后定义的变量，Less会从当前作用域中向上搜索。这个行为类似于CSS的定义中始终使用最后定义的属性值。</p>
+<pre><code>@var: 0;
+.class {
+  @var: 1;
+  .brass {
+    @var: 2;
+    three: @var;
+    @var: 3;
+  }
+  one: @var;
 }
-</code></pre><p>能够动态地给对象增删属性也是动态语言的好处。</p>
-<p>通过 var person={},我们有了一个干净的对象，如此的干净，纯洁，然而是真的如此吗.然而他天生拥有了一些方法 比如 <code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>，<code>constructor</code>等方法。这些对象来自于哪里呢，是的 来自于他的原型。看来纯洁只是表面而已。</p>
-<h3 id="关于原型，原型链。"><a href="#关于原型，原型链。" class="headerlink" title="关于原型，原型链。"></a>关于原型，原型链。</h3><p>每个对象都会有个原型（原型对象），自动拥有他的原型的方法，如果想获得一个person对象的原型对象，可以通过<code>Object.getPrototypeOf(person）</code>来获得，还可以通过<code>person.__proto__</code>。原型是对象的隐藏属性,当我们要访问一个对象的属性时候，会首先从对象自身查找,如果对象自身没有这个属性会到他的原型对象<code>__proto__</code>中去找，如果原型对象中还有没有的话的，则会继续到该对象的原型对象的原型对象上去找（原型对象本身也是个对象，所以它自身也会有<code>__proto__</code>属性。。。这样就形成了原型链。。null是原型的链的终点，如果最终没有找到的话则返回undfined。规定undefined没有任何可以访问的属性。如果要访问null的属性则会报错了，比如</p>
-<pre><code>var person={age:12};
-console.log(person.age); //12
-console.log(person.Adress);//undfined 访问到原型链的终点也没有找到这个属性返回 
-console.log(person.Adress.school);//抛出异常TypeError: Cannot read property &apos;school&apos; of undefined 
-</code></pre><p>上面那个错误提示，是我们在调试中经常遇到的比较经典的错误了，遇到这个问题，我们首先第一反应school的上一级的对象没有得到正确的赋值。的确，person没有这个属性的。</p>
-<p>原型链的本质：<code>__proto__.__proto__.__proto__.....</code>直到原型链的终点null。</p>
-<h2 id="关于函数对象。"><a href="#关于函数对象。" class="headerlink" title="关于函数对象。"></a>关于函数对象。</h2><p>在JS中每个函数都是一个对象，可以像其他普通对象一样,添加属性和方法等，即函数对象。每个函数都继承了<code>Object.prototype</code>的方法.就像上面提到的<code>toString</code>，<code>valueOf</code>，<code>isPrototypeOf</code>,<code>hasOwnProperty</code>,<code>constructor</code>。既然说函数也是对象那么他是有谁构造出来的呢，答案是<code>Function</code>。每个function都是<code>Function</code>的一个实例。或者说每个function都有这同一个构造函数即<code>Function</code>。</p>
-<p>构造器</p>
-<pre><code> new Function ([arg1[, arg2[, ...argN]],] functionBody)
-
-function add(x,y){
-     return x+y;
+</code></pre><p>编译后的CSS为：</p>
+<pre><code>.class {
+  one: 1;
+}
+.class .brass {
+  three: 3;
+}
+</code></pre><h3 id="Mixins（混入）"><a href="#Mixins（混入）" class="headerlink" title="Mixins（混入）"></a>Mixins（混入）</h3><p>在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</p>
+<p>less源文件</p>
+<pre><code>.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+#menu a {
+  color: #111;
+  .bordered;
+}
+</code></pre><p>编译后的CSS文件：</p>
+<pre><code>.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+#menu a {
+  color: #111;
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+</code></pre><p>如果不想在CSS中保留原来的 <strong>.bordered</strong></p>
+<p>可以将 <code>.bordered</code> 修改为 <code>bordered()</code> ,同时还支持混入参数，支持默认参数。</p>
+<p>less文件 </p>
+<pre><code>.bordered(@width:5px) {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+  width:@width;
+}
+#menu a {
+  color: #111;
+  .bordered;
+}
+.post a {
+  color: red;
+  .bordered(10px);
+}
+</code></pre><p>编译后的文件</p>
+<pre><code>#menu a {
+  color: #111;
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+  width: 5px;
+}
+.post a {
+  color: red;
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+  width: 10px;
+}
+</code></pre><p>像 JavaScript 中 arguments一样，Mixins 也有这样一个变量：@arguments。@arguments 在 Mixins 中具是一个很特别的参数，当 Mixins 引用这个参数时，该参数表示所有的变量，很多情况下，这个参数可以省去你很多代码。</p>
+<pre><code>.box1(@x:0,@y:0,@blur:1px,@color:#000){ 
+   -moz-box-shadow: @arguments; 
+   -webkit-box-shadow: @arguments; 
+   box-shadow: @arguments; 
+ } 
+ .mybox { 
+     .box1(10px,12px,13px,red); 
  }
- Peron.constructor===Function //true
-</code></pre><p>其本质与下面一致 </p>
-<pre><code>var add1=new Function(&apos;x&apos;,&apos;y&apos;,&apos;return x+y&apos;);
-</code></pre><p>实际上我们很少使用new Function 来构造一个函数实例，使用Function构造器生成的Function对象是在函数创建时被解析的。这比你使用函数声明(function)并在你的代码中调用低效，因为使用函数语句声明的function是跟其他语句一起解析的。</p>
-<h2 id="关于构造函数，new"><a href="#关于构造函数，new" class="headerlink" title="关于构造函数，new"></a>关于构造函数，new</h2><p>在学习其他的面向对象语言的时候，我们会定义一个class，然后new一个对象，我们都知道Javascript中的函数同时也可以作为构造函数，也可以通过new生成一个基于这个构造函数的实例，比如<code>Object</code>，<code>Array</code>，<code>Date</code>，<code>RegExp</code>,<code>Error</code>等这些都是ES标准中内置的构造函数。刚才前面的<code>var person=new Object</code>其实是调用的构造函数，例如为了模拟一个类，会这样写</p>
-<pre><code>function Person(name){
-    this.name = name;
+</code></pre><p>编译后：</p>
+<pre><code>.mybox {
+  -moz-box-shadow: 10px 12px 13px red;
+  -webkit-box-shadow: 10px 12px 13px red;
+  box-shadow: 10px 12px 13px red;
 }
-</code></pre><p>通过使用<code>new Person</code> 就可以创建一个Person的实例 即对象</p>
-<pre><code>var bob = new Person(&apos;Bob&apos;)
-// {name: &apos;Bob&apos;}
-</code></pre><p>为了确定 <code>bob</code>的确是一个 Person的对象，返回一个对象<code>{name: &#39;Bob&#39;}</code>我们可以调用，当作为构造函数使用的时候这里的this 指向是当前对象实例。</p>
-<pre><code>bob instanceof Person
-//true
-</code></pre><p>（JS中有个潜规则 一般当做构造函数的用的函数首字母会大写）当然我们也可以不加new 直接当做一个普通的函数来调用它</p>
-<pre><code>Person(&apos;Bob&apos;)
-// undefined
-</code></pre><p>直接调用没有返回值，而在调用的时候 <em>this.name=name</em>这里的this指向的是全局作用域，在浏览器环境下这里的this 为window，于是通过调用Person(‘Bob’) 仅仅是创建了一个全局的变量name </p>
-<pre><code>name
-// &apos;Bob&apos;
-this==window
-window.name
-// Bob
-</code></pre><p>如果我们的全局变量中已经有了一个为name的变量，那么原来的name值将会被覆盖。于是对全局的变量造成了污染，为我们的程序造成隐患</p>
-<p>如果有时候我们要生成对象 却忘记写了new 关键字，又想避免对全局的变量造成污染，我们可以使用这个技巧。</p>
-<pre><code>function Person(name){
-    if (!(this instanceof Person))
-        return new Person(name)
-    this.name = name
-}
-</code></pre><ul>
-<li>首先检查 <em>this</em> 是不是一个Person的实例 事实上如果是通过new的话 this 则会是 Person的实例</li>
-</ul>
-<p>如果this不是Person实例的话 则通过<code>new Person</code> 来调用 构造函数 并且返回这个实例，</p>
-<p>事实表明如果new的构造函数中return一个值类型的值，那么Javascript将会忽略它,并且创建一个对象实例作为返回，如果我们返回是其他类型的对象呢。</p>
-<pre><code>function Cat(name){
-    this.name = name
-}
-function Person(name){
-    return new Cat(name)
-}
-var bob = new Person(&apos;Bob&apos;)
-bob instanceof Person
-// false
-bob instanceof Cat
-// true
-</code></pre><p>卧槽,这里我new 的是 <code>Person</code>,却得到了一个猫的实例，贵圈好乱。。如果我们new 的函数返回的事引用类型，我们只能得到该引用类型的对象。。</p>
-<p>比如也可以返回一个数组</p>
-<pre><code>function Person(name){
-    return [name]
-}
-new Person(&apos;Bob&apos;)
-// [&apos;Bob&apos;]
-</code></pre><p>如果返回的是Javascript中的原生类型的值<code>（number、string,boolean,null,undefined data)</code> ，这些将会被忽略。构造函数将会正常地返回一个<em>this</em>的实例</p>
-<pre><code>function Person(name){
-    this.name = name
-    return 5
-}
-new Person(&apos;Bob&apos;)
-// {name: &apos;Bob&apos;}
-</code></pre><p>###关于Method。</p>
-<p>刚才说了 函数可以作为构造函数 通过new 来生成一个新的对象，同时函数还有另外一个功能就是作为<em>类</em>的方法。</p>
-<p>如果一个函数属于某一个对象 我们称这个函数是这个对象的方法，如下给构造函数添加方法</p>
-<pre><code>function Person(name){
-    this.name = name
-    this.sayHi = function(){
-        console.log(&apos;Hi, I am &apos; + this.name); 
-    }
-}
-Person.run=function(){
-   console.log(&apos;run&apos;);
-}
-var bob = new Person(&apos;Bob&apos;)
-bob.sayHi()
-// &apos;Hi, I am Bob&apos;
-bob.run();//报错。。。为什么报错了呢。。。因为。。run是Person这个函数对象的属性，其实例是不具有的
-Person.run();
-</code></pre><h2 id="关于prototype-继承"><a href="#关于prototype-继承" class="headerlink" title="关于prototype 继承"></a>关于prototype 继承</h2><p>通过子类继承父类，子类可以拥有父类中的属性和方法，在JAVA中我们可以通过如下的方式实现继承</p>
-<pre><code>public class Mammal{
-    public void breathe(){
-
-    }
-}
-public class Cat extends Mammal{
-
-}
-</code></pre><p>但是目前(ESCRIPT 5)来讲 JS中还没有class 和extends字段,其实JS是基于原型的语言，JS可以通过原型来实现继承</p>
-<pre><code>function Mammal(){
-}
-Mammal.prototype.breathe = function(){
-    console.log(&quot;呼吸&quot;)
-}
-function Cat(){
-}
-Cat.prototype = new Mammal()
-Cat.prototype.constructor = Cat
-// 现在Cat 拥有了 breath的能力!
-</code></pre><p>刚才说过了每个函数都是一个对象具有了Object实例对象的基本属性，那么实例怎么得到这个这些属性的呢，是的，实例是通过原型获得的，那么这个原型到底在哪呢，答案是：prototype属性。每个函数对象有个prototype属性。prototype是一个对象，作为实例的原型。即实例的原型__proto__为构造函数的prototype属性。</p>
-<pre><code>function Person(name){
-    this.name = name
-    this.sayHi = function(){
-        console.log(&apos;Hi, I am &apos; + this.name); 
-    }
-}
-var p=new Person();
-    p.__proto__===Person.prototype
-</code></pre><p>每个function的prototype对象都有一个constructor属性，默认这个constructor属性指向这个构造函数自身.<br>于是就有</p>
-<pre><code>Person.prototype.constructor===Person//true
-</code></pre><p>因为我们说过了一个对象可以获得其原型上的属性（如果对象自身不存在这个同名属性的话），因此我们很容易获得这个对象的constructor属性。于是。</p>
-<pre><code>Person.prototype.constructor===Person//true
-p.constructor===Person //true
-</code></pre><p>三者是指向同一东西即构造函数Person，这里注意区分函数和实例</p>
-<p>最终的对象拥有一系列的属性和方法，有些属性是来自自身（构造函数中通过this.xxx定义的属性属于对象自身的属性），有些事来自原型，每个对象都有一个特别的属性__proto__ 指向这个对象构造函数的prototype,每个原型又有一个__proto__属性，一直向上追溯到Object 直到原型链的终点为null，这样就形成了一个原型链，准确来说一个对象的属性一部分来自对象本身，其余的则来自于原型链</p>
-<ul>
-<li>对象可以定义自身的方法 来覆盖原型中的方法</li>
-</ul>
-<p>默认情况下，构造函数的prototype为Object实例即{}</p>
-<pre><code>function Mammal(){
-}
-Mammal.prototype
-// Mammal {}
-var mammal = new Mammal()
-mammal.__proto__ === Mammal.prototype
-//true
-</code></pre><p>每个function的prototype对象都有一个constructor属性，默认这个constructor属性指向这个构造函数自身，但是。。。</p>
-<pre><code>function Cat(){
-}
-Cat.prototype = new Mammal()//修改了Cat的prototype为Mamma实例
-
-var cat=new Cat();
-
-cat.constructor===Cat.prototype.constructor//实例的constructor来自__proto__即Cat的prototype.constructor。
-//而此时prottoype为Mammal实例。则会继续沿着Mammal的实例寻找
-//constructor。Mammal的实例的原型__proto__为Mammal.prototype //于是找到了Mammal.prototype.constructor 即函数Mammal
-cat.constructor===Mammal//true;
-</code></pre><p>实际上我们需要手动调整cat的构造函数 让cat 知道自己是个Cat。</p>
-<pre><code>function Cat(){
-}
-Cat.prototype = new Mammal()//修改了Cat的prototype为Mamma实例
-Cat.prototype.constructor=Cat;//修改了constructor的指向。
-</code></pre><p>上面修改了Cat.prototype.constructor属性，那么Mammal的原型上的constructor会不会变化呢。不会的，Mammal实例自身没有constructor属性，而是在Mammal的原型上的，如果设置新的constructor的话，不会修改对Mammal实例原型__proto__ 的属性修改，而是为Mammal实例自身增加一个constructor属性即Cat，于是在cat找constructor的时候<br>碰到这个新新增的constructor就终止查找了。</p>
-<p>综合上述的查找cat实例的原型链为cat.__proto__-&gt;Cat.prototype-&gt;(new Mammal()).__proto__-&gt;Mammal.prototype-&gt;Object.prototype-&gt;null</p>
-<blockquote>
-<p>访问属性的时候如果对象自身没有会沿着原型链查找，设置属性的时候如果对象自身存在则更更新，如果对象自身不存在则会增加该属性，对原型链不会造成影响。除非对原型的属性直接修改。</p>
-</blockquote>
-<pre><code>      function Person(name){
-              this.name=name;
-    }
-var  zhangsan=new Person(&quot;张三&quot;);
-var  lisi=new Person(&quot;李四&quot;);
-     zhangsan.__proto__.run=function(){
-         console.log(this.name+&apos;run&apos;);
+</code></pre><h3 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h3><p>在写CSS的时候 为了避免造成CSS污染 我们会采用命名空间的机制，在less中可以通过嵌套来解决。</p>
+<p>less文件 </p>
+<pre><code>.myspace{
+     .class1{
+         width:20px
      }
-     zhangsan.eat=function(){
-         console.log(this.name+&apos;eat something&apos;)
+     .class2{
+         height:30px
      }
-
-    zhangsan.eat();//张三 eat something 
-    zhangsan.run();//张三run 
-    lisi.run();//李四run 
-    lisi.eat();//报错.....
-</code></pre><h3 id="给构造函数添加方法"><a href="#给构造函数添加方法" class="headerlink" title="给构造函数添加方法"></a>给构造函数添加方法</h3><p>给一个构造函数添加方法有两种形式</p>
-<pre><code>function Person(name){
-    this.name = name
-    this.sayHello = function(){
-        return &apos;Hello, my name is &apos; + this.name
-    }
+ }
+</code></pre><p>生成的CSS文件</p>
+<pre><code>.myspace .class1 {
+  width: 20px;
 }
-</code></pre><p>或者把方法挂到原型上</p>
-<pre><code>function Person(name){
-    this.name = name
+.myspace .class2 {
+  height: 30px;
 }
-Person.prototype.sayHello = function(){
-    return &apos;Hello,my name is &apos; + this.name
-}
-</code></pre><p>对于第一种方式 每次new一个Person，都会创建一个新的sayHello函数，对于第二个版本，sayHello函数只会创建一次，所有Person实例会共享同一个原型Person.prototype，使用这种方式相对节省内存。那么为什么不把name在挂在原型上，刚才已经说明原因了，name是可以设置的属性，设置之后会增加到对象的实例上，无论如何都不会节省内存。如果放到原型上反而会多浪费一些内存。推荐定义构造函数的时候我们把方法放在原型上，把函数直接放在构造函数内部。</p>
-<h3 id="关于this-apply-call"><a href="#关于this-apply-call" class="headerlink" title="关于this,apply,call"></a>关于this,apply,call</h3><p>正如我们所知道的，函数如果附加到对象上就变成了方法，并且函数里面的this指向这个对象,真的如此么？还是看之前的例子</p>
-<pre><code>function Person(name){
-    this.name = name
-}
-Person.prototype.sayHello = function(){
-    return &apos;Hello,my name is &apos; + this.name
-}
-var zhangsan=new Person(&quot;张三&quot;);
-var lisi =new Person(&quot;李四&quot;);
-zhangsan.sayHello();//&quot;Hello,my name is 张三&quot;
-lisi.sayHello();//&quot;Hello,my name is 李四&quot;
-</code></pre><p>这里的sayHello并没有直接在zhangsan，lisi这两个对象上，实际 上是在他们的原型上Person.prototype，那么sayHello调用的时候sayHello 是怎么知道是张三 </p>
-<blockquote>
-<p>事实上 函数中<strong>this</strong> 在被调用之前没有绑定到任何对象，只有调用的时候才确定的。</p>
-</blockquote>
-<p>当你调用zhangsan.sayHello(),sayHello里面的this与jack绑定，当你调用lisi.sayHello()的时候，sayHello里面的this指向李四，绑定是个动态的并使对函数本身改变什么，他们调用的都是同以歌函数，只是里面的this是动态确定的。函数被调用的时候this会自动地被绑定为调用他的对象。this被称为函数的当前上下文，如果一个函数不在一个对象上则属于全局对象，如果浏览器环境下则为window</p>
-<p>事实上我们可以可以明确地将一个函数的上下文与一个对象绑定。继续上面的例子，比如在全局环境下定义一个singing函数</p>
-<pre><code>function singging(){
-    console.log(this.name+&apos;singging&apos;);
-}
-</code></pre><p>如果是在全局环境下直接调用</p>
-<pre><code>singing();//输出singing  因为全局环境下没有name，即为空。
-</code></pre><p>可以使用apply 将函数在执行的时候与一个对象绑定</p>
-<pre><code>singging.apply(zhangsan)//张三singging
-</code></pre><p>刚才说过了函数也是一个对象，每个函数都有是Funtion的实例，每个函数都共享一个原型Function.prototype。即</p>
-<pre><code>singging.__proto__===Function.prototype
-</code></pre><p>而call 就是位于这个原型对象上的属性之一，所以任何一个函数都可以调用apply 将这个函数绑定到你选择的对象上，即使这个函数不在这个对象上。事实上我们可以有不同的方式来使用apply，继续沿用概念刚才的例子，先补上之前的代码</p>
-<pre><code>function Person(name){
-    this.name = name
-}
-Person.prototype.sayHello = function(){
-    console.log(&apos;Hello,my name is &apos; + this.name)
-}
-var zhangsan=new Person(&quot;张三&quot;);
-var dog={
-        name:&apos;旺财&apos;
-    };
-zhangsan.sayHello.apply(dog)
-//输出 Hello,my name is 旺财 
-</code></pre><p>唉。。。连旺财都会讲hello了，贵圈好乱。本来是属于张三里面方法，却被旺财盗用了。因为里面的this纸指向了旺财即dog，this.name就是dog.name。。。没有谁永远属于谁，虽然sayHello是zhangsan的方法，却禁不住旺财的诱惑。。。。。。这就是传说中的方法借用。<br>说到方法的借用想到一个比较经典的例子，如何把一个arguments转为数组类型？？如何呢，我不说了。。什么，不知道arguments。。。。</p>
-<p>###继续回到apply。</p>
-<p>apply中第一个参数是是要绑定的对象。如果要传递一些参数，可以放在第二个参数里面，是一个数组类型。 作为函数的arguments来传递。</p>
-<pre><code>function Person(name){
-    this.name = name
-}
-Person.prototype.sayHello = function(){
-    console.log(&apos;Hello,my name is &apos; + this.name)
-}
-var zhangsan=new Person(&quot;张三&quot;);
-var lisi=new Person(&quot;李四&quot;);
-
-function sayHelloTo(other){
-    console.log(&quot;Hello&quot;+other.name+&quot; , My name is &quot;+ this.name);
-}
-sayHelloTo.apply(zhangsan,[lisi])//Hello李四 , My name is 张三 。
-</code></pre><p>说到apply，不得不提他的同胞兄弟call，他俩干的活是一样的，第一个参数是要绑定的对象，唯一的区别就是给绑定的函数传递的参数 apply是第二个参数以数组(其实并不是真正的数组 arguments）的形式传递，call是直接放在第一个参数的后面。比如</p>
-<pre><code>sayHelloTo.call(zhangsan,lisi)；//Hello李四 , My name is 张三
-</code></pre><p>至于apply 在特定的情况是是十分有用的，比如给函数传递的参数是一个数组的话。比如要获取一个数字组成的数组的最大值。可以</p>
-<pre><code>Math.max(4, 1, 8, 9, 2)
-</code></pre><p>但是这并不是通用的方法 结合apply可以很容易的解决</p>
-<pre><code>var myarray=[1,2,3,4,5,6,7,8]
-Math.max.apply(Math, myarray)//8
-</code></pre><p>那么apply可以作为构造函数，这样我只需要给函数传递一个数组作为参数就可以了，就不用把每个参数列出来传递了，比如</p>
-<pre><code>new Person.apply(Person, args)
-</code></pre><p>//很遗憾。为什么这样不可以呢，有没有其他的解决方案呢<a href="http://stackoverflow.com/questions/813383/how-can-i-construct-an-object-using-an-array-of-values-for-parameters-rather-th#answer-813401" target="_blank" rel="noopener">http://stackoverflow.com/questions/813383/how-can-i-construct-an-object-using-an-array-of-values-for-parameters-rather-th#answer-813401</a></p>
-<p>###自定义new 方法</p>
-<p>JavaScript 中的 new 操作符有三个基本任务。</p>
-<ul>
-<li>首先， 它创建新的空对象。</li>
-<li>接下来，它将设置新对象的 __proto__指向函数的prototype，以匹配所调用函数的原型属性。</li>
-<li>最后，操作符调用函数，将新对象作为“this”引用传递。</li>
-</ul>
-<p>比如要定义一个数组对象。</p>
-<pre><code>var o = {};
-o.__proto__ = Array.prototype;
-Array.apply(o);
-
-o.push(3)
-</code></pre><p>明白了原理我们就可以自己尝试写个new方法</p>
-<p>给每个函数添加一个new方法，这个方法要位于Function.prototype上</p>
-<pre><code>Function.prototype.new = function(){
-    var args = arguments//args为传递过来的参数
-    var constructor = this; //this为调用new的对象，即最初的真正的构造函数
-    function Delegate(){
-        constructor.apply(this, args)//newDelegate的时候this指向Delegate实例，
-        //调用真正的构造函数
-    }            
-    Delegate.prototype = constructor.prototype;//真正的原型对象赋值给Delegate
-    return new Delegate //返回一个Delegate实例 即我们需要的对象
-}
-</code></pre><p>以上过程中只是修改构造函数执行这个步骤，我们刚才定义的Person类也会有一个这样new的方法</p>
-<pre><code>var wangwu= Person.new(&apos;王五&apos;);
-</code></pre><p>这样就可以像调用普通的函数一样来执行一个构造函数了，同时也可以使用apply传递数组参数来创建实例</p>
-<pre><code>Person.new.apply(Person, [&apos;王五&apos;])
-</code></pre><p>###实现基于原型继承封装</p>
-<p>定义个extend的函数来扩展已有的函数对象，使其拥有两一个函数对象的功能实现继承</p>
-<pre><code>var utils={};
-utils.extend = (function() {
-    //用户维护原型链的代理
-    var F = function() {};
-    // 基于Parent 来扩展Child
-    return function(Child, Parent) {
-        F.prototype = Parent.prototype;
-        Child.prototype = new F();
-        Child.prototype.super__ = Parent.prototype;//存储父类的原型为了方便获得父类的构造函数
- // 子类的构造函数中需要this.super__.constructor.call(this,args来获得父类中构造函数中定义个属性
-        Child.prototype.constructor = Child;
-    };
-}());
-</code></pre><p>使用方式：</p>
-<pre><code>//定义父类
-function superfn(name,age){
-    this.name=name;
-    this.age=age;
-    console.log(&quot;superfn被调用&quot;);
-}         
-superfn.prototype.getName=function(){
-    console.log(this.name+this.age);
-};         
-function subfn(name,age) {
-    this.color = &apos;red&apos;;
-    this.super__.constructor.call(this,name,age);//调用父类的构造函数，传递this 很关键，接受父类的属性
-};
-utils.extend(subfn,superfn);
-subfn.prototype.getcolor=function(){
-    console.log(this.color);
-}
-var sub=new subfn(&quot;xxx&quot;,7);
-sub.getName();
-</code></pre><p>总结：</p>
-<ul>
-<li>每个对象都有个原型对象属性，原型也是对象，也有原型对象属性，这样每个对象都有一个原型链在Chrome 或者FF 浏览器上可以通过<code>obj.__proto__</code> 获得这个这个对象的直接原型，（原型链的最低端），最顶端是null。ES标准钟通过Object.getPrototypeOf(obj)来获得对象的原型。</li>
-<li>每个对象都有对应的构造函数，比如{} 的构造函数为Object，function a(){}的构造函数为Function，对象的直接原型就是对应构造函数的原型对象属性。即<code>{}.__proto__</code><br>===Object.prototype;  <code>a.__proto__=Function.prototype</code>;</li>
-<li>Object也是个函数对象，作为对象他也有原型<code>Object.__proto__==Function.prototype</code>,而Function.prototype的<code>__proto__</code>又指向了<code>Object.prototype</code>。<br>默认情况下函数的prototype.constructor指向这个函数自身，这就意味着，<code>Object.__proto__.__proto__.constructor === Object</code>为true.</li>
-<li>函数有protottype和<code>__proto__</code>属性。<code>__proto__</code>是继承的原型。prototype为其构造的实例的原原型。对象(非函数对象）有<code>__proto__</code>,没有prototype属性</li>
-</ul>
-<p>最后：一句话。JS是如此的自由，自由的甚至得到不想要的结果。让人着迷，心醉。。。我们要做的就是要学会如何控制她，为我所用，JS大法好。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/10/04/High-Performance-Animations/">
-                高性能动画
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-10-04
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/10/04/High-Performance-Animations/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/04/High-Performance-Animations/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>现代浏览器在完成以下四种属性的动画时，消耗成本较低： position（位置）， scale（比例缩放）, rotation（旋转） 和 opacity（透明度）。如果你对其他的属性设置动画，你就需要对你的冒险负责。而且你的动画将可能达不到流畅的60fps</p>
-<h3 id="通过DevTools从文档对象模型到像素级别的观察"><a href="#通过DevTools从文档对象模型到像素级别的观察" class="headerlink" title="通过DevTools从文档对象模型到像素级别的观察"></a>通过DevTools从文档对象模型到像素级别的观察</h3><p>当你用 Chrome DevTools 的 timeline 来查看的话，你可以看到跟一下相似的模式</p>
-<p><img src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekyxoznj95j20mb0dj760.jpg" alt=""></p>
-<p>浏览器处理的过程很简单：计算元素的样式（重新计算样式），生成每个元素的几何形状和位置（布局），绘制图层中的每个像素（初始化绘图并且进行绘图）并且将图层绘制到屏幕上（图层的合成）。</p>
-<p>为了生成流畅的动画，你需要让浏览器尽可能少地工作，而最好的方式就是指改变影响合成的属性——transform 和 opacity。瀑布流越高 ，浏览器为了计算每个像素，就做的越多。</p>
-<h3 id="对布局进行动画"><a href="#对布局进行动画" class="headerlink" title="对布局进行动画"></a>对布局进行动画</h3><p>当你改变一个元素的时候，浏览器可能需要计算布局（位置和大小），这将影响到所有被这项改变影响的元素。如果你改变了一个元素，那么其他元素的几何结构可能会需要重新计算。举个例子，如果你改变 <em><html></html></em>元素的width属性，那么它所有的子元素都将被影响。由于元素的溢出和相互之间的影响，改变可能导致文档树的布局自下而上地被重新计算。</p>
-<p>文档树越大，计算布局所花费的时间就越长。所以你应该尽力避免对那些影响布局的的属性设置动画。</p>
-<p>项目中一些常见的，会引起布局变化的属性CSS属性：</p>
-<blockquote>
-<p>width    height<br>padding    margin<br>display    border-width<br>border    top<br>position    font-size<br>float    text-align<br>overflow-y    font-weight<br>overflow    left<br>font-family    line-height<br>vertical-align    right<br>clear    white-space<br>bottom    min-height</p>
-</blockquote>
-<h3 id="绘图属性的动画"><a href="#绘图属性的动画" class="headerlink" title="绘图属性的动画"></a>绘图属性的动画</h3><p>对一个元素的改变也可能引起绘图，而在现代浏览器中，主要的绘制工作会在软件光栅化中进行。这取决于元素在你的应用中如何分层。挨着被改变的元素旁边的其他元素也可能需要被重新绘制。</p>
-<p>有很多属性会引起元素的绘制，但以下这些是最常见的属性:</p>
-<blockquote>
-<p>color    border-style<br>visibility    background<br>text-decoration    background-image<br>background-position    background-repeat<br>outline-color    outline<br>outline-style    border-radius<br>outline-width    box-shadow<br>background-size</p>
-</blockquote>
-<p>如果你在元素中对以上的属性设置动画，那么将会引起重绘，并且元素所属的图层将提交给GPU进行处理。对于移动端设备来说，这代价是非常昂贵的，因为它们的CPU的处理能力明显弱于桌面端。这意味着，任务将用更长的时间来完成；并且CPU和GPU之间的带宽是有限的，所以数据的上传需要花费很长的一段时间。</p>
-<h3 id="合成属性的动画"><a href="#合成属性的动画" class="headerlink" title="合成属性的动画"></a>合成属性的动画</h3><p>有一个CSS属性，你可能认为它会引起重绘，但有时候并不会。就是：opacity. 当GPU在合成元素的纹理结构的时候，会以一个较低的alpha值去处理opacity的改变。它的条件是，元素必须是图层中唯一的一个元素。如果它和其它的元素组合在一起，那么对opacity的改变也会让GPU（错误地）淡化其它的元素。</p>
-<p>在Blink和WebKit内核的浏览器中，对于在CSS的transition或者animation中有opacity的改变的元素，将会为其创建一个图层。但也有很多开发者使用translateZ(0)或者translate3d(0,0,0)来人为地强制性地创建一个图层。 强制创建一个图层可以确保图层被绘制完毕并且可以在动画开始的时候，马上进入就绪状态。</p>
-<p>一个元素的变换，归结为改变它的位置，旋转角度和缩放。通常，位置的改变是使用left和top属性来改变的。问题是，如前面所述，left和top都会引起图层的变化，并且它的代价是昂贵的。更好的解决方案是使用不会引起图层变化的translate属性。</p>
-<h3 id="命令式动画vs说明式动画"><a href="#命令式动画vs说明式动画" class="headerlink" title="命令式动画vs说明式动画"></a>命令式动画vs说明式动画</h3><p>开发者常常需要决定它们的动画用JavaScript（命令式）来完成还是用CSS（说明式）来完成。</p>
-<h3 id="命令式（javascript）"><a href="#命令式（javascript）" class="headerlink" title="命令式（javascript）"></a>命令式（javascript）</h3><p>命令式动画主要的优点同时也是它主要的缺点的是：它在浏览器主进程的JavaScript中运行。主进程已经忙于运行其他的JavaScript，样式的计算，布局还有绘制。所以进程内存在这资源竞争。这实质上增加了掉帧的风险，可能这一帧是你认为最重要的帧。</p>
-<p>JavaScript中的动画可以为你提供更多的控制：开始，暂停，回放，中断和取消等细节。</p>
-<h3 id="声明式（CSS"><a href="#声明式（CSS" class="headerlink" title="声明式（CSS)"></a>声明式（CSS)</h3><p>作为替代的方案，你可以用CSS来实现你的渐变和动画。最主要的好处就是，浏览器会对动画进行优化。如果有需要，它会创建图层。并且可以在主进程之外完成一些操作。它最主要的缺点就是CSS动画相对于Javascript动画而言，缺乏表现力。并且很难有意义地组织动画，这意味着创造动画会带来较高的复杂度和错误率。</p>
-<p>总结：目前动画 优先使用  opacity 来改变透明度.  transfrom——<em>translate</em> <em>rotate</em> <em>scale</em></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/09/23/css-margin-fold/">
-                css margin折叠
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-09-23
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/09/23/css-margin-fold/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/23/css-margin-fold/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="margin折叠-Collapsing-margin"><a href="#margin折叠-Collapsing-margin" class="headerlink" title="margin折叠-Collapsing margin"></a>margin折叠-Collapsing margin</h3><p>所谓margin折叠(Collapsing margin)，就是我们常说的盒子垂直边距叠加，具体是指在同一个块级格式化上下文（简称BFC）中，毗邻的两个或者多个垂直外边距会发生互相折叠的现象。其中所说的毗邻可以归结为以下两点</p>
-<ul>
-<li>两个或者多个外边距没有被非空内容、padding、border或者clear分隔开。 </li>
-<li>两个或者多个外边距所归属的元素都处于普通流中，而非浮动元素或者绝对定位元素。</li>
-</ul>
-<h3 id="常见发生margin折叠的情况有："><a href="#常见发生margin折叠的情况有：" class="headerlink" title="常见发生margin折叠的情况有："></a>常见发生margin折叠的情况有：</h3><ul>
-<li>一个盒子元素的top margin与第一个子盒子元素的top margin。</li>
-<li>一个盒子元素的bottom margin与最后一个子盒子元素的bottom margin， 但须在该盒子元素的height为auto的情况下 * 一个盒子元素的bottom margin与紧接着的下一个盒子元素的top margin。</li>
-<li>一个盒子元素的top margin与其自身的bottom margin，但须满足没创建 BFC、零min-height、零或者“auto”的height、没有普通流的子盒子元素。</li>
-</ul>
-<h3 id="margin折叠的后的外边距计算："><a href="#margin折叠的后的外边距计算：" class="headerlink" title="margin折叠的后的外边距计算："></a>margin折叠的后的外边距计算：</h3><ul>
-<li>参加折叠的元素指都为正，取其中较大的值; </li>
-<li>参加折叠的元素值都为负，取绝对值较大的，然后负向位移; </li>
-<li>参加折叠的元素有正有负，取出正值中最大的值+负值中绝对值最大的值; </li>
-<li>元素自身的 margin-bottom 和 margin-top 相邻时也会折叠，自身<br>margin-bottom 和 margin-top 相邻，只能是自身内容为空，垂直方向上 border、padding 为 0; </li>
-<li>相邻的 margin 要一起参与计算，不得分步计算，要注意，相邻的元素不一定非<br>要是兄弟节点，父子节点也可以，即使不是兄弟父子节点也可以相邻。而且，在计算时，相邻的 margin 要一起参与计算，不得分步计算。 </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;margin:50px 0; background:green; width:50px;&quot;&gt; </span><br><span class="line">&lt;div style=&quot;margin:-60px 0;&quot;&gt; </span><br><span class="line">   &lt;div style=&quot;margin:150px 0;&quot;&gt;A&lt;/div&gt; &lt;/div&gt; &lt;/div&gt; </span><br><span class="line">&lt;div style=&quot;margin:-100px 0;background:green; width:50px;&quot;&gt; </span><br><span class="line">&lt;div style=&quot;margin:-120px 0;&quot;&gt; </span><br><span class="line">    &lt;div style=&quot;margin:200px 0;&quot;&gt;B&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<p>错误的计算方式：分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。  请注意，多个 margin 相邻折叠成一个 margin，计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。  以上例子中，A 和 B 之间的 margin 折叠产生的 margin，是6个相邻 margin 折叠的结果。将其 margin 值分为两组：    正值：50px，150px，200px   负值：-60px，-100px，-120px  根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 200 + (-120) = 80px。</p>
-<p><strong>创建了BFC(块级格式化上下文)的元素，不和内部的子元素发生margin 折叠</strong></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/05/06/install-mongo-service-on-windows/">
-                在windows 下安装 MongoDb
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-05-06
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/05/06/install-mongo-service-on-windows/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/05/06/install-mongo-service-on-windows/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <blockquote>
-<p>Starting in version 2.2, MongoDB does not support Windows XP</p>
-</blockquote>
-<ul>
-<li>到官网下载<a href="http://www.mongodb.org/downloads" target="_blank" rel="noopener">MongoDb</a></li>
-<li><p>解压到制定目录。我的机器目录如下</p>
-<pre><code>D:
-  mongodb
-         |mongodb                            
-                |mongod.cfg
-                |README
-                |THIRD-PARTY-NOTICES
-                |bin
-</code></pre></li>
-<li>创建MongoDb的数据存储目录，可以再任意文件夹下创建，这里我在<strong>D:/mongodb</strong>下创建了<strong>D:/mongodb/data/db</strong>目录</li>
-<li><p>启动MongoDb服务，打开命令行模式下 进入MongoDb的bin目录 运行<strong>mongod.exe</strong>命令</p>
-<pre><code>D:\mongodb\mongodb\bin\mongod.exe --dbpath d:\mongodb\data
-</code></pre></li>
-</ul>
-<p>输出的结果如下,表示服务启动成功.然后在浏览器输入localhost:28017会打开一个MongoDb的监控网页</p>
-<pre><code>Tue May 06 08:56:28.645 [initandlisten] MongoDB starting : pid=808 port=27017 db
-path=d:\mongodb\data 64-bit host=DuBaoKun
-Tue May 06 08:56:28.646 [initandlisten] db version v2.4.1
-Tue May 06 08:56:28.646 [initandlisten] git version: 1560959e9ce11a693be8b4d0d16
-0d633eee75110
-********
-Tue May 06 08:56:29.056 [initandlisten] command local.$cmd command: { create: &quot;s
-tartup_log&quot;, size: 10485760, capped: true } ntoreturn:1 keyUpdates:0  reslen:37
-290ms
-Tue May 06 08:56:29.077 [initandlisten] waiting for connections on port 27017
-Tue May 06 08:56:29.077 [websvr] admin web console waiting for connections on po
-rt 28017
-</code></pre><ul>
-<li>连接数据库 保持上述的Mongodb服务处于开启状态 在开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="noopener">这篇文章</a>继续操作</li>
-</ul>
-<h3 id="将MongoDb配置为服务"><a href="#将MongoDb配置为服务" class="headerlink" title="将MongoDb配置为服务"></a>将MongoDb配置为服务</h3><blockquote>
-<p>虽然进行了以上的配置，但是之后每次使用Mongodb的时候都要先启动服务，如果配置为windows服务，让其自动启动。</p>
-</blockquote>
-<ul>
-<li>创建日志目录：除了配置数据存储目录外，MongoDb还需要要一个日志存储的目录。在<strong>d:\mongodb</strong>目录下创建log目录(这个目录是任意的)</li>
-<li><p>创建服务配置文件：在<strong>d:\mongodb</strong>目录下创建<strong>mongod.cfg</strong>文件。用记事本打开配置dbpath和logpath</p>
-<pre><code>logpath=D:\mongodb\log\mongo.log
-dbpath=D:\mongodb\data\db
-</code></pre></li>
-<li><p>安装服务。在命令行中运行如下命令</p>
-<pre><code>D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --install
-</code></pre><p>运行之后提示如下</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tue May 06 10:03:12.151 Trying to install Windows service &apos;MongoDB&apos;</span><br><span class="line">Tue May 06 10:03:12.358 Service &apos;MongoDB&apos; (Mongo DB) installed with command line</span><br><span class="line">&apos;D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --service&apos;</span><br><span class="line">Tue May 06 10:03:12.359 Service can be started from the command line with &apos;net s</span><br><span class="line">tart MongoDB&apos;</span><br></pre></td></tr></table></figure>
-</code></pre></li>
-</ul>
-<p>此命令成功之后会安装 Mongo Db的服务。并且开机会自动启动，如果要自己控制启动，在开始栏的搜索框输入services.msc可以到计算机管理服务里找个Mongo Db的服务进行设置.</p>
-<blockquote>
-<p>启动服务 <strong>net start MongoDB</strong></p>
-</blockquote>
-<blockquote>
-<p>停止服务 <strong>net stop MongoDB</strong></p>
-</blockquote>
-<blockquote>
-<p>删除服务 <strong>“C:\Program Files\MongoDB\bin\mongod.exe” –remove</strong></p>
-</blockquote>
-<ul>
-<li>连接数据库 保持Mongodb服务处于开启状态 开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="noopener">这篇文章</a>继续操作</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/MongoDb/">
-                #MongoDb
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/29/graceful-degradation-with-progressive-enhancement/">
-                渐进性增强与优雅性降级
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-29
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/29/graceful-degradation-with-progressive-enhancement/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/29/graceful-degradation-with-progressive-enhancement/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <blockquote>
-<p>每个专业词语的背后是一种思想，理解并在实践中应用才是必要的。</p>
-</blockquote>
-<h4 id="优雅降级（graceful-degradation）"><a href="#优雅降级（graceful-degradation）" class="headerlink" title="优雅降级（graceful degradation）"></a>优雅降级（graceful degradation）</h4><p>一开始就构建站点的完整功能，然后针对浏览器测试和修复,使用优雅降级方案，Web站点在所有新式浏览器中都能正常工作，如果用户使用的是老式浏览器，则代码会检查以确认它们是否能正常工作。由于IE独特的盒模型布局问题，绝大多数Web设计师和开发者都通过专门的样式表或针对不同版本的IE的hack实践过优雅降级了；<br>使用优雅降级技术时，你必须首先完整的实现了网站，其中包括所有的功能和效果。然后再为那些无法支持所有功能的浏览器增加候选方案，使之在旧式浏览器上以某种形式降级体验却不至于完全失效.</p>
-<h4 id="渐进增强（progressive-enhancement）"><a href="#渐进增强（progressive-enhancement）" class="headerlink" title="渐进增强（progressive enhancement）"></a>渐进增强（progressive enhancement）</h4><p>一开始只构建站点的最少特性，然后不断针对各浏览器追加功能。从被所有浏览器支持的基本功能开始，逐步地添加那些只有新式浏览器才支持的功能。渐进增强是值得所有开发者采用的做法。渐进增强方案并不假定所有用户都支持javascript，而总是提供一种候补方法，确保用户可以访问（主要的）内容。</p>
-<p>使用渐进增强时，无需为了一个已成型的网站在旧式浏览器下正常工作而做逆向工程。首先，只需要为所有的设备和浏览器准备好清晰且语义化的HTML以及完善的内容，然后再以无侵入（unobtrusive）的方式向页面增加无害于基础浏览器的额外样式和功能。当浏览器升级时，它们会自动地呈现出来并发挥作用。</p>
-<p>想让网站在任何环境下看起来都保持一致是不可能的，不管为此付出多少努力，结局依旧会令你失望。与其试图让IE看起来堪比年轻它十岁的浏览器，不如努力改善网站的可访问性，或是进行更多的可用性测试，而不仅仅是让页面看起来更靓一点。</p>
-<p>某些CSS3特性在不支持它的浏览器中简直是无法模拟实现的，但若使用渐进增强，就无需为了能让你的网站适合所有人而放弃这些技术。仅仅因为部分人不愿或不能升级浏览器，却让使用新型浏览器的用户无法享受CSS3所提供的伟大技术，这是毫无道理可言的。</p>
-<p>我们应该先让网站能够正常工作于尽可能旧的浏览器上，然后不断为它在新型浏览器上实现更多的增强和改进。随着时间的推移，当越来越多的人开始升级浏览器而浏览器本身的支持度也不断提升时，就会有越来越多的人体验到这些增强和改进，它持续有效的使网站越来越好，却如需你刻意做什么。</p>
-<h5 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h5><p> 其实优雅降级和渐进增强都是页面的加分项，是针对技术的一种形而上的要求。保证尽可能多的用户都能正常使用网站是第一步，在此之上才需要考虑降级的极端情形和现代浏览器的体验增强。其实可以定义一个基准线，在此之上的增强叫做渐进增强，在此之下的兼容叫优雅降级。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/24/css3-selectors/">
-                CSS3 选择器总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-24
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/24/css3-selectors/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/24/css3-selectors/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <blockquote>
-<p>在学习新技术的同时不要忘记复习一下那些最基础的东西</p>
-</blockquote>
-<h4 id="基本选择器"><a href="#基本选择器" class="headerlink" title="基本选择器"></a>基本选择器</h4><ul>
-<li>通配符选择器(*) 通配符选择器是用来选择所有元素，，也可以选择某个元素下的所有元素</li>
-<li>元素选择器 根据tag名字来选择 比如 p body div 等等</li>
-<li>类选择器 .className</li>
-<li>id选择器 #ID</li>
-<li>后代选择器 A B (A、B分别为选择器 中间) 有空格</li>
-<li>子元素选择器(A&gt;B)(IE6不支持子元素选择器)。</li>
-<li>相邻兄弟元素选择器(E + F)<blockquote>
-<p>相邻兄弟选择器可以选择紧接在另一元素后的元素，而且他们具有一个相同的父元素，换句话说，EF两元素具有一个相同的父元素，而且Ｆ元素在Ｅ元素后面，而且相邻，这样我们就可以使用相邻兄弟元素选择器来选择Ｆ元素。</p>
-</blockquote>
-</li>
-<li>通用兄弟选择器（Ｅ &gt;Ｆ）<blockquote>
-<p>通用兄弟元素选择器是CSS3新增加一种选择器，这种选择器将选择某元素后面的所有兄弟元素，他们也和相邻兄弟元素类似，需要在同一个父元素之中，换句话说，E和F元素是属于同一父元素之内，并且F元素在Ｅ元素之后，那么E ~ F 选择器将选择中所有Ｅ元素后面的Ｆ元素。比如下面的代码：</p>
-</blockquote>
-</li>
-<li>群组选择器（selector1,selector2,…,selectorN）<blockquote>
-<p>群组选择器是将具有相同样式的元素分组在一起，每个选择器之间使用逗号“，”隔开，如上面所示selector1,selector2,…,selectorN。这个逗号告诉浏览器，规则中包含多个不同的选择器，如果不有这个逗号，那么所表达的意就完全不同了，省去逗号就成了我们前面所说的后代选择器，这一点大家在使用中千万要小心加小心。</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h4><ul>
-<li>E[attr]：只使用属性名，而不论这个属性值是什么，你就可以使用这个属性选择器</li>
-<li>E[attr=”value”]：指定属性名，并指定了该属性的属性值为value；</li>
-<li>E[attr~=”value”]：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的“~”不能不写;属性选择器中有波浪（〜）时属性值有value时就相匹配，没有波浪（〜）时属性值要完全是value时才匹配。</li>
-<li>E[attr^=”value”]：属性值是以value开头的；</li>
-<li>E[attr$=”value”]：而且属性值是以value结束的；</li>
-<li>E[attr*=”value”]：而且属值中包含了value；</li>
-<li>E[attr|=”value”]：属性值是value或者以“value-”开头的值</li>
-</ul>
-<h4 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h4><h5 id="动态伪类"><a href="#动态伪类" class="headerlink" title="动态伪类"></a>动态伪类</h5><ul>
-<li>:hover用于当用户把鼠标移动到元素上面时的效果；</li>
-<li>:active用于用户点击元素那一下的效果（正发生在点的那一下，松开鼠标左键此动作也就完成了）</li>
-<li><p>:focus用于元素成为焦点，这个经常用在表单元素上。<br>#####UI元素状态伪类</p>
-</li>
-<li><p>:enabled 表单元素可用（比如”type=”text”有enable和disabled两种状态，前者为可写状态后者为不可状态）</p>
-</li>
-<li>:disabled    </li>
-<li><p>:checked 表单元素选中适用于radio checked</p>
-<h5 id="CSS3的-nth选择器"><a href="#CSS3的-nth选择器" class="headerlink" title="CSS3的:nth选择器"></a>CSS3的:nth选择器</h5></li>
-<li><p>:fist-child选择某个元素的第一个子元素；</p>
-</li>
-<li>:last-child选择某个元素的最后一个子元素；</li>
-<li>:nth-child()选择某个元素的一个或多个特定的子元素；</li>
-</ul>
-<blockquote>
-<ul>
-<li>:nth-child(length);参数是具体数字</li>
-<li>:nth-child(n);参数是n,n从0开始计算</li>
-<li>:nth-child(n*length)n的倍数选择，n从0开始算</li>
-<li>:nth-child(n+length);选择大于length后面的元素</li>
-<li>:nth-child(-n+length)选择小于length前面的元素</li>
-<li>:nth-child(n*length+1);表示隔n选一</li>
-</ul>
-</blockquote>
-<ul>
-<li>:nth-last-child()选择某个元素的一个或多个特定的子元素，从这个元素的最后一个子元素开始算；</li>
-<li>:nth-of-type()选择指定的元素；</li>
-<li>:nth-last-of-type()选择指定的元素，从元素的最后一个开始计算；</li>
-<li>:first-of-type选择一个上级元素下的第一个同类子元素；</li>
-<li>:last-of-type选择一个上级元素的最后一个同类子元素；</li>
-<li>:only-child选择的元素是它的父元素的唯一一个了元素；</li>
-<li>:only-of-type选择一个元素是它的上级元素的唯一一个相同类型的子元素；</li>
-<li>:empty是用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格.</li>
-</ul>
-<h5 id="否定选择器（-not）selctorA-not-slectorB"><a href="#否定选择器（-not）selctorA-not-slectorB" class="headerlink" title="否定选择器（:not）selctorA:not(slectorB)"></a>否定选择器（:not）selctorA:not(slectorB)</h5><blockquote>
-<p>用来过滤元素，比如要选择除了type为button之外的任何input可以使用 input:not([type=”button”])<br>使用</p>
-</blockquote>
-<h5 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h5><p>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
-<ul>
-<li>::first-line选择元素内容的第一行</li>
-<li>::first-letter选择文本块的第一个字母，比如用来实现首字下沉。</li>
-<li><p>::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常用”content”配合使用，比如流行的清除浮动。</p>
-<pre><code>.clearfix:before,
-.clearfix:after {
-    content: &quot;.&quot;;
+</code></pre><p>在嵌套使用时可以通过 &amp;访问上一级元素</p>
+<pre><code>#bundle {
+  .button {
     display: block;
-    height: 0;
-    visibility: hidden;
+    border: 1px solid black;
+    background-color: grey;
+    &amp;:hover {
+      background-color: white
+    }
+  }
 }
-.clearfix:after {clear: both;}
-.clearfix {zoom: 1;}
-</code></pre><p>-::selection用来改变浏览网页选中文的默认效果</p>
-</li>
-</ul>
+</code></pre><p>编译之后为</p>
+<pre><code>#bundle .button {
+  display: block;
+  border: 1px solid black;
+  background-color: grey;
+}
+#bundle .button:hover {
+  background-color: white;
+}
+</code></pre><p>在less中可以如果将mix和嵌套相结合。可以使用<code>&gt;</code>来进行导入</p>
+<p>比如 less文件</p>
+<pre><code>.myspace{
+   .class1{
+   width:20px
+   }
+   .class2{
+   height:30px
+   }
+ }
+ .redbutton{
+     color:red;
+     .myspace &gt; .class2;
+ }
+</code></pre><p>CSS 文件</p>
+<pre><code>myspace .class1 {
+  width: 20px;
+}
+.myspace .class2 {
+  height: 30px;
+}
+.redbutton {
+  color: red;
+  height:
+}
+</code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
+<h3 id="Comments（注释）"><a href="#Comments（注释）" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
+<h3 id="extend"><a href="#extend" class="headerlink" title="extend"></a>extend</h3><p>extend是一个Less伪类，它会合并它所在的选择其和它所匹配的引用。</p>
+<pre><code>nav ul {
+  &amp;:extend(.inline);
+  background: blue;
+}
+</code></pre><p>在上面设置的规则中，:extend选择器会在.inline类出现的地方在.inline上应用”扩展选择器”(也就是nav ul)。声明块保持原样，不会带有任何引用扩展(因为扩展并不是CSS)。</p>
+<p>extend即为把当前的选择的器应用到相应的选择器定义的样式中，有点像组合的意思，跟混合的作用类似，基本是复用之前定义的样式，mix是将选择的样式引进来，extend是将当前的选择器。添加到之前定义的样式处。（有点绕啊）看代码吧</p>
+<p>less文件</p>
+<pre><code>nav ul {
+      &amp;:extend(.inline);
+      background: blue;
+    }
+    .inline {
+      color: red;
+    }
+</code></pre><p>输出CSS：</p>
+<pre><code>nav ul {
+  background: blue;
+}
+.inline,
+nav ul {
+  color: red;
+}
+</code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
+<h3 id="Comments（注释）-1"><a href="#Comments（注释）-1" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
 
         
 
@@ -1786,8 +956,8 @@ dbpath=D:\mongodb\data\db
         
           <div class="post-tags">
             
-              <a href="/tags/CSS/">
-                #CSS
+              <a href="/tags/Less-Css/">
+                #Less Css
               </a>
             
           </div>
@@ -1809,7 +979,7 @@ dbpath=D:\mongodb\data\db
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
             </div>
           
         </div>
@@ -1836,15 +1006,15 @@ dbpath=D:\mongodb\data\db
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-count">29</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
-            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-count">2</span>
             <span class="site-state-item-name">页面</span>
         </div>
       </div>
@@ -1859,15 +1029,11 @@ dbpath=D:\mongodb\data\db
             </span>
           
             <span class="soclial-item">
-              <a href="https://twitter.com/your-user-name">TWITTER</a>
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
             </span>
           
             <span class="soclial-item">
               <a href="http://weibo.com/u/1821556025">WEIBO</a>
-            </span>
-          
-            <span class="soclial-item">
-              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
             </span>
           
             <span class="soclial-item">

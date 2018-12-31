@@ -280,9 +280,11 @@ console.log(Object.keys(person)); //logs [&quot;name&quot;]
 console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
 </code></pre><h4 id="属性保护-extending、-sealing、freezing。"><a href="#属性保护-extending、-sealing、freezing。" class="headerlink" title="属性保护 extending、 sealing、freezing。"></a>属性保护 extending、 sealing、freezing。</h4><p>在ES5中 对象可以被设置为non-extensible, sealed, 以及 frozen。这是三种不同的属性保护级别，可以通过<code>Object.preventExtensions(myObject)</code>, <code>Object.seal(myObject)</code>,  <code>Object.freeze(myObject)</code>来进行设置。</p>
 <ul>
-<li>Object.preventExtensions() 让对象无法新增属性。</li>
-<li>Object.seal()包括了Object.preventExtensions()的功能，同时还具有让已经存在的属性不可修改配置也就说不能使用Object.defineProperty以及Object.defineProperties 来修改属性的配置，但是修改属性的值依然是可以修改的。</li>
-<li><p>Object.freeze() 包括了Object.preventExtensions(),Object.seal()的功能，同时为对象的所有数据属性将 writable 特性设置为 false。 当 writable 为 false 时，无法更改数据属性值。（如果 属性值是对象的话，还是可以改变的）</p>
+<li><code>Object.preventExtensions()</code> 对象无法新增属性。(强制赋值新的属性也不报错,可以使用delelte删除属性)</li>
+<li><code>Object.seal()</code>包括了<code>Object.preventExtensions()</code>的功能，不可再使用<code>Object.defineProperty</code>来修改属性的配置 congigurable 为false。</li>
+<li><code>Object.freeze()</code> 包括<code>Object.seal()</code>的功能，同时为对象的所有数据属性将 writable 特性设置为 false。属性不可写</li>
+</ul>
+<p>总结 不可新增属性，不可修改配置，不可写 逐渐递增。freeze 最厉害。</p>
 <pre><code>var  p={
             user:&quot;kunkun&quot;
         }
@@ -292,9 +294,7 @@ console.log(p.name);//undefined 并没有增加
 Object.freeze(p);
 p.user=&apos;baokun&apos;
 console.log(p.user);// 输出kunkun 还是原来的值发现并没有被修改
-</code></pre></li>
-</ul>
-<p>同时也提供三个函数来对这三种保护级别进行判断</p>
+</code></pre><p>同时也提供三个函数来对这三种保护级别进行判断</p>
 <ul>
 <li>Object.isExtensible()</li>
 <li>Object.isSealed()</li>
@@ -423,15 +423,15 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">18</span>
+            <span class="site-state-item-count">29</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
-            <span class="site-state-item-count">0</span>
+            <span class="site-state-item-count">2</span>
             <span class="site-state-item-name">页面</span>
         </div>
       </div>
@@ -446,15 +446,11 @@ usingBind(); // {foo=&quot;foo&quot;} 1 2 3
             </span>
           
             <span class="soclial-item">
-              <a href="https://twitter.com/your-user-name">TWITTER</a>
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
             </span>
           
             <span class="soclial-item">
               <a href="http://weibo.com/u/1821556025">WEIBO</a>
-            </span>
-          
-            <span class="soclial-item">
-              <a href="http://douban.com/people/your-user-name">DOUBAN</a>
             </span>
           
             <span class="soclial-item">
