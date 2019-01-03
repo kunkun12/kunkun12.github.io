@@ -14,10 +14,10 @@ Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中�
 - React style。 Flutter官方也表明过其设计思想最初也是受React个启发，一切都是Widget，没有像android ios 那些些activity fragment 杂七杂八的概念，写应用的模式与React几乎是一模一样，写的多了感觉就是用Dart写React。Flex布局思想可以直接用、React的Component 和 PureComponent，对应Flutter里面有StateFullWidget 和 StateLessWidget，Context 对应Flutter中的 inheritWidget，状态管理redux 对应Flutter_Redux，React里面可以用RxJS，Flutter里面可以用RxDart，都是Reactive UI风格、都是基于虚拟DOM实现UI更新，甚至React新出的Hooks,在Flutter 里面也有了第三方的支持-[flutter_hooks](https://github.com/rrousselGit/flutter_hooks)。个人感觉相比React Native 。Flutter才是真正的在Native App中React思想的实现，实现了曾经我对RN的一些期待(比如高频率交互动画）
 - 响应式UI，数据绑定到UI，数据改变后“刷新”UI，不需要获取UI某个元素，手动去更新UI。
 - FLutter SDK 高度自由灵活，上层有丰富UI套件，除了Material Design的主题之外 还有一套ios的主题的配套组件，对于复杂UI 自己也可以从Canvas入手 自己来绘制。灵活度堪比系统的SDK。
-- 开发工具 Android Studio, IntelliJ, or VS Code都提供了Flutter的开发插件，且完善度很高，自动提示用起来也非常爽。支持断点调试，堆栈信息查看 。
+- 开发工具 Android Studio, IntelliJ, or VS Code都提供了Flutter的开发插件，且完善度很高，自动提示用起来也非常爽。支持断点调试，堆栈信息查看，直接跳入源码等 。
 - 提供了一套与系统SDK通信的机制 （channel)
 - 文档，官方文档 API文档 也是非常完善，也为其他开发者（android ios web reactnative Xamarin) 准备了详细的文档，可以对照学习，UI的思想都差不多。帮助其他的开发者快速入坑Flutter，文档完善度方面这点要比RN强不少了。还有中文翻译文档。以及源码里面的注释即文档。
-- 社区 目前有很多学习资料可供参考，谷歌官方也有一些视频。后面会附上链接。（信息过剩的时代，不好的信息也越来越多，甄别高质量的信息也非常重要，否则容易被淹没在一个偏角落里面，不把事件浪费在重复以及没有营养的信息上，比如这篇博客）
+- 社区 目前有很多学习资料可供参考，谷歌官方也有一些视频。后面会附上链接。（信息过剩的时代，不好的信息也越来越多，甄别高质量的信息也非常重要，否则容易被淹没在一个偏角落里面，不把事件浪费在重复以及没有营养的信息上）
 
 #### 不足
 开黑模式
