@@ -7,7 +7,7 @@ tags:
 Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中非常有名的开发者，早年在 Apple 开发 WebKit，2008 年跳槽去了 Chrome 团队，十多年来一直从事Chrome 的开发， Flutter最初目的是提高web应用程序的体验 ，于是开始内部试验，是基于chrome代码移除了很多功能，比如移除一些兼容性的代码，以及web开发中一些不常用的功能，甚至改了渲染机制 不再兼容web程序,。，，跑了些benchmarks发现性能提升20倍。为了能够做更多的事情，又增加了很多功能，经过三次大的调整之后就成了现在的Flutter。FLutter也致力于提供高性能移动端跨平台App的开发体验，至于为啥选择Dart，官方回答是两个团队离的近。FLutter主要优点如下（可以概括为 简单、高性能、全平台的UI开发体验以及谷歌的大力支持）
 
 ### 主要优点
-- 跨平台 基于[Skia绘图引擎](https://skia.org/index_zh)实现全平台UI绘制，Chrome、Chrome OS、安卓、火狐浏览器、火狐操作系统以及其它许多产品都使用它作为图形引擎。 FLutter目标是跑在android ios web linux mac windows，同时 也是作为谷歌未来系统fuchsia的御用的UI Kit。感觉这是要重新定义新标准的节奏。并且全平台的支持都是谷歌官方自己出的方案（RN官方只是支持ios 和android。桌面和web都是社区给的方案）FLutter也是谷歌内部多个Team的合作的作品（Dart、 Flutter、 chrome等）
+- 跨平台 基于[Skia绘图引擎](https://skia.org/index_zh)实现全平台UI绘制，Chrome、Chrome OS、安卓、火狐浏览器、火狐操作系统以及其它许多产品都使用它作为图形引擎。 FLutter目标是跑在android ios web linux mac windows，同时 也是作为谷歌未来系统fuchsia的御用的UI Kit（当然FLutter目前的重点还是在移动设备）。感觉这是要重新定义新标准的节奏。并且全平台的支持都是谷歌官方自己出的方案（RN官方只是支持ios 和android。桌面和web都是社区给的方案）FLutter也是谷歌内部多个Team的合作的作品（Dart、 Flutter、 chrome等）
 - HotReload 改了代码秒见效果。对开发调试效率有了巨大的提升
 - 性能: 旨在提供 60fps的刷新率,对于刷新率 120Hz 以上的设备上能达到 120fps。
 - Dart。 生来背着“灭掉JS，替换Java”的使命，前几年一直不是很火，最近谷歌开始重视起来。还专门为FLutter 进行Dart的优化，AOT模式下编译为可直接执行原生的代码。另外Dart语法简洁，比Java和OC写起来简单太多。异步单线程完全是前端的玩法，思路简单， 不像JAVA中那种新建一个线程请求数据，之后回到主线程来操作UI，
@@ -77,7 +77,7 @@ Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中�
 - 相关推特号  [Flutter Daily](https://twitter.com/flutteriodaily) [Flutter_DEV](https://twitter.com/r_FlutterDev)  [Flutter Weekly](https://twitter.com/FlutterWk)每天都会有很多Flutter的推文，非常好的一手资源
 
 其他Flutter中文学习资源  
- 
+- [使用 Flutter 快速构建美观又高性能的移动应用](https://www.bilibili.com/video/av27857568) Flutter介绍 一个中文的演讲视频
 - http://flutter-dev.cn/ 中文论坛
 - https://flutterchina.club/ 部分文档中文翻译
 - https://juejin.im/tag/Flutter 内容有些多，自己筛选好的信息吧，不要浪费时间
