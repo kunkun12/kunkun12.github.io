@@ -1,4 +1,4 @@
-title: FLutter学习总结
+title: FLutter总结以及学习资料
 date: 2018-12-03 13:34:38
 tags:
 ---
@@ -46,7 +46,7 @@ Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中�
 学习新东西可能会比较慢，这也是值得庆幸，把自己不懂的东西看懂 就是进步，人的能力的提高也是这个过程，先弄懂什么，然后在研究怎么用，然后再去看源码。资料非常多，质量也非常高，阅读资料的之后，最重要的是写代码练习，理解原理重要 敲代码也很重要。
 
 - [Dart基础学习](https://www.dartlang.org/guides/language/language-tour) 看完这个应该差不多了。
--  读[官方文档](https://flutter.io/docs) 搭建Flutter开发环境，有的同学连文档都不仔细看 直接一把梭，遇到问题到群里问 。 部分内容提供了中文的翻译。至于Web开发者 [Flutter for web developers]这篇文章一定要看，同理也有 [Flutter for Android developers](https://flutter.io/docs/get-started/flutter-for/android-devs) 、(Flutter for iOS developers)[https://flutter.io/docs/get-started/flutter-for/ios-devs] 等。
+-  读[官方文档](https://flutter.io/docs) 搭建Flutter开发环境，有的同学连文档都不仔细看 直接一把梭，遇到问题到群里问，部分文档也有[中文的翻译](https://flutterchina.club/docs/)。至于Web开发者 [Flutter for web developers](https://flutter.io/docs/get-started/flutter-for/web-devs)这篇文章一定要看，同理也有 [Flutter for Android developers](https://flutter.io/docs/get-started/flutter-for/android-devs) 、(Flutter for iOS developers)[https://flutter.io/docs/get-started/flutter-for/ios-devs] 等。
 [Codelabs](https://flutter.io/docs/codelabs) 这里面的一些例子可以照着抄一篇，尝试自己去理解一下。看完文档直接撸UI应该是没有问题了，国内开发者也在编写[Flutter实战](https://book.flutterchina.club/) 
 - 关于Widget的学习，Flutter有不少的Widget， 分类去理解的话会简单的很多 比如一些基础的像图片 文本 输入框。然后是布局类Row Column 实现FlexBox布局，Wrap实现Flexbox中的自动折行，Stack Positioned实现web中绝对定位的层叠效果。容器类重点Container弄懂，这个基本上相当于Web中的div了。另一类就是滚动组件。。。
 
@@ -70,11 +70,10 @@ Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中�
 - [https://hackernoon.com/whats-revolutionary-about-flutter-946915b09514](https://hackernoon.com/whats-revolutionary-about-flutter-946915b09514)
 
 - [Flutter Live Recap: #AskFlutter Questions and Answers Part-1](https://medium.com/flutter-community/flutter-live-recap-askflutter-questions-and-answers-part-1-9b80753a16a1) [part2](https://medium.com/flutter-community/flutter-live-recap-askflutter-questions-and-answers-part-2-e4d962f3f270) 这两篇不错，官方问答，能了解Flutter一些能力以及发展方向
-
-
 - [examples](https://github.com/flutter/flutter/tree/master/examples) 官方的exmple代码 [HistoryOfEverything](https://github.com/2d-inc/HistoryOfEverything)  FLutter Live演示例子，目前已经上线 google play 和 ios ap 动效很棒
 - [awesome-flutter](https://github.com/Solido/awesome-flutter) awesome-XXX 很多资料
- 
+- [chrome 插件： Flutter developer](https://chrome.google.com/webstore/detail/flutter-developer/kimjiioacelfpeflakmeclmfndijcfpp) 阅读API文档的时候 可以方便的跳入到github 对应的源码页面。
+
 - 相关推特号  [Flutter Daily](https://twitter.com/flutteriodaily) [Flutter_DEV](https://twitter.com/r_FlutterDev)  [Flutter Weekly](https://twitter.com/FlutterWk)每天都会有很多Flutter的推文，非常好的一手资源
 
 其他Flutter中文学习资源  
@@ -82,8 +81,6 @@ Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中�
 - http://flutter-dev.cn/ 中文论坛
 - https://flutterchina.club/ 部分文档中文翻译
 - https://juejin.im/tag/Flutter 内容有些多，自己筛选好的信息吧，不要浪费时间
-- 
-- 
 - http://flutter.link/archives/ 
 - https://juejin.im/post/5a9a21f8518825558b3d5d35 
 - [Flutter干货学堂](https://zhuanlan.zhihu.com/xytech) 闲鱼团队关于Flutter系列文档，内容质量很高。
