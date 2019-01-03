@@ -2,13 +2,13 @@ title: FLutter总结以及学习资料
 date: 2018-12-03 13:34:38
 tags:
 ---
-2014年谷歌开始搞了个实验项目 Sky ，在Dart Developer Summit 2015 第一次亮相[Sky: An Experiment Writing Dart for Mobile (Dart Developer Summit 2015)](https://www.youtube.com/watch?v=PnIWl33YMwA)，号称基于Dart来开发现代化移动优先的高性能 跨平台App，帧率可以达到120fps及以上，2015年10月 Sky 改名为Flutter，并发布了官方网站flutter.io，谷歌内部开始用Flutter开发实际项目，2018年发展迅速，开始火起来了,2018年12月初FLutter 1.0 released。可以看出Flutter跟RN差不多是时期的产品，Flutter在应用层玩法也是受React很多的启发，二者UI绘制工作原理不同，RN用的系统SDK的UI，Flutter是自绘制的UI，操作UI不需要bridge来进行通信 因此确保了性能 。更多Flutter原理 [如何评价 Google 的 Fuchsia、Android、iOS 跨平台应用框架 Flutter](https://www.zhihu.com/question/50156415)
+2014年谷歌开始搞了个实验项目 Sky ，在Dart Developer Summit 2015 第一次亮相[Sky: An Experiment Writing Dart for Mobile (Dart Developer Summit 2015)](https://www.youtube.com/watch?v=PnIWl33YMwA)，号称基于Dart来开发现代化移动优先的高性能 跨平台App，帧率可以达到120fps及以上，2015年10月 Sky 改名为Flutter，并发布了官方网站flutter.io，谷歌内部开始用Flutter开发实际项目，2018年发展迅速，开始火起来了,2018年12月初FLutter 1.0 released。可以看出Flutter跟RN差不多是时期的产品，Flutter在应用层玩法也是受React很多的启发，二者UI绘制工作原理不同，RN用的系统SDK的UI，Flutter是自绘制的UI，操作UI不需要bridge来进行通信 因此确保了性能，FLutter团队的成员之前大都是Chrome开发，因此FLutter玩法对web开发者比较友好 。更多Flutter原理 [如何评价 Google 的 Fuchsia、Android、iOS 跨平台应用框架 Flutter](https://www.zhihu.com/question/50156415)
 
-Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中非常有名的开发者，早年在 Apple 开发 WebKit，2008 年跳槽去了 Chrome 团队，十多年来一直从事Chrome 的开发， Flutter最初目的是提高web应用程序的体验 ，开始是基于chrome代码移除了很多功能，甚至移除渲染web程序的能力。，，跑了些benchmarks发现性能提升20倍。为了能够做更多的事情，又增加了很多功能，经过三次大的调整之后就成了现在的Flutter。FLutter也致力于提供高性能移动端跨平台App的开发体验，至于为啥选择Dart，官方回答是两个团队离的近。FLutter主要优点如下（可以概括为 简单、高性能、全平台的UI开发体验以及谷歌的大力支持）
+Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中非常有名的开发者，早年在 Apple 开发 WebKit，2008 年跳槽去了 Chrome 团队，十多年来一直从事Chrome 的开发， Flutter最初目的是提高web应用程序的体验 ，于是开始内部试验，是基于chrome代码移除了很多功能，比如移除一些兼容性的代码，以及web开发中一些不常用的功能，甚至改了渲染机制 不再兼容web程序,。，，跑了些benchmarks发现性能提升20倍。为了能够做更多的事情，又增加了很多功能，经过三次大的调整之后就成了现在的Flutter。FLutter也致力于提供高性能移动端跨平台App的开发体验，至于为啥选择Dart，官方回答是两个团队离的近。FLutter主要优点如下（可以概括为 简单、高性能、全平台的UI开发体验以及谷歌的大力支持）
 
 ### 主要优点
 - 跨平台 基于[Skia绘图引擎](https://skia.org/index_zh)实现全平台UI绘制，Chrome、Chrome OS、安卓、火狐浏览器、火狐操作系统以及其它许多产品都使用它作为图形引擎。 FLutter目标是跑在android ios web linux mac windows，同时 也是作为谷歌未来系统fuchsia的御用的UI Kit。感觉这是要重新定义新标准的节奏。并且全平台的支持都是谷歌官方自己出的方案（RN官方只是支持ios 和android。桌面和web都是社区给的方案）FLutter也是谷歌内部多个Team的合作的作品（Dart、 Flutter、 chrome等）
-- HotReload 改了代码秒见效果。
+- HotReload 改了代码秒见效果。对开发调试效率有了巨大的提升
 - 性能: 旨在提供 60fps的刷新率,对于刷新率 120Hz 以上的设备上能达到 120fps。
 - Dart。 生来背着“灭掉JS，替换Java”的使命，前几年一直不是很火，最近谷歌开始重视起来。还专门为FLutter 进行Dart的优化，AOT模式下编译为可直接执行原生的代码。另外Dart语法简洁，比Java和OC写起来简单太多。异步单线程完全是前端的玩法，思路简单， 不像JAVA中那种新建一个线程请求数据，之后回到主线程来操作UI，
 - React style。 Flutter官方也表明过其设计思想最初也是受React个启发，一切都是Widget，没有像android ios 那些些activity fragment 杂七杂八的概念，写应用的模式与React几乎是一模一样，写的多了感觉就是用Dart写React。Flex布局思想可以直接用、React的Component 和 PureComponent，对应Flutter里面有StateFullWidget 和 StateLessWidget，Context 对应Flutter中的 inheritWidget，状态管理redux 对应Flutter_Redux，React里面可以用RxJS，Flutter里面可以用RxDart，都是Reactive UI风格、都是基于虚拟DOM实现UI更新，甚至React新出的Hooks,在Flutter 里面也有了第三方的支持-[flutter_hooks](https://github.com/rrousselGit/flutter_hooks)。个人感觉相比React Native 。Flutter才是真正的在Native App中React思想的实现，实现了曾经我对RN的一些期待(比如高频率交互动画）
