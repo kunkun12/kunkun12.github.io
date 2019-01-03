@@ -9,7 +9,7 @@ Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中�
 ### 主要优点
 - 跨平台 基于[Skia绘图引擎](https://skia.org/index_zh)实现全平台UI绘制，Chrome、Chrome OS、安卓、火狐浏览器、火狐操作系统以及其它许多产品都使用它作为图形引擎。 FLutter目标是跑在android ios web linux mac windows，同时 也是作为谷歌未来系统fuchsia的御用的UI Kit。感觉这是要重新定义新标准的节奏。并且全平台的支持都是谷歌官方自己出的方案（RN官方只是支持ios 和android。桌面和web都是社区给的方案）FLutter也是谷歌内部多个Team的合作的作品（Dart、 Flutter、 chrome等）
 - HotReload 改了代码秒见效果。
-- 性能 致力于提供60fps的帧率体验。
+- 性能: 旨在提供 60fps的刷新率,对于刷新率 120Hz 以上的设备上能达到 120fps。
 - Dart。 生来背着“灭掉JS，替换Java”的使命，前几年一直不是很火，最近谷歌开始重视起来。还专门为FLutter 进行Dart的优化，AOT模式下编译为可直接执行原生的代码。另外Dart语法简洁，比Java和OC写起来简单太多。异步单线程完全是前端的玩法，思路简单， 不像JAVA中那种新建一个线程请求数据，之后回到主线程来操作UI，
 - React style。 Flutter官方也表明过其设计思想最初也是受Reac个启发，一切都是Widget，没有像android ios 那些些activity fragment 杂七杂八的概念，写应用的模式与React几乎是一模一样，写的多了感觉就是用Dart写React。Flex布局思想可以直接用、React的Component 和 PureComponent，对应Flutter里面有StateFullWidget 和 StateLessWidget，Context 对应Flutter中的 inheritWidget，状态管理redux 对应Flutter_Redux，React里面可以用RxJS，Flutter里面可以用RxDart，都是Reactive UI风格、都是基于虚拟DOM实现UI更新，甚至React新出的Hooks,在Flutter 里面也有了第三方的支持。相比React Native 。Flutter才是真正的在Native App中React思想的实现，实现了曾经我对RN的一些期待(比如高频率交互动画）
 - 响应式UI，数据绑定到UI，数据改变后“刷新”UI，不需要获取UI某个元素，手动去更新UI。
@@ -24,8 +24,8 @@ Flutter创始人[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中�
 
 - 截止目前（2019年 1月初） 。FLutter在 github上issue， 处于open状态的有些多。处于Open状态的4K+ ，closed 为1.1W。相比RN的数据则为600+ 和1.4W。当然也从另一个方面反映了Flutter受关注度很大，毕竟也是从18年开始火起来的，官方还没来得及解决。这个数据半年后再看
 - 在开发过程中遇到两个问题在模式下工作正常 在release模式下，无法work。 并在release模式下调试体验不好。debug 与release模式下运行渲染效果不一样。并且一旦发生了这种问题，调试起来也很棘手，一般跟底层机制有关 比如我最近遇到的这个问题 [23339](https://github.com/flutter/flutter/issues/23339)
-- 虽然号称高性能，但目前综合一些评测评测以及个人体验来看 距离Native 还是有些差距。
-- UI写法，写不好容易发生多层次嵌套，形成嵌套地域，写UI感觉XML更舒服一些，github也开了两个issue 建议出一套类似JSX的UI规范[11609](https://github.com/flutter/flutter/issues/11609) [15922](https://github.com/flutter/flutter/issues/15922) 被否了，有第三方搞出来一个[DSX](https://spark-heroku-dsx.herokuapp.com/index.html)
+- 虽然号称高性能，但目前综合一些评测评测以及个人体验来看，debug模式下有的卡顿问题，在release模式下基本可以做到流畅， 但距离真正的Native 还是有些差距。
+- UI写法，写不好容易发生多层次嵌套，形成嵌套地域，可读性也不高，很快看不懂自己写代码了，写UI感觉XML更舒服一些，github也开了两个issue 建议出一套类似JSX的UI规范[11609](https://github.com/flutter/flutter/issues/11609) [15922](https://github.com/flutter/flutter/issues/15922) 被否了，有第三方搞出来一个[DSX](https://spark-heroku-dsx.herokuapp.com/index.html) 
 - Webview  Flutter本身不提供webview组件，应该也不会专门提供Webview， 但是提供webview的插件来，通过使用系统SDK的webview来实现，这样可以使用Dart对webview进行基本的操作，但是并没有提供Dart 和 JavaScript 通信机制以及对Webview发出请求的拦截，当然开发者完全可以自己去定义，webview 跟系统SDK通信，然后系统SDK使用channel机制与Dart通信，目前支持的Dart与webview的交互也是这种套路。
 - 图片缓存，Flutter的Image组件本身不支持离线缓存（支持运行时最大1000张图片以及上线100M运行时缓存），比如浏览过的图片，断网重启APP查看，无法加载了，可以结合第三方插件cached_network_image。
 - 有时候Hotreload不生效，需要重启运行方可。
