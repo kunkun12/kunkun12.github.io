@@ -2,7 +2,7 @@ title: FLutter总结以及学习资料
 date: 2018-12-03 13:34:38
 tags:
 ---
-2014年谷歌开始搞了个实验项目 Sky ，在Dart Developer Summit 2015 第一次亮相[Sky: An Experiment Writing Dart for Mobile (Dart Developer Summit 2015)](https://www.youtube.com/watch?v=PnIWl33YMwA)，号称基于Dart来开发现代化移动优先的高性能 跨平台App，帧率可以达到120fps及以上，2015年10月 Sky 改名为Flutter，并发布了官方网站flutter.io，谷歌内部开始用Flutter开发实际项目，2018年发展迅速，开始火起来了,2018年12月初FLutter 1.0 released。可以看出Flutter跟RN差不多是时期的产品，Flutter在应用层玩法也是受React很多的启发，二者UI绘制工作原理不同，RN用的系统SDK的UI，Flutter是自绘制的UI，操作UI不需要bridge来进行通信 因此确保了性能，FLutter团队的成员大都是来自Chrome团队，里面也融入了不少Web的思想，以及FLutter的技术负责人也是因此FLutter玩法对web开发者比较友好 。更多Flutter原理 [如何评价 Google 的 Fuchsia、Android、iOS 跨平台应用框架 Flutter](https://www.zhihu.com/question/50156415)
+2014年谷歌开始搞了个实验项目 Sky ，在Dart Developer Summit 2015 第一次亮相[Sky: An Experiment Writing Dart for Mobile (Dart Developer Summit 2015)](https://www.youtube.com/watch?v=PnIWl33YMwA)，号称基于Dart来开发现代化移动优先的高性能 跨平台App、帧率可以达到120fps及以上，2015年10月 Sky 改名为Flutter，并发布了官方网站flutter.io，谷歌内部开始用Flutter开发实际项目，2018年发展迅速，开始火起来了,2018年12月初FLutter 1.0 released。可以看出Flutter跟RN差不多是同时期的产品，Flutter在应用层玩法也是受React很多的启发，二者UI绘制工作原理不同，RN用的系统SDK的UI，Flutter是自绘制的UI，操作UI不需要bridge来进行通信 因此确保了性能，FLutter团队的成员大都是来自Chrome团队，里面也融入了不少Web的思想，以及FLutter的技术负责人也是因此FLutter玩法对web开发者比较友好 。更多Flutter原理 [如何评价 Google 的 Fuchsia、Android、iOS 跨平台应用框架 Flutter](https://www.zhihu.com/question/50156415)
 
 Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit 项目中非常有名的开发者，早年在 Apple 开发 WebKit，2008 年跳槽去了 Chrome 团队，十多年来一直从事Chrome 的开发， [在他的一次访谈中](https://www.youtube.com/watch?v=h7HOt3Jb1Ts)透漏了一些Flutter的一些信息 ，Flutter最初目的是提高web应用程序的体验 ，于是开始内部试验，是基于chrome代码移除了很多功能，比如移除一些兼容性的代码，以及web开发中一些不常用的功能，甚至改了渲染机制 不再兼容web程序,。，，跑了些benchmarks发现性能提升20倍。为了能够做更多的事情，又增加了很多功能，经过三次大的调整之后就成了现在的Flutter。FLutter也致力于提供高性能移动端跨平台App的开发体验，至于[为什么 Flutter 会选择 Dart ？](https://www.infoq.cn/article/why-flutter-uses-dart)，除了Dart一系列有点(语法简单，同时支持AOT和JIT、速度快等）官方还说一个原因是是两个团队离的近。FLutter主要优点如下（可以概括为 简单、高性能、全平台的UI开发体验以及谷歌的大力支持）
 
@@ -14,7 +14,7 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 - React style。 Flutter官方也表明过其设计思想最初也是受React个启发，一切都是Widget，没有像android ios 那些些activity fragment 杂七杂八的概念，写应用的模式与React几乎是一模一样，写的多了感觉就是用Dart写React。Flex布局思想可以直接用、React的Component 和 PureComponent，对应Flutter里面有StateFullWidget 和 StateLessWidget，Context 对应Flutter中的 inheritWidget，状态管理redux 对应Flutter_Redux，React里面可以用RxJS，Flutter里面可以用RxDart，都是Reactive UI风格、都是基于虚拟DOM实现UI更新，甚至React新出的Hooks,在Flutter 里面也有了第三方的支持-[flutter_hooks](https://github.com/rrousselGit/flutter_hooks)。个人感觉相比React Native 。Flutter才是真正的在Native App中React思想的实现，实现了曾经我对RN的一些期待(比如高频率交互动画）
 - 响应式UI，数据绑定到UI，数据改变后“刷新”UI，不需要获取UI某个元素，手动去更新UI。
 - FLutter SDK 高度自由灵活，上层有丰富UI套件，除了Material Design的主题之外 还有一套ios的主题的配套组件，对于复杂UI 自己也可以从Canvas入手 自己来绘制。灵活度堪比系统的SDK。
-- 开发工具 Android Studio, IntelliJ, or VS Code都提供了Flutter的开发插件，且完善度很高，自动提示用起来也非常爽。支持断点调试，堆栈信息查看，直接跳入源码等 。
+- 开发工具 Android Studio, IntelliJ,VS Code都提供了Flutter的开发插件，且完善度很高，自动提示用起来也非常爽。支持断点调试，堆栈信息查看，直接跳入源码等 。
 - 提供了一套与系统SDK通信的机制 （channel)
 - 文档，官方文档 API文档 也是非常完善，也为其他开发者（android ios web reactnative Xamarin) 准备了详细的文档，可以对照学习，UI的思想都差不多。帮助其他的开发者快速入坑Flutter，文档完善度方面这点要比RN强不少了。还有中文翻译文档。以及源码里面的注释即文档。
 - 社区 目前有很多学习资料可供参考，谷歌官方也有一些视频。后面会附上链接。（信息过剩的时代，不好的信息也越来越多，甄别高质量的信息也非常重要，否则容易被淹没在一个偏角落里面，不把事件浪费在重复以及没有营养的信息上）
@@ -95,6 +95,6 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 - [Flutter | 状态管理拓展篇——RxDart(四)](https://juejin.im/post/5bcea438e51d4536c65d2232)
 - [Technical Debt and Streams/BLoC](https://www.youtube.com/watch?v=fahC3ky_zW0&t=0s&index=26&list=PLOU2XLYxmsIJ7dsVN4iRuA7BT8XHzGtCr) BLOC是谷歌官方推荐的状态管理方式。
 - [Flutter Architecture Samples](http://fluttersamples.com/)
-- [Build reactive mobile apps with Flutter (Google I/O '18)](https://www.youtube.com/watch?v=RS36gBEp8OI) 2018谷歌I/O关于Flutter演讲
+- [Build reactive mobile apps with Flutter (Google I/O '18)](https://www.youtube.com/watch?v=RS36gBEp8OI) 2018谷歌I/O关于Flutter 状态管理的演讲
 - [BLOC-a predictable state management library for Dart.](https://felangel.github.io/bloc/#/)
 - [State Management Using BLoC Pattern In Flutter](https://hk.saowen.com/a/fbb6e484de022173fe85248875286060ce40d069c97420bc0be49d838e19e372)
