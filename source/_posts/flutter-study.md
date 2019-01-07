@@ -14,10 +14,11 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 - 跨平台 基于[Skia绘图引擎](https://skia.org/index_zh)实现全平台UI绘制，Chrome、Chrome OS、安卓、火狐浏览器、火狐操作系统以及其它许多产品都使用它作为图形引擎。 FLutter目标是跑在android ios web linux mac windows，同时 也是作为谷歌未来系统fuchsia的御用的UI Kit（当然FLutter目前的重点还是在移动设备）。感觉这是要重新定义新标准的节奏。并且全平台的支持都是谷歌官方自己出的方案（RN官方只是支持ios 和android。桌面和web都是社区给的方案）FLutter也是谷歌内部多个Team的合作的作品（Dart、 Flutter、 chrome等）
 - HotReload 改了代码秒见效果。对开发调试效率有了巨大的提升
 - 性能: 旨在提供 60fps的刷新率,对于刷新率 120Hz 以上的设备上能达到 120fps。
-- Dart。 生来背着“灭掉JS，替换Java”的使命，前几年一直不是很火，最近谷歌开始重视起来。还专门为FLutter 进行Dart的优化，在Rlease模式下直接将Dart编译成本地机器码，避免解释代码执行带来的性能消耗。另外Dart语法简洁，比Java和OC写起来简单太多。异步单线程完全是前端的玩法，思路简单， 不像JAVA中那种新建一个线程请求数据，之后回到主线程来操作UI，
+- Dart。 生来背着“灭掉JS，替换Java”的使命，前几年一直不是很火，最近谷歌开始重视起来。还专门为FLutter 进行Dart的优化，在Rlease模式下直接将Dart编译成本地机器码，避免解释代码执行带来的性能消耗。另外Dart语法简洁，比Java和OC写起来简单太多。异步单线程完全是前端的玩法，思路简单， 不像JAVA中那种新建一个线程请求数据，之后回到主线程来操作UI。
+- [非常丰富的widget库](https://flutter.io/docs/reference/widgets)。举个例子:比如列表拖动，也有现成的widget [ReorderableListView](https://docs.flutter.io/flutter/material/ReorderableListView-class.html),对[material design](https://docs.flutter.io/flutter/material/material-library.html)支持也非常好,对ios的支持也有[cupertino主题](https://docs.flutter.io/flutter/cupertino/cupertino-library.html)
 - React style。 Flutter官方也表明过其设计思想最初也是受React个启发，一切都是Widget，没有像android ios 那些些activity fragment 杂七杂八的概念，写应用的模式与React几乎是一模一样，写的多了感觉就是用Dart写React。Flex布局思想可以直接用、React的Component 和 PureComponent，对应Flutter里面有StateFullWidget 和 StateLessWidget，Context 对应Flutter中的 inheritWidget，状态管理redux 对应Flutter_Redux，React里面可以用RxJS，Flutter里面可以用RxDart，都是Reactive UI风格、都是基于虚拟DOM实现UI更新，甚至React新出的Hooks,在Flutter 里面也有了第三方的支持-[flutter_hooks](https://github.com/rrousselGit/flutter_hooks)。个人感觉相比React Native 。Flutter才是真正的在Native App中React思想的实现，实现了曾经我对RN的一些期待(比如高频率交互动画）
 - 响应式UI，数据绑定到UI，数据改变后“刷新”UI，不需要获取UI某个元素，手动去更新UI。
-- FLutter SDK 高度自由灵活，上层有丰富UI套件，除了Material Design的主题之外 还有一套ios的主题的配套组件，对于复杂UI 自己也可以从Canvas入手 自己来绘制。灵活度堪比系统的SDK。
+- FLutter SDK 高度自由灵活，上层有丰富UI套件，除了Material Design的主题之外 还有一套ios的主题的配套组件，除此之外，对于复杂UI 自己也可以从底层Canvas入手 自己来绘制。灵活度堪比系统的SDK。
 - 开发工具 Android Studio, IntelliJ,VS Code都提供了Flutter的开发插件，且完善度很高，自动提示用起来也非常爽。支持断点调试，堆栈信息查看，直接跳入源码等 。
 - 提供了一套与系统SDK通信的机制 （channel)
 - 文档，官方文档 API文档 也是非常完善，也为其他开发者（android ios web reactnative Xamarin) 准备了详细的文档，可以对照学习，UI的思想都差不多。帮助其他的开发者快速入坑Flutter，文档完善度方面这点要比RN强不少了。还有中文翻译文档。以及源码里面的注释即文档。
@@ -85,10 +86,9 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 - [使用 Flutter 快速构建美观又高性能的移动应用](https://www.bilibili.com/video/av27857568) Flutter介绍 一个中文的演讲视频
 - http://flutter-dev.cn/ 中文论坛
 - https://flutterchina.club/ 部分文档中文翻译
-- https://juejin.im/tag/Flutter 内容有些多，自己筛选好的信息吧，不要浪费时间
-- http://flutter.link/archives/ 
-- https://juejin.im/post/5a9a21f8518825558b3d5d35 
-- [Flutter干货学堂](https://zhuanlan.zhihu.com/xytech) 闲鱼团队关于Flutter系列文档，内容质量很高。
+- http://flutter.link/archives/ 基础教程，一些组件的使用，demo gif图直观演示
+- https://juejin.im/post/5a9a21f8518825558b3d5d35 与JS类似的 Dart异步机制
+- [Flutter干货学堂](https://zhuanlan.zhihu.com/xytech) 闲鱼团队关于Flutter系列文档，内容质量很高。强烈推荐
 - [GSYGithubAppFlutter](https://github.com/CarGuo/GSYGithubAppFlutter) 一个不错的项目有源码还有一系列介绍文档
 
 #### 状态管理 
