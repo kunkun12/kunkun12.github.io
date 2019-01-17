@@ -37,7 +37,7 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 - Webview  Flutter本身不提供webview组件，之后应该也不会专门提供Webview， 可以使用Flutter社区提供的[Flutter_webview_plugin](https://github.com/Fluttercommunity/Flutter_webview_plugin)插件，本质通过使用系统SDK的webview来实现，这样可以使用Dart对webview进行基本的操作，但是并没有提供Dart 和 JavaScript通信机制以及对Webview发出请求的拦截，当然开发者完全可以自己去定义，webview 跟系统SDK通信，然后系统SDK使用channel机制与Dart通信，目前支持的Dart与webview的交互也是这种套路。
 - 图片缓存，Flutter的Image组件本身不支持离线缓存（支持运行时最大1000张图片以及上线100M运行时缓存），比如浏览过的图片，断网重启APP查看，无法加载了，可以结合第三方插件cached_network_image。
 - 有时候Hotreload不生效，需要重启运行方可。
-- 实战了一个例子， Release打包之后 Android下有 6M。iOS打包之后有30M。这个包不算小了。
+- 实战了一个例子， Release打包之后 Android下有 6M。iOS打包之后有12M。这个包不算小了。
 
 总结，小问题不少，但没有太大的硬伤，随着时间一些问题应该可以解决，或者被慢慢接受。
 
