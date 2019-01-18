@@ -34,9 +34,13 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 - 在开发过程中遇到两个问题在模式下工作正常 在release模式下，无法work。 并在release模式下调试体验不好。debug 与release模式下运行渲染效果不一样。并且一旦发生了这种问题，调试起来也很棘手，一般跟底层机制有关 比如我最近遇到的这个问题 [issues-23339](https://github.com/Flutter/Flutter/issues/23339)
 - 虽然号称高性能，但目前综合一些评测评测以及个人体验来看，debug模式下有的卡顿问题，在release模式下基本可以做到流畅， 但距离真正的Native 还是有些差距。
 - UI写法，写不好容易发生多层次嵌套，形成嵌套地域，可读性也不高，很快看不懂自己写代码了，写UI感觉XML更舒服一些，github也开了两个issue 建议出一套类似JSX的UI规范[11609](https://github.com/Flutter/Flutter/issues/11609) [issues-15922](https://github.com/Flutter/Flutter/issues/15922) 被否了，有第三方搞出来一个[DSX](https://spark-heroku-dsx.herokuapp.com/index.html) 
-- Webview  Flutter本身不提供webview组件，之后应该也不会专门提供Webview， 可以使用Flutter社区提供的[Flutter_webview_plugin](https://github.com/Fluttercommunity/Flutter_webview_plugin)插件，本质通过使用系统SDK的webview来实现，这样可以使用Dart对webview进行基本的操作，但是并没有提供Dart 和 JavaScript通信机制以及对Webview发出请求的拦截，当然开发者完全可以自己去定义，webview 跟系统SDK通信，然后系统SDK使用channel机制与Dart通信，目前支持的Dart与webview的交互也是这种套路。
+- Webview:  Flutter本身不提供自绘的webview组件，利用Platform view的能力，使用Native UI层面的组件，以Plugin的形式提供， 可以使用Flutter社区提供的flutter_webview_plugin插件，本质通过使用系统SDK的webview来实现，这样可以使用Dart对webview进行基本的操作，但是并没有提供Dart 和 JavaScript通信机制以及对Webview发出请求的拦截，当然开发者完全可以自己去定义，webview 跟系统SDK通信，然后系统SDK使用channel机制与Dart通信，目前支持的Dart与webview的交互也是这种套路。
+- 地图    国内的地图官方还没有提供Flutter的SDK, 通过包装Native的SDK结合Platform view 来实现,可以参考文档 阿里云云栖社区：在Flutter中嵌入Native组件的正确姿势是...   、 Exploring Google Maps in Flutter
+
 - 图片缓存，Flutter的Image组件本身不支持离线缓存（支持运行时最大1000张图片以及上线100M运行时缓存），比如浏览过的图片，断网重启APP查看，无法加载了，可以结合第三方插件cached_network_image。
 - 有时候Hotreload不生效，需要重启运行方可。
+- 与现有的App 集成起来坑不少。
+- 异常错误提示不是很友好，排查错误的体验不好
 - 实战了一个例子， Release打包之后 Android下有 6M。iOS打包之后有12M。这个包不算小了。
 
 总结，小问题不少，但没有太大的硬伤，随着时间一些问题应该可以解决，或者被慢慢接受。
@@ -47,6 +51,11 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 另外Hummingbird（Flutter web版代号）release之后，可发挥的空间更大，比如写个编辑器用Hummingbird在web端预览，然后拖拉拽一把梭生成native的主流程。Flutter可以收割一波Web开发者
 另外就是Fuchsia 这个系统不知道谷歌会有什么态度，如果谷歌大力支持的话，应该也能为Flutter带来不少流量。
 
+2019-01-18 更新一下: Flutter [2019的RoadMap](https://github.com/flutter/flutter/wiki/Roadmap?linkId=62503685)出来了，对刚才说的那些不足进行完善
+- 增强基础设施 完善生态、工具等来提高开发体验更好的与现有的app集成
+- 支持动态更新（Android下支持从sever端下发代码
+- 发布Web版（继续试验桌面版)
+- 其他 bug修复、性能优化、完善文档 完善webview和map 支持 local notifications 以及 local data storage. 、提高错误排查体验 等 总之不断变的更好
 
 
 
@@ -54,7 +63,7 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 学习新东西可能会比较慢，这也是值得庆幸，把自己不懂的东西看懂 就是进步，人的能力的提高也是这个过程，先弄懂什么，然后在研究怎么用，然后再去看源码。资料非常多，质量也非常高，阅读资料的之后，最重要的是写代码练习，理解原理重要 敲代码也很重要。
 
 - [Dart基础学习](https://www.dartlang.org/guides/language/language-tour) 看完这个应该差不多了。
--  读[官方文档](https://Flutter.io/docs) 搭建Flutter开发环境，有的同学连文档都不仔细看 直接一把梭，遇到问题到群里问，部分文档也有[中文的翻译](https://Flutterchina.club/docs/)。至于Web开发者 [Flutter for web developers](https://Flutter.io/docs/get-started/Flutter-for/web-devs)这篇文章一定要看，同理也有 [Flutter for Android developers](https://Flutter.io/docs/get-started/Flutter-for/android-devs) 、(Flutter for iOS developers)[https://Flutter.io/docs/get-started/Flutter-for/iOS-devs] 等。
+-  读[官方文档](https://Flutter.io/docs) 搭建Flutter开发环境，有的同学连文档都不仔细看 直接一把梭，遇到问题到群里问，部分文档也有[中文的翻译](https://Flutterchina.club/docs/)。至于Web开发者 [Flutter for web developers](https://Flutter.io/docs/get-started/Flutter-for/web-devs)这篇文章一定要看，同理也有 [Flutter for Android developers](https://Flutter.io/docs/get-started/Flutter-for/android-devs) 、[Flutter for iOS developers](https://Flutter.io/docs/get-started/Flutter-for/iOS-devs) 等。
 [Codelabs](https://Flutter.io/docs/codelabs) 这里面的一些例子可以照着抄一篇，尝试自己去理解一下。看完文档直接撸UI应该是没有问题了，国内开发者也在编写[Flutter实战](https://book.Flutterchina.club/) 
 - 关于Widget的学习，Flutter有不少的Widget， 分类去理解的话会简单的很多 比如一些基础的像图片 文本 输入框。然后是布局类Row Column 实现FlexBox布局，Wrap实现Flexbox中的自动折行，Stack Positioned实现web中绝对定位的层叠效果。容器类重点Container弄懂，这个基本上相当于Web中的div了。另一类就是滚动组件。。。
 
