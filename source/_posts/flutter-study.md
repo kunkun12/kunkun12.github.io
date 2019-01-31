@@ -104,6 +104,9 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 - [GSYGithubAppFlutter](https://github.com/CarGuo/GSYGithubAppFlutter) 一个不错的项目有源码还有一系列介绍文档
 
 #### 状态管理 
+
+状态管理有 scopemodal、redux、rx.dart,bloc 以及mobx 几种方式，其中bloc是谷歌推荐的模式
+
 - [State management](https://Flutter.io/docs/development/data-and-backend/state-mgmt)
 - [Flutter | 状态管理探索篇——Scoped Model（一)](https://juejin.im/post/5b97fa0d5188255c5546dcf8) 我感觉Scoped Model在一般的项目用起来就比较合适了，也很简单 
 - [Flutter | 状态管理探索篇——Redux（二）](https://juejin.im/post/5ba26c086fb9a05ce57697da)
@@ -111,6 +114,7 @@ Flutter早起成员之一[Eric Seidel](https://twitter.com/_eseidel) 是WebKit �
 - [Flutter | 状态管理拓展篇——RxDart(四)](https://juejin.im/post/5bcea438e51d4536c65d2232)
 - [Technical Debt and Streams/BLoC](https://www.youtube.com/watch?v=fahC3ky_zW0&t=0s&index=26&list=PLOU2XLYxmsIJ7dsVN4iRuA7BT8XHzGtCr) BLOC是谷歌官方推荐的状态管理方式。
 - [Flutter Architecture Samples](http://Fluttersamples.com/)
+- [Mobx.dart](https://github.com/mobxjs/mobx.dart)
 - [Build reactive mobile apps with Flutter (Google I/O '18)](https://www.youtube.com/watch?v=RS36gBEp8OI) 2018谷歌I/O关于Flutter 状态管理的演讲
 - [BLOC-a predictable state management library for Dart.](https://felangel.github.io/bloc/#/)
 - [State Management Using BLoC Pattern In Flutter](https://hk.saowen.com/a/fbb6e484de022173fe85248875286060ce40d069c97420bc0be49d838e19e372)
