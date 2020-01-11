@@ -99,8 +99,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/03/20/oo-3-features/">
-                面向对象编程3大特性 7大原则[转] 
+              <a class="post-title-link" href="/2015/02/26/mac-env/">
+                mac上常用的工具
               </a>
             
           
@@ -110,15 +110,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-20
+              发表于 2015-02-26
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/20/oo-3-features/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/oo-3-features/"></span>
+            <a href="/2015/02/26/mac-env/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/26/mac-env/"></span>
             </a>
           </span>
           
@@ -133,125 +133,70 @@
         
 
         
-          <p>原文地址&lt;<a href="http://blog.163.com/wumingli456@126/blog/static/28896414201211121629525" target="_blank" rel="noopener">http://blog.163.com/wumingli456@126/blog/static/28896414201211121629525</a> &gt;</p>
-<h3 id="面向对象的特性"><a href="#面向对象的特性" class="headerlink" title="面向对象的特性"></a>面向对象的特性</h3><p>三个基本的特性：封装、继承与多态。</p>
-<p>1、封装<br>面向对象编程核心思想这一就是就是将数据和对数据的操作封装在一起.通过抽象,即从具体的实例中抽取共同的性质形成一般的概念,比如类的概念.</p>
-<p>2、继承<br>继承体现了一种先进的编程模式.子类可以继承父类的属性和功能,即子类继承了父类所具有的数据和数据上的操作,同时又可以增添子类独有的数据和数据上的操作.例如,”人类”继承了”哺乳类”的属性和功能,同时又增添了人类独有的属性和功能.</p>
-<p>3、多态<br> 多态是面向对象编程的又一重要特征.有两种意义的多态（表现为方法的重写(Overriding)和重载(Overloading)）<br> 一种是操作名称的多态,即有多个操作具有相同的名字,但这些操作所接收的消息类型必须不同.所谓操作名称的多态是指可以向操作传递不同消息,以便让对象根据相应的消息来产生一定的行为.</p>
-<h3 id="七大基本原则"><a href="#七大基本原则" class="headerlink" title="七大基本原则"></a>七大基本原则</h3><p> 单一职责原则SRP(Single Responsibility Principle)、开放封闭原则OCP(Open－Close Principle) 、替换原则、依赖原则(the Dependency Inversion Principle DIP) (the Liskov Substitution Principle LSP) 、接口分离原则(the Interface Segregation Principle ISP)、“迪米特”法则 、组合/聚合原则 </p>
-<p>1、单一职责原则SRP(Single Responsibility Principle)<br>即一个类只负责一项职责<br>可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>提高类的可读性，提高系统的可维护性；<br>变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
-<p>2、开放封闭原则OCP(Open－Close Principle)<br>一个模块在扩展性方面应该是开放的而在更改性方面应该是封闭的。比如：一个网络模块，原来只服务端功能，而现在要加入客户端功能，<br>那么应当在不用修改服务端功能代码的前提下，就能够增加客户端功能的实现代码，这要求在设计之初，就应当将服务端和客户端分开，公共部分抽象出来。</p>
-<p>3、里氏替换原则(the Liskov Substitution Principle LSP)<br>子类应当可以替换父类并出现在父类能够出现的任何地方。</p>
-<p>4、依赖倒转原则(the Dependency Inversion Principle DIP)<br>具体依赖抽象，上层依赖下层。假设B是较A低的模块，但B需要使用到A的功能，<br>这个时候，B不应当直接使用A中的具体类： 而应当由B定义一抽象接口，并由A来实现这个抽象接口，B只使用这个抽象接口：这样就达到<br>了 依赖倒置的目的，B也解除了对A的依赖，反过来是A依赖于B定义的抽象接口。通过上层模块难以避免依赖下层模块，假如B也直接依赖A的实现，那么就可能造 成循环依赖。一个常见的问题就是编译A模块时需要直接包含到B模块的cpp文件，而编译B时同样要直接包含到A的cpp文件。</p>
-<p>5、接口分离原则(the Interface Segregation Principle ISP)<br>模块间要通过抽象接口隔离开，而不是通过具体的类强耦合起来。即面向接口编程</p>
-<p>6、“迪米特”法则<br>又叫最少知识原则，就是说，一个对象应当对其他对象有尽可能少的了解<br>① 在类的划分上，应该创建有弱耦合的类；<br>② 在类的结构设计上，每一个类都应当尽量降低成员的访问权限；<br>③ 在类的设计上，只要有可能，一个类应当设计成不变类；<br>④ 在对其他类的引用上，一个对象对其它对象的引用应当降到最低；<br>⑤ 尽量降低类的访问权限；<br>⑥ 谨慎使用序列化功能；<br>⑦ 不要暴露类成员，而应该提供相应的访问器(属性)。 </p>
-<p>7、.组合/聚合原则<br>又叫合成复用原则。原则就是在一个新的对象里面通过关联关系（包括组合关系和聚合关系）使用一些已有的对象，使之成为新对象的一部分，新对象通过委派调用已有对象的方法达到复用其已有功能的目的。也就是，要尽量使用类的合成复用，尽量不要使用继承。<br>就是在一个新的对象里面使用一些已有的对象，使之成为新对象的一部分，新的对象通过向这些对象的委派达到复用已有功能的目的。这个原则有一个简短的描述：要尽量使用合成、聚合，尽量不要使用继承。</p>
-<p>1)  新对象存取成分对象的唯一方法是通过成分对象的接口</p>
-<p>2)  这种复用是黑箱复用，因为成分对象的内部细节是新对象所看不到的</p>
-<p>3)  这种复用可以在运行时间内动态进行，新对象可以动态的引用与成分对象类型相同的对象</p>
-<p>4)  合成、聚合可以应用到任何环境中去，而继承只能应用到一些有限环境中去</p>
-<p>5)  导致错误的使用合成、聚合与继承的一个常见原因是错误的把“Has-a”关系当作“Is-a”关系。如果两个类是“Has-a”关系那么应使用合成、聚合，如果是“Is-a”关系那么可使用继承</p>
-<p>在面向对象设计中，可以通过两种基本方法在不同的环境中复用已有的设计和实现，即通过组合/聚合关系或通过继承。</p>
-<p>1)   继承复用：实现简单，易于扩展。破坏系统的封装性，从基类继承而来的实现是静态的，不可能在运行时发生改变，没有足够的灵活性；只能在有限的环境中使用。（“白箱”复用 ）</p>
-<p>2)   组合/聚合复用：耦合度相对较低，选择性地调用成员对象的操作；可以在运行时动态进行。（“黑箱”复用 ）</p>
-<p>组合/聚合可以使系统更加灵活，类与类之间的耦合度降低，一个类的变化对其他类造成的影响相对较少，因此一般首选使用组合/聚合来实现复用；</p>
-<p>其次才考虑继承，在使用继承时，需要严格遵循里氏代换原则，有效使用继承会有助于对问题的理解，降低复杂度，而滥用继承反而会增加系统构建和维护的难度以及系统的复杂度，因此需要慎重使用继承复用。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/面向对象/">
-                #面向对象
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/20/css-inline/">
-                css inline
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-20
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/20/css-inline/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/css-inline/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>今天使用要为元素设置水平居中的时候发现 <code>margin:0 auto</code> 不起作用，查资料发现原来我给div设置了的是<code>disply:inline-block</code>属性,这种情况下 <code>margin:0 auto</code> 是无效的，于是通过给父元素div 设置了 <code>text-aglin:center</code>得以解决.然后搜集了一些资料，加深一下对inline 属性的了解。</p>
-<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><ol>
-<li>inline元素, 有效的: <code>background</code>, <code>margin-left</code>, <code>margin-right</code>, <code>padding</code>, <code>border</code></li>
-<li>inline元素, 无效的: <code>width</code>, <code>height</code>, <code>margin-top</code>, <code>margin-bottom</code> (个别除外)</li>
-<li>因width, height无效, 因此下列属性也无效: <code>text-align</code>, <code>text-indent</code>, <code>min|max-width|height</code>, <code>overflow</code> </li>
-<li>原文字相关的依然有效, 如<code>word-spacing</code>,  <code>word-wrap</code>,  <code>white-space</code>, <code>letter-spacing</code> </li>
-<li>下面两个有效, <code>line-height</code>, <code>vertical-align</code>, <code>box-shadow</code> </li>
-<li><code>float</code>,<code>position</code>及与之相关<code>top</code>,<code>left</code>, 不考虑, 已经不是inline了 </li>
-<li><code>img</code>, <code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 设置inline与inline-block, 效果是一样的, 没有变化, 都等同于设置了inline-block </li>
-</ol>
-<h4 id="思考"><a href="#思考" class="headerlink" title="思考:"></a>思考:</h4><ol>
-<li>inline元素的宽高是不能定义, 即宽高度是由inline元素inline内容的元素决定的,(ie6,ie7下高度会受inline-block元素的影响) </li>
-<li>即宽高完全是自适应而得出的, 因此也不存在overflow的问题, <code>min|max-width|height</code>也没有影响 </li>
-<li>margin四个属性, <code>left|right</code> 与 <code>top|bottom</code>有不同的待遇 </li>
-<li><code>margin-top</code>, <code>margin-bottom</code>, 可以用line-height模拟, 但有很大不同, 与<code>inline-block</code>也不兼容,  另 <code>margin:0 auto</code> 的居中效果, 也没有作用 </li>
-</ol>
-<h4 id="最后"><a href="#最后" class="headerlink" title="最后:"></a>最后:</h4><p>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
+          <p>我的mac (OS X)上常用的工具。。。</p>
+<h1 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h1><ul>
+<li>sublime</li>
+<li>webstorm</li>
+<li>ADT/android studio android环境</li>
+<li>git</li>
+<li>source tree git客户端</li>
+<li>charles</li>
+<li>Photoshop</li>
+<li>liteIDE go开发工具</li>
+<li>Appzapper 软件卸载</li>
+<li>phpstorm PHP IDE</li>
+<li>xcode （IOS开发工具 ObjectC、swift）</li>
+<li>iTools</li>
+<li>QQ</li>
+<li>skype</li>
+<li>android transfer android文件传输</li>
+<li>MplayerX 视频播放器</li>
+<li>EasyHtml5video 视频格式转换</li>
+<li>迅雷</li>
+<li>搜狗输入法</li>
+<li>Dash</li>
+<li>Chrome</li>
+<li>Firefox Developer Edition</li>
+<li>office</li>
+<li>为之笔记</li>
+<li>virtual box （win7 虚拟机）</li>
+<li>gliffy Diagram 绘图工具</li>
+<li>izip unarchiver 解压工具 可以解压rar格式</li>
+<li>Mysql/navicat</li>
+<li>dash 查API的工具</li>
+<li>iterm+oh myzsh  终端工具(内置的终端界面不好看,体验也不好)</li>
+<li>vim （内置工具）</li>
+</ul>
+<h1 id="语言环境"><a href="#语言环境" class="headerlink" title="语言环境"></a>语言环境</h1><ul>
+<li>node/iojs</li>
+<li>go</li>
+<li>dart</li>
+<li>ruby （内置 2.0） mac上的软件管理工具 brew 基于ruby的。</li>
+<li>python （内置 2.7.6）</li>
+<li>java （内置了 open JDK）</li>
+<li>php/Yii （内置的不好用，自己编译，然后单独下载xdebug 并编译，有了xdebug可以在phpstorm下断点调试）</li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li>cordova/phonegap</li>
+<li>grunt/gulp</li>
+<li>fis</li>
+<li>hexo 博客系统</li>
+</ul>
+<p>其他内置工具  <code>safira</code> <code>Apache</code> <code>邮件客户端</code></p>
+<h2 id="常见的配置-文件"><a href="#常见的配置-文件" class="headerlink" title="常见的配置 文件"></a>常见的配置 文件</h2><h4 id="与环境变量相关的配置文件"><a href="#与环境变量相关的配置文件" class="headerlink" title="与环境变量相关的配置文件"></a>与环境变量相关的配置文件</h4><p><code>etc/profile</code> ,<code>/etc/bashrc</code>;<code>~/.bash_profile</code> ;<code>~/.bashrc</code>;<code>/etc/paths</code>; <code>/etc/paths.d</code> <a href="http://apple.stackexchange.com/questions/140507/what-is-the-complete-authoritative-way-in-which-mac-osx-10-9-and-later-builds-i" target="_blank" rel="noopener">相关链接</a></p>
 <ul>
-<li><code>b</code>, <code>big</code>, <code>i</code>, <code>small</code>, <code>tt</code></li>
-<li><code>abbr</code>, <code>acronym</code>, <code>cite</code>, <code>code</code>, <code>dfn</code>, <code>em</code>, <code>kbd</code>, <code>strong</code>, <code>samp</code>, <code>var</code></li>
-<li><code>a</code>, <code>bdo</code>, <code>br</code>, <code>img</code>, <code>map</code>, <code>object</code>, <code>q</code>, <code>script</code>, <code>span</code>, <code>sub</code>, <code>sup</code></li>
-<li>表单元素:<code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 与inline-block等同</li>
+<li>软件相关配置目录在 home目录下 隐藏文件 以.开头 比如<code>.adobe</code> <code>.android</code> <code>.cache</code> <code>.cnpmrc</code> <code>.composer</code> <code>.config</code> <code>.cordova</code> <code>.dbshell</code> <code>.eclipse</code> <code>.gem</code> <code>.gradle</code> <code>.npm</code>等等.</li>
+</ul>
+<h4 id="apache-配置文件"><a href="#apache-配置文件" class="headerlink" title="apache 配置文件"></a>apache 配置文件</h4><ul>
+<li>主配置文件 <code>/etc/apache2/httpd.conf</code></li>
+<li><p>虚拟主机配置 <code>/etc/apache2/extra/httpd-vhosts.conf</code>  <a href="https://gist.github.com/kunkun12/1d1787d8c8f758cea4af" target="_blank" rel="noopener">参考</a></p>
+</li>
+<li><p>node 版本 webServer快速配置 适合前端开发使用，代码变化之后自动刷新页面  <a href="https://gist.github.com/kunkun12/31fb79a11e4cfd521b8e" target="_blank" rel="noopener">配置文件</a></p>
+</li>
+</ul>
+<ul>
+<li>2015-四月开始使用atom 代码编辑器，感觉比sublime还要爽,不过打开大文件会卡。<br>需要配合一些插件。比如git-plus,autocomplete-plus,color-picker,git-log,language-jade,open-last-project,terminal-panel(shift+enter)</li>
+<li>然而用了 atom 半年之久实在太卡了，最终转回来了sublime3 <a href="https://packagecontrol.io/packages/Theme%20-%20Afterglow" target="_blank" rel="noopener">换了个好看的主题</a>  需要配合一些插件 比如 less/sass jade jsformat terminal emmet git等</li>
 </ul>
 
         
@@ -264,8 +209,8 @@
         
           <div class="post-tags">
             
-              <a href="/tags/CSS/">
-                #CSS
+              <a href="/tags/env-mac/">
+                #env mac
               </a>
             
           </div>
@@ -293,8 +238,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/03/19/finding-object-size/">
-                ECMASCRIPT 5 Object.keys 
+              <a class="post-title-link" href="/2015/01/16/ES6-Featues/">
+                ECMAScript 6 新特性总结
               </a>
             
           
@@ -304,15 +249,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-19
+              发表于 2015-01-15
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/19/finding-object-size/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/19/finding-object-size/"></span>
+            <a href="/2015/01/16/ES6-Featues/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/16/ES6-Featues/"></span>
             </a>
           </span>
           
@@ -327,100 +272,7 @@
         
 
         
-          <h4 id="问题提出-我要获取一个对象包含属性的个数"><a href="#问题提出-我要获取一个对象包含属性的个数" class="headerlink" title="问题提出 我要获取一个对象包含属性的个数"></a>问题提出 我要获取一个对象包含属性的个数</h4><p>在我们使用Javascript的过程中、我们经常把Object当做散列或者Map来使用。有时候我想知道一个对象当前存了多少东西，假设我要分析一下 图书馆里图书的数据 这里有个作者与对应图书的集合 ，这个对象包含了几项内容：如下</p>
-<pre><code>var bookAuthors = {
-    &quot;Farmer Giles of Ham&quot;: &quot;J.R.R. Tolkien&quot;,
-    &quot;Out of the Silent Planet&quot;: &quot;C.S. Lewis&quot;,
-    &quot;The Place of the Lion&quot;: &quot;Charles Williams&quot;,
-    &quot;Poetic Diction&quot;: &quot;Owen Barfield&quot;
-};
-</code></pre><p>作为分析的一部分，我们像一个API发送图书作者的数据，不幸的是 这个API只能接受一个包含100本左右的图书对象，于是我们需要向一个号的解决方案，在向API发送之前想告诉它一共包含了多少本书。</p>
-<h4 id="解决方案，使用for-in-变量所有属性，hasOwnProperty判断是不是属于当前对象本身的"><a href="#解决方案，使用for-in-变量所有属性，hasOwnProperty判断是不是属于当前对象本身的" class="headerlink" title="解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的"></a>解决方案，使用for in 变量所有属性，hasOwnProperty判断是不是属于当前对象本身的</h4><p>于是最初的设计可能如下</p>
-<pre><code>function countProperties (obj) {
-    var count = 0;
-
-    for (var property in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, property)) {
-            count++;
-        }
-    }
-
-    return count;
-}
-var bookCount = countProperties(bookAuthors);
-// Outputs: 4
-console.log(bookCount);
-</code></pre><p>之所以使用hasOwnProperty 是因为 for in 不但会对象本身的属性，同时也会遍历继承而来的属性 判断</p>
-<h4 id="Object-keys"><a href="#Object-keys" class="headerlink" title="Object.keys"></a>Object.keys</h4><p>当然这种 方案确实是可行的，那么如果能避免手工的计算属性的个数岂不是会更好，Javascript能不能直接获取呢。在ES5 中Object 有了一个 keys 属性是专门获取 对象属性的name并且返回一个数组。这里只返回这个对象本身的属性 不包含继承过来 ，作用等同于</p>
-<pre><code>  for (var property in obj) {
-     if (Object.prototype.hasOwnProperty.call(obj, property)) {                      
-    }
-}
-</code></pre><p>如果要获取一个对象属性的个数 获取Keys之后，通过数组的length属性就可以获取了。值得一提的是Object.keys(obj) ,只能通过这种方式，他是Object对象中的方法（有点是静态的意思），并不是在Object.prototype上的 因此我们自己定义的对象时没有这个方法的，所以正确的使用方式如下</p>
-<pre><code>var bookCount = Object.keys(bookAuthors).length;
-// Outputs: 4
-console.log(bookCount);
-</code></pre><p>错误的使用方式</p>
-<pre><code>var bookCount = bookAuthors.keys().length; //会报错的，自己声明的对象时不具有这个方法的
-</code></pre><h4 id="其他-Object-getOwnPropertyNames"><a href="#其他-Object-getOwnPropertyNames" class="headerlink" title="其他-Object.getOwnPropertyNames"></a>其他-Object.getOwnPropertyNames</h4><p>同时也是在ES5中 有个类似的方法 Object.defineProperties，两者也稍有区别</p>
-<p>Object.keys 以及Object.getOwnPropertyNames()用来获取对象中的属性的name，不包括继承来的属性，两者区别是Object.keys 只能获取可遍历的属性的名字的数组。举个例子</p>
-<pre><code> var person = {};
-Object.defineProperties(person, 
-    {
-        &quot;name&quot;: {value: &apos;Cody Lindley&apos;,enumerable: true},
-        &quot;age&quot;: {value: 38,enumerable: false}
-    }
-);
-//只返回可以可遍历的属性 
-console.log(Object.keys(person)); //logs [&quot;name&quot;]
-//return array of all properties, including ones that are non-enumerable
-console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
-</code></pre><h4 id="ployFill-为不支持ES5的浏览器提供支持"><a href="#ployFill-为不支持ES5的浏览器提供支持" class="headerlink" title="ployFill 为不支持ES5的浏览器提供支持"></a>ployFill 为不支持ES5的浏览器提供支持</h4><p>以下摘自<a href="https://github.com/kunkun12/es5-shim/blob/master/es5-shim.js" target="_blank" rel="noopener">es5-shim</a></p>
-<pre><code>   var hasDontEnumBug = true,
-        hasProtoEnumBug = (function () {}).propertyIsEnumerable(&apos;prototype&apos;),
-        dontEnums = [
-            &quot;toString&quot;,
-            &quot;toLocaleString&quot;,
-            &quot;valueOf&quot;,
-            &quot;hasOwnProperty&quot;,
-            &quot;isPrototypeOf&quot;,
-            &quot;propertyIsEnumerable&quot;,
-            &quot;constructor&quot;
-        ],
-        dontEnumsLength = dontEnums.length;
-    for (var key in {&quot;toString&quot;: null}) {
-        hasDontEnumBug = false;
-    }
-    Object.keys = function keys(object) {
-        var isFunction = _toString(object) === &apos;[object Function]&apos;,
-            isObject = object !== null &amp;&amp; typeof object === &apos;object&apos;;
-
-        if (!isObject &amp;&amp; !isFunction) {
-            throw new TypeError(&quot;Object.keys called on a non-object&quot;);
-        }
-
-        var keys = [],
-            skipProto = hasProtoEnumBug &amp;&amp; isFunction;
-        for (var name in object) {
-            if (!(skipProto &amp;&amp; name === &apos;prototype&apos;) &amp;&amp; owns(object, name)) {
-                keys.push(name);
-            }
-        }
-        if (hasDontEnumBug) {
-            var ctor = object.constructor,
-                skipConstructor = ctor &amp;&amp; ctor.prototype === object;
-            for (var i = 0; i &lt; dontEnumsLength; i++) {
-                var dontEnum = dontEnums[i];
-                if (!(skipConstructor &amp;&amp; dontEnum === &apos;constructor&apos;) &amp;&amp; owns(object, dontEnum)) {
-                    keys.push(dontEnum);
-                }
-            }
-        }
-        return keys;
-    };
-
-}
-</code></pre>
+          
         
 
       </div>
@@ -449,473 +301,12 @@ console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &q
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/16/phonegap-create-mobileapp/">
-                Phonegap创建移动应用
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-15
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/16/phonegap-create-mobileapp/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/16/phonegap-create-mobileapp/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>前段时间学习了Phonegap开发，本篇作为记录，希望对初道者有帮助,本篇主要介绍Phonegap以及环境的搭建。下篇结合Angluar 开发小Demo</p>
-<h3 id="Phonegap介绍"><a href="#Phonegap介绍" class="headerlink" title="Phonegap介绍"></a>Phonegap介绍</h3><p>Phonegap 作为一个开源的框架来帮助开发者使用Javascript/HTML5/CSS 开发跨平台的移动应用。他可以根据指定的移动平台打包为对应的包，支持的平台种类如下。</p>
-<ul>
-<li>iOS</li>
-<li>Android</li>
-<li>Windows 8</li>
-<li>Windows Phone 7 and 8</li>
-<li>BlackBerry 5.x+</li>
-<li>WebOS</li>
-<li>Symbian</li>
-<li>Tizen</li>
-<li>Firefox OS（3.4版本开始支持的）</li>
-</ul>
-<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><p>Phonegap 本质上是在本地原生应用程序中包裹了一个Webview 来支持使用HTML5 进行开发。但是这种方式本质上是不支持访问设备的功能，比如访问文件系统，或者照相机,但是Phonegap通过桥接机制允许Webview中的Javascript 来调用原生的代码，于是Phonegap就拥有了许多插件来支持访问设备API比如</p>
-<ul>
-<li>加速度计</li>
-<li>相机</li>
-<li>联系人</li>
-<li>文件系统</li>
-<li>媒体文件的播放 以及录音</li>
-<li>网络</li>
-<li>存储</li>
-</ul>
-<p>同时Phonegap 可以允许开发者通过扩展插件来访问更多的设备API比如</p>
-<ul>
-<li>二维码扫描</li>
-<li>蓝牙</li>
-<li>推送通知</li>
-<li>语音合成</li>
-<li>日历</li>
-</ul>
-<p>在之前版本的Phonegap中 包括了一些预编译的插件。随着Phonegap 3的到来，一个新的插件架构取代了原来的插件访问。同时有一个注册中心来创建兼容Phonegap 3的插件</p>
-<h4 id="HTML-CSS-Javascript-移动开发基础。"><a href="#HTML-CSS-Javascript-移动开发基础。" class="headerlink" title="HTML/CSS /Javascript 移动开发基础。"></a>HTML/CSS /Javascript 移动开发基础。</h4><p>Phonegap本身提供的大部分功能是提供了一些非可视化的功能组件，比如访问文件系统，网络能力，地理定位，等等。Phonegap本身并没有提供构建图形界面的能力，对于此，我们必须使用HTML、CSS来构建，为了更方便地开发中应用，因此推荐结合JS 框架来进行组织程序的开发。这些框架包括</p>
-<ul>
-<li>jQuery Mobile</li>
-<li>Ionic</li>
-<li>Sencha Touch</li>
-<li>Kendo UI Complete</li>
-<li>AppGyver’s Steroids</li>
-<li>Enyo</li>
-<li>TopCoat</li>
-</ul>
-<p>jQuery Mobile 这个就不用说了，简单理解Jquery的移动版本，AngluarJS 是一个比较火的MMV框架，Ionic也是AngluarJS构建的，这里我采用的是AngluarJs。开发之前还要了解一下面的这个问题。</p>
-<p>####PhoneGap Or Cordova的关系</p>
-<p>在学习Phonegap的过程中，我们经常会碰到Cordova 这个词，事实上，我们使用命令行工具创建的Phonegap工程其实是Cordova，。Cordova是贡献给Apache后的开源项目，是从PhoneGap中抽出的核心代码，是驱动PhoneGap的核心引擎。Cordova提供了一组设备相关的API，通过这组API，移动应用能够以JavaScript访问原生的设备功能，如摄像头、麦克风等。<br>Cordova还提供了一组统一的JavaScript类库，以及为这些类库所用的设备相关的原生后台代码。你可以把他想象成类似于Webkit和Google Chrome的关系。在大部分情况下这两个名字是可以交换的，随着Phonegap作为Adobe的商标，这个开源的项目需要一个新的名字，因此就有了Cordova，Phonegap继续作为Adobe的商业产品，大部分仍然将这个整体的项目称为Phonegap。</p>
-<ul>
-<li><a href="http://phonegap.com/" target="_blank" rel="noopener">Phonega 官网</a></li>
-<li><a href="http://cordova.apache.org/" target="_blank" rel="noopener">cordova 官网</a></li>
-</ul>
-<h4 id="Phonegap-开发环境搭建。"><a href="#Phonegap-开发环境搭建。" class="headerlink" title="Phonegap 开发环境搭建。"></a>Phonegap 开发环境搭建。</h4><p>这里我要基于Phonegap开发能够运行在android上的程序。</p>
-<h4 id="建环境的基本准备"><a href="#建环境的基本准备" class="headerlink" title="建环境的基本准备:"></a>建环境的基本准备:</h4><ol>
-<li>java JDK、配置Java环境变量</li>
-<li>下载<a href="https://developer.android.com/sdk/index.html?hl=sk" target="_blank" rel="noopener">android ADT Bundle</a>(里面是一个继承了安卓开发环境的Eclipse)，下载之后将android SDK下的tools的目录添加到环境变量中，启动下载包里面的eclipse 创建AVD</li>
-<li>Ant 打包工具(windows 下载推荐下载 <a href="https://code.google.com/p/winant/" target="_blank" rel="noopener">winant</a>)</li>
-<li><a href="http://nodejs.org/" target="_blank" rel="noopener">NodeJS</a></li>
-<li><p>安装phonegap</p>
-<pre><code>npm install -g cordova
-</code></pre><p> 或者</p>
-<pre><code>npm install -g phonegap
-</code></pre><p>cordova和phonegap这两个命令是通用的。<code>npm install -g phonegap</code> 是3.0之后的新出的一种安装方式，这里我使用是phonegap。</p>
-</li>
-</ol>
-<h4 id="创建Helloword"><a href="#创建Helloword" class="headerlink" title="创建Helloword"></a>创建Helloword</h4><p>在命令行下运行</p>
-<pre><code>phonegap create my-app
-cd my-app
-phonegap run android
-</code></pre><p>如果有android 设备连接了电脑的话，这时候会自动将应用部署到设备上，如果没有设备的话，会自动启用刚才创建的模拟器（注意 前面配置过程中一定要把android SDK下的tool 目录添加到环境变量中，并且确保已经创建了模拟器（AVD））到此为止一个Phonegap 版本的Hello World 已经开发完毕。</p>
-<p>下面看进入my-app的目录，进入之后我们发现有5个文件夹</p>
-<ul>
-<li>www              : 文件夹  开发的 HTML5 ; CSS ; JS 文件都拷贝到这下面，以后我们开发HTML5的应用主要在这个文件夹下进行</li>
-<li>plugins          : 文件夹  存放的是phonegap插件比如文件,摄像头等插件都下载到这里。</li>
-<li>merges          : （这个我还不了解）</li>
-<li>platforms      : 文件夹 存放的是编译好后的android文件,(如果这个文件夹为空,需要你在命令行编译一次才能生成. 如上面 phonegap run android)</li>
-<li>.cordova        : 存放的是配置文件 。</li>
-</ul>
-<p>将这个工程 导入到 Eclipse 下可以查看更多的工程信息。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/PhoneGap/">
-                #PhoneGap
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/">
-                如何使用Node+express创建Rest API
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-15
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/how-create-a-rest-api-with-node-dot-js-and-express/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h3><p>1 首先确保你的机器上已经安装了NodeJS环境，如果没有安装的话 点击此处<a href="http://nodejs.org/" target="_blank" rel="noopener">下载</a><br>2 安装 express </p>
-<pre><code>npm install express -g
-</code></pre><p>3 创建express 项目</p>
-<pre><code>express myapp
-</code></pre><h3 id="API设计"><a href="#API设计" class="headerlink" title="API设计"></a>API设计</h3><p>这里只是实现一个基本的计划任务列表，一个计划包含的信息有 名字，描述，截至日期，任务状态，以及一个唯一的标示符，API使用JSON作为数据传输的格式，下面具体描述下API的功能。</p>
-<ul>
-<li>GET /tasks/ 返回计划任务列表</li>
-<li>GET /tasks/:id  根据指定的任务id 返回计划任务的信息</li>
-<li>POST /tasks/ 接受传进来的JSON数据来创建一个新的计划任务</li>
-<li>PUT /tasks/:id 更新计划任务信息</li>
-<li>DELETE /tasks/:id 根据指定的计划Id 删除计划任务</li>
-</ul>
-<p>这些方法的返回如下</p>
-<ul>
-<li>访问get请求之外的api ，如果执行成功返回http 状态符为200</li>
-<li>如果访问不存的计划信息 则返回http 状态符为 404</li>
-</ul>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h4><p>这里仅是为了展示如何创建 Web api，因此尽可能简化每一个步骤，这个例子中计划内容都是一个Javascript数组存储在内存中的，我仅仅是创建了一个TaskRepository 创建了一个简单的javascript数组，TaskRepository的接口描述如下：</p>
-<pre><code>function TaskRepository() {}
-/**
- * Find a task by id
- * Param: id of the task to find
- * Returns: the task corresponding to the specified id
- */
-TaskRepository.prototype.find = function (id) {}
-/**
- * Find the index of a task
- * Param: id of the task to find
- * Returns: the index of the task identified by id
- */
-TaskRepository.prototype.findIndex = function (id) {}
-/**
- * Retrieve all tasks
- * Returns: array of tasks
- */
-TaskRepository.prototype.findAll = function () {
-    return this.tasks;
-}
-/**
- * Save a task (create or update)
- * Param: task the task to save
- */
-TaskRepository.prototype.save = function (task) {}
-/**
- * Remove a task
- * Param: id the of the task to remove
- */
-TaskRepository.prototype.remove = function (id) {}
-</code></pre><h4 id="创建express-server"><a href="#创建express-server" class="headerlink" title="创建express server"></a>创建express server</h4><pre><code>var express = require(&apos;express&apos;);
-var app = express();
-app.configure(function() {
-    app.use(express.bodyParser()); // used to parse JSON object given in the request body
-});
-</code></pre><h4 id="获取计划的列表-get"><a href="#获取计划的列表-get" class="headerlink" title="获取计划的列表 get"></a>获取计划的列表 get</h4><pre><code>app.get(&apos;/tasks&apos;, function (request, response) {
-    response.json({tasks: taskRepository.findAll()});
-});
-</code></pre><h4 id="根据指定的id获取一个计划的信息-get"><a href="#根据指定的id获取一个计划的信息-get" class="headerlink" title="根据指定的id获取一个计划的信息 get"></a>根据指定的id获取一个计划的信息 get</h4><pre><code>app.get(&apos;/tasks/:id&apos;, function (request, response) {
-    var taskId = request.params.id;
-    try {
-        response.json(taskRepository.find(taskId));
-    } catch (exeception) {
-        response.send(404);
-    }
-});
-</code></pre><h4 id="创建一个新的计划-post"><a href="#创建一个新的计划-post" class="headerlink" title="创建一个新的计划 post"></a>创建一个新的计划 post</h4><pre><code>app.post(&apos;/tasks&apos;, function (request, response) {
-    var task = request.body;
-    taskRepository.save({
-        title: task.title || &apos;Default title&apos;,
-        description: task.description || &apos;Default description&apos;,
-        dueDate: task.dueDate,
-        status: task.status || &apos;not completed&apos;
-    });
-    response.send(200);
-});
-</code></pre><h4 id="更新计划信息-put"><a href="#更新计划信息-put" class="headerlink" title="更新计划信息 put"></a>更新计划信息 put</h4><pre><code>app.put(&apos;/tasks/:id&apos;, function (request, response) {
-    var task = request.body;
-    var taskId = request.params.id;
-    try {
-        var persistedTask = taskRepository.find(taskId);
-        taskRepository.save({
-            taskId: persistedTask.taskId,
-            title: task.title || persistedTask.title,
-            description: task.description || persistedTask.description,
-            dueDate: task.dueDate || persistedTask.dueDate,
-            status: task.status || persistedTask.status
-        });
-        response.send(200);
-    } catch (exception) {
-        response.send(404);
-    }
-});
-</code></pre><h4 id="删除计划delete"><a href="#删除计划delete" class="headerlink" title="删除计划delete"></a>删除计划delete</h4><pre><code>app.delete(&apos;/tasks/:id&apos;, function (request, response) {
-    try {
-        taskRepository.remove(request.params.id);
-        response.send(200);
-    } catch (exeception) {
-        response.send(404);
-    }
-});
-</code></pre><h4 id="启动express-server"><a href="#启动express-server" class="headerlink" title="启动express server"></a>启动express server</h4><pre><code>app.listen(8080)
-</code></pre><h3 id="测试-这里使用-curl-执行http请求访问rest-api"><a href="#测试-这里使用-curl-执行http请求访问rest-api" class="headerlink" title="测试 这里使用 curl 执行http请求访问rest api"></a>测试 这里使用 curl 执行http请求访问rest api</h3><p>首先启动程序</p>
-<pre><code>node rest_api.js
-</code></pre><p>最初的情况下访问计划列表应该空的</p>
-<pre><code>$ curl -i http://localhost:8080/tasks/
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: application/json; charset=utf-8
-Content-Length: 17
-Date: Sun, 10 Feb 2013 12:37:45 GMT
-Connection: keep-alive
-
-{
-  &quot;tasks&quot;: []
-}
-</code></pre><h4 id="创建计划"><a href="#创建计划" class="headerlink" title="创建计划"></a>创建计划</h4><pre><code>$ curl -i -X POST http://localhost:8080/tasks --data &apos;{}&apos; -H &quot;Content-Type: application/json&quot;
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: text/plain
-Content-Length: 2
-Date: Sun, 10 Feb 2013 12:39:13 GMT
-Connection: keep-alive
-
-OK
-</code></pre><h4 id="更新计划"><a href="#更新计划" class="headerlink" title="更新计划"></a>更新计划</h4><pre><code>$ curl -i -X PUT http://localhost:8080/tasks/1 --data &apos;{&quot;description&quot;:&quot;blabla&quot;}&apos; -H &quot;Content-Type: application/json&quot;
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: text/plain
-Content-Length: 2
-Date: Sun, 10 Feb 2013 12:42:39 GMT
-Connection: keep-alive
-OK
-</code></pre><h4 id="删除计划"><a href="#删除计划" class="headerlink" title="删除计划"></a>删除计划</h4><pre><code>$ curl -i -X DELETE http://localhost:8080/tasks/1
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: text/plain
-Content-Length: 2
-Date: Sun, 10 Feb 2013 12:43:31 GMT
-Connection: keep-alive
-
-OK
-</code></pre><p>这里介绍了用express创建rest api的大致过程，而实际过程中要复杂一些，比如存储数据使用数据库(mongodb 或者传统的关系数据库）来解决，有的也会包括一些复杂的逻辑信息。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Node-express/">
-                #Node express
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/15/using-postgresql-with-django/">
-                在django中使用postgresQL
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-15
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/15/using-postgresql-with-django/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/using-postgresql-with-django/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>最近开始做的东西要用到Django，数据库是postgresQL,需要在Django的setting.py中修改相关数据库的配置文件。事先我已经装好了PostgresQL 9.2.6</p>
-<h4 id="下载python连接postgresQL数据库的驱动"><a href="#下载python连接postgresQL数据库的驱动" class="headerlink" title="下载python连接postgresQL数据库的驱动"></a>下载python连接postgresQL数据库的驱动</h4><p>安装方式也有多种：根据个人喜好可以使用easy_istall或者pip方式安装</p>
-<ul>
-<li>easy_install psycopg2</li>
-<li>pip install psycopg2</li>
-</ul>
-<p>或者自己下载<a href="http://initd.org/psycopg/" target="_blank" rel="noopener">http://initd.org/psycopg/</a>解压之后，进入目录运行</p>
-<pre><code>python setup.py install
-</code></pre><p>会自动安装到Python安装目录的site-packages的目录下</p>
-<p>这里我直接在windows安装的exe 下载地址（如果是64位的系统的话也建议下载32位的）<a href="http://www.stickpeople.com/projects/python/win-psycopg/" target="_blank" rel="noopener">http://www.stickpeople.com/projects/python/win-psycopg/</a> 根据数据库的版本选择合适的进行下载</p>
-<h4 id="修改配置文件setting-py-找到DATABASES处"><a href="#修改配置文件setting-py-找到DATABASES处" class="headerlink" title="修改配置文件setting.py,找到DATABASES处"></a>修改配置文件setting.py,找到DATABASES处</h4><pre><code>DATABASES = {
-    &apos;default&apos;: {
-        &apos;ENGINE&apos;: &apos;django.db.backends.postgresql_psycopg2&apos;,
-        &apos;NAME&apos;: &apos;mydb&apos;,                      
-        &apos;USER&apos;: &apos;postgres&apos;,
-        &apos;PASSWORD&apos;: &apos;1&apos;,
-        &apos;HOST&apos;: &apos;localhost&apos;,
-        &apos;PORT&apos;: &apos;5432&apos;
-    }
-}
-</code></pre><p>将ENGINE修改为<code>django.db.backends.postgresql_psycopg2</code>,<strong>NAME</strong>为数据库的名字,<strong>USER</strong>为数据库的用户名，<strong>PASSWORD</strong>为数据库用户对应的密码，<strong>HOST</strong>为数据库所在的主机名，<strong>Port</strong>为PostgreSQL的端口号。</p>
-<p>参考资料<a href="https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-DATABASES" target="_blank" rel="noopener">https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-DATABASES</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Django/">
-                #Django
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/4/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/6/">&raquo;</a>
             </div>
           
         </div>
@@ -946,7 +337,7 @@ OK
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">29</span>
+            <span class="site-state-item-count">30</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -973,7 +364,7 @@ OK
             </span>
           
             <span class="soclial-item">
-              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
             </span>
           
         
@@ -994,20 +385,15 @@ OK
         <div class="copyright">
   
   &copy; &nbsp; 
-  2018
+  2020
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
   <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
-</div>
 
 
 

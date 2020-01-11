@@ -1,0 +1,607 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br>
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br>
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br>
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/09/23/css-margin-fold/">
+                css margin折叠
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-09-23
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/09/23/css-margin-fold/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/23/css-margin-fold/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="margin折叠-Collapsing-margin"><a href="#margin折叠-Collapsing-margin" class="headerlink" title="margin折叠-Collapsing margin"></a>margin折叠-Collapsing margin</h3><p>所谓margin折叠(Collapsing margin)，就是我们常说的盒子垂直边距叠加，具体是指在同一个块级格式化上下文（简称BFC）中，毗邻的两个或者多个垂直外边距会发生互相折叠的现象。其中所说的毗邻可以归结为以下两点</p>
+<ul>
+<li>两个或者多个外边距没有被非空内容、padding、border或者clear分隔开。 </li>
+<li>两个或者多个外边距所归属的元素都处于普通流中，而非浮动元素或者绝对定位元素。</li>
+</ul>
+<h3 id="常见发生margin折叠的情况有："><a href="#常见发生margin折叠的情况有：" class="headerlink" title="常见发生margin折叠的情况有："></a>常见发生margin折叠的情况有：</h3><ul>
+<li>一个盒子元素的top margin与第一个子盒子元素的top margin。</li>
+<li>一个盒子元素的bottom margin与最后一个子盒子元素的bottom margin， 但须在该盒子元素的height为auto的情况下 * 一个盒子元素的bottom margin与紧接着的下一个盒子元素的top margin。</li>
+<li>一个盒子元素的top margin与其自身的bottom margin，但须满足没创建 BFC、零min-height、零或者“auto”的height、没有普通流的子盒子元素。</li>
+</ul>
+<h3 id="margin折叠的后的外边距计算："><a href="#margin折叠的后的外边距计算：" class="headerlink" title="margin折叠的后的外边距计算："></a>margin折叠的后的外边距计算：</h3><ul>
+<li>参加折叠的元素指都为正，取其中较大的值; </li>
+<li>参加折叠的元素值都为负，取绝对值较大的，然后负向位移; </li>
+<li>参加折叠的元素有正有负，取出正值中最大的值+负值中绝对值最大的值; </li>
+<li>元素自身的 margin-bottom 和 margin-top 相邻时也会折叠，自身<br>margin-bottom 和 margin-top 相邻，只能是自身内容为空，垂直方向上 border、padding 为 0; </li>
+<li>相邻的 margin 要一起参与计算，不得分步计算，要注意，相邻的元素不一定非<br>要是兄弟节点，父子节点也可以，即使不是兄弟父子节点也可以相邻。而且，在计算时，相邻的 margin 要一起参与计算，不得分步计算。 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;margin:50px 0; background:green; width:50px;&quot;&gt; </span><br><span class="line">&lt;div style=&quot;margin:-60px 0;&quot;&gt; </span><br><span class="line">   &lt;div style=&quot;margin:150px 0;&quot;&gt;A&lt;/div&gt; &lt;/div&gt; &lt;/div&gt; </span><br><span class="line">&lt;div style=&quot;margin:-100px 0;background:green; width:50px;&quot;&gt; </span><br><span class="line">&lt;div style=&quot;margin:-120px 0;&quot;&gt; </span><br><span class="line">    &lt;div style=&quot;margin:200px 0;&quot;&gt;B&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>错误的计算方式：分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。  请注意，多个 margin 相邻折叠成一个 margin，计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。  以上例子中，A 和 B 之间的 margin 折叠产生的 margin，是6个相邻 margin 折叠的结果。将其 margin 值分为两组：    正值：50px，150px，200px   负值：-60px，-100px，-120px  根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 200 + (-120) = 80px。</p>
+<p><strong>创建了BFC(块级格式化上下文)的元素，不和内部的子元素发生margin 折叠</strong></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/05/06/install-mongo-service-on-windows/">
+                在windows 下安装 MongoDb
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-05-06
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/05/06/install-mongo-service-on-windows/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/05/06/install-mongo-service-on-windows/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>Starting in version 2.2, MongoDB does not support Windows XP</p>
+</blockquote>
+<ul>
+<li>到官网下载<a href="http://www.mongodb.org/downloads" target="_blank" rel="noopener">MongoDb</a></li>
+<li><p>解压到制定目录。我的机器目录如下</p>
+<pre><code>D:
+  mongodb
+         |mongodb                            
+                |mongod.cfg
+                |README
+                |THIRD-PARTY-NOTICES
+                |bin
+</code></pre></li>
+<li>创建MongoDb的数据存储目录，可以再任意文件夹下创建，这里我在<strong>D:/mongodb</strong>下创建了<strong>D:/mongodb/data/db</strong>目录</li>
+<li><p>启动MongoDb服务，打开命令行模式下 进入MongoDb的bin目录 运行<strong>mongod.exe</strong>命令</p>
+<pre><code>D:\mongodb\mongodb\bin\mongod.exe --dbpath d:\mongodb\data
+</code></pre></li>
+</ul>
+<p>输出的结果如下,表示服务启动成功.然后在浏览器输入localhost:28017会打开一个MongoDb的监控网页</p>
+<pre><code>Tue May 06 08:56:28.645 [initandlisten] MongoDB starting : pid=808 port=27017 db
+path=d:\mongodb\data 64-bit host=DuBaoKun
+Tue May 06 08:56:28.646 [initandlisten] db version v2.4.1
+Tue May 06 08:56:28.646 [initandlisten] git version: 1560959e9ce11a693be8b4d0d16
+0d633eee75110
+********
+Tue May 06 08:56:29.056 [initandlisten] command local.$cmd command: { create: &quot;s
+tartup_log&quot;, size: 10485760, capped: true } ntoreturn:1 keyUpdates:0  reslen:37
+290ms
+Tue May 06 08:56:29.077 [initandlisten] waiting for connections on port 27017
+Tue May 06 08:56:29.077 [websvr] admin web console waiting for connections on po
+rt 28017
+</code></pre><ul>
+<li>连接数据库 保持上述的Mongodb服务处于开启状态 在开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="noopener">这篇文章</a>继续操作</li>
+</ul>
+<h3 id="将MongoDb配置为服务"><a href="#将MongoDb配置为服务" class="headerlink" title="将MongoDb配置为服务"></a>将MongoDb配置为服务</h3><blockquote>
+<p>虽然进行了以上的配置，但是之后每次使用Mongodb的时候都要先启动服务，如果配置为windows服务，让其自动启动。</p>
+</blockquote>
+<ul>
+<li>创建日志目录：除了配置数据存储目录外，MongoDb还需要要一个日志存储的目录。在<strong>d:\mongodb</strong>目录下创建log目录(这个目录是任意的)</li>
+<li><p>创建服务配置文件：在<strong>d:\mongodb</strong>目录下创建<strong>mongod.cfg</strong>文件。用记事本打开配置dbpath和logpath</p>
+<pre><code>logpath=D:\mongodb\log\mongo.log
+dbpath=D:\mongodb\data\db
+</code></pre></li>
+<li><p>安装服务。在命令行中运行如下命令</p>
+<pre><code>D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --install
+</code></pre><p>运行之后提示如下</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tue May 06 10:03:12.151 Trying to install Windows service &apos;MongoDB&apos;</span><br><span class="line">Tue May 06 10:03:12.358 Service &apos;MongoDB&apos; (Mongo DB) installed with command line</span><br><span class="line">&apos;D:\mongodb\mongodb\bin\mongod.exe --config D:\mongodb\mongod.cfg --service&apos;</span><br><span class="line">Tue May 06 10:03:12.359 Service can be started from the command line with &apos;net s</span><br><span class="line">tart MongoDB&apos;</span><br></pre></td></tr></table></figure>
+</code></pre></li>
+</ul>
+<p>此命令成功之后会安装 Mongo Db的服务。并且开机会自动启动，如果要自己控制启动，在开始栏的搜索框输入services.msc可以到计算机管理服务里找个Mongo Db的服务进行设置.</p>
+<blockquote>
+<p>启动服务 <strong>net start MongoDB</strong></p>
+</blockquote>
+<blockquote>
+<p>停止服务 <strong>net stop MongoDB</strong></p>
+</blockquote>
+<blockquote>
+<p>删除服务 <strong>“C:\Program Files\MongoDB\bin\mongod.exe” –remove</strong></p>
+</blockquote>
+<ul>
+<li>连接数据库 保持Mongodb服务处于开启状态 开启一个控制台，运行<strong>D:\mongodb\mongodb\bin\mongo.exe</strong>命令,则会连接成功了。可以按照<a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank" rel="noopener">这篇文章</a>继续操作</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/MongoDb/">
+                #MongoDb
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/9/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/11/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">30</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2020
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

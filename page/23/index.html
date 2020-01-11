@@ -1,0 +1,568 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br>
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br>
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br>
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/02/20/how-to-design-a-good-api/">
+                如何设计优秀的API
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-02-20
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/02/20/how-to-design-a-good-api/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/20/how-to-design-a-good-api/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>谷歌架构师Joshua Bloch最近分享了一份幻灯片，<a href="http://vidcat.org/papers/how-to-design-a-good-api-and-why-it-matters.html#.UxFCN_mSyKM" target="_blank" rel="noopener">系统的讨论了优秀API的设计原则</a>。他指出：每个API接口应该只专注一件事，并做好：如果它很难命名，那么这或许是个不好的征兆，好的名称可以驱动开发、并且只需拆分与合并模块即可。设计原则包括：</p>
+<ul>
+<li>API应尽可能地简洁：满足需求、对有疑问的地方可以暂时不使用（函数、类、方法、参数等，你可以不添加，但千万不要删除）、概念性的东西比体积重要）；</li>
+<li>实现不要影响API：关注实现细节（不要迷惑用户、不要随便改变实现方式）、意识到具体的实现细节（不要有越权的方法行为，例如不所有的调优参数都是可疑的）；</li>
+<li>不要让实现细节“泄露”到API（例如on-disk和on-the-wire格式等异常情况）；</li>
+<li>最小化可访问：设计人员应尽量把类及成员设为私有，公共类不应该有公共字段（包括异常实例），最大限度地提高信息隐藏，允许模块可以被使用、理解、构建、测试和独立调试；</li>
+<li>命名问题：应该见名知意，避免含糊的缩写、对同一样东西的命名应该有个一致性的前缀（遍及整个平台API）、讲究对称、代码应该易读。</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/API/">
+                #API
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/02/15/css-bfc/">
+                CSS 定位之BFC
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-02-15
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/02/15/css-bfc/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/css-bfc/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>在 CSS 面试中问 BFC 等概念，就如在 JS 面试中问闭包等概念一样，经常会刷掉一些真正优秀的人。 ——玉伯</p>
+</blockquote>
+<p>第一次接触BFC是在清除浮动的时候，清除浮动主要有两种法</p>
+<p>它决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。</p>
+<ul>
+<li>利用 clear属性，清除浮动</li>
+<li>使父容器形成BFC<br>于是当时查询了好多资料总结如下：<br>但在进一步说明 BFC 特性之前，首先要介绍另一个在 CSS 的可视化格式模型 (Visual Formatting Model) 中具有非常重要地位的概念——定位方案。定位方案是控制元素的布局，在 CSS 2.1 中，有三种定位方案——普通流 (Normal Flow) 、浮动 (Floats) 和绝对定位 (Absolute Positioning) ，下面分别对这三种布局简略说明一下。</li>
+</ul>
+<p>####普通流(Normal Flow)</p>
+<p>在普通流中，元素按照其在 HTML 中的先后位置至上而下布局，在这个过程中，行内元素水平排列，直到当行被占满然后换行，块级元素则会被渲染为完整的一个新行， 除非另外指定，否则所有元素默认都是普通流定位，也可以说，普通流中元素的位置由该元素在 HTML 文档中的位置决定。</p>
+<h4 id="浮动-Floats"><a href="#浮动-Floats" class="headerlink" title="浮动 (Floats)"></a>浮动 (Floats)</h4><p>在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。</p>
+<p>####绝对定位 (Absolute Positioning)</p>
+<p>在绝对定位布局中，元素会整体脱离普通流，因此绝对定位元素不会对其兄弟元素造成影响（如果看了上文的童鞋，会发现这点与浮动元素会影响兄弟元素是不同的），而元素具体的位置由绝对定位的坐标决定。</p>
+<p>BFC 正是属于普通流的，因此它对兄弟元素也不会造成什么影响。</p>
+<p>####BFC的定义<br>在进行盒子元素布局的时候， BFC 提供了一个环境， 在这个环境中按照一定规则进<br>行布局不会影响到其它环境中的布局。比如浮动元素会形成 BFC，浮动元素内部子元素<br>的主要受该浮动元素影响，两个浮动元素之间是互不影响的。<br>也就是说，如果一个元素符合了成为 BFC 的条件，该元素内部元素的布局和定位<br>就和外部元素互不影响(除非内部的盒子建立了新的  BFC)， 是一个隔离了的独立容器。<br>在  CSS3  中，BFC  叫做  Flow Root。</p>
+<p>####BFC到底是什么？<br>当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。</p>
+<p>####怎样才能形成BFC</p>
+<ul>
+<li>float的值不为none。</li>
+<li>overflow的值不为visible。</li>
+<li>display的值为table-cell, table-caption, inline-block中的任何一个。</li>
+<li>position的值不为relative和static。</li>
+<li>css3中flex boxes</li>
+</ul>
+<p>####BFC的作用</p>
+<ol>
+<li>包含浮动元素(清除浮动)<br>BFC 会 根据子元素的情况自 适应 高度 ，这个 特性 是 对父元素 使 用<br>overflow:hidden/auto/scroll、 float:left/right 样式可以闭合浮动的</li>
+<li>不被浮动元素覆盖<br>浮动元素会无视兄弟元素的存在， 覆盖在兄弟元素的上面， 为该兄弟元素创建<br>BFC 后可以阻止这种情况的出现</li>
+</ol>
+<p>BFC 主要有三个特性：</p>
+<p>(1) BFC 会阻止外边距折叠<br>两个相连的 div 在垂直上的外边距会发生叠加，在实际开发中，或许我们有时会不需要这种折叠，这时可以利用 BFC 的其中一个特性——阻止外边距叠加。阻止父子元素的 margin 折叠，仅当两个块级元素毗邻并且在同一个块级格式化上下文时，它们垂直方向之间的外边距才会叠加。也就<br>是说，即便两个块级元素相邻，但当它们不在同一个块级格式化上下文时它们的边<br>距也不会折叠。同时BFC 的元素，不和它的子元素发生外边距折叠。</p>
+<p>(2) BFC 可以包含浮动的元素<br>这也正是上面使用 overflow: hidden 与 overflow: auto 方法闭合浮动的原理，使用 overflow: hidden 或 overflow: auto 触发浮动元素父元素的 BFC 特性，从而可以包含浮动元素，闭合浮动。</p>
+<p>W3C 的原文是“’Auto’ heights for block formatting context roots”，也就是 BFC 会根据子元素的情况自动适应高度，即使其子元素中包括浮动元素。</p>
+<p>但是 IE6-7 并不支持 W3C 的 BFC ，而是使用自产的 hasLayout 。从表现上来说，它跟 BFC 很相似，只是 hasLayout 自身存在很多问题，导致了 IE6-7 中一系列的 bug 。触发 hasLayout 的条件与触发 BFC 有些相似，具体情况 Kayo 会另写文章介绍。这里 Kayo 推荐为元素设置 IE 特有的 CSS 属性 zoom: 1 触发 hasLayout ，zoom 用于设置或检索元素的缩放比例，值为“1”即使用元素的实际尺寸，使用 zoom: 1 既可以触发 hasLayout 又不会对元素造成其他影响，相对来说会更为方便。</p>
+<p>(3) BFC 可以阻止元素被浮动元素覆盖<br>如上面所说，浮动元素的块状兄弟元素会无视浮动元素的位置，尽量占满一整行，这样就会被浮动元素覆盖，为该兄弟元素触发 BFC 后可以阻止这种情况的发生。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/22/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/24/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">30</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2020
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

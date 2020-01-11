@@ -1,0 +1,647 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br>
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br>
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br>
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/09/doucument-element-postion-and-geometry/">
+                文档元素的几何形状以及位置判定
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-09
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/09/doucument-element-postion-and-geometry/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/doucument-element-postion-and-geometry/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>元素的位置是以像素来度量的,向右代表X坐标增加，向下代表Y坐标增加，但是有两个不同的点作为坐标系的原点，元素的X和Y坐标可以相对于文档的左上角，或者相对于其中文档视口的左上角.</p>
+<p>“视口”是我们人眼看到的页面,只是实际显示文档内容的一部分：他不包括浏览器的外壳，(如菜单，工具条，标签页等),另一个是文档坐标，他的原点是页面的左上角，不随着页面的滚动发生变化，而视口坐标系的原点位置相对浏览器窗体是不发生变化的，当页面中没有滚动条时候，视口坐标系原点与文档坐标系原点重合的。然后如果存在滚动条的话。向下滚动页面，则某一元素的文档坐标是不发生变化的，视口的Y坐标变小。同理向右滚动的话，元素相对时候X坐标变小。</p>
+<p>文档坐标比视口坐标更加基础，并且不随着用户滚动页面而发生变化，当使用CSS指定元素位置是使用了文档坐标吗，但是客户端编程中视口坐标是非常常见的，简单的查询元素在显示页面中位置方法是返回视口坐标系的位置。</p>
+<p>为了再坐标系之前进行互相转换，我们需要判定浏览器窗口滚动条的位置，windows对象的pageXOffset和pageYOffset，属性在所有浏览器中提供了这些值除了IE8 以及更低版本的浏览器，不过可以使用scrollleft和scrollTop属性来获取滚动条的位置，正常情况下使用document.documentElemt来获得，在怪异模式下使用document.body对象来获得。下面封装了一个获取浏览器中滚动条位置的方法，并且兼容所有的浏览器</p>
+<h3 id="获得浏览中滚动条的位置"><a href="#获得浏览中滚动条的位置" class="headerlink" title="获得浏览中滚动条的位置"></a>获得浏览中滚动条的位置</h3><pre><code>function getScrollOffset(w){
+            w=w||window;
+            if(w.pageXOffset)return {
+                x:w.pageXOffset,
+                y:w.pageYOffset
+            }
+        var d=w.document;
+        if(document.compatMode==&apos;CSS1Compact&apos;){
+            return {x:d.document.scrollLeft,y:d.document.scrollTop}
+        }
+
+        return {
+            x:d.body.scrollLeft,
+            y:d.body.scrollTop
+        }
+};
+</code></pre><h3 id="查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。"><a href="#查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。" class="headerlink" title="查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。"></a>查询窗口视口的尺寸，确定当前文档中哪些部分是可见的。</h3><pre><code>function getViewportSize(w){
+    w=w||window;
+    //ie8+
+    if(w.innerWidth !=null)return{w:w.innerWidth ,h:w.innerHeight}
+     //ie标准模式以及其他浏览器
+        var d=w.document;
+    if(document.compatMode==&apos;CSS1Compact&apos;){
+        return {
+            w:d.document.clientWidth,
+            h:d.document.clientHeight
+        }
+    }
+    // 怪异模式下的浏览器
+    return{
+        w:d.body.document.clientWidth,
+        h:d.body.document.clientHeight
+    }
+
+}
+</code></pre><h3 id="查询元素的尺寸"><a href="#查询元素的尺寸" class="headerlink" title="查询元素的尺寸"></a>查询元素的尺寸</h3><p>判定一个元素位置最简单的方法是调用他的getBoundingClientRect()方法，该方法是在IE5中引入的，而现在当前的浏览器中都实现了，返回一个有left、right、top 、bottom 属性的对象。left,top表示左上角的坐标，right、bottom表示右下角的坐标。这个方法返回的是元素在视口坐标中的位置。为了转化为相对文档文档坐标需要加上滚动的偏移量。通过上面的getScrollOffset(w)获取滚动条的位置。</p>
+<pre><code>var box=e.getBoundingClientRect();
+var offsets=getScrollOffset();
+var x=box.left;
+var y=box.top;
+</code></pre><p>很多浏览器中还可以获得width和height属性但是IE中未实现。getBoundingClientRect()返回的值包括内边距和边框，但是不包含外边距。<br>使用elementFromPoint查询视口中指定位置有什么元素。参数为视口坐标系下的x,y坐标</p>
+<p>任何HTML元素的只读属性offsetWidth 和offsetHeight以CSS像素返回他的屏幕的尺寸，返回的尺寸包括元素的边框和内边距，不包括外边距。所有的HTML元素用有OffsetLeft和offsetTop属性来返回元素的X和Y坐标，这些值都是文档坐标。对于已经定位的元素的后代和一些其他的元素，这些属性返回是相对于祖先元素而非文档，offsetParent指定这些元素相对的父元素，如果offsetParent为null这些属性都是文档坐标，一般来说用offsetLeft和OffsetTop来计算元素e的位置需要一个循环</p>
+<pre><code>function getElmentPosition(e){
+    var x=0,y=0;
+    while(e){
+        x+=e.offsetLeft;
+        y+=e.offsetTop;
+        e=e.offsetParentl
+    }
+    return{
+        x:x,
+        y:y
+    }
+}
+</code></pre><p>所有HTML元素定义了如下与位置相关的属性。</p>
+<p>offsetwidth        clientWidth     scrollWidth<br>offsetHeight    clientHeight    scrollHeight<br>offsetLeft        clientLeft        scrollLeft<br>offsetTop        clientTop        scrollTop<br>offsetParent</p>
+<p>offsetHeight、offsetwidth包含内边距和边框、clientWidth、clientHeight不包含边框，只包含内容和内边距。scrollWidth、scrollHeight内容+内边距+任何内容溢出的尺寸。其中scrollLeft、scrollTop指定滚动条的位置。当文档中包含滚动条且有内容溢出时上面的getElmentPosition(e) 不在起作用了，因为没有把滚动条考虑进去。offsetLeft offsetTop为文档坐标包含了滚动条的位置    修改版本如下</p>
+<pre><code>function getElementPos(elt){
+    var x=0,y=0;
+    for(var e=elt;e!=null;e=e.offsetParent){
+        x+=e.offsetLeft；
+        y+e.offsetTop;
+    }
+    //offsetLeft offsetTop为文档坐标包含了滚动条的位置，再次循环所有的祖先元素，
+    //减去滚动条的偏移量，并转换为视口坐标
+    for(var e=elt.parentNode;e!=null&amp;&amp;e.nodeType==1;e=e.parentNode){
+        x-=e.scrollLeft;
+        y-=e.scrollTop;
+    }
+    return {
+            x:x;
+            y:y
+    }
+}
+</code></pre><ul>
+<li>文档的高度 document.body.offsetHeight</li>
+<li>视口的高度 window.innerHeight</li>
+<li>滚动条滑动的高度 window.scrollY</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/09/javascript-valueOf/">
+                javascript valueOf方法
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-09
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/09/javascript-valueOf/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/javascript-valueOf/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>如果将对象用于Javascript的关系比较运算符，比如<code>&lt;</code>、<code>&lt;=</code>，javascript会首先调用对象的valueOf方法，如果这个方法返回一个原始值，则直接比较原始值。定义一个类Person</p>
+<pre><code>function person(age,name){
+    this.age=age;
+    this.valueOf=function(){
+        return this.age;
+    }
+}
+</code></pre><p>然后新建两个Person的实例。</p>
+<pre><code>var person1=new person(12,&apos;张三&apos;);
+var person2=new person(13,&apos;李四&apos;);
+console.log(person1&lt;person2) //true
+console.log(person1&gt;person2)//false
+</code></pre><p>如果构造函数没有valueOf方法，以上对象无轮如何比较都是输出false<br>此外在对两个对象求和的话，也会尝试调用valueOf方法</p>
+<p>比如<br>        var person1=new person(12,’张三’);<br>        var person2=new person(13,’李四’);<br>        console.log(person1+person2) //25</p>
+<p>当然如果构造函数没有valueOf方法,则会对象会先自动调用的toString方法。。默认情况下对象使用的是Object的toString方法的话则输出<code>[object Object]</code>;我们也可以重写toString方法。</p>
+<pre><code>function person(age,name){
+    this.age=age;
+    this.name=name;
+    this.toString=function(){
+        return this.name;
+    }
+}
+
+var person1=new person(12,&apos;张三&apos;);
+var person2=new person(13,&apos;李四&apos;);
+console.log(person1+person2);//张三李四。
+</code></pre><p>如果一个构造函数中同时重写了valueOf和toString的话则只调用valueOf返回的结果参与运算.如下</p>
+<pre><code>function person(age,name){
+    this.age=age;
+    this.valueOf=function(){
+        return this.age;
+    }
+    this.toString=function(){
+        return this.name;
+    }
+}
+
+var person1=new person(12,&apos;张三&apos;);
+var person2=new person(13,&apos;李四&apos;);
+console.log(person1+person2);//25
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/18/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/20/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">30</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2020
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

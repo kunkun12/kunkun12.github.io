@@ -1,0 +1,621 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br>
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br>
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br>
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/29/graceful-degradation-with-progressive-enhancement/">
+                渐进性增强与优雅性降级
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-29
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/29/graceful-degradation-with-progressive-enhancement/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/29/graceful-degradation-with-progressive-enhancement/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>每个专业词语的背后是一种思想，理解并在实践中应用才是必要的。</p>
+</blockquote>
+<h4 id="优雅降级（graceful-degradation）"><a href="#优雅降级（graceful-degradation）" class="headerlink" title="优雅降级（graceful degradation）"></a>优雅降级（graceful degradation）</h4><p>一开始就构建站点的完整功能，然后针对浏览器测试和修复,使用优雅降级方案，Web站点在所有新式浏览器中都能正常工作，如果用户使用的是老式浏览器，则代码会检查以确认它们是否能正常工作。由于IE独特的盒模型布局问题，绝大多数Web设计师和开发者都通过专门的样式表或针对不同版本的IE的hack实践过优雅降级了；<br>使用优雅降级技术时，你必须首先完整的实现了网站，其中包括所有的功能和效果。然后再为那些无法支持所有功能的浏览器增加候选方案，使之在旧式浏览器上以某种形式降级体验却不至于完全失效.</p>
+<h4 id="渐进增强（progressive-enhancement）"><a href="#渐进增强（progressive-enhancement）" class="headerlink" title="渐进增强（progressive enhancement）"></a>渐进增强（progressive enhancement）</h4><p>一开始只构建站点的最少特性，然后不断针对各浏览器追加功能。从被所有浏览器支持的基本功能开始，逐步地添加那些只有新式浏览器才支持的功能。渐进增强是值得所有开发者采用的做法。渐进增强方案并不假定所有用户都支持javascript，而总是提供一种候补方法，确保用户可以访问（主要的）内容。</p>
+<p>使用渐进增强时，无需为了一个已成型的网站在旧式浏览器下正常工作而做逆向工程。首先，只需要为所有的设备和浏览器准备好清晰且语义化的HTML以及完善的内容，然后再以无侵入（unobtrusive）的方式向页面增加无害于基础浏览器的额外样式和功能。当浏览器升级时，它们会自动地呈现出来并发挥作用。</p>
+<p>想让网站在任何环境下看起来都保持一致是不可能的，不管为此付出多少努力，结局依旧会令你失望。与其试图让IE看起来堪比年轻它十岁的浏览器，不如努力改善网站的可访问性，或是进行更多的可用性测试，而不仅仅是让页面看起来更靓一点。</p>
+<p>某些CSS3特性在不支持它的浏览器中简直是无法模拟实现的，但若使用渐进增强，就无需为了能让你的网站适合所有人而放弃这些技术。仅仅因为部分人不愿或不能升级浏览器，却让使用新型浏览器的用户无法享受CSS3所提供的伟大技术，这是毫无道理可言的。</p>
+<p>我们应该先让网站能够正常工作于尽可能旧的浏览器上，然后不断为它在新型浏览器上实现更多的增强和改进。随着时间的推移，当越来越多的人开始升级浏览器而浏览器本身的支持度也不断提升时，就会有越来越多的人体验到这些增强和改进，它持续有效的使网站越来越好，却如需你刻意做什么。</p>
+<h5 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h5><p> 其实优雅降级和渐进增强都是页面的加分项，是针对技术的一种形而上的要求。保证尽可能多的用户都能正常使用网站是第一步，在此之上才需要考虑降级的极端情形和现代浏览器的体验增强。其实可以定义一个基准线，在此之上的增强叫做渐进增强，在此之下的兼容叫优雅降级。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/24/css3-selectors/">
+                CSS3 选择器总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-24
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/24/css3-selectors/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/24/css3-selectors/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<p>在学习新技术的同时不要忘记复习一下那些最基础的东西</p>
+</blockquote>
+<h4 id="基本选择器"><a href="#基本选择器" class="headerlink" title="基本选择器"></a>基本选择器</h4><ul>
+<li>通配符选择器(*) 通配符选择器是用来选择所有元素，，也可以选择某个元素下的所有元素</li>
+<li>元素选择器 根据tag名字来选择 比如 p body div 等等</li>
+<li>类选择器 .className</li>
+<li>id选择器 #ID</li>
+<li>后代选择器 A B (A、B分别为选择器 中间) 有空格</li>
+<li>子元素选择器(A&gt;B)(IE6不支持子元素选择器)。</li>
+<li>相邻兄弟元素选择器(E + F)<blockquote>
+<p>相邻兄弟选择器可以选择紧接在另一元素后的元素，而且他们具有一个相同的父元素，换句话说，EF两元素具有一个相同的父元素，而且Ｆ元素在Ｅ元素后面，而且相邻，这样我们就可以使用相邻兄弟元素选择器来选择Ｆ元素。</p>
+</blockquote>
+</li>
+<li>通用兄弟选择器（Ｅ &gt;Ｆ）<blockquote>
+<p>通用兄弟元素选择器是CSS3新增加一种选择器，这种选择器将选择某元素后面的所有兄弟元素，他们也和相邻兄弟元素类似，需要在同一个父元素之中，换句话说，E和F元素是属于同一父元素之内，并且F元素在Ｅ元素之后，那么E ~ F 选择器将选择中所有Ｅ元素后面的Ｆ元素。比如下面的代码：</p>
+</blockquote>
+</li>
+<li>群组选择器（selector1,selector2,…,selectorN）<blockquote>
+<p>群组选择器是将具有相同样式的元素分组在一起，每个选择器之间使用逗号“，”隔开，如上面所示selector1,selector2,…,selectorN。这个逗号告诉浏览器，规则中包含多个不同的选择器，如果不有这个逗号，那么所表达的意就完全不同了，省去逗号就成了我们前面所说的后代选择器，这一点大家在使用中千万要小心加小心。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h4><ul>
+<li>E[attr]：只使用属性名，而不论这个属性值是什么，你就可以使用这个属性选择器</li>
+<li>E[attr=”value”]：指定属性名，并指定了该属性的属性值为value；</li>
+<li>E[attr~=”value”]：指定属性名，并且具有属性值，此属性值是一个词列表，并且以空格隔开，其中词列表中包含了一个value词，而且等号前面的“~”不能不写;属性选择器中有波浪（〜）时属性值有value时就相匹配，没有波浪（〜）时属性值要完全是value时才匹配。</li>
+<li>E[attr^=”value”]：属性值是以value开头的；</li>
+<li>E[attr$=”value”]：而且属性值是以value结束的；</li>
+<li>E[attr*=”value”]：而且属值中包含了value；</li>
+<li>E[attr|=”value”]：属性值是value或者以“value-”开头的值</li>
+</ul>
+<h4 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h4><h5 id="动态伪类"><a href="#动态伪类" class="headerlink" title="动态伪类"></a>动态伪类</h5><ul>
+<li>:hover用于当用户把鼠标移动到元素上面时的效果；</li>
+<li>:active用于用户点击元素那一下的效果（正发生在点的那一下，松开鼠标左键此动作也就完成了）</li>
+<li><p>:focus用于元素成为焦点，这个经常用在表单元素上。<br>#####UI元素状态伪类</p>
+</li>
+<li><p>:enabled 表单元素可用（比如”type=”text”有enable和disabled两种状态，前者为可写状态后者为不可状态）</p>
+</li>
+<li>:disabled    </li>
+<li><p>:checked 表单元素选中适用于radio checked</p>
+<h5 id="CSS3的-nth选择器"><a href="#CSS3的-nth选择器" class="headerlink" title="CSS3的:nth选择器"></a>CSS3的:nth选择器</h5></li>
+<li><p>:fist-child选择某个元素的第一个子元素；</p>
+</li>
+<li>:last-child选择某个元素的最后一个子元素；</li>
+<li>:nth-child()选择某个元素的一个或多个特定的子元素；</li>
+</ul>
+<blockquote>
+<ul>
+<li>:nth-child(length);参数是具体数字</li>
+<li>:nth-child(n);参数是n,n从0开始计算</li>
+<li>:nth-child(n*length)n的倍数选择，n从0开始算</li>
+<li>:nth-child(n+length);选择大于length后面的元素</li>
+<li>:nth-child(-n+length)选择小于length前面的元素</li>
+<li>:nth-child(n*length+1);表示隔n选一</li>
+</ul>
+</blockquote>
+<ul>
+<li>:nth-last-child()选择某个元素的一个或多个特定的子元素，从这个元素的最后一个子元素开始算；</li>
+<li>:nth-of-type()选择指定的元素；</li>
+<li>:nth-last-of-type()选择指定的元素，从元素的最后一个开始计算；</li>
+<li>:first-of-type选择一个上级元素下的第一个同类子元素；</li>
+<li>:last-of-type选择一个上级元素的最后一个同类子元素；</li>
+<li>:only-child选择的元素是它的父元素的唯一一个了元素；</li>
+<li>:only-of-type选择一个元素是它的上级元素的唯一一个相同类型的子元素；</li>
+<li>:empty是用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格.</li>
+</ul>
+<h5 id="否定选择器（-not）selctorA-not-slectorB"><a href="#否定选择器（-not）selctorA-not-slectorB" class="headerlink" title="否定选择器（:not）selctorA:not(slectorB)"></a>否定选择器（:not）selctorA:not(slectorB)</h5><blockquote>
+<p>用来过滤元素，比如要选择除了type为button之外的任何input可以使用 input:not([type=”button”])<br>使用</p>
+</blockquote>
+<h5 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h5><p>CSS 3之前使用<em>:</em>在CSS3中使用<em>::</em></p>
+<ul>
+<li>::first-line选择元素内容的第一行</li>
+<li>::first-letter选择文本块的第一个字母，比如用来实现首字下沉。</li>
+<li><p>::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常用”content”配合使用，比如流行的清除浮动。</p>
+<pre><code>.clearfix:before,
+.clearfix:after {
+    content: &quot;.&quot;;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix:after {clear: both;}
+.clearfix {zoom: 1;}
+</code></pre><p>-::selection用来改变浏览网页选中文的默认效果</p>
+</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/10/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/12/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">30</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2020
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

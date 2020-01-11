@@ -1,0 +1,676 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br>
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br>
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br>
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/12/javascript-bind-function/">
+                javascript bind function
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-12
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/12/javascript-bind-function/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/12/javascript-bind-function/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>记得半年之前在微博上看到一个问题，有人问如何才能证明自己真正理解了Javascript，有大神回答，最起码要能明白并写出bind 函数。当然这里的Javascript 仅仅是指的ECMASCRIPT本身，并不包含浏览器相关的那些。那么这篇博客这里就以bind开始吧。<br>首先搬出三个概念、</p>
+<ul>
+<li>作用域：表示变量或函数起作用的区域，作用域链-Javascript的作用域链也是按有顺序查询的。在访问变量时，先查看本地作用域是否有此变量，如果没有则依次向上一级作用域查找直到全局作用域。如果全局作用域也没有此变量，那么将会在全局作用域中声明这个变量;</li>
+<li>上下文：又可以理解为上下文对象，表示<strong>当前代码执行时所处的环境</strong>。即是this变量所指代的对象;</li>
+<li>闭包：表示能访问和操作其他本地作用域的变量的表达式（通常是函数）;</li>
+</ul>
+<p>在Javascript中<code>this</code>关键字是非常重要的，我之前也花费了不少时间来理解Javascript中的this是如何工作的。每个函数都有一个this变量，简单来说函数this是一个指针，它指向是不固定的，而是动态的，指向调用这个函数的对象，而这个对象就是上下文。我们都知道，Javascript里面的有作用域的概念，就是变量能够访问到的范围，this则是指向当前作用域的。通过this访问变量的时候会在当前作用域上查找。这篇博文是关于bind函数的，这个也是我们经常用的一个东西。</p>
+<h3 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h3><p>说起Javascript，很难避免的提到了闭包，每个闭包拥有自己的作用域以及this 变量闭包里面的this 并不是指向原来的对象。例如</p>
+<pre><code>var getUserComments = function(callback) {
+    var numOfCommets = 34;
+    callback({ comments: numOfCommets });
+};
+var User = {
+    fullName: &apos;kunkun&apos;,
+    print: function() {
+        getUserComments(function(data) {
+            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+        });
+    }
+};
+User.print();
+</code></pre><p>这里假设getUserComments 是一个异步的函数，通过一个回调函数来接受处理getUserComments返回的结果，在User对象里面我传入了一个匿名函数-闭包(即刚才说的回调的函数)，执行完毕的结果如下。</p>
+<pre><code>undefined made 34 comments
+</code></pre><p>可以看出这里的在调用print的时候。在刚才的回调函数里面<code>this.fullName</code>取值为undefined，可以看出此时这里面this 不再指向User对象了(其实是指向全局对比如在浏览器环境下的window);但是我期望的返回结果为<br><code>kunkun made 34 comments</code>可以如下解决。</p>
+<pre><code>var that= this;
+getUserComments(function(data) {
+    console.log(that.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+});
+</code></pre><p>在执行print的时候，由于print是由User来调用的因此，print 里面的 this 是指向的User对象的，于是把this 赋值给力that ，所以that 这里保存了User的地址。所以在调用fullname的时候 ，就是User作用域下的fullname。</p>
+<p>但是这种方法感觉有点混乱，同时也要定义像that这样新的变量，如果这样的情况出现多次的话，难免造成迷糊的。那么如何提前给这个函数固定好作用域呢。</p>
+<h4 id="设置函数的作用域"><a href="#设置函数的作用域" class="headerlink" title="设置函数的作用域"></a>设置函数的作用域</h4><p>这里提供了一种方式来设置函数的作用域：使用apply 或者call函数，这两个方法是在Function.prototype里面定义的，因此任何一个函数都继承了这两个方法，apply和call的第一个参数就是要给方法绑定的对象(即该方法调用时this指向的对象)。下面给定义一个getLength方法来获取fullname的length</p>
+<pre><code>var getLength = function() {
+    console.log(this.fullName.length);
+}
+getLength.apply(User);
+</code></pre><p>结果是这种方式的输出结果是6，说明我的目的是达到了，如果我们直接调用<code>getLength</code>方法呢，<code>getLength()</code>则会返回爆出异常，这种情况下 <code>getLength</code>是在最外层定义的，因此调用的时候this指向的是全局对象，但是全局对象中没有<code>fullName</code>这个属性，因此此时<code>this.fullName</code>为undfined，那么<code>this.fullName.length</code>则相当于执行了undfined.length，这是必然要爆出异常的。</p>
+<p>以上使用apply调用的时候 getLength也自然地调用了，那么如何给getLength指定好上下文，而不让他调用的。等以后调用的时候函数里面的this 则指向我们自己设定的对象。我们不妨把这个功能称之为 bind。</p>
+<h4 id="原生的Function-prototype-bind"><a href="#原生的Function-prototype-bind" class="headerlink" title="原生的Function.prototype.bind"></a>原生的Function.prototype.bind</h4><p>如上提到的一样apply和call一样，他们都是Function.prototype对象中的方法，这个是ES5里面新增的方法。因此当前主流的浏览器都是支持的包括Chrome, Firefox, Opera，safari 其中IE 要在8以上。</p>
+<p>在此将上面的代码修改如下</p>
+<pre><code>var User = {
+    fullName: &apos;kunkun&apos;,
+    print: function() {
+        getUserComments(function(data) {
+            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+        }.bind(this));
+    }
+};
+User.print();
+</code></pre><p>在上面绑定的时候调用bind(this)的时候， 在print里面的，此时print是由User调用的，因此的this指向User的。bind的第一个参数就是给该匿名函数绑定作用域。同时呢也可以使用该函数为函数绑定预定义的参数</p>
+<pre><code>var User = {
+    fullName: &apos;kunkun&apos;,
+    print: function() {
+        getUserComments(function(msg, data) {
+            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos; + msg);
+        }.bind(this, &apos;coder&apos;));
+    }
+};
+</code></pre><p>注意在调用的时候参数的顺序是在bind绑定的参数在前面。</p>
+<h4 id="Polyfill-为旧版本的浏览器增加bind函数"><a href="#Polyfill-为旧版本的浏览器增加bind函数" class="headerlink" title="Polyfill-为旧版本的浏览器增加bind函数"></a>Polyfill-为旧版本的浏览器增加bind函数</h4><p>同时也是文章开头的那道题要求的答案。</p>
+<p>这里的解决方案就是首先判断Function.prototype中的是否具有这个bind函数，如果没有的话在这里为Function.prototype增加一个bind属性，具体实现还是通过apply来搞定的，<code>Function.prototype.bind()</code>返回一个函数，在这个函数执行的时候动态地执行要绑定作用域的函数的apply方法</p>
+<pre><code>if (!Function.prototype.bind) {
+  Function.prototype.bind = function (oThis) {
+    if (typeof this !== &quot;function&quot;) {
+      throw new TypeError(&quot;Function.prototype.bind - what is trying to be bound is not callable&quot;);
+    }     
+    var aArgs = Array.prototype.slice.call(arguments, 1), 
+        fToBind = this, 
+        fNOP = function () {},
+        fBound = function () {
+          return fToBind.apply(
+            this instanceof fNOP &amp;&amp; oThis ? this : oThis, 
+            aArgs.concat(Array.prototype.slice.call(arguments))
+          );
+        };     
+    fNOP.prototype = this.prototype;
+    fBound.prototype = new fNOP();         
+    return fBound;
+  };
+}
+</code></pre><p>每个函数在执行的时候有个arguments 对象，这是一个类数组对象，是一个传入的参数列表，通过<code>Array.prototype.slice.call(arguments, 1)</code>来获取参数列表除第一个元素之外的元素列表，返回结果是一个数组。因为bind 函数第一个参数是要绑定的对象，之后的参数是预先为函数绑定的参数，同事呢这个函数在执行的时候也会传入参数，这个参数列表也在arguments里面，于是将这个两个参数列表进行合并。</p>
+<pre><code>aArgs.concat(Array.prototype.slice.call(arguments))
+</code></pre><p>将该数组传入给apply的第二个参数。apply第二个参数是arguments这样类型的，当然也可以是一个数组比如apply(obj,[参数一，参数二，参数三])，而call在这方面的区别就是参数列表是如 call(user,参数一，参数二，参数三)这种形式.apply调用要将参数封装到一个数组里面，这种方式适用用不清楚参数个数的情况下。而call则要求要明确参数的个数。很明显apply更灵活、功能要强一些。</p>
+<p>如果要了解更多信息可以参见<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind</a></p>
+<p>最后自己瞎编了两道题</p>
+<h5 id="第一道"><a href="#第一道" class="headerlink" title="第一道"></a>第一道</h5><pre><code>var name=&quot;张三&quot;
+function Person(name){
+this.name=name
+};
+
+Person.prototype.getName=function(){
+console.log(this.name)
+};
+
+var p=new Person(&quot;李四&quot;);
+ p.getName();
+
+ var m=p.getName;
+
+ m();
+</code></pre><h5 id="第二道"><a href="#第二道" class="headerlink" title="第二道"></a>第二道</h5><p>根据文章继续文章中使用Demo</p>
+<pre><code>var getUserComments = function(callback) {
+            var numOfCommets = 34;
+            callback({ comments: numOfCommets });
+        };
+var User = {
+            fullName: &apos;kunkun&apos;,
+            print: function() {
+                getUserComments(function(data) {
+                    console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+                }.bind(this));
+            }
+        };
+var p=    User.print;
+    p()
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/11/html-5-meta-tag/">
+                html 5 meta tag
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-11
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/11/html-5-meta-tag/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/html-5-meta-tag/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="meta的作用"><a href="#meta的作用" class="headerlink" title="meta的作用"></a>meta的作用</h3><p>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
+<ul>
+<li><meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。</li>
+<li><meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。</li>
+</ul>
+<p>每个meta标签必须具有content属性，定义与 http-equiv 或 name 属性相关的元信息。</p>
+<h3 id="可选属性"><a href="#可选属性" class="headerlink" title="可选属性"></a>可选属性</h3><h4 id="http-equiv-属性"><a href="#http-equiv-属性" class="headerlink" title="http-equiv 属性"></a>http-equiv 属性</h4><p>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
+<pre><code>&lt;meta http-equiv=&quot;charset&quot; content=&quot;iso-8859-1&quot;&gt;
+&lt;meta http-equiv=&quot;expires&quot; content=&quot;31 Dec 2008&quot;&gt;
+</code></pre><p>这样发送到浏览器的头部就应该包含：</p>
+<pre><code>content-type: text/html
+charset:iso-8859-1
+expires:31 Dec 2008
+</code></pre><p>5秒刷新一次页面</p>
+<pre><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot; /&gt;
+</code></pre><h4 id="content-属性"><a href="#content-属性" class="headerlink" title="content 属性"></a>content 属性</h4><ul>
+<li>content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。</li>
+<li>content 属性始终要和 name 属性或 http-equiv 属性一起使用。</li>
+</ul>
+<h4 id="name-属性"><a href="#name-属性" class="headerlink" title="name 属性"></a>name 属性</h4><p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
+<pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;HTML,ASP,PHP,SQL&quot;&gt;
+&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词； 
+&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容； 
+&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者； 
+&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt; 
+</code></pre><p>其中的属性说明如下： </p>
+<ul>
+<li>设定为all：文件将被检索，且页面上的链接可以被查询； </li>
+<li>设定为none：文件将不被检索，且页面上的链接不可以被查询； </li>
+<li>设定为index：文件将被检索； </li>
+<li>设定为follow：页面上的链接可以被查询； </li>
+<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询； </li>
+<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。 </li>
+</ul>
+<p>另外一点需要注意的是在HTML4中定义页面的字符集需要，放在content-type对应的content里面</p>
+<pre><code>&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=ISO-8859-1&quot;&gt;
+</code></pre><p>HTML5中新增了 charset属性 ，使用更简单</p>
+<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Html/">
+                #Html
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/16/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/18/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">30</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2020
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

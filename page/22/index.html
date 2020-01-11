@@ -1,0 +1,596 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br>
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br>
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br>
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/01/javascriptjudge-browser/">
+                判断浏览器特性
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-01
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/01/javascriptjudge-browser/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/javascriptjudge-browser/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="浏览器类型判断"><a href="#浏览器类型判断" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
+<p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
+<pre><code> var Sys = {}; 
+var ua = navigator.userAgent.toLowerCase(); 
+var s; 
+(s = ua.match(/msie ([/d.]+)/)) ? Sys.ie = s[1] : 
+(s = ua.match(/firefox//([/d.]+)/)) ? Sys.firefox = s[1] : 
+(s = ua.match(/chrome//([/d.]+)/)) ? Sys.chrome = s[1] : 
+(s = ua.match(/opera.([/d.]+)/)) ? Sys.opera = s[1] : 
+(s = ua.match(/version//([/d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+</code></pre><p>测试代码</p>
+<pre><code>if (Sys.ie) document.write(&apos;IE: &apos; + Sys.ie); 
+if (Sys.firefox) document.write(&apos;Firefox: &apos; + Sys.firefox); 
+if (Sys.chrome) document.write(&apos;Chrome: &apos; + Sys.chrome); 
+if (Sys.opera) document.write(&apos;Opera: &apos; + Sys.opera); 
+if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
+</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>实现。</p>
+<h3 id="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"><a href="#Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
+<pre><code>if (Modernizr.borderradius) {
+      //do something
+   }
+
+   if (Modernizr.csstransforms) {
+      //
+   }
+</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="noopener">shim/polyfill</a>脚本来达到支持的目的.</p>
+<p>可以使用Modernizr的load()函数来动态加载脚本，该函数的test属性是表明要测试是否支持的新特性，如果测试成功支持的话，就加载yep属性设置的脚本，如果不支持就加载nope属性设置的脚本，不管是否支持，both属性里设置的脚本都会加载的。例子代码如下：</p>
+<pre><code>Modernizr.load({
+    test: Modernizr.canvas,
+    yep:  &apos;html5CanvasAvailable.js’,
+    nope: &apos;excanvas.js’, 
+    both: &apos;myCustomScript.js&apos; 
+});
+</code></pre><p>在该例子里，Modernizr会判断当前浏览器是否支持canvas特性，如果支持，那就会加载html5CanvasAvailable.js和myCustomScript.js这两个脚本，如果不支持，就会加载excanvas.js（用于IE9之前的版本）脚本文件以让该浏览器支持canvas功能，然后再加载myCustomScript.js脚本。</p>
+<p>因为Modernizr可以加载脚本，所以你还可以用于其它的用途，比如，如果你引用的第三方脚本（例如提供CDN服务的Google和Microsoft提供jquery的托管）加载失败的情况下，可以加载备用的文件。下面的代码是Modernizr提供的一个加载jquery的示例：</p>
+<pre><code>Modernizr.load([
+    {
+        load: &apos;//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js&apos;,
+        complete: function () {
+            if (!window.jQuery) {
+                Modernizr.load(&apos;js/libs/jquery-1.6.4.min.js&apos;);
+            }
+        }
+    },
+    {
+        // This will wait for the fallback to load and
+        // execute if it needs to.
+        load: &apos;needs-jQuery.js&apos;
+    }
+]);
+</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="noopener">Detecting HTML5/CSS3 Features using Modernizr</a></p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/01/what-is-node/">
+                Node.JS 究竟是什么?
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-01
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/01/what-is-node/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/what-is-node/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <h3 id="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"><a href="#Node旨在解决服务器能够处理的并发连接的最大数量的问题。" class="headerlink" title="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"></a>Node旨在解决服务器能够处理的并发连接的最大数量的问题。</h3><p>  Node官网首页有一句话就是对Node是什么以及node解决什么问题做出了介绍，原文如下</p>
+<pre><code>Node.js is a platform built on Chrome&apos;s JavaScript runtime for easily building fast, 
+scalable network applications. Node.js uses an event-driven, 
+non-blocking I/O model that makes it lightweight and efficient,
+perfect for data-intensive real-time applications that run across distributed devices.
+</code></pre><p> 大概意思是说Node是基于Chrome的javascript的引擎，旨在提供一种简单的构建可伸缩网络程序的方法，node特点是基于事件驱动，非阻塞I/O，同时还有一个特点没有直接提到就是单线程。</p>
+<p>在 Java™ 和 PHP 这类语言中，每个连接都会生成一个新线程，每个新线程可能需要 2 MB 的配套内存。在一个拥有 8 GB RAM 的系统上，理论上最大的并发连接数量是 4,000 个用户。随着您的客户群的增长，如果希望您的 Web 应用程序支持更多用户，那么，您必须添加更多服务器。当然，这会增加服务器成本、流量成本和人工成本等成本。除这些成本上升外，还有一个潜在技术问题，即用户可能针对每个请求使用不同的服务器，因此，任何共享资源都必须在所有服务器之间共享。鉴于上述所有原因，整个 Web 应用<br>Node 解决这个问题的方法是：更改连接到服务器的方式。每个连接发射一个在 Node 引擎的进程中运行的事件，而不是为每个连接生成一个新的 OS 线程（并为其分配一些配套内存）。Node 声称它绝不会死锁，因为它根本不允许使用锁，它不会直接阻塞 I/O 调用。Node 还宣称，运行它的服务器能支持数万个并发连接。</p>
+<h3 id="为什么选择是Javascript-语言"><a href="#为什么选择是Javascript-语言" class="headerlink" title="为什么选择是Javascript 语言"></a>为什么选择是Javascript 语言</h3><ul>
+<li>V8 JavaScript 引擎是 Google 用于其 Chrome 浏览器的底层 JavaScript 引擎。很少有人考虑 JavaScript 在客户机上实际做了些什么？实际上，JavaScript 引擎负责解释并执行代码。Google 使用 V8 创建了一个用 C++ 编写的超快解释器，该解释器拥有另一个独特特征；可以下载该引擎并将其嵌入任何 应用程序。</li>
+<li>JavaScript 是一种很棒的事件驱动编程语言，因为它允许使用匿名函数和闭包，更重要的是，任何写过代码的人都熟悉它的语法。事件发生时调用的回调函数可以在捕获事件处进行编写。这样可以使代码容易编写和维护，没有复杂的面向对象框架，没有接口，没有过度设计的可能性。只需监听事件，编写一个回调函数，其他事情都可以交给系统处理！<br>由于V8正好可以满足上述提到Node几个特点，以及Javascript独特优势，以及Javascript的大量用户，所以NodeJS就这样地产生了。</li>
+</ul>
+<h3 id="Node适合做什么工作。实时-高并发I-O，弱密集逻辑计算"><a href="#Node适合做什么工作。实时-高并发I-O，弱密集逻辑计算" class="headerlink" title="Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算"></a>Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算</h3><ul>
+<li>RESTful API</li>
+<li>新浪微博、twiter这样高并发的应用</li>
+<li>编写网络小工具。</li>
+<li>聊天程序</li>
+<li>游戏后台</li>
+<li>股票等实时信息展示网站。</li>
+</ul>
+<p>同时Node有数万的计的第三方模块，Node 的一个特性是 Node Package Module，这是一个内置功能，用于安装和管理 Node 模块。它自动处理依赖项，因此您可以确定：您想要安装的任何模块都将正确安装并包含必要的依赖项。它还支持将您自己的模块发布到 Node 社区，假如您选择加入社区并编写自己的模块的话。您可以将 NPM 视为一种允许轻松扩展 Node 功能的方法，不必担心这会破坏您的 Node 安装。同样，如果您选择深入学习 Node，那么 NPM 将是您的 Node 解决方案的一个重要组成部分。</p>
+<p>优秀的设计+众多开发者的支持，应该是Node平台火起来的原因吧。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Node/">
+                #Node
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/21/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/23/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">30</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2020
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

@@ -1,0 +1,818 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br>
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br>
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br>
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/05/media-query/">
+                Media Queries
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-05
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/05/media-query/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/media-query/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>媒体查询在CSS2中就有了，CSS3中得到了进一步增强，简单来说我们可以设置不同类型的媒体条件，并根据对应的条件，给相应符合条件的媒体调用相对应的样式表，说白了就是就是根据设备当前本身的环境(比如屏幕的长宽，设备的种类等）来对元素应用响应的CSS文件，但是所有的CSS 文件总是要下载到本地的。</p>
+<h4 id="引入方式"><a href="#引入方式" class="headerlink" title="引入方式"></a>引入方式</h4><ul>
+<li><p>link方法引入 </p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../css/print.css&quot; media=&quot;print&quot; /&gt;
+</code></pre></li>
+<li><p>xml方式引入</p>
+<pre><code>&lt;?xml-stylesheet rel=&quot;stylesheet&quot; media=&quot;screen&quot; href=&quot;css/style.css&quot; ？&gt;
+</code></pre></li>
+<li><p>@import方式引入</p>
+<pre><code>@import url(&quot;css/reset.css&quot;) screen;
+</code></pre></li>
+<li><p>@media引入</p>
+<pre><code>@media screen{
+     选择器{
+    属性：属性值；
+     }
+   }
+</code></pre></li>
+</ul>
+<h4 id="如何定义查询条件"><a href="#如何定义查询条件" class="headerlink" title="如何定义查询条件"></a>如何定义查询条件</h4><p>媒体类型包括如下几种</p>
+<ul>
+<li>all 所有设备可用</li>
+<li>braille 盲文</li>
+<li>embossed</li>
+<li>handheld</li>
+<li>print 打印</li>
+<li>projection 投影</li>
+<li>screen 显示器</li>
+<li>speech</li>
+<li>tty 电传打字机 </li>
+<li>tv 电视</li>
+</ul>
+<h4 id="最大宽度Max-Width-max-height-max-width"><a href="#最大宽度Max-Width-max-height-max-width" class="headerlink" title="最大宽度Max Width,max-height,max-width"></a>最大宽度Max Width,max-height,max-width</h4><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (max-width:600px)&quot; href=&quot;small.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><p>也可在style 标签或者单独的CSS文件里面:</p>
+<pre><code>@media only screen and (max-device-width: 480px) {
+        div#wrapper {
+            width: 400px;
+        }
+
+        div#header {
+            background-image: url(media-queries-phone.jpg);
+            height: 93px;
+            position: relative;
+        }
+
+        div#header h1 {
+            font-size: 140%;
+        }
+
+        #content {
+            float: none;
+            width: 100%;
+        }
+
+        #navigation {
+            float:none;
+            width: auto;
+        }
+    }
+</code></pre><h4 id="最小宽度Min-Width-min-width-min-height"><a href="#最小宽度Min-Width-min-width-min-height" class="headerlink" title="最小宽度Min Width min-width,min-height"></a>最小宽度Min Width min-width,min-height</h4><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:900px)&quot; href=&quot;big.css&quot; type=&quot;text/css&quot;  /&gt;
+</code></pre><h4 id="and-not-only关键字"><a href="#and-not-only关键字" class="headerlink" title="and not only关键字"></a>and not only关键字</h4><h5 id="多个Media-Queries使用查询取交集"><a href="#多个Media-Queries使用查询取交集" class="headerlink" title="多个Media Queries使用查询取交集"></a>多个Media Queries使用查询取交集</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;screen and (min-width:600px) and (max-width:900px)&quot; href=&quot;style.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><h5 id="not用于排除符合表达式的设备。"><a href="#not用于排除符合表达式的设备。" class="headerlink" title="not用于排除符合表达式的设备。"></a>not用于排除符合表达式的设备。</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;not print and (max-width: 1200px)&quot; href=&quot;print.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><h5 id="only用来定某种特定的媒体类型"><a href="#only用来定某种特定的媒体类型" class="headerlink" title="only用来定某种特定的媒体类型"></a>only用来定某种特定的媒体类型</h5><pre><code>&lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
+</code></pre><h4 id="Device-Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"><a href="#Device-Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用" class="headerlink" title="Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用"></a>Device Width设备屏幕的输出宽度、即是设备的实际分辨率，也就是指可视面积分辨率、可以使用</h4><p>max-device-width、min-device-width</p>
+<h4 id="orientation-横屏或者竖屏"><a href="#orientation-横屏或者竖屏" class="headerlink" title="orientation 横屏或者竖屏"></a>orientation 横屏或者竖屏</h4><h4 id="device-pixel-ratio-设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"><a href="#device-pixel-ratio-设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio" class="headerlink" title="device-pixel-ratio 设备的宽高比min-device-pixel-ratio，max-device-pixel-ratio"></a>device-pixel-ratio 设备的宽高比<code>min-device-pixel-ratio</code>，<code>max-device-pixel-ratio</code></h4><h4 id="resolution-分辨率-min-resolution-max-resolution。"><a href="#resolution-分辨率-min-resolution-max-resolution。" class="headerlink" title="resolution 分辨率 min-resolution  max-resolution。"></a>resolution 分辨率 <code>min-resolution</code>  <code>max-resolution</code>。</h4><p>可以使用设备的宽高比，输出的最大最小宽度来判断设备的类型，甚至是具体的某一款设备。比如如下<br>使用media query为android手机在不同分辨率提供特定样式，这样就可以解决屏幕分辨率的不同给android手机的页面重构问题。</p>
+<pre><code>/*240px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (max-device-width:240px)&quot; href=&quot;android240.css&quot; type=&quot;text/css&quot; /&gt;
+ /*360px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:241px) and (max-device-width:360px)&quot; href=&quot;android360.css&quot; type=&quot;text/css&quot; /&gt;
+ /*480px的宽度*/
+ &lt;link rel=&quot;stylesheet&quot; media=&quot;only screen and (min-device-width:361px) and (max-device-width:480px)&quot; href=&quot;android480.css&quot; type=&quot;text/css&quot; /&gt;。
+</code></pre><p>总结：media query 就是让我们根据屏幕的大小来对HTML元素应用适合当前屏幕的样式，能够在不同尺寸的屏幕，甚至是不同的设备上达到较好的用户体验。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/05/es-5-feature/">
+                ECMAScript 5 学习总结
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-05
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/05/es-5-feature/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/05/es-5-feature/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>话说<a href="https://github.com/lukehoban/es6features" target="_blank" rel="noopener">ES6</a>的草稿都出来了，貌似好多人对ES5 还没有全面的了解，下面将我学习的关于ES5的一些东西总结一下。<br>ECMAScript 5.1(或者成为ES5 、ECMAScript 5)，在2009年发布草稿，2011发布正式版本，最初在2011年发布的Firefox 4上得到支持。但是万恶的IE（6、7、8） 并不支持ES5，因此这也一定程度上阻止了ES5的普及。但是我们可以通过ployfill的形式来让IE8支持ES5的一些功能，比如引入<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="noopener">shim</a>;</p>
+<h3 id="浏览器对ES5的支持情况。"><a href="#浏览器对ES5的支持情况。" class="headerlink" title="浏览器对ES5的支持情况。"></a>浏览器对ES5的支持情况。</h3><p>ES5出现以前，用的最多的是ES3(ES4 流产了). 总体上当今主流的浏览器都已经支持了ES5.比如常见的ie9+，chrome 19+，safari5+，firefox4+，opera 12+，android 3+，Blackberry Browser 7+，IOS safari 5+，opera mobile 12+，ie mobile 10+,例外是IE 9不支持ES 5.1的严格模式，IE10 已经支持。Safari 5.1+在严格模式下不支持0宽字符，比如<code>var $\u200c = &#39;a&#39;</code> 或者<code>{_\u200d: &#39;vuur&#39;}</code>.IE8 是ES3的脚本引擎，但是支持ES5的一些特性，比如<code>JSON</code>、<code>Object.defineProperty</code>,<code>Object.getOwnPropertyDescriptor</code>,然而 我们最好还是要把IE8 称为ES3的浏览器。当然如果对于不支持ES 5的浏览器可以使用<a href="https://github.com/es-shims/es5-shim" target="_blank" rel="noopener">shim</a> 来进行扩展，以提供支持。下面开始描述ES 5的那些东西。</p>
+<h4 id="数组或者是对象中的最后元素允许添加逗号。"><a href="#数组或者是对象中的最后元素允许添加逗号。" class="headerlink" title="数组或者是对象中的最后元素允许添加逗号。"></a>数组或者是对象中的最后元素允许添加逗号。</h4><pre><code>var myObject = {
+    foo:&apos;foo&apos;,
+    bar:&apos;bar&apos;, //no error
+};
+
+var myArray = [1,2,3,];
+
+console.log(myArray.length) //logs 3, regardless of trailing comma 
+</code></pre><h4 id="使用-分割来实现多行字符串"><a href="#使用-分割来实现多行字符串" class="headerlink" title="使用\ 分割来实现多行字符串"></a>使用\ 分割来实现多行字符串</h4><pre><code>//no error in ES5 scripting engines
+var stringLiteral = &quot;Lorem ipsum dolor sit amet, consectetur \ 
+elit, sed do eiusmod tempor incididunt ut labore et dolore \
+magna aliqua. Ut enim ad minim veniam, quis nostrud \
+exercitation ullamco laboris nisi ut aliquip ex ea&quot;;
+</code></pre><h4 id="对象属性的名字允许使用限定字符。"><a href="#对象属性的名字允许使用限定字符。" class="headerlink" title="对象属性的名字允许使用限定字符。"></a>对象属性的名字允许使用限定字符。</h4><pre><code>var myObject = {function:&apos;function&apos;,new:&apos;new&apos;};
+
+console.log(myObject.function,myObject.new); //logs &apos;function new&apos;
+</code></pre><h4 id="处理JSON-的方法-JSON-parse-JSON-stringify"><a href="#处理JSON-的方法-JSON-parse-JSON-stringify" class="headerlink" title="处理JSON 的方法 JSON.parse  JSON.stringify"></a>处理JSON 的方法 <code>JSON.parse</code>  <code>JSON.stringify</code></h4><h4 id="原生的字符串去空格方法string-trim"><a href="#原生的字符串去空格方法string-trim" class="headerlink" title="原生的字符串去空格方法string.trim()"></a>原生的字符串去空格方法<code>string.trim()</code></h4><p>ES 5 提供String.trim()来去除字符串首尾的空格。</p>
+<pre><code>&apos;   foo   &apos;.trim(); // &apos;foo&apos;
+</code></pre><p>需要关注的是，有些浏览器已经提供了 <code>trimRight()</code>,<code>trimLeft()</code>,但是这并不是正式的标准。</p>
+<h4 id="通过-i-来访问字符串中的字符。"><a href="#通过-i-来访问字符串中的字符。" class="headerlink" title="通过[i]来访问字符串中的字符。"></a>通过[i]来访问字符串中的字符。</h4><pre><code>&apos;ES5&apos;[1]; //  &quot;S&quot;
+</code></pre><p>ES3中 是不允许这种方式来进行访问的</p>
+<h4 id="undefined-NaN-以及Infinty是只读的常量。"><a href="#undefined-NaN-以及Infinty是只读的常量。" class="headerlink" title="undefined,NaN 以及Infinty是只读的常量。"></a><code>undefined</code>,<code>NaN</code> 以及<code>Infinty</code>是只读的常量。</h4><p>在ES5 之前的版本中这三个变量是可读写的。于是可能给undefined赋值，这样undefined，就不是真的undefined了。</p>
+<h4 id="数组相关"><a href="#数组相关" class="headerlink" title="数组相关"></a>数组相关</h4><p>判断数组类型的最佳方法:<code>Array.isArray([])</code></p>
+<p>####Array.prototype 新增的方法。</p>
+<ul>
+<li>Array.prototype.every()</li>
+<li>Array.prototype.filter()</li>
+<li>Array.prototype.forEach()</li>
+<li>Array.prototype.indexOf()</li>
+<li>Array.prototype.lastIndexOf()</li>
+<li>Array.prototype.map()</li>
+<li>Array.prototype.reduce()</li>
+<li>Array.prototype.some()</li>
+</ul>
+<p>同时也可以在字符串以及类数组中使用这些方法，比如</p>
+<pre><code>//在字符串中使用
+[].forEach.call(&apos;ABC&apos;,console.log);
+
+//argument  
+var myFunction = function(a,b,c){
+    [].forEach.call(arguments,console.log);
+};
+myFunction(1,2,3);
+</code></pre><h4 id="为数组的-forEach-every-some-filter-map-中的回调函数指定this-上下文-这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个-arrayLikeObject-对象，作为forEach-Callback的this。"><a href="#为数组的-forEach-every-some-filter-map-中的回调函数指定this-上下文-这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个-arrayLikeObject-对象，作为forEach-Callback的this。" class="headerlink" title="为数组的 forEach(), every(), some(), filter(), map()中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 arrayLikeObject 对象，作为forEach Callback的this。"></a>为数组的 <code>forEach()</code>, <code>every()</code>, <code>some()</code>, <code>filter()</code>, <code>map()</code>中的回调函数指定this(上下文);这几个函数的第三个参数即callback中的this对象，下面代码中我设置了一个 <code>arrayLikeObject</code> 对象，作为forEach Callback的this。</h4><pre><code>var arrayLikeObject = {0:&apos;f&apos;,1:&apos;o&apos;,2:&apos;g&apos;,length:3};
+
+[].forEach.call(arrayLikeObject,function(item){
+
+    // this = arrayLikeObject
+    console.log(item + &apos; total: &apos; + this.length);
+
+},arrayLikeObject); //注意第三个参数 传递了也是arrayLikeObject
+</code></pre><h4 id="属性访问器-getter-setter"><a href="#属性访问器-getter-setter" class="headerlink" title="属性访问器 getter setter"></a>属性访问器 getter setter</h4><pre><code>var myObject = {
+    //name:&apos;&apos;, WOULD CAUSE ERROR
+    get name() { //notice use of get to indicate accessor property 
+        console.log(&apos;read name&apos;);
+    },
+    set name(value) { //notice use of set to indicate accessor property
+        console.log(&apos;wrote to name the value: &apos; + value);
+    }
+
+};
+
+myObject.name = &apos;codylindley&apos;; //调用 set 
+myObject.name; //调用get
+</code></pre><h4 id="对象属性的配置项"><a href="#对象属性的配置项" class="headerlink" title="对象属性的配置项"></a>对象属性的配置项</h4><p>ES5中新的特性让对象的属性具有可只读readable，可只写writable、可配置性configurable,可遍历enumerable，通过<code>Object.getOwnPropertyDescriptor()</code> 可以查看特性的描述信息。</p>
+<pre><code>var accessor = {
+    get name(){},
+    set name(){}
+};
+
+var data = {name:&apos;Cody Lindley&apos;};
+
+//logs {get: function, set: function, enumerable: true, configurable: true}
+console.log(Object.getOwnPropertyDescriptor(accessor,&apos;name&apos;));
+
+//logs {value: &quot;Cody Lindley&quot;, writable: true, enumerable: true, configurable: true}
+console.log(Object.getOwnPropertyDescriptor(data,&apos;name&apos;));
+</code></pre><p>默认情况下Object.defineProperty() Object.defineProperties()<code>writable: true, enumerable: true, configurable: true。</code>如果是通过属性访问器来定义的属性 默认特性为 <code>enumerable: true, configurable:true</code> 。</p>
+<p>####新的 定义/修改对象的语法<br>通过<code>Object.defineProperty()</code> 以及 <code>Object.defineProperties()</code>两个函数来定义对象的属性以及属性的特性。下面是通过<code>Object.defineProperty()</code>为data对象定义两个属性<code>age</code>和<code>name</code>.</p>
+<pre><code>var data = {}; //create data object
+Object.defineProperty( //在data 对象上定义属性age
+    data,
+    &quot;age&quot;, 
+    {
+        value: 38,//配置属性的特性 包括value writable enumerable configurable
+        writable: true,
+        enumerable: true,
+        configurable: true
+    }
+);
+
+var accessor = {}; 
+Object.defineProperty( //以get set的形式来定义属性 name
+    accessor,
+    &quot;name&quot;, 
+    {
+        get: function () {},
+        set: function (value){},
+        enumerable: true,
+        configurable: true
+    }
+);
+
+//{value: 38, writable: true, enumerable: true, configurable: true} 
+console.log(Object.getOwnPropertyDescriptor(data,&apos;age&apos;));
+
+//{get: function, set: function, enumerable: true, configurable: true}
+console.log(Object.getOwnPropertyDescriptor(accessor,&apos;name&apos;));
+</code></pre><p>与上不同的是<code>Object.defineProperties()</code> 可以同时定义多组属性</p>
+<pre><code>var cody = {}; //
+Object.defineProperties( //定义两个属性
+    cody, 
+    {
+        &quot;age&quot;: {
+            value: 38,
+            writable: true,
+            enumerable: true,
+            configurable: true
+        },
+        &quot;name&quot;: {
+            get: function(){},
+            set:function(value){},
+            enumerable: true,
+            configurable: true
+        }
+    }
+);
+
+//{value: 38, writable: true, enumerable: true, configurable: true} 
+console.log(Object.getOwnPropertyDescriptor(cody,&apos;age&apos;));
+
+// {get: function, set: function, enumerable: true, configurable: true}
+console.log(Object.getOwnPropertyDescriptor(cody,&apos;name&apos;));
+</code></pre><p>注意 通过<code>Object.defineProperty()</code> 以及<code>Object.defineProperties()</code>定义的属性默认配置为<code>writable: false, enumerable: false, configurable: false</code>.定义的访问器属性默认配置<code>enumerable: false, configurable:false</code></p>
+<h4 id="使用Object-keys-以及Object-getOwnPropertyNames-获取对象的属性的name。"><a href="#使用Object-keys-以及Object-getOwnPropertyNames-获取对象的属性的name。" class="headerlink" title="使用Object.keys 以及Object.getOwnPropertyNames()获取对象的属性的name。"></a>使用<code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>获取对象的属性的name。</h4><p><code>Object.keys</code> 以及<code>Object.getOwnPropertyNames()</code>用来获取对象中的属性的name，不包括继承来的属性，两者区别是<code>Object.keys</code> 只能获取可遍历的属性的名字的数组，<code>Object.getOwnPropertyNames()</code>可以获得所有的属性的名字，作为字符串数组返回。</p>
+<pre><code>var person = {};
+Object.defineProperties(person, 
+    {
+        &quot;name&quot;: {value: &apos;Cody Lindley&apos;,enumerable: true},
+        &quot;age&quot;: {value: 38,enumerable: false}
+    }
+);
+
+//只返回可以可遍历的属性 
+console.log(Object.keys(person)); //logs [&quot;name&quot;]
+
+//return array of all properties, including ones that are non-enumerable
+console.log(Object.getOwnPropertyNames(person)); //returns [&quot;name&quot;, &quot;age&quot;]
+</code></pre><h4 id="属性保护-extending、-sealing、freezing。"><a href="#属性保护-extending、-sealing、freezing。" class="headerlink" title="属性保护 extending、 sealing、freezing。"></a>属性保护 extending、 sealing、freezing。</h4><p>在ES5中 对象可以被设置为non-extensible, sealed, 以及 frozen。这是三种不同的属性保护级别，可以通过<code>Object.preventExtensions(myObject)</code>, <code>Object.seal(myObject)</code>,  <code>Object.freeze(myObject)</code>来进行设置。</p>
+<ul>
+<li><code>Object.preventExtensions()</code> 对象无法新增属性。(强制赋值新的属性也不报错,可以使用delelte删除属性)</li>
+<li><code>Object.seal()</code>包括了<code>Object.preventExtensions()</code>的功能，不可再使用<code>Object.defineProperty</code>来修改属性的配置 congigurable 为false。</li>
+<li><code>Object.freeze()</code> 包括<code>Object.seal()</code>的功能，同时为对象的所有数据属性将 writable 特性设置为 false。属性不可写</li>
+</ul>
+<p>总结 不可新增属性，不可修改配置，不可写 逐渐递增。freeze 最厉害。</p>
+<pre><code>var  p={
+            user:&quot;kunkun&quot;
+        }
+Object.seal(p);
+p.name=&apos;du&apos;;
+console.log(p.name);//undefined 并没有增加
+Object.freeze(p);
+p.user=&apos;baokun&apos;
+console.log(p.user);// 输出kunkun 还是原来的值发现并没有被修改
+</code></pre><p>同时也提供三个函数来对这三种保护级别进行判断</p>
+<ul>
+<li>Object.isExtensible()</li>
+<li>Object.isSealed()</li>
+<li>Object.isFrozen()</li>
+</ul>
+<h4 id="使用Object-create-显式继承。"><a href="#使用Object-create-显式继承。" class="headerlink" title="使用Object.create()显式继承。"></a>使用Object.create()显式继承。</h4><p>在ES3中创建对象的方式主要有以下三种</p>
+<ul>
+<li>var objectViaObjectLiteral = {};</li>
+<li>var objectViaObjectConstructor = new Object();</li>
+<li>var objectViaCustomConstructor = new(function Person(){});</li>
+</ul>
+<p>ES5中新增了Object.create函数来让开发者现实地设置对象以及对象继承的原型。第一个参数为对象的原型</p>
+<pre><code>var object = Object.create(Object.prototype); //创建对象 与{} 、 new Object()功能相同。
+</code></pre><p>object.create的主要作用继承指定的对象来创建新的对象，如果不传递参数，则默认值为Object.prototype。如果传递null 表示对象将会不继承于任何东西，则创建一个真正的空对象</p>
+<pre><code>var person = {alive: true};
+var cody = Object.create(person, {
+    name: {
+        configurable: true,
+        enumerable: true,
+        writeable: true,
+        value: &apos;cody&apos;
+    }
+});
+
+console.log(cody.alive); // true
+
+//
+console.log(Object.getPrototypeOf(cody).alive); //logs true
+</code></pre><p>上面的例子中，可以看到create也传递了第二个参数来为对象增加属性,第二个参数与Object.defineProperties()结果是一样的。</p>
+<h4 id="使用getPrototypeOf-来获取对象的原型。"><a href="#使用getPrototypeOf-来获取对象的原型。" class="headerlink" title="使用getPrototypeOf() 来获取对象的原型。"></a>使用getPrototypeOf() 来获取对象的原型。</h4><p>ES3中有个非标准的<strong>proto</strong> 来获取对象的原型金，浏览器支持不兼容，ES5中有了标准化。</p>
+<pre><code>Object.getPrototypeOf(new Object(&apos;foo&apos;)) === String.prototype // true
+</code></pre><h4 id="bind-：为函数绑定上下文。"><a href="#bind-：为函数绑定上下文。" class="headerlink" title="bind ：为函数绑定上下文。"></a>bind ：为函数绑定上下文。</h4><p>在ES3中通过Apply或者call来实现 比如</p>
+<pre><code>Function.prototype.bind = function(obj) { 
+   var method = this, 
+   temp = function() { 
+     return method.apply(obj,arguments); 
+   }; 
+
+   return temp; 
+} 
+</code></pre><p>ES 5中有了正式的bind</p>
+<pre><code>var myObject = {foo:&apos;foo&apos;};
+var myFunction = function(){
+    console.log(this,arguments[0],arguments[1],arguments[2]);
+};
+var usingBind = myFunction.bind(myObject,1,2,3); 
+usingBind(); // {foo=&quot;foo&quot;} 1 2 3
+</code></pre><h4 id="use-strict-严格模式"><a href="#use-strict-严格模式" class="headerlink" title="use strict 严格模式"></a>use strict 严格模式</h4><p>JavaScript代码标志为“严格模式”，则其中运行的所有代码都必然是严格模式下的。<br>其一：如果在语法检测时发现语法问题，则整个代码块失效，并导致一个语法异常。<br>其二：如果在运行期出现了违反严格模式的代码，则抛出执行异常。</p>
+<ul>
+<li>主要规则 </li>
+<li>定义变量必须带var 、</li>
+<li>不能在JSON定义重复的key、</li>
+<li>函数不能有重复的参数、</li>
+<li>不能改变arguments的值</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/JavaScript/">
+                #JavaScript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/19/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/21/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">30</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2020
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

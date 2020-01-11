@@ -99,8 +99,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/03/14/cross-domain/">
-                跨域解决方案之JSONP,CORS
+              <a class="post-title-link" href="/2015/01/14/ng-directive-callfunction-pass-argument/">
+                angluarJS 指令与控制器中的方法的调用。
               </a>
             
           
@@ -110,15 +110,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-14
+              发表于 2015-01-14
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/14/cross-domain/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/14/cross-domain/"></span>
+            <a href="/2015/01/14/ng-directive-callfunction-pass-argument/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/14/ng-directive-callfunction-pass-argument/"></span>
             </a>
           </span>
           
@@ -133,798 +133,348 @@
         
 
         
-          <h4 id="何为跨域"><a href="#何为跨域" class="headerlink" title="何为跨域"></a>何为跨域</h4><p>ajax出现，能够让页面无刷新的同时调用服务，浏览器出于安全方面的考虑，在进行Ajax 访问的时候不允许XMLHttpRequest跨域调用其他页面的对象。这里指的就是不允许XMLHttpRequest跨域调用服务，所谓跨域是指如果服务的URL中协议 hostname、端口号与当前页面的这三个参数中有一个不同的话则视为跨域，如下情况</p>
-<ul>
-<li><a href="http://www.baidu.com:6080" target="_blank" rel="noopener">http://www.baidu.com:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a> 端口号不同</li>
-<li><a href="http://www.baidu.com:6080" target="_blank" rel="noopener">http://www.baidu.com:6080</a> 与<a href="https://www.baidu.com:6080" target="_blank" rel="noopener">https://www.baidu.com:6080</a> 协议不同</li>
-<li><a href="http://www.QQ:6080" target="_blank" rel="noopener">http://www.QQ:6080</a> 与<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a>  hostname不同。</li>
-</ul>
-<p>如上的各种组合还有好多情况，那么我们如何才能绕过浏览器的跨域限制 正常地访问服务呢。</p>
-<p>在flash或者silverlight中，只要服务的页面下放入 跨域策略文件就可以允许不同域下flash/silverlight的页面来调用,内容大致如下</p>
-<pre><code>&lt;cross-domain-policy&gt; 
-&lt;allow-access-from domain=&quot;*&quot; to-ports=&quot;507&quot; /&gt; 
-&lt;allow-access-from domain=&quot;*.example.com&quot; to-ports=&quot;507,516&quot; /&gt; 
-&lt;allow-access-from domain=&quot;*.example2.com&quot; to-ports=&quot;516-523&quot; /&gt; 
-&lt;allow-access-from domain=&quot;www.example2.com&quot; to-ports=&quot;507,516-523&quot; /&gt; 
-&lt;allow-access-from domain=&quot;www.example3.com&quot; to-ports=&quot;*&quot; /&gt; 
-&lt;/cross-domain-policy&gt; 
-</code></pre><p>关于Flash 的跨域情况 在这里不说解释,本文重点介绍Javascript的情况。</p>
-<h4 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h4><p>虽然浏览器默认禁止了跨域访问，但并不禁止在页面中引用其他域的JS文件，并可以自由执行引入的JS文件中的function（包括操作cookie、Dom等等）。根据这一点，可以方便地通过创建script节点的方法来实现完全跨域的通信。这种方式叫JSONP解决方案。</p>
-<p>利用动态的script来请求服务，服务端返回函数的调用的形式，比如callback(“hello world”);前端如果实现已经定义好了一个callback 的函数既可以获得helloworld;下面开始具体实现。</p>
-<p>服务端使用NodeJS+express实现。新建express项目，app.js如下</p>
-<pre><code>var express = require(&apos;express&apos;);
-var http = require(&apos;http&apos;);
-var path = require(&apos;path&apos;);
-var app = express();
-app.set(&apos;port&apos;, process.env.PORT || 3000);
-app.set(&apos;port1&apos;, process.env.PORT || 3002);
-app.use(app.router);
-app.use(express.static(path.join(__dirname, &apos;public&apos;)))
-
-        function add(a,b){
-            return a+b;
-        } 
-app.get(&apos;/add&apos;, function(req,res){
-    var a=parseInt(req.query.a);
-    var b=parseInt(req.query.b);
-     res.send(&quot;addresult(&quot;+add(a,b)+&quot;)&quot;);
-});
-
-http.createServer(app).listen(app.get(&apos;port&apos;), function(){
-  console.log(&apos;Express server listening on port &apos; + app.get(&apos;port&apos;));
-});
-http.createServer(app).listen(app.get(&apos;port1&apos;), function(){
-  console.log(&apos;Express server listening on port &apos; + app.get(&apos;port1&apos;));
-});
-</code></pre><p>为了方便演示，这里的跨域具体是指端口号不同，并且在一个文件里面开了两个server，一个3000端口，一个3002端口，这里的服务主要是实现一个加法的功能，读取两个参数，然后进行加法运算，最后返回结果用addresult包起来，比如前端传入过来的参数分别为a=3,b=7,则返回的参数为addresult(7) <code>app.use(express.static(path.join(__dirname, &#39;public&#39;)))</code>是将当前目录下的public 文件件配置为静态目录，接下来在public文件夹下新建crossdomain.html文件，关键代码如下。</p>
-<pre><code>var   $=function(id){
-               return document.getElementById(id);
-   }                
-       var a=$(&apos;a&apos;).value;
-       var b=$(&apos;b&apos;).value;
-       var querystring=&quot;a=&quot;+a+&quot;&amp;b=&quot;+b;
-       var script=document.createElement(&apos;script&apos;);
-       script.async=true;
-       script.src=&quot;http://localhost:3000/add?&quot;+querystring;
-       document.body.appendChild(script);
-</code></pre><p>以上$为自定义的函数,根据ID 获取元素，然后从文本框中读取值。作为服务的参数传入。接下来要定义一个名字为addresult的函数来接受返回结果：</p>
-<pre><code>function addresult (data) {
-    // body... 
-    $(&quot;result&quot;).innerHTML=a;
-}
-</code></pre><p>启动程序输入 <code>http://localhost:3002/crossdomain.html</code>，这里是在3002上的页面调用的是3000端口上的服务。视为跨域，运行之后在文本框中输入两个值我们发现实现了跨域调用。<br>以上是实现了一个JSONP的精简版。当然还有些问题要考虑，比如回调函数名字的问题也可以作为参数来传入。第二个问题就是要在服务执行完毕或者请求失败之后 删除动态创建的script标签。</p>
-<h4 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h4><p>随着HTML5标准的 不断完善，也推出了一种新的跨域解决方案Cross-Origin Resource Sharing (CORS)，现在已经是W3C指定的标准。允许 XMLHttpRequest 进行跨域调用，支持CORS的浏览器有</p>
-<ul>
-<li>Chrome 3+</li>
-<li>Firefox 3.5+</li>
-<li>Opera 12+</li>
-<li>Safari 4+</li>
-<li>Internet Explorer 8+ (IE 8下为   XDomainRequest对象)</li>
-</ul>
-<p>这里需要服务端和客户端配合 ，要求服务端返回的返回头中必须包含：</p>
-<pre><code>Access-Control-Allow-Origin: //发起请求的XMLHttpRequest所在的域
-Access-Control-Allow-Methods: //支持的请求的方法
-Access-Control-Allow-Credentials:true
-</code></pre><p>同时在请求服务的时候需要将xhr的withCredentials设置为true;如</p>
-<pre><code>var xhr = new XMLHttpRequest();
-xhr.open(&quot;get&quot;, &quot;url&quot;, true);
-xhr.withCredentials = true; //设置这个参数是为了允许cookie发送
-</code></pre><p>这里请求的时候会发两次http请求，第一次是option请求，判断服务端时候只是CORS 以及支持哪些行为(post,get,put等)如果满足条件话则继续进行服务请求，同样这里也以NodeJS为例写个服务端。代码如下</p>
-<pre><code>function multiply(a,b){
-        return a*b;
-}
-app.get(&quot;/multiply&quot;,function(req,res){
-    console.log(res.query);
-    var a=parseInt(req.query.a);
-    var b=parseInt(req.query.b);
-    res.set({
-              &apos;Access-Control-Allow-Origin&apos;: req.headers.origin,
-              &apos;Access-Control-Allow-Credentials&apos;: true,
-              &apos;Access-Control-Allow-Methods&apos;:&apos;POST, GET, PUT, DELETE, OPTIONS&apos;
-            });
-});
-</code></pre><p>客户端的带代码如下</p>
-<pre><code>    var a=$(&apos;a&apos;).value;
-    var b=$(&apos;b&apos;).value;
-    var querystring=&quot;c=&quot;+a+&quot;&amp;d=&quot;+b;
-    var xhr = new XMLHttpRequest();
-        xhr.open(&quot;get&quot;, &quot;http://localhost:3000/multiply?&quot;+querystring, true);
-        xhr.withCredentials = true;//经测试这个貌似没有什么作用
-        xhr.onload =function(){
-        var data = xhr.responseText;
-        $(&quot;result&quot;).innerHTML=&quot;这两个数的乘积为&quot;+data;
-    }
-xhr.send();　　
-</code></pre><h4 id="其他的跨域解决方案。还有比如window-name-iframe，img标签等方式"><a href="#其他的跨域解决方案。还有比如window-name-iframe，img标签等方式" class="headerlink" title="其他的跨域解决方案。还有比如window.name,iframe，img标签等方式"></a>其他的跨域解决方案。还有比如window.name,iframe，img标签等方式</h4><p>当然使用代理也是比较给力的，所谓代理就是相当于请求先发到当前页面所在的webserver上，在webserver上的编写一个程序转发请求到另一个本来要打算访问的服务器上，同时也可以将结果返回到浏览器端，这样浏览器就间接地访问了服务。同时代理 又分为 正向和反向两部分。。。。。额，话题扯远了。。</p>
-<p>本博文的用到的<a href="https://github.com/kunkun12/cross-domain" target="_blank" rel="noopener">Demo的源码</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/跨域/">
-                #跨域
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/14/html5-geolocation-api/">
-                HTML5 Geolocation API-获取设备的地理位置
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-13
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/14/html5-geolocation-api/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/14/html5-geolocation-api/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="地理位置API介绍"><a href="#地理位置API介绍" class="headerlink" title="地理位置API介绍"></a>地理位置API介绍</h3><p>地理位置API能够神奇地定位出你正待在世界的什么地方，并且在你允许的情况下，将你的位置信息分享给你信任的人，关于内部的定位原理，主要通过三种手段：</p>
-<ol>
-<li>IP地址</li>
-<li>GPS定位</li>
-<li>MAC地址</li>
-<li>GSM基站网络</li>
-<li>用户定义的地址位置。</li>
-</ol>
-<h3 id="地理位置获取流程："><a href="#地理位置获取流程：" class="headerlink" title="地理位置获取流程："></a>地理位置获取流程：</h3><p>1、用户打开需要获取地理位置的web应用。<br>2、应用向浏览器请求地理位置，浏览器弹出询问窗口询问用户是否共享地理位置。<br>3、假设用户允许，浏览器从设别查询相关信息。<br>4、浏览器将相关信息发送到一个信任的位置服务器，服务器返回具体的地理位置。</p>
-<h3 id="监测浏览器支持情况"><a href="#监测浏览器支持情况" class="headerlink" title="监测浏览器支持情况"></a>监测浏览器支持情况</h3><p>如果浏览器支持地理位置API话，在全局的 navigator对象上回有一个名字为geolocation的属性，反之，navigator 对象上该属性为undefined 。于是可以编写如下函数</p>
-<pre><code>function suport_geolocation(){
-    return !!navigator.geolocation
-}
-</code></pre><p>或者使用一个专门监测HTML5 特性的库Modernizr，提供的方法来监测浏览器是否支持地理位置API，如下</p>
-<pre><code>if(Modernizr.geolocation){
-
-}
-else{
-
-}
-</code></pre><h3 id="navigator对象中的方法，"><a href="#navigator对象中的方法，" class="headerlink" title="navigator对象中的方法，"></a>navigator对象中的方法，</h3><h4 id="getCurrentPosition函数"><a href="#getCurrentPosition函数" class="headerlink" title="getCurrentPosition函数"></a>getCurrentPosition函数</h4><p>这个函数是通过navigator.geolocation对象来调用的，所以在脚本中需要先取得此对象。这个函数接受一个必选参数和两个可选参数。</p>
-<pre><code>void getCurrentPosition(
-
-        in PositionCallback successCallBack,
-        in optional PositionErrorCallback errorCallback,
-        in optional PositionOptios options
-);
-</code></pre><p>. successCallBack：必选参数,为浏览器指明位置数据可用时应调用的函数，即收到实际位置信息并进行处理的地方。<br>. errorCallback：可选参数，出错处理<br>. options：可选参数，用来调整HTML5 Geolocation服务的数据收集方式。</p>
-<p>示例</p>
-<pre><code>navigator.geolocation.getCurrentPosition(updateLocation,handleeLocationError);
-</code></pre><p>这里updateLocation就是接收位置信息并进行重的函数，handleeLocationError是进行错误处理的函数。updateLocation只接受一个参数：位置对象。这个对象包含坐标(coords)和一个获取位置数据时的时间戳。以下是坐标的主要特性：</p>
-<ul>
-<li>latitude(纬度)</li>
-<li>longitude(经度)</li>
-<li><p>accuracy(准确度)</p>
-<pre><code>function updateLocation(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-
-        if (!latitude || !longitude) {
-            document.getElementById(&quot;status&quot;).innerHTML = &quot;HTML5 Geolocation is supported in your browser, but location is currently not available.&quot;;
-            return;
-        }
-
-        document.getElementById(&quot;latitude&quot;).innerHTML = latitude;
-        document.getElementById(&quot;longitude&quot;).innerHTML = longitude;
-    }
-</code></pre><p>handleeLocationError()函数</p>
-</li>
-</ul>
-<p>HTML5定义了一些错误编号</p>
-<ul>
-<li>PERMISSION_DENIED(错误编号为1)——用户选择拒绝浏览器获得其位置信息。</li>
-<li>POSITION_UNAVAILABLE(错误编号为2)——尝试获取用户位置数据失败。</li>
-<li><p>TIMEOUT(错误编号为3)——设置了可选的timeout值，获取用户位置超时。</p>
-<pre><code>function handleeLocationError(error)
-   {
-       switch (error.code) {
-           case 0: alert(error.message); break;
-           case 1: alert(error.message); break;
-           case 2: alert(error.message); break;
-           case 3: alert(error.message); break;
-       }
-   }
-</code></pre></li>
-</ul>
-<p>options：可选的地理定位请求特性</p>
-<ul>
-<li>enableHighAccuracy:如果启用该参数，则通知浏览器启用HTML5 Geolocation服务的高精度模式，参数的默认值为false.</li>
-<li>timeout:可选值，单位为ms，告诉浏览器计算当前位置所允许的最长时间。默认值为Infinity，即为无穷大或无限制。</li>
-<li>maximumAge:这个值表示浏览器重新计算位置的时间间隔。它也是一个以ms为单位的值，默认为零，这意味着浏览器每次请求时必须立即重新计算位置。</li>
-</ul>
-<h3 id="watchPosition函数"><a href="#watchPosition函数" class="headerlink" title="watchPosition函数"></a>watchPosition函数</h3><pre><code>navigator.geolocation.watchPosition(updateLocation,handleLocationError);
-</code></pre><p>监听位置的变化，如果位置发生变化则调用updateLocation函数，如果程序不再需要接收用户的位置信息，则可以调用<code>navigator.geolocation.clearWatch(watchId)</code>,例子如下</p>
-<pre><code>var watchId = navigator.geolocation.watchPosition(updateLocation, handleeLocationError);
-navigator.geolocation.clearWatch(watchId);
-</code></pre><p>很多情况下，获得的位置在地图上在来展示，可视化地展示出我们所在的位置，<a href="http://developers.arcgis.com/javascript/samples/exp_geolocate/" target="_blank" rel="noopener">参见demo</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/12/javascript-bind-function/">
-                javascript bind function
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-12
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/12/javascript-bind-function/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/12/javascript-bind-function/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>记得半年之前在微博上看到一个问题，有人问如何才能证明自己真正理解了Javascript，有大神回答，最起码要能明白并写出bind 函数。当然这里的Javascript 仅仅是指的ECMASCRIPT本身，并不包含浏览器相关的那些。那么这篇博客这里就以bind开始吧。<br>首先搬出三个概念、</p>
-<ul>
-<li>作用域：表示变量或函数起作用的区域，作用域链-Javascript的作用域链也是按有顺序查询的。在访问变量时，先查看本地作用域是否有此变量，如果没有则依次向上一级作用域查找直到全局作用域。如果全局作用域也没有此变量，那么将会在全局作用域中声明这个变量;</li>
-<li>上下文：又可以理解为上下文对象，表示<strong>当前代码执行时所处的环境</strong>。即是this变量所指代的对象;</li>
-<li>闭包：表示能访问和操作其他本地作用域的变量的表达式（通常是函数）;</li>
-</ul>
-<p>在Javascript中<code>this</code>关键字是非常重要的，我之前也花费了不少时间来理解Javascript中的this是如何工作的。每个函数都有一个this变量，简单来说函数this是一个指针，它指向是不固定的，而是动态的，指向调用这个函数的对象，而这个对象就是上下文。我们都知道，Javascript里面的有作用域的概念，就是变量能够访问到的范围，this则是指向当前作用域的。通过this访问变量的时候会在当前作用域上查找。这篇博文是关于bind函数的，这个也是我们经常用的一个东西。</p>
-<h3 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h3><p>说起Javascript，很难避免的提到了闭包，每个闭包拥有自己的作用域以及this 变量闭包里面的this 并不是指向原来的对象。例如</p>
-<pre><code>var getUserComments = function(callback) {
-    var numOfCommets = 34;
-    callback({ comments: numOfCommets });
-};
-var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
+          <h3 id="指令调用控制器中的方式（给指令的事件绑定执行函数）"><a href="#指令调用控制器中的方式（给指令的事件绑定执行函数）" class="headerlink" title="指令调用控制器中的方式（给指令的事件绑定执行函数）"></a>指令调用控制器中的方式（给指令的事件绑定执行函数）</h3><p>angluarJS中，如果指令内部的事件触发，这个时候需要调用外部controller中的方法，可以在指令的隔离作用域中使用<code>&amp;</code>将controller中的方法传递到指令中，供指令调用，需要注意的事，如果传递参数的话（比如自定义的ngChange事件触发，会把当前的选择项作为参数传递到控制器中）这个时候在声明指令时候,需要填写方法调用的函数表达式，并且如果包含函数的话，需要在调用改方法的时候指明参数，该参数名字与在指令中调用中传递的参数JSON的key一致（指令中必须传递JSON的形式来调用）</p>
+<pre><code>    angular.module(&quot;app1&quot;, [])
+.controller(&quot;Ctrl1&quot;, function($scope, $element)
+{
+  $scope.someThingChanged = function(arg1,arg2)
+  {
+       console.log(arg1,arg2);
+  }
+})
+.directive(&quot;myDirective&quot;, function($timeout)
+{
+  return {
+    scope: {
+      ngChange: &apos;&amp;&apos;
+    },
+    link: function(scope, element, attrs)
+    {
+      $timeout(function()
+      {
+        scope.ngChange({
+          name:&apos;张三&apos;,
+          age:28
         });
+      });
     }
-};
-User.print();
-</code></pre><p>这里假设getUserComments 是一个异步的函数，通过一个回调函数来接受处理getUserComments返回的结果，在User对象里面我传入了一个匿名函数-闭包(即刚才说的回调的函数)，执行完毕的结果如下。</p>
-<pre><code>undefined made 34 comments
-</code></pre><p>可以看出这里的在调用print的时候。在刚才的回调函数里面<code>this.fullName</code>取值为undefined，可以看出此时这里面this 不再指向User对象了(其实是指向全局对比如在浏览器环境下的window);但是我期望的返回结果为<br><code>kunkun made 34 comments</code>可以如下解决。</p>
-<pre><code>var that= this;
-getUserComments(function(data) {
-    console.log(that.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-});
-</code></pre><p>在执行print的时候，由于print是由User来调用的因此，print 里面的 this 是指向的User对象的，于是把this 赋值给力that ，所以that 这里保存了User的地址。所以在调用fullname的时候 ，就是User作用域下的fullname。</p>
-<p>但是这种方法感觉有点混乱，同时也要定义像that这样新的变量，如果这样的情况出现多次的话，难免造成迷糊的。那么如何提前给这个函数固定好作用域呢。</p>
-<h4 id="设置函数的作用域"><a href="#设置函数的作用域" class="headerlink" title="设置函数的作用域"></a>设置函数的作用域</h4><p>这里提供了一种方式来设置函数的作用域：使用apply 或者call函数，这两个方法是在Function.prototype里面定义的，因此任何一个函数都继承了这两个方法，apply和call的第一个参数就是要给方法绑定的对象(即该方法调用时this指向的对象)。下面给定义一个getLength方法来获取fullname的length</p>
-<pre><code>var getLength = function() {
-    console.log(this.fullName.length);
-}
-getLength.apply(User);
-</code></pre><p>结果是这种方式的输出结果是6，说明我的目的是达到了，如果我们直接调用<code>getLength</code>方法呢，<code>getLength()</code>则会返回爆出异常，这种情况下 <code>getLength</code>是在最外层定义的，因此调用的时候this指向的是全局对象，但是全局对象中没有<code>fullName</code>这个属性，因此此时<code>this.fullName</code>为undfined，那么<code>this.fullName.length</code>则相当于执行了undfined.length，这是必然要爆出异常的。</p>
-<p>以上使用apply调用的时候 getLength也自然地调用了，那么如何给getLength指定好上下文，而不让他调用的。等以后调用的时候函数里面的this 则指向我们自己设定的对象。我们不妨把这个功能称之为 bind。</p>
-<h4 id="原生的Function-prototype-bind"><a href="#原生的Function-prototype-bind" class="headerlink" title="原生的Function.prototype.bind"></a>原生的Function.prototype.bind</h4><p>如上提到的一样apply和call一样，他们都是Function.prototype对象中的方法，这个是ES5里面新增的方法。因此当前主流的浏览器都是支持的包括Chrome, Firefox, Opera，safari 其中IE 要在8以上。</p>
-<p>在此将上面的代码修改如下</p>
-<pre><code>var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-        }.bind(this));
-    }
-};
-User.print();
-</code></pre><p>在上面绑定的时候调用bind(this)的时候， 在print里面的，此时print是由User调用的，因此的this指向User的。bind的第一个参数就是给该匿名函数绑定作用域。同时呢也可以使用该函数为函数绑定预定义的参数</p>
-<pre><code>var User = {
-    fullName: &apos;kunkun&apos;,
-    print: function() {
-        getUserComments(function(msg, data) {
-            console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos; + msg);
-        }.bind(this, &apos;coder&apos;));
-    }
-};
-</code></pre><p>注意在调用的时候参数的顺序是在bind绑定的参数在前面。</p>
-<h4 id="Polyfill-为旧版本的浏览器增加bind函数"><a href="#Polyfill-为旧版本的浏览器增加bind函数" class="headerlink" title="Polyfill-为旧版本的浏览器增加bind函数"></a>Polyfill-为旧版本的浏览器增加bind函数</h4><p>同时也是文章开头的那道题要求的答案。</p>
-<p>这里的解决方案就是首先判断Function.prototype中的是否具有这个bind函数，如果没有的话在这里为Function.prototype增加一个bind属性，具体实现还是通过apply来搞定的，<code>Function.prototype.bind()</code>返回一个函数，在这个函数执行的时候动态地执行要绑定作用域的函数的apply方法</p>
-<pre><code>if (!Function.prototype.bind) {
-  Function.prototype.bind = function (oThis) {
-    if (typeof this !== &quot;function&quot;) {
-      throw new TypeError(&quot;Function.prototype.bind - what is trying to be bound is not callable&quot;);
-    }     
-    var aArgs = Array.prototype.slice.call(arguments, 1), 
-        fToBind = this, 
-        fNOP = function () {},
-        fBound = function () {
-          return fToBind.apply(
-            this instanceof fNOP &amp;&amp; oThis ? this : oThis, 
-            aArgs.concat(Array.prototype.slice.call(arguments))
-          );
-        };     
-    fNOP.prototype = this.prototype;
-    fBound.prototype = new fNOP();         
-    return fBound;
+  }
+})
+</code></pre><p>声明指令</p>
+<pre><code>&lt;div my-directive ng-change=&quot;someThingChanged(name,age)&quot;&gt;&lt;/div&gt;
+调用时候上面输出 ：  张三 28
+</code></pre><h3 id="控制器调用指令的方法。"><a href="#控制器调用指令的方法。" class="headerlink" title="控制器调用指令的方法。"></a>控制器调用指令的方法。</h3><p>使用双向绑定的形式，首先在控制器新建一个空对象，在指令中将方法赋值给这个对象的一个属性，这样在控制器用就可以获取这个方法，进而进行调用。</p>
+<pre><code>var app = angular.module(&apos;plunker&apos;, []);
+app.controller(&apos;MainCtrl&apos;, function($scope) {
+  $scope.focusinControl = {
   };
+});
+app.directive(&apos;focusin&apos;, function factory() {
+  return {
+    restrict: &apos;E&apos;,
+    replace: true,
+    template: &apos;&lt;div&gt;A:{{internalControl}}&lt;/div&gt;&apos;,
+    scope: {
+      control: &apos;=&apos;
+    },
+    link  : function (scope, element, attrs) {
+      scope.internalControl = scope.control || {};
+      scope.internalControl.takenTablets = 0;
+      scope.internalControl.takeTablet = function() {
+        scope.internalControl.takenTablets += 1;  
+      }
+    }
+  };
+});
+</code></pre><p>html </p>
+<pre><code>&lt;focusin control=&quot;focusinControl&quot;&gt;&lt;/focusin&gt;
+</code></pre>
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/AngularJS/">
+                #AngularJS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/01/11/less-features/">
+                less常用特性
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-01-11
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/01/11/less-features/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/11/less-features/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>less并非多么高大上的东西，无非就是个编写CSS的工具，让我们像编程一样来书写CSS，关于less常用的特性无非几个，下面简单将常用这些特性简单记录。方便以后查阅</p>
+<h2 id="less编译环境"><a href="#less编译环境" class="headerlink" title="less编译环境"></a>less编译环境</h2><p>less-&gt;CSS的方法有多种，比如使用  grunt或者lgulp等构建工具配合相应的插件来完成less的自动编译。以gulp为例，gulpfile.js的代码如下。</p>
+<pre><code>var less = require(&apos;gulp-less&apos;);
+var path = require(&apos;path&apos;);
+var gulp=require(&apos;gulp&apos;);
+gulp.task(&apos;less&apos;, function () {
+  gulp.src(&apos;less/*.less&apos;)
+    .pipe(less({
+      paths: [ path.join(__dirname, &apos;less&apos;, &apos;includes&apos;) ]
+    }))
+    .pipe(gulp.dest(&apos;css&apos;));
+});
+
+gulp.watch([&apos;less/*.less&apos;], [&apos;less&apos;]) 
+gulp.task(&apos;default&apos;, [&apos;less&apos;]);
+</code></pre><p>通过watch 来见监听less文件的变化自动运行less任务。从而完成less-&gt;css的自动编译，可以查看生成的CSS文件</p>
+<h2 id="我常用的less-特性。"><a href="#我常用的less-特性。" class="headerlink" title="我常用的less 特性。"></a>我常用的less 特性。</h2><h3 id="import"><a href="#import" class="headerlink" title="@import"></a>@import</h3><p>在标准的CSS中，@import必须在所有其他类型的规则之前。但是Less不在乎你把@import语句放在什么位置。<br>@import语句会通过Less依赖文件扩展名的方式区别对待不同的文件：</p>
+<ul>
+<li>如果文件有一个.css扩展名，则将它作为CSS对象，同时@import语句保持不变</li>
+<li>如果有其他扩展名，则作为Less对象，然后导入它。</li>
+<li>如果没有扩展名，则插入.less，然后将它作为Less文件导入包含进来。</li>
+<li>使用@import (reference)导入外部文件，但是不添加导入的样式到编译输出中，只引用。</li>
+</ul>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>LESS 允许开发者自定义变量，变量可以在全局样式中使用，变量使得样式修改起来更加简单。变量<code>@</code>开头，全局的变量可以在多个less文件之间共用</p>
+<pre><code>@light-blue: @nice-blue + #111;
+#header {
+  color: @light-blue;
 }
-</code></pre><p>每个函数在执行的时候有个arguments 对象，这是一个类数组对象，是一个传入的参数列表，通过<code>Array.prototype.slice.call(arguments, 1)</code>来获取参数列表除第一个元素之外的元素列表，返回结果是一个数组。因为bind 函数第一个参数是要绑定的对象，之后的参数是预先为函数绑定的参数，同事呢这个函数在执行的时候也会传入参数，这个参数列表也在arguments里面，于是将这个两个参数列表进行合并。</p>
-<pre><code>aArgs.concat(Array.prototype.slice.call(arguments))
-</code></pre><p>将该数组传入给apply的第二个参数。apply第二个参数是arguments这样类型的，当然也可以是一个数组比如apply(obj,[参数一，参数二，参数三])，而call在这方面的区别就是参数列表是如 call(user,参数一，参数二，参数三)这种形式.apply调用要将参数封装到一个数组里面，这种方式适用用不清楚参数个数的情况下。而call则要求要明确参数的个数。很明显apply更灵活、功能要强一些。</p>
-<p>如果要了解更多信息可以参见<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind</a></p>
-<p>最后自己瞎编了两道题</p>
-<h5 id="第一道"><a href="#第一道" class="headerlink" title="第一道"></a>第一道</h5><pre><code>var name=&quot;张三&quot;
-function Person(name){
-this.name=name
-};
-
-Person.prototype.getName=function(){
-console.log(this.name)
-};
-
-var p=new Person(&quot;李四&quot;);
- p.getName();
-
- var m=p.getName;
-
- m();
-</code></pre><h5 id="第二道"><a href="#第二道" class="headerlink" title="第二道"></a>第二道</h5><p>根据文章继续文章中使用Demo</p>
-<pre><code>var getUserComments = function(callback) {
-            var numOfCommets = 34;
-            callback({ comments: numOfCommets });
-        };
-var User = {
-            fullName: &apos;kunkun&apos;,
-            print: function() {
-                getUserComments(function(data) {
-                    console.log(this.fullName + &apos; made &apos; + data.comments + &apos; comments&apos;);
-                }.bind(this));
-            }
-        };
-var p=    User.print;
-    p()
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/11/html-5-meta-tag/">
-                html 5 meta tag
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-11
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/11/html-5-meta-tag/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/11/html-5-meta-tag/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="meta的作用"><a href="#meta的作用" class="headerlink" title="meta的作用"></a>meta的作用</h3><p>meta是用来在HTML文档中模拟HTTP协议的响应头报文。meta 标签位于网页的<code>&lt;head&gt;。。。&lt;/head&gt;</code>中，meta 标签的用处很多。meta 的属性有两种：name和http-equiv。name属性主要用于描述网页，对应于content（网页内容），以便于搜索引擎机器人查找、分类,搜索引擎都使用网上机器人自动查找meta值来给网页分类）。这其中最重要的是description（站点摘要）和keywords（分类关键词），所以应该给每页加一个meta值，w3c如是说</p>
-<ul>
-<li><meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。</li>
-<li><meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。</li>
-</ul>
-<p>每个meta标签必须具有content属性，定义与 http-equiv 或 name 属性相关的元信息。</p>
-<h3 id="可选属性"><a href="#可选属性" class="headerlink" title="可选属性"></a>可选属性</h3><h4 id="http-equiv-属性"><a href="#http-equiv-属性" class="headerlink" title="http-equiv 属性"></a>http-equiv 属性</h4><p>http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。<br>当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。<br>使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。包括<code>content-type</code> ,<code>expires</code>,<code>refresh</code> ,<code>set-cookie</code>例如，添加：</p>
-<pre><code>&lt;meta http-equiv=&quot;charset&quot; content=&quot;iso-8859-1&quot;&gt;
-&lt;meta http-equiv=&quot;expires&quot; content=&quot;31 Dec 2008&quot;&gt;
-</code></pre><p>这样发送到浏览器的头部就应该包含：</p>
-<pre><code>content-type: text/html
-charset:iso-8859-1
-expires:31 Dec 2008
-</code></pre><p>5秒刷新一次页面</p>
-<pre><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot; /&gt;
-</code></pre><h4 id="content-属性"><a href="#content-属性" class="headerlink" title="content 属性"></a>content 属性</h4><ul>
-<li>content 属性提供了名称/值对中的值。该值可以是任何有效的字符串。</li>
-<li>content 属性始终要和 name 属性或 http-equiv 属性一起使用。</li>
-</ul>
-<h4 id="name-属性"><a href="#name-属性" class="headerlink" title="name 属性"></a>name 属性</h4><p>name 属性提供了名称/值对中的名称。HTML 和 XHTML 标签都没有指定任何预先定义的 <meta> 名称。通常情况下，您可以自由使用对自己和源文档的读者来说富有意义的名称。<br>“keywords” 是一个经常被用到的名称。它为文档定义了一组关键字。某些搜索引擎在遇到这些关键字时，会用这些关键字对文档进行分类。<br>类似这样的 meta 标签可能对于进入搜索引擎的索引有帮助：</p>
-<pre><code>&lt;meta name=&quot;keywords&quot; content=&quot;HTML,ASP,PHP,SQL&quot;&gt;
-&lt;meta name=&quot;KEYWords&quot; contect=&quot;&quot;&gt;向搜索引擎说明你的网页的关键词； 
-&lt;meta name=&quot;DEscription&quot; contect=&quot;&quot;&gt;告诉搜索引擎你的站点的主要内容； 
-&lt;meta name=&quot;Author&quot; contect=&quot;你的姓名&quot;&gt;告诉搜索引擎你的站点的制作的作者； 
-&lt;meta name=&quot;Robots&quot; contect= &quot;all|none|index|noindex|follow|nofollow&quot;&gt; 
-</code></pre><p>其中的属性说明如下： </p>
-<ul>
-<li>设定为all：文件将被检索，且页面上的链接可以被查询； </li>
-<li>设定为none：文件将不被检索，且页面上的链接不可以被查询； </li>
-<li>设定为index：文件将被检索； </li>
-<li>设定为follow：页面上的链接可以被查询； </li>
-<li>设定为noindex：文件将不被检索，但页面上的链接可以被查询； </li>
-<li>设定为nofollow：文件将不被检索，页面上的链接可以被查询。 </li>
-</ul>
-<p>另外一点需要注意的是在HTML4中定义页面的字符集需要，放在content-type对应的content里面</p>
-<pre><code>&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=ISO-8859-1&quot;&gt;
-</code></pre><p>HTML5中新增了 charset属性 ，使用更简单</p>
-<pre><code>&lt;meta charset=&quot;utf-8&quot;&gt;
-</code></pre>
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/10/html5-canvas/">
-                html5 canvas 2d绘图API 学习总结
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-10
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/10/html5-canvas/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/10/html5-canvas/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h3><p>canvas本身提供的属性和方法很少 属性有hegight,width(这个属性与通过CSS设置的是不同的),绘图功能主要是存在通过canvas.getContext()返回的上下文中.有个一个toDataUrl()方法, 可以将canvas的转为一定格式的图片。下面主要介绍，context2d里面的方法。之前学过C语言绘图，貌似方法很类似</p>
-<p>获取绘图上下文</p>
-<pre><code>var context =canvas.getContext(&quot;2d&quot;);
-</code></pre><p>canvas元素绘制图像的时候有两种方法，分别是</p>
-<ul>
-<li>context.fill()//填充</li>
-<li>context.stroke()//绘制边框</li>
-</ul>
-<p>style:在进行图形绘制前，要设置好绘图的样式</p>
-<ul>
-<li>context.fillStyle//填充的样式</li>
-<li>context.strokeStyle//边框样式</li>
-<li>context.lineWidth//图形边框宽度</li>
-</ul>
-<p>颜色的表示方式:</p>
-<ul>
-<li>直接用颜色名称:”red” “green” “blue”</li>
-<li>十六进制颜色值: “#EEEEFF”</li>
-<li>rgb(1-255,1-255,1-255)</li>
-<li>rgba(1-255,1-255,1-255,透明度)<br>默认情况下坐标原点为canvas的左上角，水平向右为X</li>
-</ul>
-<h5 id="绘制矩形-context-fillRect-x-y-width-height-strokeRect-x-y-width-height"><a href="#绘制矩形-context-fillRect-x-y-width-height-strokeRect-x-y-width-height" class="headerlink" title="绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)"></a>绘制矩形  context.fillRect(x,y,width,height)  strokeRect(x,y,width,height)</h5><ul>
-<li><em>x:矩形起点横坐标</em></li>
-<li><em>y:矩形起点纵坐标</em></li>
-<li><em>width:矩形长度</em></li>
-<li><em>height:矩形高度</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/Rect.html" target="_blank" rel="noopener">查看Demo</a></p>
-<h5 id="清除矩形区域-context-clearRect-x-y-width-height"><a href="#清除矩形区域-context-clearRect-x-y-width-height" class="headerlink" title="清除矩形区域 context.clearRect(x,y,width,height)"></a>清除矩形区域 context.clearRect(x,y,width,height)</h5><ul>
-<li><em>x:清除矩形起点横坐标</em></li>
-<li><em>y:清除矩形起点纵坐标</em></li>
-<li><em>width:清除矩形长度</em></li>
-<li><em>height:清除矩形高度</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/clearRect.html" target="_blank" rel="noopener">查看Demo</a></p>
-<h5 id="圆弧context-arc-x-y-radius-starAngle-endAngle-anticlockwise"><a href="#圆弧context-arc-x-y-radius-starAngle-endAngle-anticlockwise" class="headerlink" title="圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)"></a>圆弧context.arc(x, y, radius, starAngle,endAngle, anticlockwise)</h5><ul>
-<li><em>x:圆心的x坐标</em></li>
-<li><em>y:圆心的y坐标</em></li>
-<li><em>straAngle:开始角度</em></li>
-<li><em>endAngle:结束角度</em></li>
-<li><p><em>anticlockwise:是否逆时针（true）为逆时针，(false)为顺时针</em></p>
-<p><a href="http://kunkun12.com/CanvasDemo/drawline.html">查看demo</a></p>
-</li>
-</ul>
-<h5 id="路径-context-beginPath-context-closePath"><a href="#路径-context-beginPath-context-closePath" class="headerlink" title="路径  context.beginPath()    context.closePath()"></a>路径  context.beginPath()    context.closePath()</h5><ul>
-<li>系统默认在绘制第一个路径的开始点为beginPath</li>
-<li>如果画完前面的路径没有重新指定beginPath，那么画第其他路径的时候会将前面最近指定的beginPath后的全部路径重新绘制</li>
-<li><p>每次调用context.fill（）的时候会自动把当次绘制的路径的开始点和结束点相连，接着填充封闭的部分</p>
-<p><a href="http://kunkun12.github.io/CanvasDemo/closepath.html" target="_blank" rel="noopener">查看demo</a></p>
-<h4 id="绘制线段-context-moveTo-x-y-context-lineTo-x-y"><a href="#绘制线段-context-moveTo-x-y-context-lineTo-x-y" class="headerlink" title="绘制线段 context.moveTo(x,y)  context.lineTo(x,y)"></a>绘制线段 context.moveTo(x,y)  context.lineTo(x,y)</h4></li>
-<li><p><em>x:x坐标</em></p>
-</li>
-<li><em>y:y坐标</em></li>
-</ul>
-<p>每次画线都从moveTo的点到lineTo的点，<br>如果没有moveTo那么第一次lineTo的效果和moveTo一样，<br>每次lineTo后如果没有moveTo，那么下次lineTo的开始点为前一次lineTo的结束点</p>
-<p><a href="http://kunkun12.github.io/CanvasDemo/drawarc.html" target="_blank" rel="noopener">查看demo</a></p>
-<h5 id="绘制贝塞尔曲线（贝济埃、bezier）-context-bezierCurveTo-cp1x-cp1y-cp2x-cp2y-x-y"><a href="#绘制贝塞尔曲线（贝济埃、bezier）-context-bezierCurveTo-cp1x-cp1y-cp2x-cp2y-x-y" class="headerlink" title="绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)"></a>绘制贝塞尔曲线（贝济埃、bezier） context.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,x,y)</h5><ul>
-<li><em>cp1x:第一个控制点x坐标</em></li>
-<li><em>cp1y:第一个控制点y坐标</em></li>
-<li><em>cp2y:第二个控制点y坐标</em></li>
-<li><em>x:终点x坐标</em></li>
-<li><em>y:终点y坐标</em></li>
-</ul>
-<h5 id="绘制二次样条曲线-context-quadraticCurveTo-qcpx-qcpy-qx-qy"><a href="#绘制二次样条曲线-context-quadraticCurveTo-qcpx-qcpy-qx-qy" class="headerlink" title="绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)"></a>绘制二次样条曲线 context.quadraticCurveTo(qcpx,qcpy,qx,qy)</h5><ul>
-<li><em>qcpx:二次样条曲线控制点x坐标</em></li>
-<li><em>qcpy:二次样条曲线控制点y坐标</em></li>
-<li><em>qx:二次样条曲线终点x坐标</em></li>
-<li><em>qy:二次样条曲线终点y坐标</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/bezier.html" target="_blank" rel="noopener">查看demo</a></p>
-<h5 id="线性渐变-var-lg-context-createLinearGradient-xStart-yStart-xEnd-yEnd-线性渐变颜色lg-addColorStop-offset-color"><a href="#线性渐变-var-lg-context-createLinearGradient-xStart-yStart-xEnd-yEnd-线性渐变颜色lg-addColorStop-offset-color" class="headerlink" title="线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)"></a>线性渐变 var lg= context.createLinearGradient(xStart,yStart,xEnd,yEnd);线性渐变颜色lg.addColorStop(offset,color)</h5><ul>
-<li><em>xstart:渐变开始点x坐标</em></li>
-<li><em>ystart:渐变开始点y坐标</em></li>
-<li><em>xEnd:渐变结束点x坐标</em></li>
-<li><em>yEnd:渐变结束点y坐标</em></li>
-<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
-<li><em>color:绘制时要使用的颜色</em></li>
-</ul>
-<h5 id="径向渐变（发散）var-rg-context-createRadialGradient-xStart-yStart-radiusStart-xEnd-yEnd-radiusEnd"><a href="#径向渐变（发散）var-rg-context-createRadialGradient-xStart-yStart-radiusStart-xEnd-yEnd-radiusEnd" class="headerlink" title="径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)"></a>径向渐变（发散）var rg=context.createRadialGradient(xStart,yStart,radiusStart,xEnd,yEnd,radiusEnd)</h5><h5 id="径向渐变（发散）颜色rg-addColorStop-offset-color"><a href="#径向渐变（发散）颜色rg-addColorStop-offset-color" class="headerlink" title="径向渐变（发散）颜色rg.addColorStop(offset,color)"></a>径向渐变（发散）颜色rg.addColorStop(offset,color)</h5><ul>
-<li><em>xStart:发散开始圆心x坐标</em></li>
-<li><em>yStart:发散开始圆心y坐标</em></li>
-<li><em>radiusStart:发散开始圆的半径</em></li>
-<li><em>xEnd:发散结束圆心的x坐标</em></li>
-<li><em>yEnd:发散结束圆心的y坐标</em></li>
-<li><em>radiusEnd:发散结束圆的半径</em></li>
-<li><em>offset:设定的颜色离渐变结束点的偏移量(0~1)</em></li>
-<li><em>color:绘制时要使用的颜色</em></li>
-</ul>
-<p><a href="http://kunkun12.github.io/CanvasDemo/Gradient.html" target="_blank" rel="noopener">渐变Demo</a></p>
-<h5 id="图形变换-坐标系变换"><a href="#图形变换-坐标系变换" class="headerlink" title="图形变换(坐标系变换)"></a>图形变换(坐标系变换)</h5><p>1、平移context.translate(x,y)</p>
-<ul>
-<li>x:坐标原点向x轴方向平移x</li>
-<li>y:坐标原点向y轴方向平移y</li>
-</ul>
-<p>2、缩放context.scale(x,y)</p>
-<ul>
-<li>x:x坐标轴按x比例缩放</li>
-<li>y:y坐标轴按y比例缩放</li>
-</ul>
-<p>3、旋转context.rotate(angle)</p>
-<ul>
-<li>angle:坐标轴旋转x角度（角度变化模型和画圆的模型一样)</li>
-</ul>
-<h5 id="矩阵变换-context-transform-m11-m12-m21-m22-dx-dy"><a href="#矩阵变换-context-transform-m11-m12-m21-m22-dx-dy" class="headerlink" title="矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)"></a>矩阵变换 context.transform(m11,m12,m21,m22,dx,dy)</h5><p> 所谓的矩阵变换其实是context内实现平移，缩放，旋转的一种机制,他的主要原理就是矩阵相乘<br><a href="http://kunkun12.github.io/CanvasDemo/transform.html" target="_blank" rel="noopener">参见demo</a></p>
-<p>图形组合 context.globalCompositeOperation=type</p>
-<p>图形组合就是两个图形相互叠加了图形的表现形式,是后画的覆盖掉先画的呢，还是相互重叠的部分不显示等等，至于怎么显示就取决于type的值了<br>type：</p>
-<pre><code>source-over（默认值）:在原有图形上绘制新图形
-
-destination-over:在原有图形下绘制新图形
-
-source-in:显示原有图形和新图形的交集，新图形在上，所以颜色为新图形的颜色
-
-destination-in:显示原有图形和新图形的交集，原有图形在上，所以颜色为原有图形的颜色
-
-source-out:只显示新图形非交集部分
-
-destination-out:只显示原有图形非交集部分
-
-source-atop:显示原有图形和交集部分，新图形在上，所以交集部分的颜色为新图形的颜色
-
-destination-atop:显示新图形和交集部分，新图形在下，所以交集部分的颜色为原有图形的颜色
-
-lighter:原有图形和新图形都显示，交集部分做颜色叠加
-
-xor:重叠飞部分不现实
-
-copy:只显示新图形
-</code></pre><h5 id="给图形绘制阴影"><a href="#给图形绘制阴影" class="headerlink" title="给图形绘制阴影"></a>给图形绘制阴影</h5><ul>
-<li>context.shadowOffsetX :阴影的横向位移量（默认值为0）</li>
-<li>context.shadowOffsetY :阴影的纵向位移量（默认值为0）</li>
-<li>context.shadowColor :阴影的颜色</li>
-<li>context.shadowBlur :阴影的模糊范围（值越大越模糊）</li>
-</ul>
-<h5 id="绘制图像"><a href="#绘制图像" class="headerlink" title="绘制图像"></a>绘制图像</h5><ul>
-<li><p>绘图：context.drawImage</p>
-</li>
-<li><p>图像平铺：context.createPattern(image,type)</p>
-</li>
-<li><p>图像裁剪：context.clip()</p>
-</li>
-<li><p>像素处理：var imagedata=context.getImageData(sx,sy,sw,sh)</p>
-</li>
-<li><p>设置像素颜色：context.putImageData(imagedata,dx,dy,dirtyX,dirtyY,dirtyWidth,dirtyHeight)</p>
-</li>
-</ul>
-<h5 id="绘制文字"><a href="#绘制文字" class="headerlink" title="绘制文字"></a>绘制文字</h5><ul>
-<li>填充文字：context.fillText(text,x,y)  </li>
-<li><p>绘制文字轮廓 context.strokeText(text,x,y) </p>
-</li>
-<li><p>text:要绘制的文字</p>
-</li>
-<li>x:文字起点的x坐标轴</li>
-<li>y:文字起点的y坐标轴</li>
-<li>context.font:设置字体样式</li>
-<li>context.textAlign:水平对齐方式<pre><code>start、end、right、center
-</code></pre></li>
-<li>context.textBaseline:垂直对齐方式：top、hanging、middle、alphabetic、ideographic、bottom</li>
-</ul>
-<h5 id="保存和恢复上下文状态，主要包括坐标系，裁剪区域等"><a href="#保存和恢复上下文状态，主要包括坐标系，裁剪区域等" class="headerlink" title="保存和恢复上下文状态，主要包括坐标系，裁剪区域等"></a>保存和恢复上下文状态，主要包括坐标系，裁剪区域等</h5><ul>
-<li>保存：context.save()</li>
-<li>恢复：context.restore()</li>
-</ul>
-<h5 id="保存文件-canvas-toDataURL-MIME"><a href="#保存文件-canvas-toDataURL-MIME" class="headerlink" title="保存文件  canvas.toDataURL(MIME)"></a>保存文件  canvas.toDataURL(MIME)</h5><p>在canvas中绘出的图片只是canvas标签而已，并非是真正的图片，是不能右键，另存为的，我们可以利用canvas.toDataURL()这个方法把canvas绘制的图形生成一幅图片，生成图片后，就能对图片进行相应的操作了。</p>
+</code></pre><p>生成的CSS 如下 </p>
+<pre><code>.mythemes tableBorder { 
+  border: 1px solid #b5bcc7; 
+ }
+</code></pre><p>同时还支持变量的计算。</p>
+<pre><code>@width: 10px + 5;
+  .btn{
+    width:@width;
+  }
+</code></pre><p>编译为：</p>
+<pre><code>@width: 10px + 5;
+  .btn{
+    width:@width;
+  }
+</code></pre><p><code>变量查找以及变量作用域</code>：在定义一个变量两次时，只会使用最后定义的变量，Less会从当前作用域中向上搜索。这个行为类似于CSS的定义中始终使用最后定义的属性值。</p>
+<pre><code>@var: 0;
+.class {
+  @var: 1;
+  .brass {
+    @var: 2;
+    three: @var;
+    @var: 3;
+  }
+  one: @var;
+}
+</code></pre><p>编译后的CSS为：</p>
+<pre><code>.class {
+  one: 1;
+}
+.class .brass {
+  three: 3;
+}
+</code></pre><h3 id="Mixins（混入）"><a href="#Mixins（混入）" class="headerlink" title="Mixins（混入）"></a>Mixins（混入）</h3><p>在 LESS 中，混入是指在一个 CLASS 中引入另外一个已经定义的 CLASS，就像在当前 CLASS 中增加一个属性一样。</p>
+<p>less源文件</p>
+<pre><code>.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+#menu a {
+  color: #111;
+  .bordered;
+}
+</code></pre><p>编译后的CSS文件：</p>
+<pre><code>.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+#menu a {
+  color: #111;
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+</code></pre><p>如果不想在CSS中保留原来的 <strong>.bordered</strong></p>
+<p>可以将 <code>.bordered</code> 修改为 <code>bordered()</code> ,同时还支持混入参数，支持默认参数。</p>
+<p>less文件 </p>
+<pre><code>.bordered(@width:5px) {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+  width:@width;
+}
+#menu a {
+  color: #111;
+  .bordered;
+}
+.post a {
+  color: red;
+  .bordered(10px);
+}
+</code></pre><p>编译后的文件</p>
+<pre><code>#menu a {
+  color: #111;
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+  width: 5px;
+}
+.post a {
+  color: red;
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+  width: 10px;
+}
+</code></pre><p>像 JavaScript 中 arguments一样，Mixins 也有这样一个变量：@arguments。@arguments 在 Mixins 中具是一个很特别的参数，当 Mixins 引用这个参数时，该参数表示所有的变量，很多情况下，这个参数可以省去你很多代码。</p>
+<pre><code>.box1(@x:0,@y:0,@blur:1px,@color:#000){ 
+   -moz-box-shadow: @arguments; 
+   -webkit-box-shadow: @arguments; 
+   box-shadow: @arguments; 
+ } 
+ .mybox { 
+     .box1(10px,12px,13px,red); 
+ }
+</code></pre><p>编译后：</p>
+<pre><code>.mybox {
+  -moz-box-shadow: 10px 12px 13px red;
+  -webkit-box-shadow: 10px 12px 13px red;
+  box-shadow: 10px 12px 13px red;
+}
+</code></pre><h3 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h3><p>在写CSS的时候 为了避免造成CSS污染 我们会采用命名空间的机制，在less中可以通过嵌套来解决。</p>
+<p>less文件 </p>
+<pre><code>.myspace{
+     .class1{
+         width:20px
+     }
+     .class2{
+         height:30px
+     }
+ }
+</code></pre><p>生成的CSS文件</p>
+<pre><code>.myspace .class1 {
+  width: 20px;
+}
+.myspace .class2 {
+  height: 30px;
+}
+</code></pre><p>在嵌套使用时可以通过 &amp;访问上一级元素</p>
+<pre><code>#bundle {
+  .button {
+    display: block;
+    border: 1px solid black;
+    background-color: grey;
+    &amp;:hover {
+      background-color: white
+    }
+  }
+}
+</code></pre><p>编译之后为</p>
+<pre><code>#bundle .button {
+  display: block;
+  border: 1px solid black;
+  background-color: grey;
+}
+#bundle .button:hover {
+  background-color: white;
+}
+</code></pre><p>在less中可以如果将mix和嵌套相结合。可以使用<code>&gt;</code>来进行导入</p>
+<p>比如 less文件</p>
+<pre><code>.myspace{
+   .class1{
+   width:20px
+   }
+   .class2{
+   height:30px
+   }
+ }
+ .redbutton{
+     color:red;
+     .myspace &gt; .class2;
+ }
+</code></pre><p>CSS 文件</p>
+<pre><code>myspace .class1 {
+  width: 20px;
+}
+.myspace .class2 {
+  height: 30px;
+}
+.redbutton {
+  color: red;
+  height:
+}
+</code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
+<h3 id="Comments（注释）"><a href="#Comments（注释）" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
+<h3 id="extend"><a href="#extend" class="headerlink" title="extend"></a>extend</h3><p>extend是一个Less伪类，它会合并它所在的选择其和它所匹配的引用。</p>
+<pre><code>nav ul {
+  &amp;:extend(.inline);
+  background: blue;
+}
+</code></pre><p>在上面设置的规则中，:extend选择器会在.inline类出现的地方在.inline上应用”扩展选择器”(也就是nav ul)。声明块保持原样，不会带有任何引用扩展(因为扩展并不是CSS)。</p>
+<p>extend即为把当前的选择的器应用到相应的选择器定义的样式中，有点像组合的意思，跟混合的作用类似，基本是复用之前定义的样式，mix是将选择的样式引进来，extend是将当前的选择器。添加到之前定义的样式处。（有点绕啊）看代码吧</p>
+<p>less文件</p>
+<pre><code>nav ul {
+      &amp;:extend(.inline);
+      background: blue;
+    }
+    .inline {
+      color: red;
+    }
+</code></pre><p>输出CSS：</p>
+<pre><code>nav ul {
+  background: blue;
+}
+.inline,
+nav ul {
+  color: red;
+}
+</code></pre><p>另外还有一些关于运算的函数 感觉意义不大 比如颜色计算的fadeIn等。</p>
+<h3 id="Comments（注释）-1"><a href="#Comments（注释）-1" class="headerlink" title="Comments（注释）"></a>Comments（注释）</h3><p>LESS 对注释也提供了支持，JavaScript 中的注释方法一样，主要有两种方式：单行注释和多行注释，这与 ，我们这里不做详细的说明，只强调一点：LESS 中单行注释 (// 单行注释 ) 是不能显示在编译后的 CSS 中，所以<em>如果你的注释是针对样式说明的请使用多行注释</em></p>
 
         
 
@@ -936,281 +486,8 @@ copy:只显示新图形
         
           <div class="post-tags">
             
-              <a href="/tags/Html/">
-                #Html
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/09/html5-tag/">
-                HTML5 语义化标签
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-09
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/09/html5-tag/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/09/html5-tag/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>在HTML 5出来之前，我们用div来表示页面章节，但是这些div都没有实际意义。（即使我们用css样式的id和class形容这块内容的意义）。这些标签只是我们提供给浏览器的指令，只是定义一个网页的某些部分。但现在，那些之前没“意义”的标签因为因为html5的出现消失了，这就是我们平时说的“语义”。<br>节点元素标签因使用的地方不同，我将他们分为：节元素标签、文本元素标签、分组元素标签分开来讲解HTML5中新增加的语义化标签和使用总结。</p>
-<h3 id="header元素"><a href="#header元素" class="headerlink" title="header元素"></a>header元素</h3><p><code>header</code> 元素代表“网页”或“section”的页眉。<br>通常包含<code>h1-h6</code>元素或<code>hgroup</code>，作为整个页面或者一个内容块的标题。也可以包裹一节的目录部分，一个搜索框，一个<code>nav</code>，或者任何相关logo。<br>整个页面没有限制<code>header</code>元素的个数，可以拥有多个，可以为每个内容块增加一个header元素</p>
-<pre><code>&lt;header&gt;
-    &lt;hgroup&gt;
-        &lt;h1&gt;网站标题&lt;/h1&gt;
-        &lt;h1&gt;网站副标题&lt;/h1&gt;
-    &lt;/hgroup&gt;
-&lt;/header&gt;
-</code></pre><ul>
-<li>header使用注意：</li>
-<li>可以是“网页”或任意“section”的头部部分；</li>
-<li>没有个数限制。</li>
-<li>如果hgroup或h1-h6自己就能工作的很好，那就不要用header。</li>
-</ul>
-<h3 id="footer元素"><a href="#footer元素" class="headerlink" title="footer元素"></a>footer元素</h3><p><code>footer</code>元素代表“网页”或“section”的页脚，通常含有该节的一些基本信息，譬如：作者，相关文档链接，版权资料。如果<code>footer</code>元素包含了整个节，那么它们就代表附录，索引，提拔，许可协议，标签，类别等一些其他类似信息。</p>
-<pre><code>&lt;footer&gt;
-    COPYRIGHT@小北
-&lt;/footer&gt;
-</code></pre><p>footer使用注意：</p>
-<ul>
-<li>可以是“网页”或任意“section”的底部部分；</li>
-<li>没有个数限制，除了包裹的内容不一样，其他跟header类似。</li>
-</ul>
-<h3 id="hgroup元素"><a href="#hgroup元素" class="headerlink" title="hgroup元素"></a>hgroup元素</h3><p><code>hgroup</code>元素代表“网页”或“section”的标题，当元素有多个层级时，该元素可以将h1到h6元素放在其内，譬如文章的主标题和副标题的组合</p>
-<pre><code>&lt;hgroup&gt;
-    &lt;h1&gt;这是一篇介绍HTML 5语义化标签和更简洁的结构&lt;/h1&gt;
-    &lt;h2&gt;HTML 5&lt;/h2&gt;
-&lt;/hgroup&gt;
-</code></pre><p>hgroup使用注意：</p>
-<ul>
-<li>如果只需要一个h1-h6标签就不用hgroup</li>
-<li>如果有连续多个h1-h6标签就用hgroup</li>
-<li>如果有连续多个标题和其他文章数据，h1-h6标签就用hgroup包住，和其他文章元数据一起放入header标签</li>
-</ul>
-<h3 id="nav元素"><a href="#nav元素" class="headerlink" title="nav元素"></a>nav元素</h3><p>nav元素代表页面的导航链接区域。用于定义页面的主要导航部分。</p>
-<pre><code>&lt;nav&gt;
-    &lt;ul&gt;
-        &lt;li&gt;HTML 5&lt;/li&gt;
-        &lt;li&gt;CSS3&lt;/li&gt;
-        &lt;li&gt;JavaScript&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/nav&gt;
-</code></pre><p>但是我在有些时候却情不自禁的想用它，譬如：侧边栏上目录，面包屑导航，搜索样式，或者下一篇上一篇文章，但是事实上规范上说nav只能用在页面主要导航部分上。页脚区域中的链接列表，虽然指向不同网站的不同区域，譬如服务条款，版权页等，这些footer元素就能够用了。</p>
-<p>nav使用注意：</p>
-<ul>
-<li>用在整个页面主要导航部分上，不合适就不要用nav元素</li>
-</ul>
-<h3 id="aside元素"><a href="#aside元素" class="headerlink" title="aside元素"></a>aside元素</h3><p>aside元素被包含在article元素中作为主要内容的附属信息部分，其中的内容可以是与当前文章有关的相关资料、标签、名次解释等。（特殊的section）<br>在article元素之外使用作为页面或站点全局的附属信息部分。最典型的是侧边栏，其中的内容可以是日志串连，其他组的导航，甚至广告，这些内容相关的页面。</p>
-<pre><code>&lt;article&gt;
-    &lt;p&gt;内容&lt;/p&gt;
-    &lt;aside&gt;
-        &lt;h1&gt;作者简介&lt;/h1&gt;
-        &lt;p&gt;小北，前端一枚&lt;/p&gt;
-    &lt;/aside&gt;
-&lt;/article&gt;
-</code></pre><p>aside使用总结：</p>
-<ul>
-<li>aside在article内表示主要内容的附属信息，</li>
-<li>在article之外则可做侧边栏，没有article与之对应，最好不用。</li>
-<li>如果是广告，其他日志链接或者其他分类导航也可以用</li>
-</ul>
-<h3 id="section元素"><a href="#section元素" class="headerlink" title="section元素"></a>section元素</h3><p>section元素代表文档中的“节”或“段”，“段”可以是指一篇文章里按照主题的分段；“节”可以是指一个页面里的分组。<br>section通常还带标题，虽然html5中section会自动给标题h1-h6降级，但是最好手动给他们降级。如下：</p>
-<pre><code>&lt;section&gt;
-    &lt;h1&gt;section是啥？&lt;/h1&gt;
-    &lt;article&gt;
-        &lt;h2&gt;关于section&lt;/h1&gt;
-        &lt;p&gt;section的介绍&lt;/p&gt;
-        &lt;section&gt;
-            &lt;h3&gt;关于其他&lt;/h3&gt;
-            &lt;p&gt;关于其他section的介绍&lt;/p&gt;
-        &lt;/section&gt;
-    &lt;/article&gt;
-&lt;/section&gt;
-</code></pre><p>section使用注意：</p>
-<ul>
-<li>一张页面可以用section划分为简介、文章条目和联系信息。不过在文章内页，最好用article。section不是一般意义上的容器元素，如果想作为样式展示和脚本的便利，可以用div。</li>
-<li>表示文档中的节或者段；</li>
-<li>article、nav、aside可以理解为特殊的section，所以如果可以用article、nav、aside就不要用section，没实际意义的就用div</li>
-</ul>
-<h3 id="article元素"><a href="#article元素" class="headerlink" title="article元素"></a>article元素</h3><p>article元素最容易跟section和div容易混淆，其实article代表一个在文档，页面或者网站中自成一体的内容，其目的是为了让开发者独立开发或重用。譬如论坛的帖子，博客上的文章，一篇用户的评论，一个互动的widget小工具。（特殊的section）<br>除了它的内容，article会有一个标题（通常会在header里），会有一个footer页脚。我们举几个例子介绍一下article，好更好区分article、section、div</p>
-<pre><code>&lt;article&gt;
-    &lt;h1&gt;一篇文章&lt;/h1&gt;
-    &lt;p&gt;文章内容..&lt;/p&gt;
-    &lt;footer&gt;
-        &lt;p&gt;&lt;small&gt;版权：html5jscss网所属，作者：小北&lt;/small&gt;&lt;/p&gt;
-    &lt;/footer&gt;
-&lt;/article&gt;
-</code></pre><p>上例是最好简单的article标签使用情况，如果在article内部再嵌套article，那就代表内嵌的article是与它外部的内容有关联的，如博客文章下面的评论，如下：</p>
-<pre><code>&lt;article&gt;
-    &lt;header&gt;
-        &lt;h1&gt;一篇文章&lt;/h1&gt;
-        &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03&quot;&gt;2012/10/03&lt;/time&gt;&lt;/p&gt;
-    &lt;/header&gt;
-    &lt;p&gt;文章内容..&lt;/p&gt;
-    &lt;article&gt;
-        &lt;h2&gt;评论&lt;/h2&gt;
-        &lt;article&gt;
-            &lt;header&gt;
-                &lt;h3&gt;评论者: XXX&lt;/h3&gt;
-                &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03T19:10-08:00&quot;&gt;~1 hour ago&lt;/time&gt;&lt;/p&gt;
-            &lt;/header&gt;
-            &lt;p&gt;哈哈哈&lt;/p&gt;
-        &lt;/article&gt;
-        &lt;article&gt;
-            &lt;header&gt;
-                &lt;h3&gt;评论者: XXX&lt;/h3&gt;
-                &lt;p&gt;&lt;time pubdate datetime=&quot;2012-10-03T19:10-08:00&quot;&gt;~1 hour ago&lt;/time&gt;&lt;/p&gt;
-            &lt;/header&gt;
-            &lt;p&gt;哈？哈？哈？&lt;/p&gt;
-        &lt;/article&gt;
-    &lt;/article&gt;
-&lt;/article&gt;
-</code></pre><p>文章里的评论，一个article嵌套article来表示的实例<br>article内部嵌套article，有可能是评论或其他跟文章有关联的内容。那article内部嵌套section一般是什么情况呢。如下：</p>
-<pre><code>&lt;article&gt;
-    &lt;h1&gt;前端技术&lt;/h1&gt;
-    &lt;p&gt;前端技术有那些&lt;/p&gt;
-    &lt;section&gt;
-        &lt;h2&gt;CSS&lt;/h2&gt;
-        &lt;p&gt;样式..&lt;/p&gt;
-    &lt;/section&gt;
-    &lt;section&gt;
-        &lt;h2&gt;JS&lt;/h2&gt;
-        &lt;p&gt;脚本&lt;/p&gt;
-    &lt;/section&gt;
-&lt;/article&gt;
-</code></pre><p>文章里的章节，一个article里的section实例<br>因为文章内section部分虽然也是独立的部分，但是它门只能算是组成整体的一部分，从属关系，article是大主体，section是构成这个大主体的一部分。本网站的全部文章都是article嵌套一个个section章节，这样能让浏览器更容易区分各个章节所包括的内容。<br>那section内部嵌套article又有哪些情况呢，如下</p>
-<pre><code>&lt;section&gt;
-    &lt;h1&gt;介绍: 网站制作成员配备&lt;/h1&gt;
-    &lt;article&gt;
-        &lt;h2&gt;设计师&lt;/h2&gt;
-        &lt;p&gt;设计网页的...&lt;/p&gt;
-    &lt;/article&gt;
-    &lt;article&gt;
-        &lt;h2&gt;程序员&lt;/h2&gt;
-        &lt;p&gt;后台写程序的..&lt;/p&gt;
-    &lt;/article&gt;
-    &lt;article&gt;
-        &lt;h2&gt;前端工程师&lt;/h2&gt;
-        &lt;p&gt;给楼上两位打杂的..&lt;/p&gt;
-    &lt;/article&gt;
-&lt;/section&gt;
-</code></pre><p>设计师、程序员、前端工程师都是一个独立的整体，他们组成了网站制作基本配备，当然还有其他成员~~。设计师、程序员、前端工程师就像article，是一个个独立的整体，而section将这些自成一体的article包裹，就组成了一个团体。<br>article和section和例子就例举这么多了，具体情况具体分析，不易深究。漏了div，其实div就是只是想用来把元素组合或者给它们加样式时使用。</p>
-<p>article使用注意：</p>
-<pre><code>自身独立的情况下：用article
-是相关内容：用section
-没有语义的：用div
-</code></pre><h3 id="HTML5其他结构元素标签"><a href="#HTML5其他结构元素标签" class="headerlink" title="HTML5其他结构元素标签"></a>HTML5其他结构元素标签</h3><p>HTML5节元素标签包括<code>body</code> <code>article</code> <code>nav</code> <code>aside</code> <code>section</code> <code>header</code> <code>footer</code> <code>hgroup</code> ，还有<code>h1-h6</code> <code>address</code>。</p>
-<ul>
-<li><code>address</code>代表区块容器，必须是作为联系信息出现，邮编地址、邮件地址等等,一般出现在footer。</li>
-<li><code>h1-h</code>6因为hgroup，section和article的出现，h1-h6定义也发生了变化，允许一张页面出现多个h1。</li>
-</ul>
-<h3 id="文本字体元素"><a href="#文本字体元素" class="headerlink" title="文本字体元素"></a>文本字体元素</h3><p>文字对SEO影响很大，而HTML5对一些文本字体元素的语义又重新定义了一遍，也增加了一些新的。那我们就来重新认识他们。</p>
-<ul>
-<li>a（anchor 的缩写）： 用于定义超链接</li>
-<li>em(emphasis 的缩写)：em 是句意强调，加与不加会引起语义变化，也可以理解为局部强调，用在语句某个单词上来改变句子的侧重。</li>
-<li>strong：strong表示重要，strong 的强调则是一种随意无顺序的，看见某文时，立刻就凸显出来的关键词句。</li>
-<li>p：p元素</li>
-<li>b（bold 的缩写）：b 元素原本就是加粗，现在表示“文体突出”文字，通俗将是用来在文本中高亮显示某个或者几个字符，旨在引起用户的特别注意，无强调作用。譬如文档概要中的关键字，评论中的产品名，以及分类名。</li>
-<li>i（italic 的缩写）：i 元素原本只是倾斜，现在描述为在普通文章中突出不同意见或语气或其他的一段文本，就像剧本里的话外音（外语、译音），或也可以用做排版的斜体文字。</li>
-<li>code：定义计算机代码文本。</li>
-<li>q（quote 的缩写）：用于定义一段引用的内容（短内容）<br>-cite ：用于定义引用内容出自书籍或杂志等的标题，不允许其他信息，如作者，日期等。</li>
-<li>u （underline 的缩写）：定义下划线文本<br>-abbr （abbreviation 的缩写）：定义一个缩写文本，建议在 abbr 的 title 属性中描述缩写的全称</li>
-<li>dfn （defining instance 的缩写）：用于定义一个术语</li>
-<li>var ：定义计算机代码中的变量</li>
-<li>samp （sample 的缩写）：由程序输出的示例文本</li>
-<li>kbd （keyboard 的缩写）：定义由键盘输入的文本</li>
-<li>wbr (word break)的缩写：定义换行的时机</li>
-<li>span ：没有任何语义</li>
-<li>br ：定义一个换行符</li>
-</ul>
-<p>文本字体元素标签使用注意:</p>
-<ul>
-<li>在下面这些元素都不适合的时候：表重要的 strong ，表强调的 em ，表标题的 h1–h6，表高亮或标记文本的 p 等，就用 b 来表示。</li>
-<li>em 的强调是用在语句某个单词上来改变句子的侧重，可以说是局部的，而strong 和局部还是全局无关，局部强调用strong也可以，strong强调的是重要性，不会改变句意。</li>
-</ul>
-<p>###分组元素标签<br>我们熟悉的div、 p 、dl 、dt、dd、ol、ul、li、hr都是分组元素标签，我们接下来看一些不常用的和新加的分组元素标签</p>
-<ul>
-<li>blockquote：标记一段长引文。标记短引文（行内引文），应采用 q 元素！</li>
-<li>pre：pre 元素可定义预格式化的文本。被包围在 pre 元素中的文本通常会保留空格和换行符。而文本也会呈现为等宽字体。pre 标签的一个常见应用就是用来表示源代码。他跟code的关系好比blockquote和q的关系。</li>
-<li><p>ol元素<br>ol元素在HTML5有改良，增加了两个属性：</p>
-<ul>
-<li><code>start</code>：start属性用来定义列表编号的起始位置，</li>
-<li><code>reversed</code>:reversed属性表示将列表进行反转，但是目前还没有任何一款浏览器对其提供支持，在这里就不细说了。</li>
-</ul>
-</li>
-<li><p>figure元素与figcaption元素<br>figure元素用来包含一块独立内容，该内容如果被移除掉不会对周围的内容有影响。具体来说它可以用来表示图片，统计图，图表，音频，视频，代码片段等。如果需要你也可以给该内容添加一个标题，这个标题使用figcaption来表示。figcaption只能作为figure元素的子元素，可以放在figure元素内的任何位置。形如：</p>
-<pre><code>&lt;figure&gt;
-    &lt;img src=&quot;&quot; alt=&quot;&quot; /&gt;
-    &lt;figcaption&gt;html5jscss前端网是刚建立的小站&lt;/figcaption&gt;
-&lt;/figure&gt;
-</code></pre></li>
-</ul>
-<p>不是所有图片都用figure来包裹，img 标签也有语义的。如果纯粹只是为了呈现的图，也不在文档其他地方引用，那就绝对不要用figure。如果和上下文有关，也可以把它移动到附录，那就别用figure，aside可能适合。<br>figure元素和aside元素看起来表达的内容差不多，但是aside所能包含的内容比figure要广。当你不知道如何选择的时候可以这样来做：这段内容对周围的内容来说是一个要点，或者很重要，不可少，那么可以使用figure，否则使用aside。<br>注意：</p>
-<ul>
-<li>一个figure元素内最多只允许放置一个figcaption元素，也可以不放，但是其他元素可无限放置。注意不是所有图片都得用figure元素。</li>
-</ul>
-<p>嵌入元素标签</p>
-<p>在页面中除了显示文档活字符外，还需要放入一些其他元素，就是我们所说的嵌入元素。<br>嵌入元素包括img（图片），页面（iframe），多媒体对象将不再全部绑定在 object 或 embed 标签 中，而是由有 video(视频)audio（音频），用于绘画的 canvas 元素<br>这里我们不详细介绍它们的属性了.<br>HTML5中增加了一些表单元素和一些交互元素等新的标签，但是着重点不同，所以我们放在另一片文章来继续了解。HTML5语义标签到此结束。</p>
-<p><a href="http://www.html5jscss.com/html5-semantics-rich.html" target="_blank" rel="noopener">原文链接</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Html/">
-                #Html
+              <a href="/tags/Less-Css/">
+                #Less Css
               </a>
             
           </div>
@@ -1232,7 +509,7 @@ copy:只显示新图形
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/5/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/5/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/7/">&raquo;</a>
             </div>
           
         </div>
@@ -1263,7 +540,7 @@ copy:只显示新图形
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">29</span>
+            <span class="site-state-item-count">30</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -1290,7 +567,7 @@ copy:只显示新图形
             </span>
           
             <span class="soclial-item">
-              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
             </span>
           
         
@@ -1311,20 +588,15 @@ copy:只显示新图形
         <div class="copyright">
   
   &copy; &nbsp; 
-  2018
+  2020
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
   <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
-</div>
 
 
 

@@ -1,0 +1,570 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5">
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc4">
+
+
+
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc4">
+
+
+
+
+  <title> kunkun </title>
+</head>
+
+<body>
+  <div class="container one-column 
+   page-home 
+">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">kunkun</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br>
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br>
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br>
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/20/oo-3-features/">
+                面向对象编程3大特性 7大原则[转] 
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-20
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/20/oo-3-features/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/oo-3-features/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>原文地址&lt;<a href="http://blog.163.com/wumingli456@126/blog/static/28896414201211121629525" target="_blank" rel="noopener">http://blog.163.com/wumingli456@126/blog/static/28896414201211121629525</a> &gt;</p>
+<h3 id="面向对象的特性"><a href="#面向对象的特性" class="headerlink" title="面向对象的特性"></a>面向对象的特性</h3><p>三个基本的特性：封装、继承与多态。</p>
+<p>1、封装<br>面向对象编程核心思想这一就是就是将数据和对数据的操作封装在一起.通过抽象,即从具体的实例中抽取共同的性质形成一般的概念,比如类的概念.</p>
+<p>2、继承<br>继承体现了一种先进的编程模式.子类可以继承父类的属性和功能,即子类继承了父类所具有的数据和数据上的操作,同时又可以增添子类独有的数据和数据上的操作.例如,”人类”继承了”哺乳类”的属性和功能,同时又增添了人类独有的属性和功能.</p>
+<p>3、多态<br> 多态是面向对象编程的又一重要特征.有两种意义的多态（表现为方法的重写(Overriding)和重载(Overloading)）<br> 一种是操作名称的多态,即有多个操作具有相同的名字,但这些操作所接收的消息类型必须不同.所谓操作名称的多态是指可以向操作传递不同消息,以便让对象根据相应的消息来产生一定的行为.</p>
+<h3 id="七大基本原则"><a href="#七大基本原则" class="headerlink" title="七大基本原则"></a>七大基本原则</h3><p> 单一职责原则SRP(Single Responsibility Principle)、开放封闭原则OCP(Open－Close Principle) 、替换原则、依赖原则(the Dependency Inversion Principle DIP) (the Liskov Substitution Principle LSP) 、接口分离原则(the Interface Segregation Principle ISP)、“迪米特”法则 、组合/聚合原则 </p>
+<p>1、单一职责原则SRP(Single Responsibility Principle)<br>即一个类只负责一项职责<br>可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>提高类的可读性，提高系统的可维护性；<br>变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
+<p>2、开放封闭原则OCP(Open－Close Principle)<br>一个模块在扩展性方面应该是开放的而在更改性方面应该是封闭的。比如：一个网络模块，原来只服务端功能，而现在要加入客户端功能，<br>那么应当在不用修改服务端功能代码的前提下，就能够增加客户端功能的实现代码，这要求在设计之初，就应当将服务端和客户端分开，公共部分抽象出来。</p>
+<p>3、里氏替换原则(the Liskov Substitution Principle LSP)<br>子类应当可以替换父类并出现在父类能够出现的任何地方。</p>
+<p>4、依赖倒转原则(the Dependency Inversion Principle DIP)<br>具体依赖抽象，上层依赖下层。假设B是较A低的模块，但B需要使用到A的功能，<br>这个时候，B不应当直接使用A中的具体类： 而应当由B定义一抽象接口，并由A来实现这个抽象接口，B只使用这个抽象接口：这样就达到<br>了 依赖倒置的目的，B也解除了对A的依赖，反过来是A依赖于B定义的抽象接口。通过上层模块难以避免依赖下层模块，假如B也直接依赖A的实现，那么就可能造 成循环依赖。一个常见的问题就是编译A模块时需要直接包含到B模块的cpp文件，而编译B时同样要直接包含到A的cpp文件。</p>
+<p>5、接口分离原则(the Interface Segregation Principle ISP)<br>模块间要通过抽象接口隔离开，而不是通过具体的类强耦合起来。即面向接口编程</p>
+<p>6、“迪米特”法则<br>又叫最少知识原则，就是说，一个对象应当对其他对象有尽可能少的了解<br>① 在类的划分上，应该创建有弱耦合的类；<br>② 在类的结构设计上，每一个类都应当尽量降低成员的访问权限；<br>③ 在类的设计上，只要有可能，一个类应当设计成不变类；<br>④ 在对其他类的引用上，一个对象对其它对象的引用应当降到最低；<br>⑤ 尽量降低类的访问权限；<br>⑥ 谨慎使用序列化功能；<br>⑦ 不要暴露类成员，而应该提供相应的访问器(属性)。 </p>
+<p>7、.组合/聚合原则<br>又叫合成复用原则。原则就是在一个新的对象里面通过关联关系（包括组合关系和聚合关系）使用一些已有的对象，使之成为新对象的一部分，新对象通过委派调用已有对象的方法达到复用其已有功能的目的。也就是，要尽量使用类的合成复用，尽量不要使用继承。<br>就是在一个新的对象里面使用一些已有的对象，使之成为新对象的一部分，新的对象通过向这些对象的委派达到复用已有功能的目的。这个原则有一个简短的描述：要尽量使用合成、聚合，尽量不要使用继承。</p>
+<p>1)  新对象存取成分对象的唯一方法是通过成分对象的接口</p>
+<p>2)  这种复用是黑箱复用，因为成分对象的内部细节是新对象所看不到的</p>
+<p>3)  这种复用可以在运行时间内动态进行，新对象可以动态的引用与成分对象类型相同的对象</p>
+<p>4)  合成、聚合可以应用到任何环境中去，而继承只能应用到一些有限环境中去</p>
+<p>5)  导致错误的使用合成、聚合与继承的一个常见原因是错误的把“Has-a”关系当作“Is-a”关系。如果两个类是“Has-a”关系那么应使用合成、聚合，如果是“Is-a”关系那么可使用继承</p>
+<p>在面向对象设计中，可以通过两种基本方法在不同的环境中复用已有的设计和实现，即通过组合/聚合关系或通过继承。</p>
+<p>1)   继承复用：实现简单，易于扩展。破坏系统的封装性，从基类继承而来的实现是静态的，不可能在运行时发生改变，没有足够的灵活性；只能在有限的环境中使用。（“白箱”复用 ）</p>
+<p>2)   组合/聚合复用：耦合度相对较低，选择性地调用成员对象的操作；可以在运行时动态进行。（“黑箱”复用 ）</p>
+<p>组合/聚合可以使系统更加灵活，类与类之间的耦合度降低，一个类的变化对其他类造成的影响相对较少，因此一般首选使用组合/聚合来实现复用；</p>
+<p>其次才考虑继承，在使用继承时，需要严格遵循里氏代换原则，有效使用继承会有助于对问题的理解，降低复杂度，而滥用继承反而会增加系统构建和维护的难度以及系统的复杂度，因此需要慎重使用继承复用。</p>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/面向对象/">
+                #面向对象
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2014/03/20/css-inline/">
+                css inline
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2014-03-20
+            
+          </span>
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/03/20/css-inline/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/20/css-inline/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <p>今天使用要为元素设置水平居中的时候发现 <code>margin:0 auto</code> 不起作用，查资料发现原来我给div设置了的是<code>disply:inline-block</code>属性,这种情况下 <code>margin:0 auto</code> 是无效的，于是通过给父元素div 设置了 <code>text-aglin:center</code>得以解决.然后搜集了一些资料，加深一下对inline 属性的了解。</p>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><ol>
+<li>inline元素, 有效的: <code>background</code>, <code>margin-left</code>, <code>margin-right</code>, <code>padding</code>, <code>border</code></li>
+<li>inline元素, 无效的: <code>width</code>, <code>height</code>, <code>margin-top</code>, <code>margin-bottom</code> (个别除外)</li>
+<li>因width, height无效, 因此下列属性也无效: <code>text-align</code>, <code>text-indent</code>, <code>min|max-width|height</code>, <code>overflow</code> </li>
+<li>原文字相关的依然有效, 如<code>word-spacing</code>,  <code>word-wrap</code>,  <code>white-space</code>, <code>letter-spacing</code> </li>
+<li>下面两个有效, <code>line-height</code>, <code>vertical-align</code>, <code>box-shadow</code> </li>
+<li><code>float</code>,<code>position</code>及与之相关<code>top</code>,<code>left</code>, 不考虑, 已经不是inline了 </li>
+<li><code>img</code>, <code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 设置inline与inline-block, 效果是一样的, 没有变化, 都等同于设置了inline-block </li>
+</ol>
+<h4 id="思考"><a href="#思考" class="headerlink" title="思考:"></a>思考:</h4><ol>
+<li>inline元素的宽高是不能定义, 即宽高度是由inline元素inline内容的元素决定的,(ie6,ie7下高度会受inline-block元素的影响) </li>
+<li>即宽高完全是自适应而得出的, 因此也不存在overflow的问题, <code>min|max-width|height</code>也没有影响 </li>
+<li>margin四个属性, <code>left|right</code> 与 <code>top|bottom</code>有不同的待遇 </li>
+<li><code>margin-top</code>, <code>margin-bottom</code>, 可以用line-height模拟, 但有很大不同, 与<code>inline-block</code>也不兼容,  另 <code>margin:0 auto</code> 的居中效果, 也没有作用 </li>
+</ol>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后:"></a>最后:</h4><p>mdn中说: 默认 inline-level 的元素 inline + inline-block </p>
+<ul>
+<li><code>b</code>, <code>big</code>, <code>i</code>, <code>small</code>, <code>tt</code></li>
+<li><code>abbr</code>, <code>acronym</code>, <code>cite</code>, <code>code</code>, <code>dfn</code>, <code>em</code>, <code>kbd</code>, <code>strong</code>, <code>samp</code>, <code>var</code></li>
+<li><code>a</code>, <code>bdo</code>, <code>br</code>, <code>img</code>, <code>map</code>, <code>object</code>, <code>q</code>, <code>script</code>, <code>span</code>, <code>sub</code>, <code>sup</code></li>
+<li>表单元素:<code>button</code>, <code>input</code>, <code>label</code>, <code>select</code>, <code>textarea</code> 与inline-block等同</li>
+</ul>
+
+        
+
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+          <div class="post-eof the-shape"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+
+          </div>
+
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/12/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/14/">&raquo;</a>
+            </div>
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ekj8t033tvj206p0663yr.jpg" alt="kunkun">
+        <p class="site-author-name">kunkun</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">30</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="soclial-item">
+              <a href="https://github.com/kunkun12">GITHUB</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://twitter.com/dubaokun">TWITTER</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="http://weibo.com/u/1821556025">WEIBO</a>
+            </span>
+          
+            <span class="soclial-item">
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2020
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function isDesktop () {
+    return screen.width > 991;
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767;
+  }
+
+  function isMobile () {
+    return screen.width < 767;
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.show', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.hide', function () {
+
+      });
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, SIDEBAR_DISPLAY_DURATION);
+      sidebar.trigger('sidebar.show');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.trigger('sidebar.hide');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"kunkun12"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+  
+</body>
+</html>

@@ -99,8 +99,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/03/01/javascriptjudge-browser/">
-                判断浏览器特性
+              <a class="post-title-link" href="/2014/12/18/dojo-Object-Store/">
+                dojo统一的数据访问接口——dojo Oject store API
               </a>
             
           
@@ -110,15 +110,15 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-03-01
+              发表于 2014-12-17
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/03/01/javascriptjudge-browser/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/javascriptjudge-browser/"></span>
+            <a href="/2014/12/18/dojo-Object-Store/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/18/dojo-Object-Store/"></span>
             </a>
           </span>
           
@@ -133,344 +133,379 @@
         
 
         
-          <h3 id="浏览器类型判断"><a href="#浏览器类型判断" class="headerlink" title="浏览器类型判断"></a>浏览器类型判断</h3><p>有时候为了判断浏览器对HTML5/CSS3支持情况，我们常常会首先选择判断浏览器类型，浏览器对象中有一个navigator 对象，具有的主要属性如下<br>    appCodeName    –    浏览器代码名的字符串表示<br>    appName    –    官方浏览器名的字符串表示<br>    appVersion    –    浏览器版本信息的字符串表示<br>    cookieEnabled    –    如果启用cookie返回true，否则返回false<br>    javaEnabled    –    如果启用java返回true，否则返回false<br>    platform    –    浏览器所在计算机平台的字符串表示<br>    plugins    –    安装在浏览器中的插件数组<br>    taintEnabled    –    如果启用了数据污点返回true，否则返回false<br>    userAgent    –    用户代理头的字符串表示</p>
-<p>我们其中户代理头的字符串userAgent包含了浏览器的信息，包括操作系统以及版本，以及浏览器的内核信息，通过这个属性可以判断出当前页面所处的浏览器环境，帮助针对不同的浏览器实现兼容性。<br>在Chrome中用户代理头的字符串内容如下<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36”<br>firefox中则为<br>    “Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0”<br>通过正则表达式来匹配是否满足相对应的浏览器的特性</p>
-<pre><code> var Sys = {}; 
-var ua = navigator.userAgent.toLowerCase(); 
-var s; 
-(s = ua.match(/msie ([/d.]+)/)) ? Sys.ie = s[1] : 
-(s = ua.match(/firefox//([/d.]+)/)) ? Sys.firefox = s[1] : 
-(s = ua.match(/chrome//([/d.]+)/)) ? Sys.chrome = s[1] : 
-(s = ua.match(/opera.([/d.]+)/)) ? Sys.opera = s[1] : 
-(s = ua.match(/version//([/d.]+).*safari/)) ? Sys.safari = s[1] : 0;
-</code></pre><p>测试代码</p>
-<pre><code>if (Sys.ie) document.write(&apos;IE: &apos; + Sys.ie); 
-if (Sys.firefox) document.write(&apos;Firefox: &apos; + Sys.firefox); 
-if (Sys.chrome) document.write(&apos;Chrome: &apos; + Sys.chrome); 
-if (Sys.opera) document.write(&apos;Opera: &apos; + Sys.opera); 
-if (Sys.safari) document.write(&apos;Safari: &apos; + Sys.safari);
-</code></pre><p> 在Jquery 1.9版本之前有个可以通过<code>$.browser</code>来判断浏览器的类型，但是之后版本中去掉了这个方法，但是可以通过 jQuery.migrate 插件来完成该功能，同时官网推荐<a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>实现。</p>
-<h3 id="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"><a href="#Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。" class="headerlink" title="Modernizr是专门用来检测浏览器对HTML5和CSS3特性的JS库。"></a><a href="http://modernizr.com/" target="_blank" rel="noopener">Modernizr</a>是专门用来检测浏览器对HTML5和CSS3特性的JS库。</h3><p> 引入Modernizr库之后，很方便地检测浏览的特性</p>
-<pre><code>if (Modernizr.borderradius) {
-      //do something
-   }
-
-   if (Modernizr.csstransforms) {
-      //
-   }
-</code></pre><p>在某些不支持新特性的浏览器上，Modernizr不仅仅提供了上述方式告诉你，也提供了load功能允许你加载一些<a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills" target="_blank" rel="noopener">shim/polyfill</a>脚本来达到支持的目的.</p>
-<p>可以使用Modernizr的load()函数来动态加载脚本，该函数的test属性是表明要测试是否支持的新特性，如果测试成功支持的话，就加载yep属性设置的脚本，如果不支持就加载nope属性设置的脚本，不管是否支持，both属性里设置的脚本都会加载的。例子代码如下：</p>
-<pre><code>Modernizr.load({
-    test: Modernizr.canvas,
-    yep:  &apos;html5CanvasAvailable.js’,
-    nope: &apos;excanvas.js’, 
-    both: &apos;myCustomScript.js&apos; 
-});
-</code></pre><p>在该例子里，Modernizr会判断当前浏览器是否支持canvas特性，如果支持，那就会加载html5CanvasAvailable.js和myCustomScript.js这两个脚本，如果不支持，就会加载excanvas.js（用于IE9之前的版本）脚本文件以让该浏览器支持canvas功能，然后再加载myCustomScript.js脚本。</p>
-<p>因为Modernizr可以加载脚本，所以你还可以用于其它的用途，比如，如果你引用的第三方脚本（例如提供CDN服务的Google和Microsoft提供jquery的托管）加载失败的情况下，可以加载备用的文件。下面的代码是Modernizr提供的一个加载jquery的示例：</p>
-<pre><code>Modernizr.load([
-    {
-        load: &apos;//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js&apos;,
-        complete: function () {
-            if (!window.jQuery) {
-                Modernizr.load(&apos;js/libs/jquery-1.6.4.min.js&apos;);
-            }
-        }
-    },
-    {
-        // This will wait for the fallback to load and
-        // execute if it needs to.
-        load: &apos;needs-jQuery.js&apos;
-    }
-]);
-</code></pre><p>参考资料 <a href="http://weblogs.asp.net/dwahlin/archive/2011/11/16/detecting-html5-css3-features-using-modernizr.aspx" target="_blank" rel="noopener">Detecting HTML5/CSS3 Features using Modernizr</a></p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/03/01/what-is-node/">
-                Node.JS 究竟是什么?
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-03-01
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/03/01/what-is-node/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/01/what-is-node/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"><a href="#Node旨在解决服务器能够处理的并发连接的最大数量的问题。" class="headerlink" title="Node旨在解决服务器能够处理的并发连接的最大数量的问题。"></a>Node旨在解决服务器能够处理的并发连接的最大数量的问题。</h3><p>  Node官网首页有一句话就是对Node是什么以及node解决什么问题做出了介绍，原文如下</p>
-<pre><code>Node.js is a platform built on Chrome&apos;s JavaScript runtime for easily building fast, 
-scalable network applications. Node.js uses an event-driven, 
-non-blocking I/O model that makes it lightweight and efficient,
-perfect for data-intensive real-time applications that run across distributed devices.
-</code></pre><p> 大概意思是说Node是基于Chrome的javascript的引擎，旨在提供一种简单的构建可伸缩网络程序的方法，node特点是基于事件驱动，非阻塞I/O，同时还有一个特点没有直接提到就是单线程。</p>
-<p>在 Java™ 和 PHP 这类语言中，每个连接都会生成一个新线程，每个新线程可能需要 2 MB 的配套内存。在一个拥有 8 GB RAM 的系统上，理论上最大的并发连接数量是 4,000 个用户。随着您的客户群的增长，如果希望您的 Web 应用程序支持更多用户，那么，您必须添加更多服务器。当然，这会增加服务器成本、流量成本和人工成本等成本。除这些成本上升外，还有一个潜在技术问题，即用户可能针对每个请求使用不同的服务器，因此，任何共享资源都必须在所有服务器之间共享。鉴于上述所有原因，整个 Web 应用<br>Node 解决这个问题的方法是：更改连接到服务器的方式。每个连接发射一个在 Node 引擎的进程中运行的事件，而不是为每个连接生成一个新的 OS 线程（并为其分配一些配套内存）。Node 声称它绝不会死锁，因为它根本不允许使用锁，它不会直接阻塞 I/O 调用。Node 还宣称，运行它的服务器能支持数万个并发连接。</p>
-<h3 id="为什么选择是Javascript-语言"><a href="#为什么选择是Javascript-语言" class="headerlink" title="为什么选择是Javascript 语言"></a>为什么选择是Javascript 语言</h3><ul>
-<li>V8 JavaScript 引擎是 Google 用于其 Chrome 浏览器的底层 JavaScript 引擎。很少有人考虑 JavaScript 在客户机上实际做了些什么？实际上，JavaScript 引擎负责解释并执行代码。Google 使用 V8 创建了一个用 C++ 编写的超快解释器，该解释器拥有另一个独特特征；可以下载该引擎并将其嵌入任何 应用程序。</li>
-<li>JavaScript 是一种很棒的事件驱动编程语言，因为它允许使用匿名函数和闭包，更重要的是，任何写过代码的人都熟悉它的语法。事件发生时调用的回调函数可以在捕获事件处进行编写。这样可以使代码容易编写和维护，没有复杂的面向对象框架，没有接口，没有过度设计的可能性。只需监听事件，编写一个回调函数，其他事情都可以交给系统处理！<br>由于V8正好可以满足上述提到Node几个特点，以及Javascript独特优势，以及Javascript的大量用户，所以NodeJS就这样地产生了。</li>
-</ul>
-<h3 id="Node适合做什么工作。实时-高并发I-O，弱密集逻辑计算"><a href="#Node适合做什么工作。实时-高并发I-O，弱密集逻辑计算" class="headerlink" title="Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算"></a>Node适合做什么工作。实时 高并发I/O，弱密集逻辑计算</h3><ul>
-<li>RESTful API</li>
-<li>新浪微博、twiter这样高并发的应用</li>
-<li>编写网络小工具。</li>
-<li>聊天程序</li>
-<li>游戏后台</li>
-<li>股票等实时信息展示网站。</li>
-</ul>
-<p>同时Node有数万的计的第三方模块，Node 的一个特性是 Node Package Module，这是一个内置功能，用于安装和管理 Node 模块。它自动处理依赖项，因此您可以确定：您想要安装的任何模块都将正确安装并包含必要的依赖项。它还支持将您自己的模块发布到 Node 社区，假如您选择加入社区并编写自己的模块的话。您可以将 NPM 视为一种允许轻松扩展 Node 功能的方法，不必担心这会破坏您的 Node 安装。同样，如果您选择深入学习 Node，那么 NPM 将是您的 Node 解决方案的一个重要组成部分。</p>
-<p>优秀的设计+众多开发者的支持，应该是Node平台火起来的原因吧。</p>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Node/">
-                #Node
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/20/how-to-design-a-good-api/">
-                如何设计优秀的API
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-20
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/20/how-to-design-a-good-api/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/20/how-to-design-a-good-api/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <p>谷歌架构师Joshua Bloch最近分享了一份幻灯片，<a href="http://vidcat.org/papers/how-to-design-a-good-api-and-why-it-matters.html#.UxFCN_mSyKM" target="_blank" rel="noopener">系统的讨论了优秀API的设计原则</a>。他指出：每个API接口应该只专注一件事，并做好：如果它很难命名，那么这或许是个不好的征兆，好的名称可以驱动开发、并且只需拆分与合并模块即可。设计原则包括：</p>
-<ul>
-<li>API应尽可能地简洁：满足需求、对有疑问的地方可以暂时不使用（函数、类、方法、参数等，你可以不添加，但千万不要删除）、概念性的东西比体积重要）；</li>
-<li>实现不要影响API：关注实现细节（不要迷惑用户、不要随便改变实现方式）、意识到具体的实现细节（不要有越权的方法行为，例如不所有的调优参数都是可疑的）；</li>
-<li>不要让实现细节“泄露”到API（例如on-disk和on-the-wire格式等异常情况）；</li>
-<li>最小化可访问：设计人员应尽量把类及成员设为私有，公共类不应该有公共字段（包括异常实例），最大限度地提高信息隐藏，允许模块可以被使用、理解、构建、测试和独立调试；</li>
-<li>命名问题：应该见名知意，避免含糊的缩写、对同一样东西的命名应该有个一致性的前缀（遍及整个平台API）、讲究对称、代码应该易读。</li>
-</ul>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/API/">
-                #API
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/15/css-bfc/">
-                CSS 定位之BFC
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-15
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/15/css-bfc/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/css-bfc/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <blockquote>
-<p>在 CSS 面试中问 BFC 等概念，就如在 JS 面试中问闭包等概念一样，经常会刷掉一些真正优秀的人。 ——玉伯</p>
+          <h2 id="关于dojo中统一数据访问接口"><a href="#关于dojo中统一数据访问接口" class="headerlink" title="关于dojo中统一数据访问接口"></a>关于dojo中统一数据访问接口</h2><p>数据的操作以及展现是web端很重要的一块内容，这里就涉及到了不同数据的读取等操作，由于数据可能可能来源于不同的格式，比如常见的有JSON,CSV,XML 甚至不同的厂家会有独有的自定义格式，如果我们要写一个数据展现的控件的话比如chart，grid，为了让数据的提供者和数据的使用者更好地分工，这个时候我们理应屏蔽掉不同数据源之间的区别。这里就需要给访问不同的数据提供相同的访问方式，也就是让数据提供统一的访问接口，数据读取和展现都依赖同一套接口就OK了。在服务端访问不同的数据库，有OLEDB，ODBC、JDBC等协议，类似，web端也有类似的接口。就那web本地存储来说，有 web StoreRage API ,Web SQL API、 index db API 这些都是浏览器的API，然后不同的浏览器厂商根据这些协议各自在自己浏览器上具体实现，这样才能保证我们的同一份JS代码，在不同的浏览上实现相同的功能。这也是面向接口编程给我们带来的好处。订好了协议大家都按统一的实现，这样大家好 才是真的好。</p>
+<blockquote>
+<p>数据的提供者不用再关心数据如何被展示，以及数据的使用者不用关心数据来自于哪里。通过接口（协议）来实现职责的分离，即使同一个人来完成数据的获取以及展示，也要将数据的获取与展示做到分离，因为这种松散的耦合 也方便系统的维护。</p>
 </blockquote>
-<p>第一次接触BFC是在清除浮动的时候，清除浮动主要有两种法</p>
-<p>它决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。</p>
+<p>说起dojo 数据访问API我们之前会使用<strong>dojo data</strong> 里面的的东东 也就是旗下的 如下四类接口</p>
 <ul>
-<li>利用 clear属性，清除浮动</li>
-<li>使父容器形成BFC<br>于是当时查询了好多资料总结如下：<br>但在进一步说明 BFC 特性之前，首先要介绍另一个在 CSS 的可视化格式模型 (Visual Formatting Model) 中具有非常重要地位的概念——定位方案。定位方案是控制元素的布局，在 CSS 2.1 中，有三种定位方案——普通流 (Normal Flow) 、浮动 (Floats) 和绝对定位 (Absolute Positioning) ，下面分别对这三种布局简略说明一下。</li>
+<li><code>Dojo.data.api.read</code> 提供读取数据的功能，同时也支持对数据集的搜索，排序，和过滤。</li>
+<li><code>Dojo.data.api.write</code> 提供创建，删除，更新数据项功能</li>
+<li><code>Dojo.data.api.identify</code> 提供基于唯一的标识符来定位和查询数据项的功能。</li>
+<li><code>Dojo.data.api.notification</code> 提供当 datastore的数据项改变等事件发生时通知侦听器的功能。最基本的事件包括数据的创建，修改和删除等。这也是Dojo.data的一项很重要的功能，通过此接口可以将数据展现层与数据中间层更好的分离开来。</li>
 </ul>
-<p>####普通流(Normal Flow)</p>
-<p>在普通流中，元素按照其在 HTML 中的先后位置至上而下布局，在这个过程中，行内元素水平排列，直到当行被占满然后换行，块级元素则会被渲染为完整的一个新行， 除非另外指定，否则所有元素默认都是普通流定位，也可以说，普通流中元素的位置由该元素在 HTML 文档中的位置决定。</p>
-<h4 id="浮动-Floats"><a href="#浮动-Floats" class="headerlink" title="浮动 (Floats)"></a>浮动 (Floats)</h4><p>在浮动布局中，元素首先按照普通流的位置出现，然后根据浮动的方向尽可能的向左边或右边偏移，其效果与印刷排版中的文本环绕相似。</p>
-<p>####绝对定位 (Absolute Positioning)</p>
-<p>在绝对定位布局中，元素会整体脱离普通流，因此绝对定位元素不会对其兄弟元素造成影响（如果看了上文的童鞋，会发现这点与浮动元素会影响兄弟元素是不同的），而元素具体的位置由绝对定位的坐标决定。</p>
-<p>BFC 正是属于普通流的，因此它对兄弟元素也不会造成什么影响。</p>
-<p>####BFC的定义<br>在进行盒子元素布局的时候， BFC 提供了一个环境， 在这个环境中按照一定规则进<br>行布局不会影响到其它环境中的布局。比如浮动元素会形成 BFC，浮动元素内部子元素<br>的主要受该浮动元素影响，两个浮动元素之间是互不影响的。<br>也就是说，如果一个元素符合了成为 BFC 的条件，该元素内部元素的布局和定位<br>就和外部元素互不影响(除非内部的盒子建立了新的  BFC)， 是一个隔离了的独立容器。<br>在  CSS3  中，BFC  叫做  Flow Root。</p>
-<p>####BFC到底是什么？<br>当涉及到可视化布局的时候，Block Formatting Context提供了一个环境，HTML元素在这个环境中按照一定规则进行布局。一个环境中的元素不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。这里有点类似一个BFC就是一个独立的行政单位的意思。</p>
-<p>####怎样才能形成BFC</p>
+<p>以上只是<strong>dojo/data</strong>接口的定义,对于不同的数据格式格式读取也有具体的实现，如果上面是接口的话 下面的就是类的具体实现了。</p>
 <ul>
-<li>float的值不为none。</li>
-<li>overflow的值不为visible。</li>
-<li>display的值为table-cell, table-caption, inline-block中的任何一个。</li>
-<li>position的值不为relative和static。</li>
-<li>css3中flex boxes</li>
+<li><code>dojo.data.ItemFileReadStore</code>    用于JSON数据的只读的DataStore。</li>
+<li><code>dojo.data.ItemFileWriteStore</code>    用于JSON数据的可读写的DataStore</li>
+<li><code>dojox.data.CsvStore</code>    用于CVS数据的只读的DataStore</li>
+<li><code>dojox.data.OpmlStore</code>用于OPML（Outline Processor Markup Language）数据的只读的DataStore</li>
+<li><code>dojox.data.HtmlTableStore</code>    用于HTML table数据的只读的DataStore</li>
+<li><code>dojox.data.XmlStore</code>    用于XML数据的可读写的DataStore</li>
+<li><code>dojox.data.FlickrStore</code>    用于读取web服务flickr.com提供的数据</li>
+<li><code>dojox.data.QueryReadStore</code>    用于读取由服务器端提供的JSON数据</li>
 </ul>
-<p>####BFC的作用</p>
-<ol>
-<li>包含浮动元素(清除浮动)<br>BFC 会 根据子元素的情况自 适应 高度 ，这个 特性 是 对父元素 使 用<br>overflow:hidden/auto/scroll、 float:left/right 样式可以闭合浮动的</li>
-<li>不被浮动元素覆盖<br>浮动元素会无视兄弟元素的存在， 覆盖在兄弟元素的上面， 为该兄弟元素创建<br>BFC 后可以阻止这种情况的出现</li>
-</ol>
-<p>BFC 主要有三个特性：</p>
-<p>(1) BFC 会阻止外边距折叠<br>两个相连的 div 在垂直上的外边距会发生叠加，在实际开发中，或许我们有时会不需要这种折叠，这时可以利用 BFC 的其中一个特性——阻止外边距叠加。阻止父子元素的 margin 折叠，仅当两个块级元素毗邻并且在同一个块级格式化上下文时，它们垂直方向之间的外边距才会叠加。也就<br>是说，即便两个块级元素相邻，但当它们不在同一个块级格式化上下文时它们的边<br>距也不会折叠。同时BFC 的元素，不和它的子元素发生外边距折叠。</p>
-<p>(2) BFC 可以包含浮动的元素<br>这也正是上面使用 overflow: hidden 与 overflow: auto 方法闭合浮动的原理，使用 overflow: hidden 或 overflow: auto 触发浮动元素父元素的 BFC 特性，从而可以包含浮动元素，闭合浮动。</p>
-<p>W3C 的原文是“’Auto’ heights for block formatting context roots”，也就是 BFC 会根据子元素的情况自动适应高度，即使其子元素中包括浮动元素。</p>
-<p>但是 IE6-7 并不支持 W3C 的 BFC ，而是使用自产的 hasLayout 。从表现上来说，它跟 BFC 很相似，只是 hasLayout 自身存在很多问题，导致了 IE6-7 中一系列的 bug 。触发 hasLayout 的条件与触发 BFC 有些相似，具体情况 Kayo 会另写文章介绍。这里 Kayo 推荐为元素设置 IE 特有的 CSS 属性 zoom: 1 触发 hasLayout ，zoom 用于设置或检索元素的缩放比例，值为“1”即使用元素的实际尺寸，使用 zoom: 1 既可以触发 hasLayout 又不会对元素造成其他影响，相对来说会更为方便。</p>
-<p>(3) BFC 可以阻止元素被浮动元素覆盖<br>如上面所说，浮动元素的块状兄弟元素会无视浮动元素的位置，尽量占满一整行，这样就会被浮动元素覆盖，为该兄弟元素触发 BFC 后可以阻止这种情况的发生。</p>
+<p>具体内容可以参见<br><a href="http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/" target="_blank" rel="noopener">http://www.ibm.com/developerworks/cn/web/0905_hukuang_dojodata/</a>不错的文章好好读读</p>
+<p>基本以上能满足所有对数据操作的需求。。如果你已经读完了上面的这篇文章，或者对dojo data API有所了解，你可能会发现这些对数据的操作非常滴麻烦，虽然能达到了接口的统一，但是繁琐的交互接口也不利于Widget之间的通信，关键是开发者用着不爽，好消息是，这些接口的确已经被淘汰了。。于是引入今天的主题- <em>Dojo Object Store API</em>。</p>
+<p>那么首先区分一下两个名词,旧的数据访问接口是 <code>dojo data store API</code> ，就是上面介绍的那些东西，在dojo目录的 dojo/data 里面，建议以后不要用这里面的东西来存取东西，也就是说 不要再用 <code>dojo/data/ItemFileReadStore</code> <code>dojo/data/ItemFileWriteStore</code>这两个东西了。。。新的数据统一访问接口是     <code>dojo Object Store</code> 。。具体的接口以及实现在源码（文档）目录的 dojo/store里面，请注意区分</p>
+<p>##关于dojo Object store API。 </p>
+<p>翻译过来就是dojo 对象存储接口，从dojo 1.6中就有了,它的设计设计灵感来自于<strong>HTML5 object store</strong> API即HTML5中的 IndexDB API，用来取代之前较麻烦的dojo data api.旨在提供一套简单、容易实现、利于数据交互、容易扩展的数据存储API，简化和减轻数据的交互，让模块间的开发更松散的耦合性，让用户的界面展现、数据的存储、交互、达到更好的分离。来更好滴在web端实现MV*架构。</p>
+<h2 id="dojo对象存储API背后的几个理念"><a href="#dojo对象存储API背后的几个理念" class="headerlink" title="dojo对象存储API背后的几个理念"></a>dojo对象存储API背后的几个理念</h2><ul>
+<li>数据与UI关注点分离，让我们将数据与展现关注点进行分离，并且方便数据与部件之间独立的实现。</li>
+<li>保持简单 可以仅仅地创建一个具有query和get方法的对象来创建一个简单的数据存储对象，如果要提供创建一个新的对象功能，可以增加一个add方法，如果要增加更新对象的功能 只需要增加一个put方法</li>
+<li>基于纯的javascript对象 dojo store api 使用纯的JS对象即{}，使用get返回一个对象或者使用query来返回一个对象的数据，这些对象可以像普通的JS对象一样被操做，比如可以通过点直接访问查询结果对象的属性，或者可以用 <em>for  in</em> 来循环便利对象的属性。如果要保存/更新对象可以将一个更新过的纯JS对象传递给put方法即可。</li>
+<li>基于Promise 更好地来处理异步的存储。通过返回<em>promise</em> 来做到异步和同步存取的统一</li>
+<li>独立简单的功能实现 不需要任何方法来设置存储对象的功能，如果你想知道是否可以添加一个新的对象到存储对象中，只需要检查他是否具有add方法，如果想知道它是否支持查询，只需要检查是否有query方法；如果只是想实现一个只读的存储对象，只需要实现读的方法(<code>get</code>, <code>query</code>, <code>getIdentity</code>)</li>
+<li>功能的层次性增强 通过分层的功能，就可以基于一个轻量级的，简单的存储，通过插件对原始的store进行包装来增加store的功能。比如Dojo中提供了（<code>dojo/store/Cache</code>）包装数据存储对象实现数据缓存，用来提高性能。<code>dojo/store/Observable</code>包装数据存储对象用来实现对对象变化的检测，而这并不是必须的。这种插件机制 让我们的原始的存储对象更简单轻量。</li>
+</ul>
+<h3 id="关于dojo-Object-API中的方法以及属性。"><a href="#关于dojo-Object-API中的方法以及属性。" class="headerlink" title="关于dojo Object API中的方法以及属性。"></a>关于dojo Object API中的方法以及属性。</h3><p>下面的这些方法都是可选的。实现的时候可以根据需要来提供不同的方法。任何一个方法除了特别指明意外都可以返回一个promise 来更好滴完成异步的操作。（这里与W3C中 IndexDB api 有些出入）可以到<em>dojo/store/api/store</em>里面来查看这些接口具体的方法和属性</p>
+<ul>
+<li><code>get(id)</code> 查询方法根据唯一标识返回一个对象。</li>
+<li><code>query(query, options)</code> 查询方法 根据查询条件来查询对象。返回一个数据或者promise（可以从then方法里获得查询结果） ，查询结果具有<em>forEach()</em> , <em>map()</em>, <em>filter()</em>, <em>reduce()</em> 方法来让我们，同时返回结果还包括一个total属性来标标识返回结果列表中包含的对象的的个数（当然也可以自己调用length手动获得),第一个参数为查询条件可以为字符串,对象,函数类型,第二个参数是为可选部分，包含三个属性<code>start</code>查询的起始处。<code>count</code>返回结果的最大个数 <code>sort</code> 排序信息,sort为数组类型可以根据多个字段进行排序</li>
+<li><code>put(object, options)</code>保存更新对象。也可以用来增加新对象。第一个参数就是要更新或者增加的对象，</li>
+<li><code>add(object, options)</code> 增加新对象</li>
+<li><code>remove(id)</code> 根据唯一标识来移除对象</li>
+<li><code>getIdentity(object)</code> 获得对象的唯一标识 （这个必须是同步的方法 直接返回结果）</li>
+<li><code>queryEngine(query, options）</code> 构造查询条件</li>
+<li><code>transaction()</code> 开启一个事物 与 数据库的事物理念类似。具有两个方法commit()提交所有的改变 和abort 撤销所有的更新即回滚。</li>
+<li><code>getChildren(object, options)</code> 获取对象的子元素，</li>
+<li><code>getMetadata(object)</code> 获取对象的元数据信息</li>
+</ul>
+<p>另外还包括两个属性</p>
+<ul>
+<li><code>idProperty</code> 指定对象的唯一标识 一旦指定了，构造对象的时候要确保数据的这个字段是唯一的否则会报错</li>
+<li><code>data</code>   原始数据的数组</li>
+</ul>
+<p>以上只是API中的方法，dojo也有对应的类对此进行了实现后面会做具体的介绍。此外为了直观些可以看一下直接画的图<br><a href="http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow" target="_blank" rel="noopener">http://naotu.baidu.com/viewshare.html?shareId=arsu34c0w8ow</a></p>
+<h3 id="关于返回的对象。"><a href="#关于返回的对象。" class="headerlink" title="关于返回的对象。"></a>关于返回的对象。</h3><p><code>dojo/store</code>通过query或者get返回的对象（或者数组）应该是普通的哈希对象，拥有标准JS对象访问或者修改他们属性的能力。这种能保证了访问/修改对象属性的方便性，比如可以直接通过点字段名的形式访问（如A.Name)如果这些对象拥有一些方法，那么这些方法应该是对象的原型上，即通过hasOwnProperty(methodName) 返回false。这样能够在使用for in 的时候只枚举对象的属性。</p>
+<h3 id="检测结果集的变化"><a href="#检测结果集的变化" class="headerlink" title="检测结果集的变化"></a>检测结果集的变化</h3><p>这个属于对<code>dojo store API</code>的增强。如果一个store 被<code>dojo/store/Observable</code>进行了包装，我们可以监听查询结果集（通过query得到的结果）的变化（比如增加 更新 都会发出相应的通知）从而让我们监听这些事件来对UI进行更新，这样也就达到了数据与UI的分离，当我们数据发生变化的时候自动来完成UI的更新，实现了开发上的分层。我们只需要在写UI的时候，来监听这些变化即可，由数据的变动来自动触发UI的变动。从而实现数据驱动UI，主要通过查询结果集的observer方法来完成</p>
+<ul>
+<li><p><code>observe(listener, includeObjectUpdates)</code> 第一个参数是一个监听函数函数签名<code>listener(object, removedFrom, insertedInto);</code>第一个参数为变动的对象可能是增加的新对象，修改或者是删除的对象。removedFrom 为删除对象的索引 如果这个值为-1 说明没有对象被删除，可能是发生了增加或者是修改行为。insertedInto 返回被增加对象在结果集中的索引.</p>
+</li>
+<li><p><code>close</code>  如果查询结果集调用colse 方法 ，停止监听这些变化。</p>
+</li>
+</ul>
+<h2 id="关于-dojo-store-Memory"><a href="#关于-dojo-store-Memory" class="headerlink" title="关于 dojo/store/Memory"></a>关于 <code>dojo/store/Memory</code></h2><p> 说了这么多以上仅仅是纯理论的东西，都是对API层面的介绍。dojo中也有对应的类对其进行了实现主要有<code>dojo/store/Memory</code> <code>dojo/store/JsonRest</code>.以<code>dojo/store/DataStore</code></p>
+<ul>
+<li><p><code>dojo/store/Memory</code> 一个简单的内存存储， 是dojo/store API的实现类， 这个是创建 dojo store 非常有用的一个类，特别是小型的数据集，可以用内存的对象数组作为数据源。构造好之后就可以对其进行操作了。</p>
+<p>数据源为<em>PM2.5信息的数据</em> 如下格式的数据</p>
+<pre><code> var mydata=[
+    {
+        &quot;aqi&quot;: 30, //空气质量指数（Air Quality Index
+        &quot;aqimsg&quot;: &quot;优&quot;,
+        &quot;collectTime&quot;: 1418798880775,
+        &quot;lvmsg&quot;: &quot;lv-good&quot;,
+        &quot;name&quot;: &quot;房山良乡&quot;,
+        &quot;path&quot;: &quot;beijing/fangshanliangxiang&quot;,
+        &quot;source&quot;: &quot;aqicn.org&quot;,
+        &quot;updateTime&quot;: &quot;星期二21点&quot;,
+        &quot;values&quot;: {}
+        },
+        {
+        &quot;aqi&quot;: 25,
+        &quot;aqimsg&quot;: &quot;优&quot;,
+        &quot;collectTime&quot;: 1418798880775,
+        &quot;lvmsg&quot;: &quot;lv-good&quot;,
+        &quot;name&quot;: &quot;昌平定陵&quot;,
+        &quot;path&quot;: &quot;beijing/changpingdingling&quot;,
+        &quot;source&quot;: &quot;aqicn.org&quot;,
+        &quot;updateTime&quot;: &quot;星期二21点&quot;,
+        &quot;values&quot;: {}
+    }。。。
+    。。。。。由于篇幅这里不全部列出 知道这个格式就行了
+];
+</code></pre></li>
+</ul>
+<p>引入<code>dojo/store/Memory</code> 构造Memory对象</p>
+<pre><code>require([&quot;dojo/store/Memory&quot;], function(Memory){
+    mystore = new Memory({data: myData,idProperty:&apos;name&apos;});
+    //注意这里的idProperty，JSON对象的唯一标识 如果不指定默认为&quot;id&quot;字段
+
+});
+</code></pre><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><ul>
+<li><p><em>get</em>根据对象唯一标识来查询一个，返回一个JS对象，查询‘密云镇’的数据</p>
+<pre><code>var obj1= mystore.get(&apos;密云镇&apos;);//get 跟据唯一标示（idProperty)来查询对象,这里查询 name为 丰台花园的信息
+
+    {
+        &quot;aqi&quot;: 23,
+        &quot;aqimsg&quot;: &quot;优&quot;,
+        &quot;collectTime&quot;: 1418798880775,
+        &quot;lvmsg&quot;: &quot;lv-good&quot;,
+        &quot;name&quot;: &quot;密云镇&quot;,
+        &quot;path&quot;: &quot;beijing/miyunzhen&quot;,
+        &quot;source&quot;: &quot;aqicn.org&quot;,
+        &quot;updateTime&quot;: &quot;星期二21点&quot;,
+        &quot;values&quot;: {}
+    }
+</code></pre></li>
+</ul>
+<ul>
+<li><p><em>query</em> 根据查询条件来检索对象 返回符合条件的对象数组,查询结果如果参数为空返回所有的数据</p>
+<pre><code>var    alldataarray=mystore.query()
+</code></pre></li>
+<li><p>查询条件可以为一个对象</p>
+<pre><code> var    array2=mystore.query({name:&apos;密云镇&apos;}) //
+
+//好吧 再复杂点 查询空气质量指数为 38 并且评级为‘优’的检测点
+ var    array3=mystore.query({
+      &quot;aqi&quot;: 38,
+      &quot;aqimsg&quot;: &quot;优&quot;
+     });
+
+ //查询对象还可以为 函数 与 Array.filter类似 实现复杂的查询 或者模糊查询
+ //查询 api 小于38 
+ var    array4=mystore.query(function(obj){
+         return obj.aqi&lt;38;
+   }
+ );
+</code></pre></li>
+<li><p>还可以把查询函数参数放到store 对象上作为store的一个方法,在调用query的时候写入方法的名字</p>
+<pre><code> mystore.myquerymethod=function(obj){
+     return obj.aqi&lt;38;
+ };
+   var array5=mystore.query(&apos;myquerymethod&apos;);
+//console.log(array5);
+</code></pre></li>
+</ul>
+<blockquote>
+<p>这样有什么好处呢？？个人认为这种情况能很方便把查询条件缓存下来，在其他的地方下次查询方便使用，并且可以给查询方法取有意义的名字 比如增加个查询方法 查询评级为优的检测站点 </p>
+</blockquote>
+<pre><code>mystore.getgoodstation=unction(obj){
+     return obj.aqimsg===&apos;优&apos;;
+       };
+mystore.query(&apos;getgoodstation&apos;);
+</code></pre><ul>
+<li>更复杂的查询</li>
+</ul>
+<p>查询条件：空气质量指数在38-50之间的检测点,然后根据aqi从大到小排序，从第三个开始返回，返回的最大个数3</p>
+<pre><code> var result6 =mystore.query(function(obj){
+   return obj.aqi&gt;38&amp;&amp;obj.aqi&lt;50
+ },{
+     start:3,
+     count:3,          
+   sort:[{
+     attribute:&apos;aqi&apos;,
+     descending: true //为ture 表示从大到小，为false 表示从小到大
+   }]
+ }); 
+
+result6.forEach(function(a){
+  console.log(a.name)
+})
+</code></pre><blockquote>
+<p>说明：在query的结果集中 有个total属性，这个是满足条件的个数。即满足query的 第一个参数的对象的个数，在query第二个参数中，如果不包含start和count属性的话，则total等于最终结果集的个数即length==total</p>
+</blockquote>
+<p>因为返回的数组具有<em>forEach，fitler,map</em>等方法，方便对结果进一步处理</p>
+<pre><code>array6.forEach(function(a){
+  console.log(a.name)
+})
+</code></pre><p>关于查询结果集的接口定义 可以查阅 <code>dojo/store/api/Store.QueryResults</code> ,如果是异步查询的话 query 会返回一个promise ，即他会拥有一个then方法，从callback里面可以获取查询结果。`比如</p>
+<pre><code>query().then(function(data){
+    console.log(data);
+});
+</code></pre><p>在实际的实现中<code>dojo/store/Memory</code> 是对内存中数据的操作是<em>同步</em>的，而<code>dojo/store/JsonRest</code>则是<em>异步</em>的。</p>
+<h3 id="修改对象的属性很简单"><a href="#修改对象的属性很简单" class="headerlink" title="修改对象的属性很简单"></a>修改对象的属性很简单</h3><pre><code>var array7 =mystore.query(function(obj){
+        return obj.name==&quot;密云镇&quot;
+});  
+ array7.forEach(function(a){
+   console.log(a.aqi)
+   a.aqi=100 //修改赋值 没有调用put方法
+ });
+
+var array8 =mystore.query(function(obj){
+      return obj.name==&quot;密云镇&quot;
+})       
+ array8.forEach(function(b){
+  console.log(b.aqi)//100 说明已经修改了
+ })
+</code></pre><p>可是说好的修改用put呢??? 好吧，JS是引用传递的,查询到的对象是JS中的普通对象。。。对象属性直接赋值就能实现修改了，</p>
+<pre><code>var objmiyun= mystore.get(&apos;密云镇&apos;);
+objmiyun.aqi=10;      
+var objmiyun1= mystore.get(&apos;密云镇&apos;);
+console.log(objmiyun.aqi)//10
+console.log(objmiyun===objmiyun1);//为true 说明两次get返回的是同一个对象的引用
+</code></pre><p>那么通过query 查询到的又是如此呢</p>
+<pre><code> mystore.getmiyun=function(obj){
+        return obj.name===&apos;密云镇&apos;;
+ };
+
+var arraym3= mystore.query(&quot;getmiyun&quot;);
+var arraym4= mystore.query(&quot;getmiyun&quot;);
+console.log(arraym3[0]===arraym4[0])//true
+console.log(arraym3[0]===mystore.data[1])//true
+</code></pre><p>综上不管是通过get还是query来查询，得到的对象都是原始数据的引用。所以修改很easy了</p>
+<blockquote>
+<p>注意：原则上说我们调用一下put方法来标识更新对象。<code>store.put(obj)</code> 这样如果通过<code>dojo/store/Observable</code> 包装的话 监听函数才能监听的到.</p>
+</blockquote>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>调用 store 的remove方法就行了 参数是 对象的唯一标识</p>
+<pre><code>store.remove(id);
+</code></pre><blockquote>
+<p>其实感觉删除的方法设计不好，删除的参数只能是唯一标识，却不能是根据查询条件来删除。。。也无法达到批量删除的目的。。感觉如果参数为Obj的查询参数类型，以及唯一标识数组类型 就更好了。。</p>
+</blockquote>
+<p>另外更新数据源可以使用 store.setData方法。</p>
+<h3 id="dojo-store-JsonRest"><a href="#dojo-store-JsonRest" class="headerlink" title="dojo/store/JsonRest"></a><code>dojo/store/JsonRest</code></h3><p><code>dojo/store/JsonRest</code>(与dojox里面的JsonRest不同) 也是dojo Object storeAPI的实现，与<em>Memory</em>不同的是，<em>Memory</em>的数据源存在内存中，而JSONRest的数据源是远程的JSON，JsonRest 实现了对标准Rest接口访问的封装，JSONRest非常适合大量数据的展示(数据存在远端，分页异步获取等来降低性能的损耗)，上面已经提到JSONrest 所有的操作都是以promise形式返回的。JsonRest object store 与服务端交互的方式与<code>dojox.data.JsonRestStore</code>类似，但是<code>dojo/store/JsonRest</code>是基于新的<em>dojo Object store APi </em>简单方便使用的理念，进行重新设计，并做出了很大的简化。只需要提供一个url 既可以构造一个<code>dojo/store/JsonRest</code>。</p>
+<p><em>JsonRest</em> 主要干了一件事 就是在不同的方法里面发送不同的类型的http请求，最终完成了服务端数据的CURD（对应的请求类型为get，put，post，delete。使用JSONrest的难点就是服务端必须是标准的Rest风格的。因此要求服务的编写者对Rest有一定的了解，同时要求返回的格式必须为JSON，那么首先要了解前端发出的请求格式。这里假设构造好了一个JSONRest</p>
+<pre><code>require([&apos;dojo/store/JsonRest&apos;, &quot;dojo/domReady!&quot;], function(JsonRest) {     
+        jsonreststore = new JsonRest({target:&quot;/Data/&quot;});
+
+        jsonreststore.get(&quot;some-id&quot;).then(function(someObject){
+
+        });
+});
+</code></pre><p>假设服务的基地址为 /Data/</p>
+<ul>
+<li><code>get(&quot;someid&quot;)</code>  向<code>/Data/someid</code> 发送get请求，返回promise</li>
+<li><p><code>query(query,options)</code>;//query 为 string或者object,options 为 object 可选</p>
+</li>
+<li><p><code>query(&quot;someid&quot;)</code> 如果query的参数为类型 发送请求同上 即向<code>/Data/someid</code> 发送get请求，返回promise</p>
+</li>
+<li><p><code>query({name:&#39;hello&#39;,aqi:20})</code>,如果query的参数为Object类型，则会使用 dojo/io-query::objectToQuery()将Object转为查询字符串的形式添加到URL上，即/Data/?name=hello&amp;aqi=20 发送get请求。如果包含两个参数，第二个参数也会被序列化为查询字符串添加到url上，</p>
+<p>   query({name:’hello’,aqi:20}, {</p>
+<pre><code>   count: 10,
+  sort: [
+    { attribute: &quot;aqi&quot; }
+  ]
+});
+</code></pre></li>
+</ul>
+<p>发送的get请求的URL为<code>/Data/?name=hello&amp;count=10&amp;aqi=20&amp;sort(+aqi)</code> sort信息中+表示升序 -表示降序</p>
+<p><strong>put(object, options);</strong></p>
+<ul>
+<li><code>put({&quot;aqi&quot;:30,&quot;aqimsg&quot;: &quot;优&quot;})</code>//<code>向/Data/</code>发送一个Post请求，参数放在在body里面，表示增加元素</li>
+<li><code>put({&quot;aqi&quot;:30,&quot;aqimsg&quot;: &quot;优&quot;},{id:11});</code>//两个参数 第二个指定id,向/Data/11 发送put请求，表示更新元素{“aqi”:30,”aqimsg”: “优”}在请求body里面. put方法的第二参数如果包含<em>overwrite</em>并设置为<em>true</em>，请求头中会包含 <code>If- Match: *</code> 如果设置为false请求头中包含<code>If- None-Match: *</code>，如果第二个参数中包含<em>incrementa</em>并设置为<em>true</em>，发送Post请求表示增加。</li>
+<li><code>add(obj,options)</code> 同上，特别之处是 <em>options.overwrite</em> 始终被设置为<em>false</em>，即请求头中始终包含·<code>If- None-Match: *</code>通过这种方式来告诉服务器是创建还是更新操作 `关于 if-node-Match 可以参考<a href="http://wuhua.iteye.com/blog/385451" target="_blank" rel="noopener">http://wuhua.iteye.com/blog/385451</a></li>
+</ul>
+<p><code>remove(&#39;id&#39;)</code> //向 Data/id发送delete请求。</p>
+<p>另外如果要为请求增加header信息，可以在第二个参数里面设置headers字段即可，比如要添加分页信息，如果要为所有的请求统一添加请求header，可以在构造JsonRest对象的构造函数里面设置如</p>
+<pre><code>var store = new JsonRest({
+  target: &quot;/FooObject/&quot;,
+  headers: { &quot;X-Custom-Header&quot;: &quot;Foo&quot; } // 所有的请求都会包含X-Custom-Header: Foo
+});
+
+store.query({ foo: &quot;value1&quot; }, {
+  headers: { &quot;X-Custom-Header&quot;: &quot;Bar&quot; } // 仅在本次请求中包含 include X-Custom-Header: Bar instead
+});
+</code></pre><h4 id="JSONREST与分页查询"><a href="#JSONREST与分页查询" class="headerlink" title="JSONREST与分页查询"></a>JSONREST与分页查询</h4><p> 上面的查询中<code>query(query,options)</code>;options可以包含一个headers字段，里面可以包含分页信息。在请求header中添加<em>Range</em>字段即可（range是http1.1中标准header的一部分,专门用来表示分页的，如果浏览器不支持http1.1可以使用自定义的<em>header   <code>X-Range</code> </em><br> 比如 </p>
+<pre><code>query({
+    aqi: 40
+    }, {
+    headers: {
+        Range: &quot;items=0-24&quot;
+    }
+});
+</code></pre><p>鉴于http的标准，要求服务端返回的头中包含分页信息 即Content-Range 头例如 <code>Content-Range: items 0-24/66</code> <em>0-24</em>表示实际返回的索引<em>0-24</em>的对象，<em>66</em>表示符合条件的对象的总个数。为啥要这种格式呢，因为这是http协议上就这么说的。</p>
+<blockquote>
+<p>对于使用者来说，<strong>JsonRest</strong>的难点还是后端的实现，后端可以解析http请求的内容<em>（method,querystring，请求头，请求body）</em> 来对CURD做实际的处理。</p>
+</blockquote>
+<h3 id="将异步和同步进行统一处理"><a href="#将异步和同步进行统一处理" class="headerlink" title="将异步和同步进行统一处理"></a>将异步和同步进行统一处理</h3><p>上面的<em>MemoryStore</em> 和 <em>JsonRest store</em> 都是实现了<code>dojo Object Store API</code> 具有的方法也基本一致，但是一个重要区别就是<em>MemoryStor</em>e的操作是同步的结果直接返回，而JsonRest操作是异步的，返回的是promise，可以在then方法的回调函数里面获得操作结果，我们可以使用dojo/when 来封装以屏蔽这种差距。不用再关心是同步还是异步的，统一在then方法里面进行处理，比如这里有个store 你不知道他是<em>Memorystore</em>，还是<em>JsonRest store</em>。你关注的是查询里面的数据，可以如下处理</p>
+<pre><code>require([&apos;dojo/when&apos;], function (when) {
+  when(store.get(id), function(object){
+
+  });
+  }};
+</code></pre><p>通过这种方式 来达到了操作上的统一，当然你也可以使用其他的方式进行门面封装 ，暴露出来统一的操作方法，既然官方推荐了，我们就暂时用 dojo/when吧。</p>
+<h2 id="包装器wrappers。"><a href="#包装器wrappers。" class="headerlink" title="包装器wrappers。"></a>包装器wrappers。</h2><p>在dojo里面如果要增强已有的类的话，可以使用包装器进行层次性的增强，类似插件的性质，这种理念能够让我们做到按需的选择，根据不同的功能来选择不同的<code>wrapper</code>类进行包装，以避免不必要的资源浪费。对于dojo/store来说 这里有两个重要的包装器<code>dojo/store/Cache</code> 和<code>dojo/store/Observable</code></p>
+<h3 id="dojo-store-Cache"><a href="#dojo-store-Cache" class="headerlink" title="dojo/store/Cache"></a>dojo/store/Cache</h3><p>一个Cache对象主要是用来缓存JsonRest的，将远程端的JsonRest的缓存到本地，避免发重复的查询请求，这样就需要构造一个MemoryStore来存储缓存下来的数据，JsonRest来与远程的数据交互。使用的例子如下</p>
+<pre><code>require([&apos;dojo/store/Memory&apos;, &apos;dojo/store/JsonRest&apos;, &apos;dojo/store/Cache&apos;],
+    function (Memory, JsonRest, Cache) {
+  memoryStore = new Memory({});
+  restStore = new JsonRest({target:&quot;/Data/&quot;});
+  store = new Cache(restStore, memoryStore);
+  ...
+</code></pre><p>查询所有的数据</p>
+<pre><code>var results = store.query();
+</code></pre><p>查询结果会被缓存到MemoryStore里面，这里我们可以查询数据，来避免不必要的请求</p>
+<pre><code>object = store.get(&quot;some-id&quot;);
+</code></pre><p>如果对store进行更新 删除 增加操作，对应的memoryStore 也会自动发生更新，可以直接访问memoryStore 来查看缓存的数据。</p>
+<h3 id="“dojo-store-Observable”"><a href="#“dojo-store-Observable”" class="headerlink" title="“dojo/store/Observable”"></a>“dojo/store/Observable”</h3><p><code>dojo/store/Observable</code>包装后的dojo store（只要是实现了dojo/store API 的类都可以用Observable来包装)功能会得到增强–在支持原来的API的基础上 又让查询结果集的变化可以被监听的。通过store.query得到的结果数组（结果集）有一个observe方法（如果是异步的返回的promise也会拥有这个方法），通过这个方法可以监听我们对查询结果集的操作变动情况，注意observe方法存在<em>查询结果</em>的方法中，而不是store中，事实store上会拥有一个notify方法，用于发出广播（这是一个典型的观察者模式），因为我们对数据的操作都是在store上进行的。因此监听查询结果的变动情况。好吧可能还需要解释一下，操作对象（即更新删除增加对象）是在store上进行的。 而observe是在查询结果集中进行的，也就是说如果store中变动的对象符合调用observe的查询结果集当时的查询条件，那么这些变动将会发通知到查询结果集里面，然后查询结果集的observe会监听到。这种通知变化的机制与旧版本的<em>dojo/data</em> 是不一样的。通过这种模式 可以实现数据的变化与UI更新的分离，对于UI组件实现者来说只需要监听查询结果集的变动即可（显示查询结果集中的东西），对于UI组件的使用者来说完全不必关系如何更新UI，只需要对store进行 CURD即可。</p>
+<p>我们的关注的是我们要查询的数据，我们的操作是对store的操作，我们队store操作的时候，store会调用notify方法，如果变化的内容符合查询结果集的查询条件，则结果集的observe会被监听的到。还是上代码吧.</p>
+<p>构建 ObservableStore</p>
+<pre><code>require([&quot;dojo/store/Memory&quot;, &apos;dojo/store/Observable&apos;,&quot;dojo/domReady!&quot;], function(    
+                Memory,Observable) {
+
+                memorystore = new Memory({
+                    data: pmData,
+                    idProperty: &apos;name&apos;
+                 });
+                observablestore = new Observable(store); 
+    });
+</code></pre><p>这里还是以空气质量PM2.5的数据为例吧，查询 aqi 值大于80的站点。值越高空气质量越差</p>
+<pre><code>var worsedata=observablestore.query(function(obj){
+        return obj.aqi&gt;80;
+    })
+ worsedata.forEach(function(d){
+     console.log(d.name);
+ })
+</code></pre><p>经过<em>Observable</em> 来包装<em>Memory Store</em>(也可以包装JsonRest)，调用query之后的结果集（resultset中）拥有一个observe方法，接口的定义格式如下</p>
+<pre><code>resultSet.observe(listener, includeObjectUpdates);
+</code></pre><p>第一个参数为监听器，一个毁掉函数，接受三个参数 <code>listener(object, removedFrom, insertedInto)</code>;</p>
+<ul>
+<li><code>object</code> 被操作（修改，删除，增加）的对象</li>
+<li><code>removedFrom</code>  表示object在操作之前在查询结果集中的旧的索引位置，如果为-1 表示改对象之前不在结果集中（不符合查询条件），现在符合条件的对象增加了（可能是store中创建了新符合查询条件的对象，也可能是原来不符合查询条件的对象进行修改之后满足了条件，总之我们的关注点是查询结果集 比如 以上面的查询条件来说有个<code>aqi大于80</code>的对象被增加到了store中 或者 store中一个aqi原来为75的修改成了 aqi为85（ 满足了 <code>aqi大于80</code>这个条件了）。</li>
+<li><code>insertedInto</code> 表示object在结果集新的索引。如果为-1，表示object不在当前结果集中了，被从查询结果集中移除了。可能是被删除，也可能对象进行了修改，比如 有个<code>aqi大于80</code>的对象从store中被删除了， 或者 store中一个aqi原来为85的修改成了 aqi为75（ 不在满足 <code>aqi大于80</code>这个条件了）。</li>
+</ul>
+<blockquote>
+<p>个人感觉 把<em>removedFrom</em>和<em>insertedInto</em>  分别改为 oldIndex和newIndex更适合。说白了就是发生变化的对象在变化前后在结果集中的索引位置。</p>
+</blockquote>
+<p>另外observe 还有个参数<em>includeObjectUpdates</em> 表示是否监听查询结果集中对象的更新跟新，但是这种更新之后对象依然符合查询条件，比如上面的  <code>aqi大于80</code>中有个 aqi为 82的对象 修改为aqi 为85，这种情况下，没有影响到查询结果集的个数，如果<em>includeObjectUpdates </em>设置为false或者不设置的话，这种变化是无法被监听到的，如果设置为true的话 就可以了。调整元素的顺序也是如此。如果想监听查询结果集的变化的话 建议设置为true吧。</p>
+<p>对于listener来说 我们可以根据<em>removedFrom和insertedInto</em> 来判断进行了什么操作</p>
+<ul>
+<li><code>removedFrom===-1</code>， 新增了符合查询条件的元素，此时insertedInto不可能为-1 insertedInto为新增元素的索引位置，需要UI中新增一项</li>
+<li><code>insertedInto===-1</code> 符合查询条件的元素被移除，此时removedFrom不可能为-1，removedFrom代表查询结果集中元素被移除前在结果集中的索引。UI需要UI中移除相应的项</li>
+<li><code>removedFrom===insertedInto</code> 且大于-1 ，结果集中的元素发生了更新 需要UI对应的项进行更新</li>
+</ul>
+<p>记住我们关注点是<code>查询结果集</code>即符合查询条件的对象，对store的操作只有让查询结果集发生变化（能让查询结果集增加或者修改）listener才会触发。一个元素从查询结果集中被移除 不一定从store上移除，相反如果结果集中增加了元素也不一定是store上新增的对象。而我们关注点是查询结果集，虽然我们的操作是在store上进行的。这种变动会直接反应到查询结果上面。因此Observalstore中的查询结果集 会随着store中的数据的变化做相应的更新。</p>
+<p>继续看代码吧 接着上面的例子</p>
+<pre><code> worsedata.observe(function(object, removedFrom, insertedInto){
+    console.log(object);
+    if(removedFrom===-1){
+        console.log(&quot;worsedata中的对象增加，新增对象的索引为&quot;,insertedInto)
+    }
+    else if(insertedInto===-1){
+        console.log(&quot;worsedata中的对象被移除,删除对象的索引为&quot;,removedFrom)
+    }
+ else if(removedFrom===insertedInto){
+     //需要将observe的第二个参数设置为 true
+    console.log(&quot;worsedata中的对象的属性发生更新,更新对象的索引为&quot;,removedFrom)
+ }
+worsedata.forEach(function(a){
+     console.log(&quot;name:&quot;,a.name,&apos;aqi:&apos;,a.aqi);
+    });
+ },true);
+
+newobj={
+        &quot;aqi&quot;: 83,
+        &quot;aqimsg&quot;: &quot;优&quot;,
+        &quot;collectTime&quot;: 1418798880775,
+        &quot;lvmsg&quot;: &quot;lv-good&quot;,
+        &quot;name&quot;: &quot;天安门&quot;,
+        &quot;path&quot;: &quot;beijing/fengtaiyungang&quot;,
+        &quot;source&quot;: &quot;aqicn.org&quot;,
+        &quot;updateTime&quot;: &quot;星期二21点&quot;,
+        &quot;values&quot;: {}
+    }
+ observablestore.put(newobj); 
+</code></pre><p> 新增加的这个对象满足worsedata的条件（即aqi大于80）所以上面的函数会监听的到变动，worsedata值也会自动做相应的增加。如果 此前aqi为70的话，则上面的监听函数不会被触发，因为虽然对store增加了元素，但是这不会对我们的之前的查询结果造成影响,关于修改的例子这里就不再举例子了。Observe的这种设计是非常合理</p>
+<p>另外 查询结果集还有个 <code>cancel</code>方法来取消监听（dojo store API 上说的是close ，这里有点出入）</p>
+<h3 id="dojo-store-DataStore"><a href="#dojo-store-DataStore" class="headerlink" title="dojo/store/DataStore"></a>dojo/store/DataStore</h3><p>为了兼容之前的<code>dojo/data API</code> 将<code>dojo/data store</code>的转为<em>Dojo Object store</em> ，dojo官方推出了<code>dojo/store/DataStore</code>,同时在dojo/data里面也增加了一个<em>dojo/data/ObjectStore</em>，将<em>dojo Object store</em> 转为<em>dojo data store</em>，如果是开始新项目的话,其实强烈建议不要再用dojo/data里面的东西了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><em>dojo Object store</em> 提供了新的数据交互接口，可以说是一套简单易用的数据的交互协议，而<code>dojo/store/Memory</code>和<code>dojo/store/JsonRest</code> 是两种不同场景的实现。通过<code>dojo/store/Cache</code> 以及<code>dojo/store/Observable</code>来增强store的功能，同时为了兼容旧的数据接口也提供了相应的类来进行接口的适配。目前来说dojo/store这些功能还不够强大 。另外dojo 2.0将会使用 <a href="https://github.com/SitePen/dstore" target="_blank" rel="noopener">dstore</a>作为dojo/store 设计思路与dojo store API类似，但是也有出入。 这个功能强大了好多。最新版本的dgrid已经支持dstore（以前只支持实现了dojo Object store API的 store）。</p>
+<p>好吧 <code>dojo/data</code>包里面的已经是老掉牙的东西，<em>dojo Object store</em> 目前的 <code>dojo/store</code>包里的东西也正在被换血。。dojo store的未来 是 <a href="https://github.com/SitePen/dstore" target="_blank" rel="noopener">dstore</a> 既然如此，可是本博文还有什么用呢，这不是在祸害人么。。。我想估计也没多少人能看到这里。。哈哈，能保持耐心看到这里的就直接看dstore 的源码吧。。</p>
+<blockquote>
+<p>The dstore package is a data infrastructure framework, providing the tools for modelling and interacting with data collections and objects. dstore is designed to work with a variety of data storage mediums, and provide a consistent interface for accessing data across different user interface components. </p>
+</blockquote>
+<p>不翻译了</p>
+<p><strong>dstore</strong> 正在完善中，等<strong>dojo2.0</strong>的时候就会转正了。应该还是在<strong>dojo/store</strong>这个大模块里面</p>
+<p>写了这么多不知道在写什么，希望对你有所帮助 也可以留言 求<strong>轻黑</strong></p>
 
         
 
@@ -482,8 +517,8 @@ perfect for data-intensive real-time applications that run across distributed de
         
           <div class="post-tags">
             
-              <a href="/tags/CSS/">
-                #CSS
+              <a href="/tags/Dojo-Javascript/">
+                #Dojo Javascript
               </a>
             
           </div>
@@ -511,8 +546,8 @@ perfect for data-intensive real-time applications that run across distributed de
           
           
             
-              <a class="post-title-link" href="/2014/02/09/successful-git-branching-model/">
-                一个成功的 Git 分支模型
+              <a class="post-title-link" href="/2014/11/22/dojocdn/">
+                dojocdn
               </a>
             
           
@@ -522,15 +557,15 @@ perfect for data-intensive real-time applications that run across distributed de
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2014-02-09
+              发表于 2014-11-22
             
           </span>
         
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/02/09/successful-git-branching-model/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/successful-git-branching-model/"></span>
+            <a href="/2014/11/22/dojocdn/#comments">
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/22/dojocdn/"></span>
             </a>
           </span>
           
@@ -545,7 +580,27 @@ perfect for data-intensive real-time applications that run across distributed de
         
 
         
-          <p><img src="http://ww4.sinaimg.cn/bmiddle/6c92bd39gw1ee9vinri33j20gz0mnmzt.jpg" alt="一个成功的git分支模型"></p>
+          <p>谷歌为dojo提供了CDN服务，可惜我朝无法正常访问，于是自己在国内空间 -@七牛云存储 上部署了一份。。感谢</p>
+<p>dojo的最新版本 1.10.2</p>
+<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js</a></p>
+<p>未压缩版本</p>
+<p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dojo/dojo.js.uncompressed.js</a></p>
+<p>本目录与dojo源码的目录一致，同时包含了<code>dojo</code> <code>dijit</code> <code>dojox</code> <code>dgrid</code> <code>put-selector</code> <code>xstyle</code> <code>dstore</code> 目录结构如下</p>
+<pre><code>http://dojocdn.qiniudn.com/dojo-1.10.2
+                                        |dojo
+                                        |dijit
+                                        |dojox
+                                        |dgrid
+                                        |put-selector
+                                        |xstyle
+                                        |dstore
+</code></pre><p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
+<p>如果要找dojo中的主题</p>
+<h2 id="claro-css"><a href="#claro-css" class="headerlink" title="claro.css"></a>claro.css</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/claro/claro.css</a></p>
+<h2 id="tundar主题"><a href="#tundar主题" class="headerlink" title="tundar主题"></a>tundar主题</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/tundra/tundra.css</a></p>
+<h2 id="soria主题"><a href="#soria主题" class="headerlink" title="soria主题"></a>soria主题</h2><p><a href="http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css" target="_blank" rel="noopener">http://dojocdn.qiniudn.com/dojo-1.10.2/dijit/themes/soria/soria.css</a></p>
+<p>可以通过<code>dgrid/*</code>,<code>put-selector/*</code>,<code>xstyle!xxx.html</code>,<code>dstore/*</code>引用对应的插件，无需额外的配置</p>
+<p><a href="http://jsbin.com/gogezu/2/edit?html,js,output" target="_blank" rel="noopener">以创建grid为例的Demo</a></p>
 
         
 
@@ -557,107 +612,8 @@ perfect for data-intensive real-time applications that run across distributed de
         
           <div class="post-tags">
             
-              <a href="/tags/Git/">
-                #Git
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-          <div class="post-eof the-shape"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2014/02/09/javascript-replace/">
-                javascript replace
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2014-02-09
-            
-          </span>
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/02/09/javascript-replace/#comments">
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/09/javascript-replace/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          <h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p><code>StringObject.replace(searchValue,replaceValue)</code><br>StringObject:字符串<br>searchValue：字符串或正则表达式<br>replaceValue:字符串或者函数</p>
-<p>###字符串替换字符串<br><code>&#39;I am loser!&#39;.replace(&#39;loser&#39;,&#39;hero&#39;)//I am hero!</code></p>
-<p>直接使用字符串能让自己从loser变成hero，但是如果有2个loser就不能一起变成hero了。</p>
-<p><code>&#39;I am loser,You are loser&#39;.replace(&#39;loser&#39;,&#39;hero&#39;);//I am hero,You are loser</code></p>
-<p>正则表达式替换为字符串、并将正则的global属性改为true则可以让所有loser都变为hero</p>
-<p><code>&#39;I am loser,You are loser&#39;.replace(/loser/g,&#39;hero&#39;)//I am hero,You are hero</code></p>
-<p>###有趣的替换字符</p>
-<p>####使用$&amp;字符给匹配字符加大括号<br>        var sStr=’讨论一下正则表达式中的replace的用法’;<br>        sStr.replace(/正则表达式/,’{$&amp;}’);//讨论一下{正则表达式}中的replace的用法</p>
-<p>####使用$<code>和$&#39;字符替换内容,$</code>位于匹配子串左侧的所有文本。$’位于匹配子串右侧的所有文本。<br>        ‘abc’.replace(/b/,”$`”);//aac<br>        ‘abc’.replace(/b/,”$’”);//acc</p>
-<p>####使用分组匹配组合新的字符串<br>        <a href="mailto:&#39;nimojs@126.com" target="_blank" rel="noopener">&#39;nimojs@126.com</a>‘.replace(/(.+)(@)(.*)/,”$2$1”)//@nimojs</p>
-<p>####replaceValue参数可以是一个函数<br><code>StringObject.replace(searchValue,replaceValue)</code>中的<strong>replaceValue</strong>可以是一个函数.如果replaceValue是一个函数的话那么，这个函数的arguments会有n+3个参数（n为正则匹配到的次数)</p>
-<pre><code>function logArguments(){    
-console.log(arguments);//[&quot;nimojs@126.com&quot;, &quot;nimojs&quot;, &quot;@&quot;, &quot;126.com&quot;, 0, &quot;nimojs@126.com&quot;] 
-    return &apos;返回值会替换掉匹配到的目标&apos;
-}
-console.log(
-&apos;nimojs@126.com&apos;.replace(/(.+)(@)(.*)/,logArguments)
-)
-</code></pre><p><strong>参数分别为</strong></p>
-<ol>
-<li>匹配到的字符串（此例为<a href="mailto:nimojs@126.com" target="_blank" rel="noopener">nimojs@126.com</a>,推荐修改上面代码的正则来查看匹配到的字符帮助理解)</li>
-<li>如果正则使用了分组匹配就为多个否则无此参数。（此例的参数就分别为”nimojs”, “@”, “126.com”。推荐修改正则为/nimo/查看控制台中返回的arguments值）</li>
-<li>匹配字符串的对应索引位置（此例为0）</li>
-<li>原始字符串</li>
-</ol>
-
-        
-
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/JavaScript/">
-                #JavaScript
+              <a href="/tags/Dojo/">
+                #Dojo
               </a>
             
           </div>
@@ -679,7 +635,7 @@ console.log(
 
           
             <div class="pagination">
-              <a class="extend prev" rel="prev" href="/page/7/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">&raquo;</a>
+              <a class="extend prev" rel="prev" href="/page/7/">&laquo;</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/9/">&raquo;</a>
             </div>
           
         </div>
@@ -710,7 +666,7 @@ console.log(
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">29</span>
+            <span class="site-state-item-count">30</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
@@ -737,7 +693,7 @@ console.log(
             </span>
           
             <span class="soclial-item">
-              <a href="http://www.zhihu.com/people/du-bao-kun-61">ZHIHU</a>
+              <a href="https://www.zhihu.com/people/kunkun2012">ZHIHU</a>
             </span>
           
         
@@ -758,20 +714,15 @@ console.log(
         <div class="copyright">
   
   &copy; &nbsp; 
-  2018
+  2020
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
   <span class="author">kunkun</span>
+   <a href="http://www.beian.miit.gov.cn/">京ICP备17002609号-1</a>
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
-</div>
 
 
 
